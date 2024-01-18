@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+	    ">
+
+    <!-- Scan for Async and Scheduled annotations -->
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler" proxy-target-class="true" />
+    
+    <!-- Use WebLogic work manager for async tasks
+    <bean id="taskExecutor" class="org.springframework.scheduling.commonj.WorkManagerTaskExecutor">
+    	<property name="workManagerName" value="wm/default" />
+    	<property name="resourceRef" value="true" />
+    </bean> -->
+    
+    <!-- Use WebLogic timer manager for scheduled tasks
+    <bean id="taskScheduler" class="org.springframework.scheduling.commonj.TimerManagerTaskScheduler">
+    	<property name="timerManagerName" value="tm/default" />
+    	<property name="resourceRef" value="true" />
+    </bean> -->
+    
+    <!-- Use ThreadPoolTaskExecutor for general async tasks -->
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10" />
+		<property name="awaitTerminationSeconds" value="30" />
+	</bean>
+	
+	<!-- Use ThreadPoolTaskScheduler for scheduled tasks -->
+	<bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+		<property name="poolSize" value="10" />
+		<property name="awaitTerminationSeconds" value="30" />
+	</bean>
+    
+    <!-- Scheduled task to create checksums for software updates -->
+    <task:scheduled-tasks scheduler="taskScheduler">
+    	<task:scheduled ref="softwareUpdateService" method="checksumFiles" cron="#{applicationConfiguration.softwareUpdateChecksumCron}" />
+    </task:scheduled-tasks>
+
+	<!-- Quartz scheduler to run jobs which must only run on one server in the cluster -->
+	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- Bean references for data source, transactions and executing tasks -->
+		<property name="dataSource" ref="xhibitDataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="taskExecutor" ref="taskExecutor" />
+
+		<!-- Bean properties for name, recreate jobs on restart and wait for jobs on shutdown -->
+		<property name="schedulerName" value="ClusteredScheduler" />
+		<property name="overwriteExistingJobs" value="true" />
+		<property name="waitForJobsToCompleteOnShutdown" value="true" />
+
+		<!-- Add support for populating a job's bean properties from data map and context -->
+		<property name="jobFactory">
+			<bean class="org.springframework.scheduling.quartz.SpringBeanJobFactory" />
+		</property>
+
+		<!-- Expose the ApplicationContext in the SchedulerContext of the job -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+
+		<!-- Expose the services in the SchedulerContext of the job -->
+		<property name="schedulerContextAsMap">
+			<map>
+				<entry key="localProxyService" value-ref="localProxyService" />
+				<entry key="ragStatusService" value-ref="ragStatusService" />
+			</map>
+		</property>
+		
+		<!-- Quartz configuration here rather than in a quartz.properties file -->
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+				<prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.oracle.weblogic.WebLogicOracleDelegate</prop>
+				<prop key="org.quartz.jobStore.isClustered">true</prop>
+				<prop key="org.quartz.jobStore.misfireThreshold">120000</prop>
+				<prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">#{applicationConfiguration.ragStatusUpdateThreads - 2}</prop>
+				<prop key="org.quartz.jobStore.tablePrefix">XHB_DM_QZ_</prop>
+				<prop key="org.quartz.jobStore.useProperties">false</prop>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+				<prop key="org.quartz.threadExecutor.class">uk.gov.hmcts.pdm.publicdisplay.common.task.LocalTaskExecutorThreadExecutor</prop>
+				<prop key="org.quartz.threadPool.class">uk.gov.hmcts.pdm.publicdisplay.common.task.LocalTaskExecutorThreadPool</prop>
+				<prop key="org.quartz.threadPool.threadCount">#{applicationConfiguration.ragStatusUpdateThreads}</prop>
+			</props>
+		</property>
+		
+		<!-- Initial list of jobs to run -->
+		<property name="triggers">
+			<list>
+				<ref bean="ragStatusSetupTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+    <!-- Quartz job which adds all the jobs to get each court site's rag status -->
+	<bean id="ragStatusSetupJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="uk.gov.hmcts.pdm.publicdisplay.manager.service.RagStatusSetupJob" />
+		<property name="durability" value="true" />
+	</bean>
+	
+    <!-- Quartz trigger to run the quartz job which adds all the jobs to get the rag statuses -->
+	<bean id="ragStatusSetupTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="ragStatusSetupJob" />
+		<property name="cronExpression" value="#{applicationConfiguration.ragStatusUpdateCron}" />
+	</bean>
+</beans>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	    ">
+	
+    <!-- Scan for web components only -->
+    <context:component-scan base-package="uk.gov.hmcts.pdm.publicdisplay.manager.web" scoped-proxy="targetClass"/>
+
+	<!-- Spring MVC configuration -->
+	<mvc:annotation-driven ignoreDefaultModelOnRedirect="true" content-negotiation-manager="contentNegotiationManager" conversion-service="conversionService" validator="validator">
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper" ref="objectMapperUtil"/>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- Prevent caching of dynamic content -->
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+			<property name="cacheSeconds" value="0" />
+		</bean>
+	</mvc:interceptors>
+	
+	<!-- Cache static resources for 8 hours (i.e. a work day) -->
+	<mvc:resources mapping="/css/**" location="/css/" cache-period="28800" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" cache-period="28800" />
+	<mvc:resources mapping="/images/**" location="/images/" cache-period="28800" />
+	<mvc:resources mapping="/js/**" location="/js/" cache-period="28800" />
+
+	<!-- Ignore path extensions during content negotiation to allow .tar filename in software controller urls -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+	</bean>
+
+	<!-- Register custom formatters -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="formatters">
+			<set>
+				<bean class="uk.gov.hmcts.pdm.publicdisplay.manager.security.EncryptedFormatAnnotationFormatterFactory"/>
+			</set>
+		</property>
+	</bean>
+
+	<!-- Register Hibernate validator -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>
+	
+	<!-- Exception handling configuration --> 
+	<bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="error/error"/>
+		<property name="warnLogCategory" value="uk.gov.hmcts.pdm.publicdisplay.manager"/>
+	</bean>
+
+	<!-- Map views to their JSP -->
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>

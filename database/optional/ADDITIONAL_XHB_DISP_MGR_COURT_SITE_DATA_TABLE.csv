@@ -1,0 +1,5 @@
+"COURT_SITE_ID","TITLE","PAGE_URL","SCHEDULE_ID","XHIBIT_COURT_SITE_ID","LAST_UPDATE_DATE","CREATION_DATE","CREATED_BY","LAST_UPDATED_BY","VERSION","RAG_STATUS","RAG_STATUS_DATE","NOTIFICATION"
+12,"COURT_SITE 12","http://xhibitdisplay/PublicDisplay/FileServlet?",1,250,06-JUL-23 11:51:57,06-JUL-23 11:51:57,"XHIBIT","XHIBIT",1,"R",,""
+13,"Ipswich","http://xhibitdisplay/PublicDisplay/FileServlet?",1,197,06-JUL-23 11:51:57,06-JUL-23 11:51:57,XHIBIT,XHIBIT,1,"R",,""
+14,"Barnstaple","http://xhibitdisplay/PublicDisplay/FileServlet?",1,310,06-JUL-23 11:51:57,06-JUL-23 11:51:57,XHIBIT,XHIBIT,1,"G",,""
+15,"Snaresbrook","http://xhibitdisplay/PublicDisplay/FileServlet?",1,1610,06-JUL-23 11:51:57,06-JUL-23 11:51:57,XHIBIT,XHIBIT,1,"G",,""

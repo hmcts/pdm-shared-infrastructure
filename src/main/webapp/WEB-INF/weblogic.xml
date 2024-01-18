@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.3/weblogic-web-app.xsd">
+
+    <container-descriptor>
+        <prefer-application-packages>
+            <package-name>uk.gov.hmcts.framework.log4j.*</package-name>
+            <package-name>org.apache.commons.*</package-name>
+            <package-name>org.apache.log4j.*</package-name>
+            <package-name>org.aspectj.*</package-name>
+            <package-name>org.joda.*</package-name>
+			<package-name>javassist.*</package-name>
+        </prefer-application-packages>
+        <prefer-application-resources>
+            <resource-name>javax.servlet.jsp.jstl.*</resource-name>
+            <resource-name>org.apache.taglibs.standard.*</resource-name>
+        </prefer-application-resources>
+    </container-descriptor>
+
+    <security-role-assignment>
+        <role-name>AUTHENTICATED_USER</role-name>
+        <principal-name>users</principal-name>
+    </security-role-assignment>
+
+    <resource-description>
+        <res-ref-name>jdbc/XhibitDataSource</res-ref-name>
+        <jndi-name>XhibitOracleTxDataSource</jndi-name>
+    </resource-description>
+
+</weblogic-web-app>

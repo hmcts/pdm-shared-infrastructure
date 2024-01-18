@@ -1,0 +1,245 @@
+/* Xhibit specific css */
+header {
+	width: 100%;
+	background-color: black;
+	color: white;
+	padding: 1px;
+	border-bottom: 0px;
+	min-height: 50px;
+}
+
+/* Sticky footer specific CSS */
+html {
+	height 			: 100%;
+	position 		: relative;
+}
+
+body {
+	min-height 		: 100%;
+	position 		: relative;
+	padding-bottom 	: 120px;
+}
+
+/* NOTE: To avoid resize issues with the footer, override 
+   the simple-sidebar.css position of absolute. */
+#page-content-wrapper {
+    position		: static !important;
+}
+
+/* Page content for pages without the sidebar menu */
+#page-content-no-sidebar {
+	margin-top		: 20px;
+}
+
+.footer {
+	background-color: #DDDFE1;
+	border-top		: 2px solid #005EA3;
+	padding			: 10px 0 0 0;
+	height			: 120px;
+	position 		: absolute;
+	bottom 			: 0;
+	width 			: 100%;
+}
+
+.scrollable-table-header table {
+	color				: #fff;
+	background-color	: #337ab7;
+	border-color		: #337ab7;
+	margin-bottom 		: 0px;
+	border-bottom 		: none !important;
+}
+
+.scrollable-table-header th {
+	border-color		: #337ab7 !important;
+	border-bottom 		: none !important;
+}
+
+.scrollable-table-body {
+	max-height 			: 156px;
+	overflow 			: auto;
+	margin-bottom 		: 15px;
+}
+
+.clicked-row {
+	background-color: #DDDFE1;
+}
+
+/* Glyphicon sizing */
+.gi-2x {font-size 	: 2em;}
+.gi-3x {font-size 	: 3em;}
+.gi-4x {font-size 	: 4em;}
+.gi-5x {font-size 	: 5em;}
+
+/* Glyphicon refresh animation */
+.glyphicon-refresh-animate {
+	animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+	from { transform: scale(1) rotate(0deg); }
+	to { transform: scale(1) rotate(360deg); }
+}
+
+/* Custom HR */
+hr {
+	height			: 1px;
+	background-color: #cccccc;
+	margin-top		: 20px;
+	margin-bottom	: 20px;
+	width			: 100%;
+}
+
+/*
+	Simple padding classes top, bottom, right, left
+*/
+.p-0 {padding					: 0px 0px !important;}
+
+.p-top-0 {padding-top			: 0px !important;}
+.p-top-5 {padding-top			: 5px !important;}
+.p-top-10 {padding-top			: 10px !important;}
+
+.p-right-0 {padding-right		: 0px !important;}
+.p-right-5 {padding-right		: 5px !important;}
+.p-right-10 {padding-right		: 10px !important;}
+
+.p-bottom-0 {padding-bottom		: 0px !important;}
+.p-bottom-5 {padding-bottom		: 5px !important;}
+.p-bottom-10 {padding-bottom		: 10px !important;}
+
+.p-left-0 {padding-left			: 0px !important;}
+.p-left-5 {padding-left			: 5px !important;}
+.p-left-10 {padding-left			: 10px !important;}
+
+/* 
+	Simple margin classes top, bottom, right, left
+*/
+.m-top-0 {margin-top 	: 0px;}
+.m-top-5 {margin-top 	: 5px;}
+.m-top-10 {margin-top 	: 10px;}
+.m-top-15 {margin-top 	: 15px;}
+.m-top-20 {margin-top 	: 20px;}
+.m-top-25 {margin-top 	: 25px;}
+.m-top-30 {margin-top 	: 30px;}
+
+.m-right-0 {margin-right 	: 0px;}
+.m-right-5 {margin-right 	: 5px;}
+.m-right-10 {margin-right 	: 10px;}
+.m-right-15 {margin-right 	: 15px;}
+.m-right-20 {margin-right 	: 20px;}
+.m-right-25 {margin-right 	: 25px;}
+.m-right-30 {margin-right 	: 30px;}
+
+.m-bottom-0 {margin-bottom 	: 0px;}
+.m-bottom-5 {margin-bottom 	: 5px;}
+.m-bottom-10 {margin-bottom 	: 10px;}
+.m-bottom-15 {margin-bottom 	: 15px;}
+.m-bottom-20 {margin-bottom 	: 20px;}
+.m-bottom-25 {margin-bottom 	: 25px;}
+.m-bottom-30 {margin-bottom 	: 30px;}
+
+.m-left-0 {margin-left 	: 0px;}
+.m-left-5 {margin-left 	: 5px;}
+.m-left-10 {margin-left 	: 10px;}
+.m-left-15 {margin-left 	: 15px;}
+.m-left-20 {margin-left 	: 20px;}
+.m-left-25 {margin-left 	: 25px;}
+.m-left-30 {margin-left 	: 30px;}
+
+/* 
+	Collapsible Sidebar Menu classes are bootstrap classes with added sb- extension
+	so they don't interfere with BS native classes.
+ */
+.sb-panel {
+	border: 0;
+	box-shadow: none;
+	margin-bottom : 1px;
+}
+
+.sb-panel-title {
+	font-size : 14px;
+}
+
+.sb-panel-default > .sb-panel-heading {
+	/* amend bootstrap .sb-panel-default > .sb-panel-heading background-color to #000 (black) and remove all borders*/
+	background-color: #000;
+	border : none;
+}
+.sb-panel-default > .sb-panel-heading:hover {
+	background-color: #3c3c3c;
+}
+.sb-panel-default > .sb-panel-heading  a {
+	color: #FFF;
+	display: block;
+	/* amend bootstrap .sb-panel-default > .sb-panel-heading  a padding from 8px to 6px */
+	padding: 6px 0px;
+}
+
+/* undo bootstrap list-group-item : first-child selector  radius here */
+.list-group-item:first-child {
+	border-radius : 0px;
+}
+
+.list-group-item {
+	padding-left: 25px;
+	border: 0;
+	background: #286090;
+}
+
+.list-group-item:hover {
+	background: #365167;
+	padding-left: 15px;
+	transition-delay: 0s;
+	transition-duration: 0.3s;
+	transition-property: all;
+	transition-timing-function: linear;	
+}
+a.list-group-item {
+	color: #FFF;
+}
+a.list-group-item:hover {
+	background: #5881A2;
+	color: #FFF;
+}	
+
+.list-group-item.no-border {
+	border: 0;
+}	
+
+.sb-panel-group .sb-panel + .sb-panel {
+	margin-top: 0px;
+}	
+
+/* Make the users table scroll */
+.user-table-scrollable {
+	height 		: 300px;
+	overflow 	: auto;
+}
+
+/* Override the bootstrap warning colour to amber */
+.text-warning {
+	color:#ffa000;
+}
+.alert-warning {
+	color:#ffa000;
+	background-color:#ffecb3;
+}
+.panel-warning>.panel-heading{
+	color:#ffa000;
+	background-color:#ffecb3;
+}
+
+/* Hyperlinks inherit rag status colour */
+.text-success a, .text-warning a, .text-danger a{
+	color		: inherit;
+}
+
+/* Add plus and minus signs to collapsible panels */
+.panel-heading a[data-toggle='collapse']:after {
+	font-family	: 'Glyphicons Halflings', sans-serif;
+	content		: '\2212';
+	float		: right;
+}
+
+.panel-heading a[data-toggle='collapse'].collapsed:after {
+	content		: '\002b';
+}
