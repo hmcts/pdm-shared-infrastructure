@@ -1,0 +1,1 @@
+\copy xhb_disp_mgr_cdu (cdu_id, cdu_number, mac_address, ip_address, title, description, location, notification, refresh, weighting, offline_ind, rag_status, rag_status_date, court_site_id, last_update_date, creation_date, created_by, last_updated_by, version) FROM 'ADDITIONAL_XHB_DISP_MGR_CDU_DATA_TABLE.csv' DELIMITER ',' CSV HEADER

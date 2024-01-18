@@ -1,0 +1,42 @@
+IMPORTANT: Please ensure you have already created the pdda database as found in pdda_v2/database/Instructions.txt
+and completed all of the steps BEFORE running these database table creation scripts. 
+
+open SQL Shell (psql)
+Server: localhost
+Database: pdda
+Port: 5432
+Username: postgres
+Password: postgres
+
+Use \cd to navigate to the directory with the scripts e.g.
+\cd /Users/chrisvincent/git/pdm/database_pdm_poc
+
+Can use \! pwd to indicate the working directory
+
+Run this FIRST! this makes absolutely sure you are using the pdda schema
+or all the tables get added in the default 'postgres' database which is not ideal
+\c pdda
+
+Install DB objects (tables, constraints, triggers, packages, refdata etc.):
+\i 'pdm_db_install.sql'
+
+Refresh the database using the temp tables (pdm-create-temp-tables.sql is in the temp folder):
+\i 'pdm-create-temp-tables.sql'
+\i 'pdm-refdata-refresh.sql'
+
+Example of BLOB data load (script generated using ORA2PG) from data folder
+\i 'test-blob-data.sql'
+
+There are some additional scripts in the optional folder that can be used for additional test data
+and a script that refreshes the XHB_DM_QZ_* Quartz Scheduler tables.
+
+\cd optional
+\i 'reload_xhb_dm_qz_tables.sql'
+
+To load the additional test data for development purposes you will need to load the additional CDU, Court Site and Local Proxy data.
+\i 'load_additional_court_site_local_proxy_data.sql'
+\i 'load_additional_cdu_data.sql'
+
+To generate the sonarqube remote a database needs to be created via the following command:
+
+\i 'create-sonarqube-db.sql'

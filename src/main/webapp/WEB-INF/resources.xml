@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<Resource id="jdbc/XhibitDataSource" type="DataSource">
+	    jdbcDriver	org.postgresql.Driver
+	    jdbcUrl		jdbc:postgresql://localhost:5432/pdda
+	    UserName    postgres
+	    Password    password
+	    JtaManaged	true
+	    InitialSize	10
+	    MinIdle		10
+	    MaxActive	30
+	    MaxIdle		10
+	    TimeBetweenEvictionRunsMillis	30000
+	    MinEvictableIdleTimeMillis	60000
+	    ValidationQuery select 1
+		TestOnBorrow true
+	</Resource>
+</resources>

@@ -1,0 +1,30 @@
+SET client_encoding TO 'UTF8';
+
+CREATE INDEX dm_local_proxy_rag_status_idx ON xhb_disp_mgr_local_proxy (rag_status);
+CREATE INDEX dm_schedule_title_idx ON xhb_disp_mgr_schedule (title);
+CREATE INDEX dm_schedule_type_idx ON xhb_disp_mgr_schedule (schedule_type);
+CREATE INDEX dm_qz_ft_inst_job_req_rcvy_idx ON xhb_dm_qz_fired_triggers (sched_name, instance_name, requests_recovery);
+CREATE INDEX dm_qz_ft_jg_idx ON xhb_dm_qz_fired_triggers (sched_name, job_group);
+CREATE INDEX dm_qz_ft_j_g_idx ON xhb_dm_qz_fired_triggers (sched_name, job_name, job_group);
+CREATE INDEX dm_qz_ft_tg_idx ON xhb_dm_qz_fired_triggers (sched_name, trigger_group);
+CREATE INDEX dm_qz_ft_trig_inst_name_idx ON xhb_dm_qz_fired_triggers (sched_name, instance_name);
+CREATE INDEX dm_qz_ft_t_g_idx ON xhb_dm_qz_fired_triggers (sched_name, trigger_name, trigger_group);
+CREATE INDEX dm_court_site_rag_status_idx ON xhb_disp_mgr_court_site (rag_status);
+CREATE INDEX dm_cdu_offline_ind_idx ON xhb_disp_mgr_cdu (offline_ind);
+CREATE INDEX dm_cdu_rag_status_idx ON xhb_disp_mgr_cdu (rag_status);
+CREATE INDEX dm_qz_j_grp_idx ON xhb_dm_qz_job_details (sched_name, job_group);
+CREATE INDEX dm_qz_j_req_recovery_idx ON xhb_dm_qz_job_details (sched_name, requests_recovery);
+CREATE INDEX dm_qz_t_c_idx ON xhb_dm_qz_triggers (sched_name, calendar_name);
+CREATE INDEX dm_qz_t_g_idx ON xhb_dm_qz_triggers (sched_name, trigger_group);
+CREATE INDEX dm_qz_t_jg_idx ON xhb_dm_qz_triggers (sched_name, job_group);
+CREATE INDEX dm_qz_t_j_idx ON xhb_dm_qz_triggers (sched_name, job_name, job_group);
+CREATE INDEX dm_qz_t_next_fire_time_idx ON xhb_dm_qz_triggers (sched_name, next_fire_time);
+CREATE INDEX dm_qz_t_nft_misfire_idx ON xhb_dm_qz_triggers (sched_name, misfire_instr, next_fire_time);
+CREATE INDEX dm_qz_t_nft_st_idx ON xhb_dm_qz_triggers (sched_name, trigger_state, next_fire_time);
+CREATE INDEX dm_qz_t_nft_st_misfire_grp_idx ON xhb_dm_qz_triggers (sched_name, misfire_instr, next_fire_time, trigger_group, trigger_state);
+CREATE INDEX dm_qz_t_nft_st_misfire_idx ON xhb_dm_qz_triggers (sched_name, misfire_instr, next_fire_time, trigger_state);
+CREATE INDEX dm_qz_t_n_g_state_idx ON xhb_dm_qz_triggers (sched_name, trigger_group, trigger_state);
+CREATE INDEX dm_qz_t_n_state_idx ON xhb_dm_qz_triggers (sched_name, trigger_name, trigger_group, trigger_state);
+CREATE INDEX dm_qz_t_state_idx ON xhb_dm_qz_triggers (sched_name, trigger_state);
+-- This isn't in PDDA? left this in for now
+CREATE INDEX aud_address_idx ON aud_address (address_id, version);

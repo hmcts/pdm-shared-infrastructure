@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		">
+
+	<!-- Factory to make session objects -->
+	<bean id="sessionFactoryBean" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- Inject dataSource -->
+		<property name="dataSource" ref="xhibitDataSource" />
+		
+		<!-- Inject interceptor -->
+		<property name="entityInterceptor" ref="domainInterceptor" />
+
+		<!-- Set hibernate properties -->
+		<property name="configLocation">
+			<value>classpath:uk/gov/courtservice/xhibit/publicdisplay/manager/dao/hibernate.cfg.xml</value>
+		</property>
+
+		<!-- Set mapping resources -->
+		<property name="mappingLocations">
+			<array>
+				<value>classpath:uk/gov/courtservice/xhibit/publicdisplay/manager/domain/*.hbm.xml</value>
+			</array>
+		</property>
+	</bean>
+
+	<!-- Interceptor to set createdBy and updatedBy to current logged on user -->
+	<bean id="domainInterceptor" class="uk.gov.hmcts.pdm.publicdisplay.manager.domain.DomainInterceptor" />
+	
+	<!-- Transaction Manager -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactoryBean"/>
+	</bean>
+
+	<!-- Exception translation for all dao beans with @Repository annotation -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+	<!-- Enable annotation driven transaction management and use class based proxies
+		 to ensure @Transactional can be combined with other annotations -->
+	<tx:annotation-driven proxy-target-class="true" />
+
+</beans>

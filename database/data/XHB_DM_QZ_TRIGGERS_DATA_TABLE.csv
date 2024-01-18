@@ -1,0 +1,13 @@
+"SCHED_NAME","TRIGGER_NAME","TRIGGER_GROUP","JOB_NAME","JOB_GROUP","DESCRIPTION","NEXT_FIRE_TIME","PREV_FIRE_TIME","PRIORITY","TRIGGER_STATE","TRIGGER_TYPE","START_TIME","END_TIME","CALENDAR_NAME","MISFIRE_INSTR","JOB_DATA"
+"ClusteredScheduler","ragStatusSetupTrigger","DEFAULT","ragStatusSetupJob","DEFAULT","",1654513200000,1654509600000,0,"WAITING","CRON",1653558547000,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_103","DEFAULT","ragStatusJob_103","DEFAULT","",-1,1654509600065,5,"COMPLETE","SIMPLE",1654509600065,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_1607","DEFAULT","ragStatusJob_1607","DEFAULT","",-1,1654509600088,5,"COMPLETE","SIMPLE",1654509600088,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_584","DEFAULT","ragStatusJob_584","DEFAULT","",-1,1654509600145,5,"COMPLETE","SIMPLE",1654509600145,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_2","DEFAULT","ragStatusJob_2","DEFAULT","",-1,1654509600202,5,"COMPLETE","SIMPLE",1654509600202,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_1608","DEFAULT","ragStatusJob_1608","DEFAULT","",-1,1654509600231,5,"COMPLETE","SIMPLE",1654509600231,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_518","DEFAULT","ragStatusJob_518","DEFAULT","",-1,1654509600281,5,"COMPLETE","SIMPLE",1654509600281,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_517","DEFAULT","ragStatusJob_517","DEFAULT","",-1,1654509600345,5,"COMPLETE","SIMPLE",1654509600345,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_1","DEFAULT","ragStatusJob_1","DEFAULT","",-1,1654509600369,5,"COMPLETE","SIMPLE",1654509600369,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_249","DEFAULT","ragStatusJob_249","DEFAULT","",-1,1654509600398,5,"COMPLETE","SIMPLE",1654509600398,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_1606","DEFAULT","ragStatusJob_1606","DEFAULT","",-1,1654509600423,5,"COMPLETE","SIMPLE",1654509600423,0,"",0,
+"ClusteredScheduler","ragStatusTrigger_1609","DEFAULT","ragStatusJob_1609","DEFAULT","",-1,1654509600449,5,"COMPLETE","SIMPLE",1654509600449,0,"",0,

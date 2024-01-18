@@ -1,0 +1,19 @@
+"PROPERTY_ID","PROPERTY_NAME","PROPERTY_VALUE","LAST_UPDATE_DATE","CREATION_DATE","CREATED_BY","LAST_UPDATED_BY","VERSION"
+1,"software.update.directory","C:\Temp",26-MAY-22 08:56:14,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",3
+2,"xhibit.public.display.url","http://192.168.1.254/software/index.php?",26-MAY-22 08:56:14,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",3
+3,"software.update.checksum.cron","0 30 * * * ?",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+4,"software.update.filenames","cdu.tar,localproxy.tar,localproxyupdatescripts.tar,ipdmanager.tar,ipdmanager.war,ipdmanager.properties",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+5,"rag.status.overall.red.percent","60",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+6,"rag.status.overall.amber.percent","80",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+7,"rag.status.courtsite.red.percent","50",17-MAY-18 13:42:21,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",2
+8,"rag.status.courtsite.amber.percent","80",17-MAY-18 13:42:21,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",2
+9,"rest.client.timeout","30",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+10,"rest.token.expiry","300",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+11,"register.cdu.network","192.168.1",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+12,"register.cdu.host.min","100",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+13,"register.cdu.host.max","199",17-MAY-18 13:30:13,17-MAY-18 13:30:13,"XHIBIT","XHIBIT",1
+14,"rag.status.update.threads","5",17-MAY-18 13:42:21,17-MAY-18 13:42:21,"XHIBIT","XHIBIT",1
+15,"rag.status.update.cron","0 0 * * * ?",17-MAY-18 13:42:21,17-MAY-18 13:42:21,"XHIBIT","XHIBIT",1
+16,"rag.status.reload.interval","900",17-MAY-18 13:42:21,17-MAY-18 13:42:21,"XHIBIT","XHIBIT",1
+23,"rag.status.localproxy.red.percent","50",26-MAY-22 08:57:33,26-MAY-22 08:57:33,"XHIBIT","XHIBIT",1
+24,"rag.status.localproxy.amber.percent","80",26-MAY-22 08:57:33,26-MAY-22 08:57:33,"XHIBIT","XHIBIT",1

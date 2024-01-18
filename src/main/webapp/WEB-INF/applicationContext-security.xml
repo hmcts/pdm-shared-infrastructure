@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+	    ">
+
+    <!-- Static resources with no authentication -->
+    <sec:http pattern="/resources/**" security="none"/>
+
+    <!-- Web application resources with no authentication -->
+    <sec:http pattern="/index.jsp" security="none"/>
+    <sec:http pattern="/pdm/home" security="none"/>
+    <sec:http pattern="/pdm/login" security="none"/>
+    <sec:http pattern="/pdm/loginError" security="none"/>
+    <sec:http pattern="/pdm/j_security_check" security="none"/>
+    <sec:http pattern="/pdm/logoutSuccess" security="none"/>
+    <sec:http pattern="/pdm/invalidSession" security="none"/>
+    <sec:http pattern="/pdm/invalidToken" security="none"/>
+    <sec:http pattern="/pdm/help/login" security="none"/>
+    <sec:http pattern="/pdm/help/logout" security="none"/>
+    <sec:http pattern="/pdm/software/**" security="none"/>
+
+    <!-- Web application resources with authentication -->
+    <sec:http pattern="/pdm/**" use-expressions="true" entry-point-ref="authenticationEntryPoint">
+    	<sec:custom-filter position="FIRST" ref="pollingSessionTimeoutFilter"/>
+        <sec:intercept-url pattern="/pdm/proxies/register_localproxy" access="hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/pdm/users/**" access="hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/pdm/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <sec:jee user-service-ref="userDetailsService" mappable-roles="AUTHENTICATED_USER"/>
+        <sec:logout logout-url="/pdm/logout" logout-success-url="/pdm/logoutSuccess" invalidate-session="true" delete-cookies="JSESSIONID"/>
+        <sec:session-management invalid-session-url="/pdm/invalidSession">
+        	<sec:concurrency-control max-sessions="1"/>
+        </sec:session-management>
+        <sec:headers/>
+    </sec:http>
+
+    <!-- RESTful web service resources with no authentication -->
+    <sec:http pattern="/api/**" security="none"/>
+
+	<!-- Catch all to deny anything else -->
+    <sec:http use-expressions="true" entry-point-ref="forbiddenEntryPoint">
+        <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
+    </sec:http>
+    
+    <!-- Scan for Secured annotations -->
+    <sec:global-method-security secured-annotations="enabled" proxy-target-class="true"/>
+
+    <sec:authentication-manager alias="authenticationManager"/>
+
+    <bean id="pollingSessionTimeoutFilter" class="uk.gov.hmcts.pdm.publicdisplay.manager.security.PollingSessionTimeoutFilter">
+    	<property name="urls">
+    		<list>
+    			<value>/pdm/dashboard/dashboard?reload=auto</value>
+    		</list>
+    	</property>
+    </bean>
+
+    <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+    	<property name="loginFormUrl" value="/pdm/home"/>
+    </bean>
+
+    <bean id="forbiddenEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
+
+</beans>

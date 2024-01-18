@@ -1,0 +1,16 @@
+SET client_encoding TO 'UTF8';
+
+ALTER TABLE xhb_disp_mgr_cdu DROP CONSTRAINT dm_cdu_court_site_id_fk;
+ALTER TABLE xhb_disp_mgr_court_site DROP CONSTRAINT dm_court_site_schedule_id_fk;
+ALTER TABLE xhb_disp_mgr_court_site DROP CONSTRAINT dm_xhibit_court_site_id_fk;
+ALTER TABLE xhb_disp_mgr_local_proxy DROP CONSTRAINT dm_local_proxy_site_id_fk;
+ALTER TABLE xhb_disp_mgr_log DROP CONSTRAINT dm_log_cdu_id_fk;
+ALTER TABLE xhb_disp_mgr_log DROP CONSTRAINT dm_log_court_site_id_fk;
+ALTER TABLE xhb_disp_mgr_mapping DROP CONSTRAINT dm_cdu_id_fk;
+ALTER TABLE xhb_disp_mgr_mapping DROP CONSTRAINT dm_url_id_fk;
+ALTER TABLE xhb_disp_mgr_url DROP CONSTRAINT dm_url_court_site_id_fk;
+ALTER TABLE xhb_dm_qz_blob_triggers DROP CONSTRAINT dm_qz_blob_trig_to_trig_fk;
+ALTER TABLE xhb_dm_qz_cron_triggers DROP CONSTRAINT dm_qz_cron_trig_to_trig_fk;
+ALTER TABLE xhb_dm_qz_simple_triggers DROP CONSTRAINT dm_qz_simple_trig_to_trig_fk;
+ALTER TABLE xhb_dm_qz_simprop_triggers DROP CONSTRAINT dm_qz_simprop_trig_to_trig_fk;
+ALTER TABLE xhb_dm_qz_triggers DROP CONSTRAINT dm_qz_trig_to_jobs_fk;

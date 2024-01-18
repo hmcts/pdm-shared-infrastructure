@@ -1,0 +1,13 @@
+"SCHED_NAME","JOB_NAME","JOB_GROUP","DESCRIPTION","JOB_CLASS_NAME","IS_DURABLE","IS_NONCONCURRENT","IS_UPDATE_DATA","REQUESTS_RECOVERY","JOB_DATA"
+"ClusteredScheduler","ragStatusSetupJob","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusSetupJob","1","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_103","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_1607","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_584","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_2","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_1608","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_518","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_517","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_1","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_249","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_1606","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
+"ClusteredScheduler","ragStatusJob_1609","DEFAULT","","uk.gov.courtservice.xhibit.publicdisplay.manager.service.RagStatusJob","0","1","0","0",(BLOB)
