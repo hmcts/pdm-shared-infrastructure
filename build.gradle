@@ -142,13 +142,13 @@ ext['snakeyaml.version'] = '2.0'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:3.1.6'
-    implementation 'org.hibernate:hibernate-entitymanager:5.4.20.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
     implementation 'org.apache.openjpa:openjpa-persistence-jdbc:3.2.2'
     implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'org.springframework.security:spring-security-core:6.1.4'
     implementation ('org.apache.httpcomponents:httpclient:4.5.14') {
     exclude group: 'commons-logging', module: 'commons-logging'
-    }
+  }
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework:spring-tx:6.0.14'
     implementation 'org.dbunit:dbunit:2.7.3'
@@ -158,13 +158,13 @@ dependencies {
     implementation 'org.springframework.security:spring-security-web:6.1.4'
     implementation 'org.quartz-scheduler:quartz:2.5.0-rc1'
     implementation 'org.apache.cxf:cxf-spring-boot-starter-jaxrs:4.0.3'
-	implementation 'com.github.hmcts.java-logging:logging:6.0.1'
-  	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
-  	implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
+    implementation 'com.github.hmcts.java-logging:logging:6.0.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
     implementation 'javax.servlet:servlet-api:3.0-alpha-1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.15.2'
     implementation 'org.springframework.boot:spring-boot-starter-jersey:3.2.1'
-	implementation 'org.owasp.esapi:esapi:2.5.3.1'
+    implementation 'org.owasp.esapi:esapi:2.5.3.1'
     implementation 'org.jasypt:jasypt:1.9.3'
     implementation 'org.springframework:spring-context-support:6.0.14'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.18'
@@ -176,10 +176,10 @@ dependencies {
     implementation 'org.apache.xmlgraphics:batik-css:1.17'
     implementation 'com.mchange:c3p0:0.9.5.5'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0-rc1'
-	implementation 'org.htmlunit:neko-htmlunit:3.10.0'
-	implementation 'ch.qos.logback:logback-core:1.4.14'
-	implementation 'ch.qos.logback:logback-classic:1.4.14'
-	
+    implementation 'org.htmlunit:neko-htmlunit:3.10.0'
+    implementation 'ch.qos.logback:logback-core:1.4.14'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.6'
     testImplementation 'org.easymock:easymock:5.0.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
