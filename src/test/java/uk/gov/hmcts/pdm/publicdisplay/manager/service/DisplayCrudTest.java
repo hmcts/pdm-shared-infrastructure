@@ -173,9 +173,6 @@ abstract class DisplayCrudTest extends AbstractJUnit {
         DisplayDeleteCommand displayDeleteCommand = new DisplayDeleteCommand();
         displayDeleteCommand.setDisplayId(1);
 
-        XhbDisplayLocationDao xhbDisplayLocationDao = new XhbDisplayLocationDao();
-        xhbDisplayLocationDao.setDisplayLocationId(1);
-
         // Create the displayDao
         XhbDisplayDao displayDao = new XhbDisplayDao();
 

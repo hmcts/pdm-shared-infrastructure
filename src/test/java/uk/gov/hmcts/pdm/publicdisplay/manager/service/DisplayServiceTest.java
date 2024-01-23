@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
@@ -215,7 +216,7 @@ class DisplayServiceTest extends DisplayCrudTest {
         List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, null, null, null);
 
         // Assert that the objects are as expected
-        assertEquals(null, displayDtos.get(0).getDisplayType(), NOT_EQUAL);
+        assertNull(displayDtos.get(0).getDisplayType(), "Not null");
 
         // Verify the expected mocks were called
         verify(mockDisplayRepo);
