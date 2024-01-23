@@ -151,10 +151,14 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
         classUnderTest.createCourtRoom(courtRoomCreateCommand, new ArrayList<>());
 
         // Assert that the objects are as expected
-        assertEquals(courtRoomCreateCommand.getName(), courtRoomDaoCapture.getValue().getCourtRoomName(), NOT_EQUAL);
-        assertEquals(courtRoomCreateCommand.getDescription(), courtRoomDaoCapture.getValue().getDescription(), NOT_EQUAL);
-        assertEquals(courtRoomCreateCommand.getDisplayName(), courtRoomDaoCapture.getValue().getDisplayName(), NOT_EQUAL);
-        assertEquals(courtRoomCreateCommand.getXhibitCourtSiteId().intValue(), courtRoomDaoCapture.getValue().getCourtSiteId(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getName(),
+                courtRoomDaoCapture.getValue().getCourtRoomName(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getDescription(),
+                courtRoomDaoCapture.getValue().getDescription(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getDisplayName(),
+                courtRoomDaoCapture.getValue().getDisplayName(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getXhibitCourtSiteId().intValue(),
+                courtRoomDaoCapture.getValue().getCourtSiteId(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockCourtRoomRepo);

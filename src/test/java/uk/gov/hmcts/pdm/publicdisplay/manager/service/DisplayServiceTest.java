@@ -114,7 +114,8 @@ class DisplayServiceTest extends DisplayCrudTest {
         replay(mockDisplayRepo);
 
         // Perform the test
-        List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, displayTypeDtoList, courtSiteDtoList, rotationSetsDtoList);
+        List<DisplayDto> displayDtos = classUnderTest
+                .getDisplays(1L, displayTypeDtoList, courtSiteDtoList, rotationSetsDtoList);
 
         // Assert that the objects are as expected
         assertEquals(xhbDisplayDao.getDisplayId(), displayDtos.get(0).getDisplayId(), NOT_EQUAL);
@@ -147,7 +148,8 @@ class DisplayServiceTest extends DisplayCrudTest {
         replay(mockDisplayRepo);
 
         // Perform the test
-        List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, displayTypeDtoList, courtSiteDtoList, rotationSetsDtoList);
+        List<DisplayDto> displayDtos = classUnderTest
+                .getDisplays(1L, displayTypeDtoList, courtSiteDtoList, rotationSetsDtoList);
 
         // Assert that the objects are as expected
         assertTrue(displayDtos.isEmpty(), FALSE);
