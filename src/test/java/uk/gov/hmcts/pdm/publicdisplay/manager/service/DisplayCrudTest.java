@@ -15,7 +15,9 @@ import uk.gov.hmcts.pdm.business.entities.xhbdisplaytype.XhbDisplayTypeRepositor
 import uk.gov.hmcts.pdm.business.entities.xhbrotationsets.XhbRotationSetsDao;
 import uk.gov.hmcts.pdm.business.entities.xhbrotationsets.XhbRotationSetsRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DisplayTypeDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.RotationSetsDto;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IDisplayService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.display.DisplayAmendCommand;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.display.DisplayCreateCommand;
@@ -171,7 +173,6 @@ abstract class DisplayCrudTest extends AbstractJUnit {
     void deleteDisplayTest() {
 
         DisplayDeleteCommand displayDeleteCommand = new DisplayDeleteCommand();
-        displayDeleteCommand.setDisplayId(1);
 
         // Create the displayDao
         XhbDisplayDao displayDao = new XhbDisplayDao();
@@ -232,14 +233,9 @@ abstract class DisplayCrudTest extends AbstractJUnit {
         displayAmendCommand.setXhibitCourtSiteId(10L);
 
         XhbDisplayLocationDao xhbDisplayLocationDao = new XhbDisplayLocationDao();
-        xhbDisplayLocationDao.setDisplayLocationId(1);
 
         // Create the displayDao
         XhbDisplayDao displayDao = new XhbDisplayDao();
-        displayDao.setDisplayTypeId(displayAmendCommand.getDisplayTypeId());
-        displayDao.setDescriptionCode(displayAmendCommand.getDisplayId().toString());
-        displayDao.setDisplayLocationId(xhbDisplayLocationDao.getDisplayLocationId());
-        displayDao.setRotationSetId(displayAmendCommand.getRotationSetId());
 
         Optional<XhbDisplayDao> xhbDisplayDao = Optional.of(displayDao);
 
@@ -266,10 +262,6 @@ abstract class DisplayCrudTest extends AbstractJUnit {
     void updateDisplayEmptyTest() {
 
         DisplayAmendCommand displayAmendCommand = new DisplayAmendCommand();
-        displayAmendCommand.setDisplayId(1);
-        displayAmendCommand.setDisplayTypeId(2);
-        displayAmendCommand.setRotationSetId(3);
-        displayAmendCommand.setXhibitCourtSiteId(10L);
 
         Optional<XhbDisplayDao> xhbDisplayDao = Optional.empty();
 
@@ -285,6 +277,30 @@ abstract class DisplayCrudTest extends AbstractJUnit {
         // Verify the expected mocks were called
         verify(mockDisplayRepo);
 
+    }
+
+    protected List<DisplayTypeDto> createDisplayTypeDtoList() {
+        ArrayList<DisplayTypeDto> displayTypeDtos = new ArrayList<>();
+        DisplayTypeDto displayTypeDto = new DisplayTypeDto();
+        displayTypeDto.setDisplayTypeId(6);
+        displayTypeDtos.add(displayTypeDto);
+        return displayTypeDtos;
+    }
+
+    protected List<XhibitCourtSiteDto> createCourtSiteDtoList() {
+        ArrayList<XhibitCourtSiteDto> xhibitCourtSiteDtos = new ArrayList<>();
+        XhibitCourtSiteDto courtsiteDto = new XhibitCourtSiteDto();
+        courtsiteDto.setId(8L);
+        xhibitCourtSiteDtos.add(courtsiteDto);
+        return xhibitCourtSiteDtos;
+    }
+
+    protected List<RotationSetsDto> createRotationSetsDtoList() {
+        ArrayList<RotationSetsDto> rotationSetsDtos = new ArrayList<>();
+        RotationSetsDto rotationSetsDto = new RotationSetsDto();
+        rotationSetsDto.setRotationSetId(7);
+        rotationSetsDtos.add(rotationSetsDto);
+        return rotationSetsDtos;
     }
 
 }

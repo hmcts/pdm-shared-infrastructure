@@ -58,11 +58,7 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
     @Test
     void courtSitesTest() {
 
-        XhbCourtSiteDao xhbCourtSiteDao = new XhbCourtSiteDao();
-        xhbCourtSiteDao.setId(2);
-        xhbCourtSiteDao.setCourtSiteName("courtSiteName");
-        xhbCourtSiteDao.setCourtSiteCode("courtSiteCode");
-        xhbCourtSiteDao.setCourtId(4);
+        XhbCourtSiteDao xhbCourtSiteDao = createCourtSiteDao();
 
         List<XhbCourtSiteDao> courtSiteDaoList = new ArrayList<>();
         courtSiteDaoList.add(xhbCourtSiteDao);
@@ -86,11 +82,7 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
     @Test
     void courtSitesCourtIdNullTest() {
 
-        XhbCourtSiteDao xhbCourtSiteDao = new XhbCourtSiteDao();
-        xhbCourtSiteDao.setId(1);
-        xhbCourtSiteDao.setCourtSiteName("courtSiteName");
-        xhbCourtSiteDao.setCourtSiteCode("courtSiteCode");
-        xhbCourtSiteDao.setCourtId(4);
+        XhbCourtSiteDao xhbCourtSiteDao = createCourtSiteDao();
 
         List<XhbCourtSiteDao> courtSiteDaoList = new ArrayList<>();
         courtSiteDaoList.add(xhbCourtSiteDao);
@@ -159,14 +151,10 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
         classUnderTest.createCourtRoom(courtRoomCreateCommand, new ArrayList<>());
 
         // Assert that the objects are as expected
-        assertEquals(courtRoomCreateCommand.getName(),
-                courtRoomDaoCapture.getValue().getCourtRoomName(), NOT_EQUAL);
-        assertEquals(courtRoomCreateCommand.getDescription(),
-                courtRoomDaoCapture.getValue().getDescription(), NOT_EQUAL);
-        assertEquals(courtRoomCreateCommand.getDisplayName(),
-                courtRoomDaoCapture.getValue().getDisplayName(), NOT_EQUAL);
-        assertEquals(courtRoomCreateCommand.getXhibitCourtSiteId().intValue(),
-                courtRoomDaoCapture.getValue().getCourtSiteId(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getName(), courtRoomDaoCapture.getValue().getCourtRoomName(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getDescription(), courtRoomDaoCapture.getValue().getDescription(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getDisplayName(), courtRoomDaoCapture.getValue().getDisplayName(), NOT_EQUAL);
+        assertEquals(courtRoomCreateCommand.getXhibitCourtSiteId().intValue(), courtRoomDaoCapture.getValue().getCourtSiteId(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockCourtRoomRepo);
@@ -176,10 +164,7 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
     @Test
     void updateCourtRoomTest() {
 
-        CourtRoomAmendCommand courtRoomAmendCommand = new CourtRoomAmendCommand();
-        courtRoomAmendCommand.setName("name");
-        courtRoomAmendCommand.setDescription(DESCRIPTION);
-        courtRoomAmendCommand.setCourtRoomId(1);
+        CourtRoomAmendCommand courtRoomAmendCommand = createCourtRoomAmendCommand();
 
         XhbCourtRoomDao xhbCourtRoomDao = new XhbCourtRoomDao();
         Optional<XhbCourtRoomDao> courtRoomDao = Optional.of(xhbCourtRoomDao);
@@ -196,6 +181,15 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
         // Verify the expected mocks were called
         verify(mockCourtRoomRepo);
 
+    }
+
+    private XhbCourtSiteDao createCourtSiteDao() {
+        XhbCourtSiteDao xhbCourtSiteDao = new XhbCourtSiteDao();
+        xhbCourtSiteDao.setId(2);
+        xhbCourtSiteDao.setCourtSiteName("courtSiteName");
+        xhbCourtSiteDao.setCourtSiteCode("courtSiteCode");
+        xhbCourtSiteDao.setCourtId(4);
+        return xhbCourtSiteDao;
     }
 
 }

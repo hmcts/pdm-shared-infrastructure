@@ -65,10 +65,8 @@ class DisplayServiceTest extends DisplayCrudTest {
         List<DisplayTypeDto> displayTypeDtoList = classUnderTest.getDisplayTypes();
 
         // Assert that the objects are as expected
-        assertEquals(displayTypeDtoList.get(0).getDisplayTypeId(),
-            displayTypeDao.getDisplayTypeId(), NOT_EQUAL);
-        assertEquals(displayTypeDtoList.get(0).getDescriptionCode(),
-            displayTypeDao.getDescriptionCode(), NOT_EQUAL);
+        assertEquals(displayTypeDtoList.get(0).getDisplayTypeId(), displayTypeDao.getDisplayTypeId(), NOT_EQUAL);
+        assertEquals(displayTypeDtoList.get(0).getDescriptionCode(), displayTypeDao.getDescriptionCode(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockDisplayTypeRepository);
@@ -99,32 +97,16 @@ class DisplayServiceTest extends DisplayCrudTest {
     @Test
     void displaysTest() {
 
-        XhbDisplayDao xhbDisplayDao = new XhbDisplayDao();
-        xhbDisplayDao.setDisplayId(2);
-        xhbDisplayDao.setDescriptionCode("description code");
-        xhbDisplayDao.setDisplayLocationId(3);
-        xhbDisplayDao.setDisplayTypeId(4);
-        xhbDisplayDao.setLocale("locale");
-        xhbDisplayDao.setRotationSetId(5);
-        xhbDisplayDao.setShowUnassignedYn("Yn");
+        XhbDisplayDao xhbDisplayDao = createDisplayDao();
 
         List<XhbDisplayDao> displayDaoList = new ArrayList<>();
         displayDaoList.add(xhbDisplayDao);
 
-        List<DisplayTypeDto> displayTypeDtoList = new ArrayList<>();
-        DisplayTypeDto displayTypeDto = new DisplayTypeDto();
-        displayTypeDto.setDisplayTypeId(6);
-        displayTypeDtoList.add(displayTypeDto);
+        List<DisplayTypeDto> displayTypeDtoList = createDisplayTypeDtoList();
 
-        List<XhibitCourtSiteDto> courtSiteDtoList = new ArrayList<>();
-        XhibitCourtSiteDto courtsiteDto = new XhibitCourtSiteDto();
-        courtsiteDto.setId(8L);
-        courtSiteDtoList.add(courtsiteDto);
+        List<XhibitCourtSiteDto> courtSiteDtoList = createCourtSiteDtoList();
 
-        List<RotationSetsDto> rotationSetsDtoList = new ArrayList<>();
-        RotationSetsDto rotationSetsDto = new RotationSetsDto();
-        rotationSetsDto.setRotationSetId(7);
-        rotationSetsDtoList.add(rotationSetsDto);
+        List<RotationSetsDto> rotationSetsDtoList = createRotationSetsDtoList();
 
         // Add the mock calls to child classes
         expect(mockDisplayRepo.findByCourtSiteId(1)).andReturn(displayDaoList);
@@ -132,22 +114,16 @@ class DisplayServiceTest extends DisplayCrudTest {
         replay(mockDisplayRepo);
 
         // Perform the test
-        List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, displayTypeDtoList,
-            courtSiteDtoList, rotationSetsDtoList);
+        List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, displayTypeDtoList, courtSiteDtoList, rotationSetsDtoList);
 
         // Assert that the objects are as expected
         assertEquals(xhbDisplayDao.getDisplayId(), displayDtos.get(0).getDisplayId(), NOT_EQUAL);
-        assertEquals(xhbDisplayDao.getDescriptionCode(), displayDtos.get(0).getDescriptionCode(),
-            NOT_EQUAL);
-        assertEquals(xhbDisplayDao.getDisplayLocationId(),
-            displayDtos.get(0).getDisplayLocationId(), NOT_EQUAL);
-        assertEquals(xhbDisplayDao.getDisplayTypeId(), displayDtos.get(0).getDisplayTypeId(),
-            NOT_EQUAL);
+        assertEquals(xhbDisplayDao.getDescriptionCode(), displayDtos.get(0).getDescriptionCode(), NOT_EQUAL);
+        assertEquals(xhbDisplayDao.getDisplayLocationId(), displayDtos.get(0).getDisplayLocationId(), NOT_EQUAL);
+        assertEquals(xhbDisplayDao.getDisplayTypeId(), displayDtos.get(0).getDisplayTypeId(), NOT_EQUAL);
         assertEquals(xhbDisplayDao.getLocale(), displayDtos.get(0).getLocale(), NOT_EQUAL);
-        assertEquals(xhbDisplayDao.getRotationSetId(), displayDtos.get(0).getRotationSetId(),
-            NOT_EQUAL);
-        assertEquals(xhbDisplayDao.getShowUnassignedYn(), displayDtos.get(0).getShowUnassignedYn(),
-            NOT_EQUAL);
+        assertEquals(xhbDisplayDao.getRotationSetId(), displayDtos.get(0).getRotationSetId(), NOT_EQUAL);
+        assertEquals(xhbDisplayDao.getShowUnassignedYn(), displayDtos.get(0).getShowUnassignedYn(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockDisplayRepo);
@@ -157,22 +133,12 @@ class DisplayServiceTest extends DisplayCrudTest {
     @Test
     void emptyDisplaysTest() {
 
+        List<DisplayTypeDto> displayTypeDtoList = createDisplayTypeDtoList();
 
-        List<DisplayTypeDto> displayTypeDtoList = new ArrayList<>();
-        DisplayTypeDto displayTypeDto = new DisplayTypeDto();
-        displayTypeDto.setDisplayTypeId(6);
-        displayTypeDtoList.add(displayTypeDto);
+        List<XhibitCourtSiteDto> courtSiteDtoList = createCourtSiteDtoList();
 
-        List<XhibitCourtSiteDto> courtSiteDtoList = new ArrayList<>();
-        XhibitCourtSiteDto courtsiteDto = new XhibitCourtSiteDto();
-        courtsiteDto.setId(8L);
-        courtSiteDtoList.add(courtsiteDto);
+        List<RotationSetsDto> rotationSetsDtoList = createRotationSetsDtoList();
 
-        List<RotationSetsDto> rotationSetsDtoList = new ArrayList<>();
-        RotationSetsDto rotationSetsDto = new RotationSetsDto();
-        rotationSetsDto.setRotationSetId(7);
-        rotationSetsDtoList.add(rotationSetsDto);
-        
         List<XhbDisplayDao> displayDaoList = new ArrayList<>();
 
         // Add the mock calls to child classes
@@ -181,8 +147,7 @@ class DisplayServiceTest extends DisplayCrudTest {
         replay(mockDisplayRepo);
 
         // Perform the test
-        List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, displayTypeDtoList,
-            courtSiteDtoList, rotationSetsDtoList);
+        List<DisplayDto> displayDtos = classUnderTest.getDisplays(1L, displayTypeDtoList, courtSiteDtoList, rotationSetsDtoList);
 
         // Assert that the objects are as expected
         assertTrue(displayDtos.isEmpty(), FALSE);
@@ -195,14 +160,7 @@ class DisplayServiceTest extends DisplayCrudTest {
     @Test
     void emptyDtosTest() {
 
-        XhbDisplayDao xhbDisplayDao = new XhbDisplayDao();
-        xhbDisplayDao.setDisplayId(2);
-        xhbDisplayDao.setDescriptionCode("description code");
-        xhbDisplayDao.setDisplayLocationId(3);
-        xhbDisplayDao.setDisplayTypeId(4);
-        xhbDisplayDao.setLocale("locale");
-        xhbDisplayDao.setRotationSetId(5);
-        xhbDisplayDao.setShowUnassignedYn("Yn");
+        XhbDisplayDao xhbDisplayDao = createDisplayDao();
 
         List<XhbDisplayDao> displayDaoList = new ArrayList<>();
         displayDaoList.add(xhbDisplayDao);
@@ -246,16 +204,15 @@ class DisplayServiceTest extends DisplayCrudTest {
 
         // Assert that the objects are as expected
         assertEquals(courtSiteDao.getId(), courtSiteDtos.get(0).getId().intValue(), NOT_EQUAL);
-        assertEquals(courtSiteDao.getCourtSiteName(), courtSiteDtos.get(0).getCourtSiteName(),
-            NOT_EQUAL);
-        assertEquals(courtSiteDao.getCourtSiteCode(), courtSiteDtos.get(0).getCourtSiteCode(),
-            NOT_EQUAL);
+        assertEquals(courtSiteDao.getCourtSiteName(), courtSiteDtos.get(0).getCourtSiteName(), NOT_EQUAL);
+        assertEquals(courtSiteDao.getCourtSiteCode(), courtSiteDtos.get(0).getCourtSiteCode(), NOT_EQUAL);
         assertEquals(courtSiteDao.getCourtId(), courtSiteDtos.get(0).getCourtId(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockCourtSiteRepo);
 
     }
+
 
     @Test
     void courtSitesEmptyTest() {
@@ -276,6 +233,18 @@ class DisplayServiceTest extends DisplayCrudTest {
         // Verify the expected mocks were called
         verify(mockCourtSiteRepo);
 
+    }
+
+    private XhbDisplayDao createDisplayDao() {
+        XhbDisplayDao xhbDisplayDao = new XhbDisplayDao();
+        xhbDisplayDao.setDisplayId(2);
+        xhbDisplayDao.setDescriptionCode("description code");
+        xhbDisplayDao.setDisplayLocationId(3);
+        xhbDisplayDao.setDisplayTypeId(4);
+        xhbDisplayDao.setLocale("locale");
+        xhbDisplayDao.setRotationSetId(5);
+        xhbDisplayDao.setShowUnassignedYn("Yn");
+        return xhbDisplayDao;
     }
 
 }

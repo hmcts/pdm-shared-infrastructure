@@ -31,10 +31,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 abstract class CourtRoomServiceEmptyTest extends AbstractJUnit {
 
-    /** The class under test. */
+    /**
+     * The class under test.
+     */
     protected ICourtRoomService classUnderTest;
 
-    /** The mock Display Location Repo. */
+    /**
+     * The mock Display Location Repo.
+     */
     protected XhbCourtRepository mockCourtRepo;
     protected XhbCourtSiteRepository mockCourtSiteRepo;
     protected XhbCourtRoomRepository mockCourtRoomRepo;
@@ -130,10 +134,7 @@ abstract class CourtRoomServiceEmptyTest extends AbstractJUnit {
     @Test
     void updateCourtRoomEmptyDaoTest() {
 
-        CourtRoomAmendCommand courtRoomAmendCommand = new CourtRoomAmendCommand();
-        courtRoomAmendCommand.setName("name");
-        courtRoomAmendCommand.setDescription(DESCRIPTION);
-        courtRoomAmendCommand.setCourtRoomId(1);
+        CourtRoomAmendCommand courtRoomAmendCommand = createCourtRoomAmendCommand();
 
         Optional<XhbCourtRoomDao> emptyDao = Optional.empty();
 
@@ -147,5 +148,13 @@ abstract class CourtRoomServiceEmptyTest extends AbstractJUnit {
         // Verify the expected mocks were called
         verify(mockCourtRoomRepo);
 
+    }
+
+    protected CourtRoomAmendCommand createCourtRoomAmendCommand() {
+        CourtRoomAmendCommand courtRoomAmendCommand = new CourtRoomAmendCommand();
+        courtRoomAmendCommand.setName("name");
+        courtRoomAmendCommand.setDescription(DESCRIPTION);
+        courtRoomAmendCommand.setCourtRoomId(1);
+        return courtRoomAmendCommand;
     }
 }
