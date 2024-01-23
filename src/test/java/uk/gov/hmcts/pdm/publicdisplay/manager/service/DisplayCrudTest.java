@@ -283,7 +283,6 @@ abstract class DisplayCrudTest extends AbstractJUnit {
         classUnderTest.updateDisplay(displayAmendCommand);
 
         // Verify the expected mocks were called
-        // verify(mockDispLocationRepo);
         verify(mockDisplayRepo);
 
     }
