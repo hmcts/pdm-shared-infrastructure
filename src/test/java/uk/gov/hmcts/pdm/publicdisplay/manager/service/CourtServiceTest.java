@@ -55,7 +55,6 @@ class CourtServiceTest extends AbstractJUnit {
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockCourtSiteRepo);
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtRepository", mockCourtRepo);
 
-
     }
 
     @Test
