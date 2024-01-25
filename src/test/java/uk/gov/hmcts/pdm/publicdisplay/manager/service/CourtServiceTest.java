@@ -33,14 +33,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 class CourtServiceTest extends AbstractJUnit {
 
-    protected ICourtService classUnderTest;
-    protected XhbCourtSiteRepository mockCourtSiteRepo;
-    protected XhbCourtRepository mockCourtRepo;
+    private ICourtService classUnderTest;
+    private XhbCourtSiteRepository mockCourtSiteRepo;
+    private XhbCourtRepository mockCourtRepo;
 
-    protected static final String NOT_EQUAL = "Not equal";
-    protected static final String NOT_EMPTY = "Not empty";
-    protected static final String COURT_SITE_CODE = "COURTSITECODE";
-    protected static final String COURT_SITE_NAME = "COURTSITENAME";
+    private static final String NOT_EQUAL = "Not equal";
+    private static final String NOT_EMPTY = "Not empty";
+    private static final String COURT_SITE_CODE = "COURTSITECODE";
+    private static final String COURT_SITE_NAME = "COURTSITENAME";
 
     @BeforeEach
     public void setup() {
