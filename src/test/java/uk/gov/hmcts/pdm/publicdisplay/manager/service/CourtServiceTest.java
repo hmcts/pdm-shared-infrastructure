@@ -6,9 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import uk.gov.hmcts.pdm.business.entities.xhbcourt.XhbCourtDao;
+import uk.gov.hmcts.pdm.business.entities.xhbcourt.XhbCourtRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteDao;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CourtDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ICourtService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.court.CourtAmendCommand;
@@ -32,6 +35,7 @@ class CourtServiceTest extends AbstractJUnit {
 
     protected ICourtService classUnderTest;
     protected XhbCourtSiteRepository mockCourtSiteRepo;
+    protected XhbCourtRepository mockCourtRepo;
 
     protected static final String NOT_EQUAL = "Not equal";
     protected static final String NOT_EMPTY = "Not empty";
@@ -46,8 +50,11 @@ class CourtServiceTest extends AbstractJUnit {
 
         // Setup the mock version of the called classes
         mockCourtSiteRepo = createMock(XhbCourtSiteRepository.class);
+        mockCourtRepo = createMock(XhbCourtRepository.class);
 
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockCourtSiteRepo);
+        ReflectionTestUtils.setField(classUnderTest, "xhbCourtRepository", mockCourtRepo);
+
 
     }
 
@@ -97,6 +104,57 @@ class CourtServiceTest extends AbstractJUnit {
 
         // Verify the expected mocks were called
         verify(mockCourtSiteRepo);
+
+    }
+
+    @Test
+    void courtsTest() {
+
+        XhbCourtDao courtDao = new XhbCourtDao();
+        courtDao.setCourtId(1);
+        courtDao.setCourtName("courtName");
+        courtDao.setAddressId(2);
+        courtDao.setObsInd("N");
+
+        List<XhbCourtDao> courtDaoList = new ArrayList<>();
+        courtDaoList.add(courtDao);
+
+        // Add the mock calls to child classes
+        expect(mockCourtRepo.findAll()).andReturn(courtDaoList);
+
+        replay(mockCourtRepo);
+
+        // Perform the test
+        List<CourtDto> courtDtoList = classUnderTest.getCourts();
+
+        // Assert that the objects are as expected
+        assertEquals(courtDao.getAddressId(), courtDtoList.get(0).getAddressId().intValue(), NOT_EQUAL);
+        assertEquals(courtDao.getCourtId(), courtDtoList.get(0).getId().intValue(), NOT_EQUAL);
+        assertEquals(courtDao.getCourtName(), courtDtoList.get(0).getCourtName(), NOT_EQUAL);
+
+        // Verify the expected mocks were called
+        verify(mockCourtRepo);
+
+    }
+
+    @Test
+    void emptyCourtsTest() {
+
+        List<XhbCourtDao> courtDaoList = new ArrayList<>();
+
+        // Add the mock calls to child classes
+        expect(mockCourtRepo.findAll()).andReturn(courtDaoList);
+
+        replay(mockCourtRepo);
+
+        // Perform the test
+        List<CourtDto> courtDtoList = classUnderTest.getCourts();
+
+        // Assert that the objects are as expected
+        assertTrue(courtDtoList.isEmpty(), NOT_EMPTY);
+
+        // Verify the expected mocks were called
+        verify(mockCourtRepo);
 
     }
 
