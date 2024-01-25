@@ -18,6 +18,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 abstract class RefJudgeServiceUtility extends AbstractJUnit {
+
     protected IRefJudgeService classUnderTest;
     protected XhbRefJudgeRepository mockRefJudgeRepo;
     protected XhbCourtSiteRepository mockCourtSiteRepo;
