@@ -509,7 +509,7 @@ public class CourtRoomController extends CourtRoomPageStateSetter {
                 // Log the error
                 LOGGER.error("{}{} Unable to delete CourtRoom ", METHOD, methodName, ex);
                 // Reject
-                result.reject("courtRoomErrors", "Unable to delete Court: " + ex.getMessage());
+                result.reject("courtRoomErrors", "Unable to delete CourtRoom: " + ex.getMessage());
             }
         }
         model.addObject(COMMAND, courtRoomDeleteCommand);
@@ -564,7 +564,7 @@ public class CourtRoomController extends CourtRoomPageStateSetter {
                 // Log the error
                 LOGGER.error("{}{} Unable to update CourtRoom ", METHOD, methodName, ex);
                 // Reject
-                result.reject("courtRoomErrors", "Unable to update Court: " + ex.getMessage());
+                result.reject("courtRoomErrors", "Unable to update CourtRoom: " + ex.getMessage());
             }
         }
         model.addObject(COMMAND, courtRoomAmendCommand);
