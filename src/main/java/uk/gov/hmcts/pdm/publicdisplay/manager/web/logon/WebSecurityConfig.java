@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,6 +40,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
+    private static final String HOST = "spring.ldap.host";
+    private static final String PORT = "spring.ldap.embedded.port";
+    private static final String BASE_DN = "spring.ldap.embedded.base-dn";
+
+
+    @Autowired
+    private Environment env;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -57,11 +65,18 @@ public class WebSecurityConfig {
     public void configure(AuthenticationManagerBuilder auth) {
         try {
             auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
-                .groupSearchBase("ou=groups").contextSource()
-                .url("ldap://localhost:8389/dc=springframework,dc=org").and().passwordCompare()
-                .passwordEncoder(new BCryptPasswordEncoder()).passwordAttribute("userPassword");
+                .groupSearchBase("ou=groups").contextSource().url(getLdapUrl()).and()
+                .passwordCompare().passwordEncoder(new BCryptPasswordEncoder())
+                .passwordAttribute("userPassword");
         } catch (Exception exception) {
             LOG.error("configure: {}", exception.getMessage());
         }
+    }
+
+    private String getLdapUrl() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(env.getProperty(HOST)).append(':').append(env.getProperty(PORT))
+            .append('/').append(env.getProperty(BASE_DN));
+        return stringBuilder.toString();
     }
 }
