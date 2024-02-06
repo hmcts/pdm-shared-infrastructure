@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @ExtendWith(MockitoExtension.class)
-abstract class LoadCourtRoomsTest extends AbstractJUnit {
+abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
     protected CourtRoomSelectedValidator mockCourtRoomSelectedValidator;
     protected CourtRoomCreateValidator mockCourtRoomCreateValidator;
     protected CourtRoomDeleteValidator mockCourtRoomDeleteValidator;
@@ -148,13 +148,7 @@ abstract class LoadCourtRoomsTest extends AbstractJUnit {
         replay(mockCourtRoomService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameAmendCourtRoom + "/3")
-                                            .param(XHIBIT_COURTSITE_ID, THREE)
-                                            .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
-                                            .param(NAME, COURT_ROOM_CREATE_COMMAND_NAME)
-                                            .param(BTN_UPDATE_CONFIRM, ADD)
-                                            .param(COURTROOM_ID, "4"))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(get(viewNameAmendCourtRoom + "/3")).andReturn();
         String response = results.getResponse().getContentAsString();
         DynamicDropdownList dynamicDropdownList1 = new ObjectMapper().readValue(response,
                 dynamicDropdownList.getClass());
@@ -180,13 +174,7 @@ abstract class LoadCourtRoomsTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameAmendCourtRoom + "/courtRoom/7")
-                            .param(XHIBIT_COURTSITE_ID, THREE)
-                            .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
-                            .param(NAME, COURT_ROOM_CREATE_COMMAND_NAME)
-                            .param(BTN_UPDATE_CONFIRM, ADD)
-                            .param(COURTROOM_ID, "4"))
-                       .andReturn();
+                mockMvc.perform(get(viewNameAmendCourtRoom + "/courtRoom/7")).andReturn();
         String response = results.getResponse().getContentAsString();
         CourtRoomDto returnedCourtRoomDto = new ObjectMapper().readValue(response, courtRoomDto.getClass());
 
@@ -206,13 +194,7 @@ abstract class LoadCourtRoomsTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameAmendCourtRoom + "/courtRoom/7")
-                            .param(XHIBIT_COURTSITE_ID, THREE)
-                            .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
-                            .param(NAME, COURT_ROOM_CREATE_COMMAND_NAME)
-                            .param(BTN_UPDATE_CONFIRM, ADD)
-                            .param(COURTROOM_ID, "4"))
-                       .andReturn();
+                mockMvc.perform(get(viewNameAmendCourtRoom + "/courtRoom/7")).andReturn();
 
         assertEquals("", results.getResponse().getContentAsString(), NOT_EQUAL);
         verify(mockCourtRoomPageStateHolder);
@@ -238,13 +220,7 @@ abstract class LoadCourtRoomsTest extends AbstractJUnit {
         replay(mockCourtRoomService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameDeleteCourtRoom + "/3")
-                                            .param(XHIBIT_COURTSITE_ID, THREE)
-                                            .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
-                                            .param(NAME, COURT_ROOM_CREATE_COMMAND_NAME)
-                                            .param(BTN_UPDATE_CONFIRM, ADD)
-                                            .param(COURTROOM_ID, "4"))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(get(viewNameDeleteCourtRoom + "/3")).andReturn();
         String response = results.getResponse().getContentAsString();
         DynamicDropdownList dynamicDropdownList1 = new ObjectMapper().readValue(response,
                 dynamicDropdownList.getClass());
@@ -270,13 +246,7 @@ abstract class LoadCourtRoomsTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameDeleteCourtRoom + "/courtRoom/16")
-                               .param(XHIBIT_COURTSITE_ID, THREE)
-                               .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
-                               .param(NAME, COURT_ROOM_CREATE_COMMAND_NAME)
-                               .param(BTN_UPDATE_CONFIRM, ADD)
-                               .param(COURTROOM_ID, "4"))
-                       .andReturn();
+                mockMvc.perform(get(viewNameDeleteCourtRoom + "/courtRoom/16")).andReturn();
         String response = results.getResponse().getContentAsString();
         CourtRoomDto returnedCourtRoomDto = new ObjectMapper().readValue(response, courtRoomDto.getClass());
 
@@ -297,13 +267,7 @@ abstract class LoadCourtRoomsTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameDeleteCourtRoom + "/courtRoom/17")
-                               .param(XHIBIT_COURTSITE_ID, THREE)
-                               .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
-                               .param(NAME, COURT_ROOM_CREATE_COMMAND_NAME)
-                               .param(BTN_UPDATE_CONFIRM, ADD)
-                               .param(COURTROOM_ID, "4"))
-                       .andReturn();
+                mockMvc.perform(get(viewNameDeleteCourtRoom + "/courtRoom/17")).andReturn();
 
         assertEquals("", results.getResponse().getContentAsString(), NOT_EQUAL);
         verify(mockCourtRoomPageStateHolder);

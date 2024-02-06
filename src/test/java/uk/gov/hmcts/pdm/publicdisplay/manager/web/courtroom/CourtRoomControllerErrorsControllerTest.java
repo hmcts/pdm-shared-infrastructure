@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-abstract class CourtRoomErrorsTest extends LoadCourtRoomsTest {
+abstract class CourtRoomControllerErrorsControllerTest extends LoadCourtRoomsControllerTest {
 
     @Test
     void showCreateCourtRoomWithErrorsTest() throws Exception {

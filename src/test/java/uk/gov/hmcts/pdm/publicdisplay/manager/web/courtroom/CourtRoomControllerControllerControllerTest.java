@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(MockitoExtension.class)
-class CourtRoomControllerTest extends CourtRoomErrorsTest {
+class CourtRoomControllerControllerControllerTest extends CourtRoomControllerErrorsControllerTest {
 
     @Test
     void viewCourtRoomTest() throws Exception {
