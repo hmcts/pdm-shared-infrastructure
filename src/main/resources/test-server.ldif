@@ -17,4 +17,4 @@ objectclass: inetOrgPerson
 cn: Dev User 3
 sn: Dev
 uid: devuser3
-userPassword: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+userPassword: $2a$12$dxwUrCPiLrc/Gmu0/kJF0OYU.yeAiqhCZ6Xk3Rxnk3NARg0Db7rlO
