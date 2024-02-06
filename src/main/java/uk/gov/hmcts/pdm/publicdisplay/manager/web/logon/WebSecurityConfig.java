@@ -31,9 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.ldap.EmbeddedLdapServerContextSourceFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.ldap.server.UnboundIdContainer;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -66,15 +64,4 @@ public class WebSecurityConfig {
             LOG.error("configure: {}", exception.getMessage());
         }
     }
-
-    @Bean
-    public EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean() {
-        return EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
-    }
-
-    @Bean
-    UnboundIdContainer ldapContainer() {
-        return new UnboundIdContainer("dc=springframework,dc=org", "classpath:test-server.ldif");
-    }
-
 }
