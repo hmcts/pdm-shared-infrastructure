@@ -67,7 +67,6 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
     protected static final String NAME = "name";
     protected static final String COURTROOM_ID = "courtRoomId";
     protected static final String REQUEST_MAPPING = "REQUEST_MAPPING";
-    protected static final String BTN_UPDATE_CONFIRM = "btnUpdateConfirm";
     protected static final String COURTROOM_NAME = "courtRoomName";
 
     @BeforeEach
