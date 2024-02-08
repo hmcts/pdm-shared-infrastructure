@@ -32,11 +32,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
@@ -51,8 +53,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
-            http.authorizeHttpRequests((authorize) -> authorize.anyRequest().fullyAuthenticated())
+            http.authorizeHttpRequests(authorize -> authorize.anyRequest().fullyAuthenticated())
                 .formLogin(Customizer.withDefaults());
+            // .formLogin(formLogin -> formLogin.loginPage("/login"));
 
             return http.build();
         } catch (Exception exception) {
