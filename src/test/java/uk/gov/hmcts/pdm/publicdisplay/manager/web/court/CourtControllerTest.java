@@ -34,8 +34,9 @@ abstract class CourtControllerTest extends CourtControllerBase {
 
     @Test
     void viewCourtTest() throws Exception {
+        final Capture<List<CourtDto>> capturedCourts = newCapture();
+
         mockCourtPageStateHolder.reset();
-        Capture<List<CourtDto>> capturedCourts = newCapture();
         expectLastCall();
         expect(mockCourtService.getCourts()).andReturn(getCourtDtoList());
         mockCourtPageStateHolder.setCourts(capture(capturedCourts));
