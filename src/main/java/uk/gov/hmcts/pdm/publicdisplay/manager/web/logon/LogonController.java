@@ -75,7 +75,7 @@ public class LogonController {
     private static final String MAPPING_INVALID_TOKEN = "/" + INVALID_TOKEN;
 
     /** The Constant VIEW_LOGIN. */
-    private static final String VIEW_LOGIN = "logon/login";
+    private static final String VIEW_LOGIN = "/logon/signin";
 
     /** The Constant VIEW_LOGOUT. */
     private static final String VIEW_LOGOUT = "logon/logout";

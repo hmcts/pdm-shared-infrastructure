@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -53,9 +53,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
-            http.authorizeHttpRequests(authorize -> authorize.anyRequest().fullyAuthenticated())
-                .formLogin(Customizer.withDefaults());
-            // .formLogin(formLogin -> formLogin.loginPage("/login"));
+            http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .formLogin(formLogin -> formLogin.loginPage("/logon/signin").permitAll());
 
             return http.build();
         } catch (Exception exception) {
