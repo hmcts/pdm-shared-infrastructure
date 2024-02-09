@@ -23,18 +23,26 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import java.io.IOException;
 
 
 @Configuration
@@ -54,7 +62,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
             http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-                .formLogin(formLogin -> formLogin.loginPage("/logon/signin").permitAll());
+                .formLogin(formLogin -> formLogin.loginPage("/logon/signin").permitAll()
+                    .defaultSuccessUrl("/home",true)
+                    .successHandler(getSuccessHandler()).failureHandler(getFailureHandler()));
 
             return http.build();
         } catch (Exception exception) {
@@ -80,5 +90,32 @@ public class WebSecurityConfig {
         stringBuilder.append(env.getProperty(HOST)).append(':').append(env.getProperty(PORT))
             .append('/').append(env.getProperty(BASE_DN));
         return stringBuilder.toString();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler getSuccessHandler() {
+        return new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request,
+                HttpServletResponse response, Authentication authentication)
+                throws IOException, ServletException {
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                LOG.debug("The user {} has logged in.", userDetails.getUsername());
+                response.sendRedirect(request.getContextPath());
+            }
+        };
+    }
+
+    @Bean
+    public AuthenticationFailureHandler getFailureHandler() {
+        return new AuthenticationFailureHandler() {
+
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request,
+                HttpServletResponse response, AuthenticationException exception)
+                throws IOException, ServletException {
+                LOG.debug("Login Failure");
+            }
+        };
     }
 }

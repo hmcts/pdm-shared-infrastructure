@@ -25,7 +25,7 @@
 				<div class="row">
 					<div class="col-md-12">				
 			
-						<form method="POST" action="j_security_check" class="form-horizontal">
+						<form method="POST" th:action="@{/login}" class="form-horizontal">
 	
 							<input type="hidden" name="j_character_encoding" value="UTF-8"/>
 					
@@ -42,14 +42,14 @@
 							<div class="form-group">
 								<label for="inputUserName" class="control-label col-md-2">Username</label>						
 								<div class="col-md-6">
-									<input class="form-control" type="text" placeholder="User Name" name="j_username"/>
+									<input class="form-control" type="text" placeholder="User Name" name="username"/>
 								</div>
 							</div>
 						
 							<div class="form-group">
 								<label for="inputPassword" class="control-label col-md-2">Password</label>						
 								<div class="col-md-6">
-									<input class="form-control" type="password" placeholder="Password" name="j_password" autocomplete="new-password"/>
+									<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="new-password"/>
 								</div>
 							</div>
 						
