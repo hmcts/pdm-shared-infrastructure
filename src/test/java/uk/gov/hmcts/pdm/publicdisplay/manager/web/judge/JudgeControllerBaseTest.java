@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @ExtendWith(EasyMockExtension.class)
-class JudgeControllerBaseTest extends AbstractJUnit {
+abstract class JudgeControllerBaseTest extends AbstractJUnit {
     protected JudgeSelectedValidator mockJudgeSelectedValidator;
     protected JudgeCreateValidator mockJudgeCreateValidator;
     protected JudgeAmendValidator mockJudgeAmendValidator;
