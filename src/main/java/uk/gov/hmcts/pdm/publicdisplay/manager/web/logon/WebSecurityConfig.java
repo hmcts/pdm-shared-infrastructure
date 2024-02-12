@@ -42,6 +42,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
 import java.io.IOException;
 
 
@@ -53,6 +54,8 @@ public class WebSecurityConfig {
     private static final String HOST = "spring.ldap.host";
     private static final String PORT = "spring.ldap.embedded.port";
     private static final String BASE_DN = "spring.ldap.embedded.base-dn";
+    private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
+    private static final String HOME_URL = "/home";
 
 
     @Autowired
@@ -61,10 +64,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
-            http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-                .formLogin(formLogin -> formLogin.loginPage("/logon/signin").permitAll()
-                    .defaultSuccessUrl("/home",true)
-                    .successHandler(getSuccessHandler()).failureHandler(getFailureHandler()));
+            http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
+                .permitAll().defaultSuccessUrl(HOME_URL, true).permitAll()
+                .successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 
             return http.build();
         } catch (Exception exception) {

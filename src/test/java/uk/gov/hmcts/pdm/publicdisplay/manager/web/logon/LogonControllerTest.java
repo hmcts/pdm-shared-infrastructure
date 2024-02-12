@@ -58,7 +58,7 @@ class LogonControllerTest extends AbstractJUnit {
     private static final String VIEW_NAME_DASHBOARD = "dashboard/dashboard";
 
     /** The view name mapping logon. */
-    private static final String VIEW_NAME_LOGON_LOGIN = "logon/login";
+    private static final String VIEW_NAME_LOGON_LOGIN = "/logon/signin";
 
     /** The view name logon logout. */
     private static final String VIEW_NAME_LOGON_LOGOUT = "logon/logout";
