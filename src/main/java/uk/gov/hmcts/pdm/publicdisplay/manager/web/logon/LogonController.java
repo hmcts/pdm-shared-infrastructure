@@ -26,9 +26,11 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.ldap.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -99,7 +101,12 @@ public class LogonController {
      * @return the string
      */
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
-    public String login() {
+    public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
+        AuthenticationException ase =
+            (AuthenticationException) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+        if (ase != null) {
+            model.addAttribute(MODEL_ERROR, ase.getMessage());
+        }
         return VIEW_LOGIN;
     }
 
