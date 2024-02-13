@@ -32,10 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -57,7 +55,7 @@ public class WebSecurityConfig {
     private static final String PORT = "spring.ldap.embedded.port";
     private static final String BASE_DN = "spring.ldap.embedded.base-dn";
     private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
-    private static final String HOME_URL = "/home";
+    private static final String HOME_URL = "/pdm/home";
 
 
     @Autowired
@@ -67,10 +65,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
-                .permitAll().defaultSuccessUrl(HOME_URL, true).permitAll()
-                .successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HOME_URL).permitAll()
-                    .anyRequest().permitAll());
+                .loginProcessingUrl("/login")
+                .usernameParameter("username").passwordParameter("password")
+                .successHandler(getSuccessHandler())
+                .failureHandler(getFailureHandler())
+                )
+            // .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+            ;
 
             return http.build();
         } catch (Exception exception) {
@@ -107,7 +108,7 @@ public class WebSecurityConfig {
                 throws IOException, ServletException {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 LOG.debug("The user {} has logged in.", userDetails.getUsername());
-                response.sendRedirect(request.getContextPath());
+                response.sendRedirect(HOME_URL);
             }
         };
     }
@@ -121,6 +122,7 @@ public class WebSecurityConfig {
                 HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
                 LOG.debug("Login Failure");
+                response.sendRedirect("/login?error");
             }
         };
     }

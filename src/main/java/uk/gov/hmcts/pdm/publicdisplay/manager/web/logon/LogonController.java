@@ -116,7 +116,7 @@ public class LogonController {
      * @param model the model
      * @return the string
      */
-    @RequestMapping(value = MAPPING_LOGIN_ERROR, method = RequestMethod.POST)
+    @RequestMapping(value = MAPPING_LOGIN_ERROR, method = RequestMethod.GET)
     public String loginError(final Model model) {
         model.addAttribute(MODEL_ERROR, "true");
         return VIEW_LOGIN;

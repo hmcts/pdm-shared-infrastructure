@@ -1,6 +1,6 @@
 <%@ include file="../common/include.jsp"%>
 <!DOCTYPE html>
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,9 +25,10 @@
 				<div class="row">
 					<div class="col-md-12">				
 			
-						<form method="POST" th:action="@{/login}" class="form-horizontal">
+						<c:url var="loginUrl" value="/login" />
+						<form:form action="${loginUrl}" method="post" class="form-horizontal">
 	
-							<input type="hidden" name="j_character_encoding" value="UTF-8"/>
+							<!--<input type="hidden" name="j_character_encoding" value="UTF-8"/>-->
 					
 							<c:if test="${not empty requestScope.error}">
 								<div class="form-group">
@@ -42,14 +43,14 @@
 							<div class="form-group">
 								<label for="inputUserName" class="control-label col-md-2">Username</label>						
 								<div class="col-md-6">
-									<input class="form-control" type="text" placeholder="User Name" id="username" name="username"/>
+									<input class="form-control" type="text" placeholder="User Name" name="username"/>
 								</div>
 							</div>
 						
 							<div class="form-group">
 								<label for="inputPassword" class="control-label col-md-2">Password</label>						
 								<div class="col-md-6">
-									<input class="form-control" type="password" placeholder="Password" id="password" name="password" autocomplete="new-password"/>
+									<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="new-password"/>
 								</div>
 							</div>
 						
@@ -61,7 +62,7 @@
 									<a href="<c:url value="/dashboard/dashboard"/>" target="pdm_help" class="btn btn-primary" id="lnkHelp"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Bypass Login</a>
 								</div>
 							</div>
-						</form>
+						</form:form>
 					
 					</div> <!-- end of col-md-12 -->
 				</div> <!-- end of row -->
