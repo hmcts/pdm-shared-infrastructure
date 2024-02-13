@@ -30,6 +30,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(EasyMockExtension.class)
@@ -275,5 +276,20 @@ abstract class HearingErrorController extends AbstractJUnit {
         assertEquals(viewNameViewHearing, results.getModelAndView().getViewName(), NOT_EQUAL);
         verify(mockHearingTypePageStateHolder);
         verify(mockHearingTypeSelectedValidator);
+    }
+
+    @Test
+    void loadHearingTypeNullTest() throws Exception {
+        final List<HearingTypeDto> refHearingTypeDtos = createHearingTypeDtoList();
+
+        expect(mockHearingTypePageStateHolder.getHearingTypes()).andReturn(refHearingTypeDtos);
+        replay(mockHearingTypePageStateHolder);
+
+        // Perform the test
+        final MvcResult results = mockMvc.perform(get(viewNameAmendHearing + "/3")).andReturn();
+        String response = results.getResponse().getContentAsString();
+
+        assertEquals("", response, NOT_EQUAL);
+        verify(mockHearingTypePageStateHolder);
     }
 }
