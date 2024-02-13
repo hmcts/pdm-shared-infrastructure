@@ -146,6 +146,7 @@ dependencies {
     implementation 'org.apache.openjpa:openjpa-persistence-jdbc:3.2.2'
     implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'org.springframework.security:spring-security-core:6.1.6'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.2.RELEASE'
     implementation ('org.apache.httpcomponents:httpclient:4.5.14') {
     exclude group: 'commons-logging', module: 'commons-logging'
   }

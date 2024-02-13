@@ -42,14 +42,14 @@
 							<div class="form-group">
 								<label for="inputUserName" class="control-label col-md-2">Username</label>						
 								<div class="col-md-6">
-									<input class="form-control" type="text" placeholder="User Name" name="username"/>
+									<input class="form-control" type="text" placeholder="User Name" id="username" name="username"/>
 								</div>
 							</div>
 						
 							<div class="form-group">
 								<label for="inputPassword" class="control-label col-md-2">Password</label>						
 								<div class="col-md-6">
-									<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="new-password"/>
+									<input class="form-control" type="password" placeholder="Password" id="password" name="password" autocomplete="new-password"/>
 								</div>
 							</div>
 						

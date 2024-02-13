@@ -32,8 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -67,7 +69,8 @@ public class WebSecurityConfig {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
                 .permitAll().defaultSuccessUrl(HOME_URL, true).permitAll()
                 .successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HOME_URL).permitAll()
+                    .anyRequest().permitAll());
 
             return http.build();
         } catch (Exception exception) {
