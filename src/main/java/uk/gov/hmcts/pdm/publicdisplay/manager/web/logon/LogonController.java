@@ -63,6 +63,9 @@ public class LogonController {
 
     /** The Constant MAPPING_LOGIN. */
     private static final String MAPPING_LOGIN = "/login";
+    
+    /** The Constant MAPPING_LOGOUT. */
+    private static final String MAPPING_LOGOUT = "/logout";
 
     /** The Constant MAPPING_LOGIN_ERROR. */
     private static final String MAPPING_LOGIN_ERROR = "/loginError";
@@ -108,6 +111,21 @@ public class LogonController {
             model.addAttribute(MODEL_ERROR, ase.getMessage());
         }
         return VIEW_LOGIN;
+    }
+    
+    /**
+     * Logout.
+     *
+     * @return the string
+     */
+    @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
+    public String logout(HttpSession session, HttpServletRequest req, ModelMap model) {
+        AuthenticationException ase =
+            (AuthenticationException) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+        if (ase != null) {
+            model.addAttribute(MODEL_ERROR, ase.getMessage());
+        }
+        return VIEW_LOGOUT;
     }
 
     /**
