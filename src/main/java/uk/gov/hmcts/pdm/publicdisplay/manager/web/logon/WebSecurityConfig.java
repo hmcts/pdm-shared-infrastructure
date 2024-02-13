@@ -56,6 +56,8 @@ public class WebSecurityConfig {
     private static final String BASE_DN = "spring.ldap.embedded.base-dn";
     private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
     private static final String HOME_URL = "/pdm/home";
+    private static final String LOGIN_URL = "/login";
+    private static final String LOGINERROR_URL = "/loginError";
 
 
     @Autowired
@@ -65,12 +67,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
-                .loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password")
-                .successHandler(getSuccessHandler())
-                .failureHandler(getFailureHandler())
-                )
-            // .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
+                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
+                //.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             ;
 
             return http.build();
@@ -122,7 +121,6 @@ public class WebSecurityConfig {
                 HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
                 LOG.debug("Login Failure");
-                response.sendRedirect("/login?error");
             }
         };
     }
