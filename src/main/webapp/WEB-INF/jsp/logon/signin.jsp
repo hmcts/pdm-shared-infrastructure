@@ -58,9 +58,6 @@
 								<div class="col-md-offset-2 col-md-10">
 									<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</button>
 								</div>
-								<div class="col-md-offset-2 col-md-10">	
-									<a href="<c:url value="/dashboard/dashboard"/>" target="pdm_help" class="btn btn-primary" id="lnkHelp"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Bypass Login</a>
-								</div>
 							</div>
 						</form:form>
 					
