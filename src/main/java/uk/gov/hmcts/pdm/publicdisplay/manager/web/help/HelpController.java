@@ -64,7 +64,7 @@ public class HelpController {
         if (!isValidPage(page)) {
             throw new NoHandlerFoundException("help", page, new HttpHeaders());
         }
-        return "help/" + page;
+        return "/help/" + page;
     }
 
     /**
