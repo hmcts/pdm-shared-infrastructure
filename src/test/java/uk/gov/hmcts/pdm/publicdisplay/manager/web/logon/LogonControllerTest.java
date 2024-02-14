@@ -38,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * The Class LogonControllerTest.
@@ -120,7 +119,7 @@ class LogonControllerTest extends AbstractJUnit {
     @Test
     void testLogonErrorValid() throws Exception {
         // Perform the test
-        final MvcResult results = mockMvc.perform(post("/loginError")).andReturn();
+        final MvcResult results = mockMvc.perform(get("/loginError")).andReturn();
 
         // Assert that the objects are as expected
         assertEquals("true", results.getModelAndView().getModel().get("error"), NOT_EQUAL);

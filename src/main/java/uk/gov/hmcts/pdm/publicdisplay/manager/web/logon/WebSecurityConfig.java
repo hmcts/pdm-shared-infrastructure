@@ -63,18 +63,37 @@ public class WebSecurityConfig {
     @Autowired
     private Environment env;
 
+    protected WebSecurityConfig() {
+        super();
+    }
+
+    // Junit constructor
+    protected WebSecurityConfig(Environment env) {
+        this();
+        this.env = env;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+        try {
+            return getHttp(http).build();
+        } catch (Exception exception) {
+            LOG.error("securityFilterChain: {}", exception.getMessage());
+            return null;
+        }
+    }
+
+    protected HttpSecurity getHttp(HttpSecurity http) {
         try {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
                 .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
                 .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
-                //.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+            // .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             ;
 
-            return http.build();
+            return http;
         } catch (Exception exception) {
-            LOG.error("securityFilterChain: {}", exception.getMessage());
+            LOG.error("getHttp: {}", exception.getMessage());
             return null;
         }
     }

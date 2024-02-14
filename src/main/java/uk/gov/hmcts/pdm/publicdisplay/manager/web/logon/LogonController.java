@@ -105,11 +105,6 @@ public class LogonController {
      */
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
     public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
-        AuthenticationException ase =
-            (AuthenticationException) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
-        if (ase != null) {
-            model.addAttribute(MODEL_ERROR, ase.getMessage());
-        }
         return VIEW_LOGIN;
     }
     
