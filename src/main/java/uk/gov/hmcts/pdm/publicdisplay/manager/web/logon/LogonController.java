@@ -26,8 +26,9 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.ldap.AuthenticationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -87,6 +88,9 @@ public class LogonController {
 
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
+    
+    /** The SecurityContextLogoutHandler. */
+    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     /**
      * Home.
@@ -114,13 +118,9 @@ public class LogonController {
      * @return the string
      */
     @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
-    public String logout(HttpSession session, HttpServletRequest req, ModelMap model) {
-        AuthenticationException ase =
-            (AuthenticationException) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
-        if (ase != null) {
-            model.addAttribute(MODEL_ERROR, ase.getMessage());
-        }
-        return VIEW_LOGOUT;
+    public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+        this.logoutHandler.logout(request, response, authentication);
+        return VIEW_LOGIN;
     }
 
     /**
