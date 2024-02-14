@@ -84,7 +84,7 @@ public class LogonController {
     private static final String VIEW_LOGIN = "/logon/signin";
 
     /** The Constant VIEW_LOGOUT. */
-    private static final String VIEW_LOGOUT = "logon/logout";
+    private static final String VIEW_LOGOUT = "/logon/logout";
 
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
@@ -120,7 +120,7 @@ public class LogonController {
     @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
     public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         this.logoutHandler.logout(request, response, authentication);
-        return VIEW_LOGIN;
+        return VIEW_LOGOUT;
     }
 
     /**
