@@ -60,7 +60,7 @@ class LogonControllerTest extends AbstractJUnit {
     private static final String VIEW_NAME_LOGON_LOGIN = "/logon/signin";
 
     /** The view name logon logout. */
-    private static final String VIEW_NAME_LOGON_LOGOUT = "logon/logout";
+    private static final String VIEW_NAME_LOGON_LOGOUT = "/logon/logout";
 
     /** The mock mvc. */
     private MockMvc mockMvc;
