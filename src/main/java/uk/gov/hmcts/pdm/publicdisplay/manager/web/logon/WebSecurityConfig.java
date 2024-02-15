@@ -117,6 +117,15 @@ public class WebSecurityConfig {
         return stringBuilder.toString();
     }
 
+    // @Bean
+    // public LdapAuthoritiesPopulator authorities(BaseLdapPathContextSource contextSource) {
+    // String groupSearchBase = "ou=groups";
+    // DefaultLdapAuthoritiesPopulator authorities =
+    // new DefaultLdapAuthoritiesPopulator(contextSource, groupSearchBase);
+    // authorities.setGroupSearchFilter("uniqueMember={0}");
+    // return authorities;
+    // }
+
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
         return new AuthenticationSuccessHandler() {
@@ -126,6 +135,9 @@ public class WebSecurityConfig {
                 throws IOException, ServletException {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 LOG.debug("The user {} has logged in.", userDetails.getUsername());
+                boolean isAdmin = request.isUserInRole("ROLE_ADMIN");
+                boolean isUser = request.isUserInRole("ROLE_USER");
+                LOG.debug("Role = {}", isAdmin ? "ADMIN" : isUser ? "USER" : "None");
                 response.sendRedirect(HOME_URL);
             }
         };

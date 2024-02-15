@@ -53,7 +53,7 @@ class HelpControllerTest extends AbstractJUnit {
     private static final String NULL = "Null";
 
     /** The view help dashboard. */
-    private static final String VIEW_NAME_HELP_DASHBOARD = "help/dashboard";
+    private static final String VIEW_NAME_HELP_DASHBOARD = "/help/dashboard";
 
     /** The mock mvc. */
     private MockMvc mockMvc;

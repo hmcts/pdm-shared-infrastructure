@@ -4,27 +4,56 @@ objectclass: domain
 objectclass: extensibleObject
 dc: springframework
 
+# Groups
 dn: ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: organizationalUnit
 ou: groups
 
+# Subgroups
 dn: ou=subgroups,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: organizationalUnit
 ou: subgroups
 
+# People
 dn: ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: organizationalUnit
 ou: people
 
+# User - devuser3
 dn: uid=devuser3,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Dev User 3
+cn: devuser3
 sn: Dev
 uid: devuser3
 userPassword: $2a$12$dxwUrCPiLrc/Gmu0/kJF0OYU.yeAiqhCZ6Xk3Rxnk3NARg0Db7rlO
+
+# User - mojuser
+dn: uid=mojuser,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: mojuser
+sn: MOJ
+uid: mojuser
+userPassword: $2a$12$dxwUrCPiLrc/Gmu0/kJF0OYU.yeAiqhCZ6Xk3Rxnk3NARg0Db7rlO
+
+# Role - user
+dn: cn=user,ou=groups,dc=springframework,dc=org
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: user
+uniqueMember: uid=mojuser,ou=people,dc=springframework,dc=org
+
+# Role - admin
+dn: cn=admin,ou=groups,dc=springframework,dc=org
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: admin
+uniqueMember: uid=cgiuser,ou=people,dc=springframework,dc=org
