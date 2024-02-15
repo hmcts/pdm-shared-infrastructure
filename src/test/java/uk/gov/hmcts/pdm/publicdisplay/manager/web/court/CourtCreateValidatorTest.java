@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CourtCreateValidatorTest extends AbstractJUnit {
     private static final String NOT_EQUAL = "Not equal";
     private static final String FALSE = "False";
-    private static final String COURT_AMEND_VALIDATOR = "courtAmendValidator";
+    private static final String COURT_CREATE_VALIDATOR = "courtCreateValidator";
     private CourtCreateValidator classUnderTest;
     private CourtPageStateHolder mockcourtPageStateHolder;
     private ICourtService mockCourtService;
@@ -67,7 +67,7 @@ class CourtCreateValidatorTest extends AbstractJUnit {
         List<XhibitCourtSiteDto> xhibitCourtSiteDtos = List.of(xhibitCourtSiteDto);
         CourtSearchCommand courtSearchCommand = new CourtSearchCommand();
         courtSearchCommand.setCourtId(3);
-        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_AMEND_VALIDATOR);
+        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_CREATE_VALIDATOR);
 
         expect(mockCourtService.getCourtSites(eq(2))).andReturn(xhibitCourtSiteDtos);
         replay(mockCourtService);
@@ -84,7 +84,7 @@ class CourtCreateValidatorTest extends AbstractJUnit {
     void validateCourtSiteNameTest() {
         final CourtCreateCommand courtCreateCommand = new CourtCreateCommand();
         courtCreateCommand.setCourtSiteName(null);
-        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_AMEND_VALIDATOR);
+        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_CREATE_VALIDATOR);
 
         classUnderTest.validate(courtCreateCommand, errors, mockCourtService, 2);
         replay(mockCourtService);
@@ -98,7 +98,7 @@ class CourtCreateValidatorTest extends AbstractJUnit {
     void validateCourtSiteCodeTest() {
         final CourtCreateCommand courtCreateCommand = new CourtCreateCommand();
         courtCreateCommand.setCourtSiteName("courtSiteName");
-        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_AMEND_VALIDATOR);
+        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_CREATE_VALIDATOR);
 
         classUnderTest.validate(courtCreateCommand, errors, mockCourtService, 2);
         replay(mockCourtService);
@@ -111,7 +111,7 @@ class CourtCreateValidatorTest extends AbstractJUnit {
     @Test()
     void validateExceptionTest() {
         final CourtCreateCommand courtCreateCommand = new CourtCreateCommand();
-        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_AMEND_VALIDATOR);
+        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_CREATE_VALIDATOR);
 
         IllegalArgumentException thrownException = assertThrows(
                 IllegalArgumentException.class,
@@ -131,7 +131,7 @@ class CourtCreateValidatorTest extends AbstractJUnit {
         xhibitCourtSiteDto.setCourtId(2);
         xhibitCourtSiteDto.setCourtSiteCode("A courtSiteCode");
         List<XhibitCourtSiteDto> xhibitCourtSiteDtos = List.of(xhibitCourtSiteDto);
-        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_AMEND_VALIDATOR);
+        final BindingResult errors = new BeanPropertyBindingResult(courtCreateCommand, COURT_CREATE_VALIDATOR);
 
         expect(mockCourtService.getCourtSites(eq(2))).andReturn(xhibitCourtSiteDtos);
         replay(mockCourtService);

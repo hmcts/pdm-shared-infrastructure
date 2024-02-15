@@ -29,7 +29,6 @@ class CourtAmendValidatorTest extends AbstractJUnit {
         // Create a new version of the class under test (CduAmendValidator)
         classUnderTest = new CourtAmendValidator();
 
-
         // Setup the mock version of the called classes
         mockcourtPageStateHolder = createMock(CourtPageStateHolder.class);
 
