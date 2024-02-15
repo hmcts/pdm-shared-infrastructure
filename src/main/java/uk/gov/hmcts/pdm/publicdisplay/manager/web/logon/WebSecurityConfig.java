@@ -102,6 +102,7 @@ public class WebSecurityConfig {
     public void configure(AuthenticationManagerBuilder auth) {
         try {
             auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
+                .groupSearchFilter("member={0}")
                 .groupSearchBase("ou=groups").contextSource().url(getLdapUrl()).and()
                 .passwordCompare().passwordEncoder(new BCryptPasswordEncoder())
                 .passwordAttribute("userPassword");
@@ -117,15 +118,6 @@ public class WebSecurityConfig {
         return stringBuilder.toString();
     }
 
-    // @Bean
-    // public LdapAuthoritiesPopulator authorities(BaseLdapPathContextSource contextSource) {
-    // String groupSearchBase = "ou=groups";
-    // DefaultLdapAuthoritiesPopulator authorities =
-    // new DefaultLdapAuthoritiesPopulator(contextSource, groupSearchBase);
-    // authorities.setGroupSearchFilter("uniqueMember={0}");
-    // return authorities;
-    // }
-
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
         return new AuthenticationSuccessHandler() {
@@ -135,8 +127,8 @@ public class WebSecurityConfig {
                 throws IOException, ServletException {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 LOG.debug("The user {} has logged in.", userDetails.getUsername());
-                boolean isAdmin = request.isUserInRole("ROLE_ADMIN");
-                boolean isUser = request.isUserInRole("ROLE_USER");
+                boolean isAdmin = userDetails.getAuthorities().contains("ROLE_ADMIN");
+                boolean isUser = userDetails.getAuthorities().contains("ROLE_USER");
                 LOG.debug("Role = {}", isAdmin ? "ADMIN" : isUser ? "USER" : "None");
                 response.sendRedirect(HOME_URL);
             }
