@@ -37,6 +37,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -44,6 +45,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
+import java.util.Collection;
 
 
 @Configuration
@@ -127,9 +129,9 @@ public class WebSecurityConfig {
                 throws IOException, ServletException {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 LOG.debug("The user {} has logged in.", userDetails.getUsername());
-                boolean isAdmin = userDetails.getAuthorities().contains("ROLE_ADMIN");
-                boolean isUser = userDetails.getAuthorities().contains("ROLE_USER");
-                LOG.debug("Role = {}", isAdmin ? "ADMIN" : isUser ? "USER" : "None");
+                for (GrantedAuthority grantedAuthority : userDetails.getAuthorities()) {
+                    LOG.debug("Role = {}", grantedAuthority.getAuthority());
+                }
                 response.sendRedirect(HOME_URL);
             }
         };
