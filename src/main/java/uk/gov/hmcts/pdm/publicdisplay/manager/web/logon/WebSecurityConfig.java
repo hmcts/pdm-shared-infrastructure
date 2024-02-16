@@ -45,7 +45,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
-import java.util.Collection;
 
 
 @Configuration
@@ -89,9 +88,7 @@ public class WebSecurityConfig {
         try {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
                 .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
-                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
-            // .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-            ;
+                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL));
 
             return http;
         } catch (Exception exception) {
@@ -104,10 +101,9 @@ public class WebSecurityConfig {
     public void configure(AuthenticationManagerBuilder auth) {
         try {
             auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
-                .groupSearchFilter("member={0}")
-                .groupSearchBase("ou=groups").contextSource().url(getLdapUrl()).and()
-                .passwordCompare().passwordEncoder(new BCryptPasswordEncoder())
-                .passwordAttribute("userPassword");
+                .groupSearchFilter("member={0}").groupSearchBase("ou=groups").contextSource()
+                .url(getLdapUrl()).and().passwordCompare()
+                .passwordEncoder(new BCryptPasswordEncoder()).passwordAttribute("userPassword");
         } catch (Exception exception) {
             LOG.error("configure: {}", exception.getMessage());
         }
