@@ -32,12 +32,11 @@
 				
 				<h3>Amend Judge Type</h3>
 
-				<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-				<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+				<security:authorize access="hasRole('ROLE_ADMIN')"> 
 					<p>The &quot;Update Judge Type&quot; updates the data stored against the selected judge type.</p>
 				
 					<p>The &quot;Return to Manage Judge Type&quot; returns back to the Manage Judge Type screen.</p>
-				<%--</security:authorize> --%>
+				</security:authorize>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

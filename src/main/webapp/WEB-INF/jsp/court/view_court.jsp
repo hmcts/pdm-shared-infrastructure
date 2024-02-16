@@ -84,13 +84,12 @@
 								<%-- button group --%>
 								<div class="form-group">
 									<div class="col-md-12">
-										<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-										<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+										<security:authorize access="hasRole('ROLE_ADMIN')">
 											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
 												<span class="glyphicon glyphicon-edit"></span> Amend Court</button>
 											<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
 												<span class="glyphicon glyphicon-plus"></span> Create Court</button>
-										<%-- </security:authorize>	--%>
+										</security:authorize>
 									</div>
 								</div>
 							</form:form>

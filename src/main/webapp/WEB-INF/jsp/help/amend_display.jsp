@@ -32,12 +32,11 @@
 				
 				<h3>Amend Display</h3>
 
-				<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-				<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+				<security:authorize access="hasRole('ROLE_ADMIN')"> 
 					<p>The &quot;Update Display&quot; updates the data stored against the selected display.</p>
 				
 					<p>The &quot;Return to Manage Display&quot; returns back to the Manage Display screen.</p>
-				<%--</security:authorize> --%>
+				</security:authorize>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

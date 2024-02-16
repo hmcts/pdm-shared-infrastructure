@@ -74,6 +74,9 @@ public class WebSecurityConfig {
         this.env = env;
     }
 
+    /**
+     * Build the SecurityFilterChain from the http.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
@@ -84,6 +87,9 @@ public class WebSecurityConfig {
         }
     }
 
+    /**
+     * Get the http with the custom login form.
+     */
     protected HttpSecurity getHttp(HttpSecurity http) {
         try {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
@@ -97,6 +103,9 @@ public class WebSecurityConfig {
         }
     }
 
+    /**
+     * Configure the Ldap/Ldif authentication.
+     */
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) {
         try {
@@ -109,6 +118,11 @@ public class WebSecurityConfig {
         }
     }
 
+    /**
+     * Build the ldap url from the application.properties entries.
+     * 
+     * @return url
+     */
     private String getLdapUrl() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(env.getProperty(HOST)).append(':').append(env.getProperty(PORT))
@@ -116,6 +130,11 @@ public class WebSecurityConfig {
         return stringBuilder.toString();
     }
 
+    /**
+     * Handle the login success. Redirect the page to /home.
+     * 
+     * @return AuthenticationSuccessHandler
+     */
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
         return new AuthenticationSuccessHandler() {
@@ -133,6 +152,12 @@ public class WebSecurityConfig {
         };
     }
 
+    /**
+     * Handle the login failure. No redirection required as this is handled by the http.failureUrl()
+     * off the custom loginPage().
+     * 
+     * @return AuthenticationFailureHandler
+     */
     @Bean
     public AuthenticationFailureHandler getFailureHandler() {
         return new AuthenticationFailureHandler() {
