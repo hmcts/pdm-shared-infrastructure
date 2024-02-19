@@ -59,6 +59,7 @@ public class WebSecurityConfig {
     private static final String HOME_URL = "/pdm/home";
     private static final String LOGIN_URL = "/login";
     private static final String LOGINERROR_URL = "/loginError";
+    private static final String INVALIDSESSION_URL = "/invalidSession";
 
 
     @Autowired
@@ -80,6 +81,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
+            http
+                .sessionManagement(session -> session
+                    .invalidSessionUrl(INVALIDSESSION_URL)
+            );
             return getHttp(http).build();
         } catch (Exception exception) {
             LOG.error("securityFilterChain: {}", exception.getMessage());
