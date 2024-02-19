@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(EasyMockExtension.class)
 class CourtRoomDeleteValidatorTest extends AbstractJUnit {
 
-    private static final String COURTROOM_DELETE_VALIDATOR = "courtRoomCreateValidator";
+    private static final String COURTROOM_DELETE_VALIDATOR = "courtRoomDeleteValidator";
     private CourtRoomDeleteValidator classUnderTest;
     private CourtRoomDeleteCommand courtRoomDeleteCommand;
 
