@@ -59,7 +59,7 @@ class CourtControllerErrorTest extends CourtControllerTest {
 
         assertNotNull(modelAndView.getViewName(), NULL);
         assertEquals(viewNameViewCourtSite, modelAndView.getViewName(), NOT_EQUAL);
-        assertEquals(capturedErrors.getValue().getErrorCount(), 1, NOT_EQUAL);
+        assertEquals(1, capturedErrors.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals(3, capturedCourtSearchCommand.getValue().getCourtId(), NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos, modelAndView.getModel().get(COURTSITE_LIST), NOT_EQUAL);
         verify(mockCourtSelectedValidator);

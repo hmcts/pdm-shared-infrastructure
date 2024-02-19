@@ -233,7 +233,7 @@ abstract class CourtRoomControllerErrorsTest extends LoadCourtRoomsControllerTes
         assertInstanceOf(CourtRoomDeleteCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertNotNull(results.getModelAndView().getViewName(), NOT_NULL);
         assertEquals(viewNameDeleteCourtRoom, results.getModelAndView().getViewName(), NOT_EQUAL);
-        assertEquals(capturedErrors.getValue().getErrorCount(), 1, NOT_EQUAL);
+        assertEquals(1, capturedErrors.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals(3, capturedCourtRoomDeleteCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);
         verify(mockCourtRoomDeleteValidator);
         verify(mockCourtRoomPageStateHolder);

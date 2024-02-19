@@ -260,7 +260,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         assertNotNull(results.getModelAndView().getViewName(), NOT_NULL);
         assertEquals(viewNameViewCourtSite, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
-        assertEquals(model.get("successMessage"), "Court has been updated successfully.", NOT_EQUAL);
+        assertEquals("Court has been updated successfully.", model.get("successMessage"), NOT_EQUAL);
         assertInstanceOf(CourtSearchCommand.class,
                 model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(3, capturedCourtAmendCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);

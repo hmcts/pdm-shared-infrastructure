@@ -266,7 +266,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
                                          .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertEquals(model.get("successMessage"), "Court Room has been created successfully.", NOT_EQUAL);
+        assertEquals("Court Room has been created successfully.", model.get("successMessage"), NOT_EQUAL);
         assertInstanceOf(CourtRoomSearchCommand.class,
                 model.get(COMMAND), NOT_AN_INSTANCE);
         assertNotNull(results.getModelAndView().getViewName(), NOT_NULL);
@@ -313,7 +313,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         assertNotNull(results.getModelAndView().getViewName(), NOT_NULL);
         assertEquals(viewNameViewCourtRoom, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
-        assertEquals(model.get("successMessage"), "Court Room has been deleted successfully.", NOT_EQUAL);
+        assertEquals("Court Room has been deleted successfully.", model.get("successMessage"), NOT_EQUAL);
         assertInstanceOf(CourtRoomSearchCommand.class,
                 model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(3, capturedCourtRoomDeleteCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);
@@ -359,7 +359,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         assertNotNull(results.getModelAndView().getViewName(), NOT_NULL);
         assertEquals(viewNameViewCourtRoom, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
-        assertEquals(model.get("successMessage"), "Court Room has been updated successfully.", NOT_EQUAL);
+        assertEquals("Court Room has been updated successfully.", model.get("successMessage"), NOT_EQUAL);
         assertInstanceOf(CourtRoomSearchCommand.class,
                 model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(3, capturedCourtRoomAmendCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);
