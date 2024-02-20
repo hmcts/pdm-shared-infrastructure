@@ -43,6 +43,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 import java.io.IOException;
 
@@ -81,10 +82,6 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
-            http
-                .sessionManagement(session -> session
-                    .invalidSessionUrl(INVALIDSESSION_URL)
-            );
             return getHttp(http).build();
         } catch (Exception exception) {
             LOG.error("securityFilterChain: {}", exception.getMessage());
@@ -99,7 +96,9 @@ public class WebSecurityConfig {
         try {
             http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
                 .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
-                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL));
+                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
+                .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
+                .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
 
             return http;
         } catch (Exception exception) {
