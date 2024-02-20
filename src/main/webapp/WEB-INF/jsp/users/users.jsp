@@ -67,8 +67,8 @@
 											method="POST" 
 											cssClass="form-horizontal">
 													
-									<%-- CSRF Guard token where uri equals form action --%>
-									<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/users/users"/>"/>--%>												
+									<%-- CSRF token --%>
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 									
 									<div class="panel panel-primary">
 										<div class="panel-heading"><h3 class="panel-title">Existing Users</h3></div>
@@ -154,9 +154,9 @@
 											method="POST" 
 											cssClass="form-horizontal">
 														
-									<%-- CSRF Guard token where uri equals form action --%>
-									<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/users/users"/>"/>--%>
-								
+									<%-- CSRF token --%>
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+									
 									<security:authorize access="hasRole('ROLE_ADMIN')">
 										<div class="panel panel-primary">
 											<div class="panel-heading"><h3 class="panel-title">New User</h3></div>

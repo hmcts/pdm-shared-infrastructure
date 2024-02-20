@@ -39,9 +39,9 @@
 								<%-- We have court site data so render the form --%>
 								<form:form commandName="hearingTypeSearchCommand" action="${context}/hearing/view_hearing" method="POST" class="form-horizontal">
 
-								<%-- CSRF Guard token where uri equals form action --%>
-								<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/hearing/view_hearing"/>"/>--%>
-
+								<%-- CSRF token --%>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						
 
 								<%-- messages_success is always present so the JS can insert its own messages --%>
 								<div id="messages_success" class="alert alert-success" style="${empty successMessage ? 'display:none;' : ''}">

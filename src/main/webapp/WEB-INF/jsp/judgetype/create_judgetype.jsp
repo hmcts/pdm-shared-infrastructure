@@ -44,9 +44,9 @@
 						           method="POST" 
 						           class="form-horizontal">
 
-						<%-- CSRF Guard token where uri equals form action --%>
-						<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/pdm/judgetype/judge_judgetype"/>"/>--%>
-					
+						<%-- CSRF token --%>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						
 						<%-- 
 							This error block must be within the form:form tags , otherwise you won't get any errors back !!
 						--%>

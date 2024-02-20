@@ -42,9 +42,9 @@
 										method="POST"
 										cssClass="form-horizontal">
 
-							<%-- CSRF Guard token where uri equals form action --%>
-							<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/pdm/cdus/cdus"/>"/>--%>
-
+							<%-- CSRF token --%>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							
 							<%-- messages_success is always present so the JS can insert its own messages --%>
 							<div id="messages_success" class="alert alert-success" style="${empty successMessage ? 'display:none;' : ''}">
 								<c:if test="${not empty successMessage}" >
