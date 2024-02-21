@@ -293,7 +293,7 @@ public class JudgeController extends JudgePageStateSetter {
                 // Log the error
                 LOGGER.error("{}{} Unable to update Judge ", METHOD, methodName, ex);
                 // Reject
-                result.reject("judgeErrors", "Unable to update Display: " + ex.getMessage());
+                result.reject("judgeErrors", "Unable to update Judge: " + ex.getMessage());
             }
         }
         model.addObject(COMMAND, judgeAmendCommand);
