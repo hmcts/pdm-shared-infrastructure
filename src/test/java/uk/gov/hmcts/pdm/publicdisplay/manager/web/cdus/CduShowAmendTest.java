@@ -49,7 +49,7 @@ class CduShowAmendTest extends UpdateCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameCdus).param(BTN_SHOW_AMEND_CDU, BTN_SHOW_AMEND_CDU)
+            mockMvc.perform(post(mappingNameCdusUrl).param(BTN_SHOW_AMEND_CDU, BTN_SHOW_AMEND_CDU)
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
         // Assert that the objects are as expected
@@ -85,7 +85,7 @@ class CduShowAmendTest extends UpdateCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameCdus).param(BTN_SHOW_AMEND_CDU, BTN_SHOW_AMEND_CDU)
+            mockMvc.perform(post(mappingNameCdusUrl).param(BTN_SHOW_AMEND_CDU, BTN_SHOW_AMEND_CDU)
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
         // Assert that the objects are as expected
@@ -116,7 +116,7 @@ class CduShowAmendTest extends UpdateCduTest {
         expectCduSearchSelectedValidator(capturedCommand, capturedErrors, false);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl)
             .param(BTN_SHOW_CDU, BTN_SHOW_CDU).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 

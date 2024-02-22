@@ -63,7 +63,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameCdus).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
+            .perform(post(mappingNameCdusUrl).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -104,7 +104,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameCdus).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
+            .perform(post(mappingNameCdusUrl).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -154,7 +154,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameCdus).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
+            .perform(post(mappingNameCdusUrl).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -203,7 +203,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameCdus).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
+            .perform(post(mappingNameCdusUrl).param(BTN_RESTART_CDU_CONFIRM, BTN_RESTART_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -244,7 +244,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameCdus).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
+            post(mappingNameCdusUrl).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -281,7 +281,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameCdus).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
+            post(mappingNameCdusUrl).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -327,7 +327,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameCdus).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
+            post(mappingNameCdusUrl).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();
@@ -372,7 +372,7 @@ abstract class RestartCduTest extends CduRedirectToUrlPage {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameCdus).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
+            post(mappingNameCdusUrl).param(BTN_RESTART_ALL_CDU_CONFIRM, BTN_RESTART_ALL_CDU_CONFIRM)
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress()))
             .andReturn();

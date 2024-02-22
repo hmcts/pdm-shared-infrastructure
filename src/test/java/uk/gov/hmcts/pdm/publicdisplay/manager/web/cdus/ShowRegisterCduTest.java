@@ -72,7 +72,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameCdus).param(BTN_SHOW_REGISTER_CDU, BTN_SHOW_REGISTER_CDU)
+            mockMvc.perform(post(mappingNameCdusUrl).param(BTN_SHOW_REGISTER_CDU, BTN_SHOW_REGISTER_CDU)
                 .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
                 .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 
@@ -110,7 +110,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameCdus).param(BTN_SHOW_REGISTER_CDU, BTN_SHOW_REGISTER_CDU))
+            mockMvc.perform(post(mappingNameCdusUrl).param(BTN_SHOW_REGISTER_CDU, BTN_SHOW_REGISTER_CDU))
                 .andReturn();
 
         // Assert that the objects are as expected
@@ -159,7 +159,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameRegisterCdu).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU)
+            mockMvc.perform(post(mappingNameRegisterCduUrl).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU)
                 .param(MAC_ADDRESS, cdu.getMacAddress()).param("cduNumber", cdu.getCduNumber())
                 .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
                 .param(WEIGHTING_STRING, WEIGHTING.toString())).andReturn();
@@ -199,7 +199,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameRegisterCdu).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU))
+            mockMvc.perform(post(mappingNameRegisterCduUrl).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU))
                 .andReturn();
 
         // Assert that the objects are as expected
@@ -241,7 +241,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameRegisterCdu).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU)
+            mockMvc.perform(post(mappingNameRegisterCduUrl).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU)
                 .param(MAC_ADDRESS, cdu.getMacAddress()).param("cduNumber", cdu.getCduNumber())
                 .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
                 .param(WEIGHTING_STRING, WEIGHTING.toString())).andReturn();
@@ -285,7 +285,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameRegisterCdu).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU)
+            mockMvc.perform(post(mappingNameRegisterCduUrl).param(BTN_REGISTER_CDU, BTN_REGISTER_CDU)
                 .param(MAC_ADDRESS, cdu.getMacAddress()).param("cduNumber", cdu.getCduNumber())
                 .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
                 .param(WEIGHTING_STRING, WEIGHTING.toString())).andReturn();
@@ -329,7 +329,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
         final MvcResult results =
             mockMvc
                 .perform(
-                    post(viewNameCdus).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
+                    post(mappingNameCdusUrl).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
                         .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
                         .param(MAC_ADDRESS, cdu.getMacAddress())
                         .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString()))
@@ -371,7 +371,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
         final MvcResult results =
             mockMvc
                 .perform(
-                    post(viewNameCdus).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
+                    post(mappingNameCdusUrl).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
                         .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
                         .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString()))
                 .andReturn();
@@ -417,7 +417,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
         final MvcResult results =
             mockMvc
                 .perform(
-                    post(viewNameCdus).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
+                    post(mappingNameCdusUrl).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
                         .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
                         .param(MAC_ADDRESS, cdu.getMacAddress())
                         .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString()))
@@ -463,7 +463,7 @@ abstract class ShowRegisterCduTest extends ShowCduTest {
         final MvcResult results =
             mockMvc
                 .perform(
-                    post(viewNameCdus).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
+                    post(mappingNameCdusUrl).param(BTN_UNREGISTER_CDU_CONFIRM, BTN_UNREGISTER_CDU_CONFIRM)
                         .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
                         .param(MAC_ADDRESS, cdu.getMacAddress())
                         .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString()))

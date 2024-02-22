@@ -63,7 +63,7 @@ abstract class UpdateCduTest extends CduScreenshotTest {
         replay(mockCduPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCdu)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendCduUrl)
             .param(BTN_UPDATE_CDU, BTN_UPDATE_CDU).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
             .param(WEIGHTING_STRING, WEIGHTING.toString())
@@ -100,7 +100,7 @@ abstract class UpdateCduTest extends CduScreenshotTest {
         expectCduAmendValidator(capturedCommand, capturedErrors, false);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCdu)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendCduUrl)
             .param(BTN_UPDATE_CDU, BTN_UPDATE_CDU).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
             .param(WEIGHTING_STRING, WEIGHTING.toString())
@@ -139,7 +139,7 @@ abstract class UpdateCduTest extends CduScreenshotTest {
         replay(mockCduPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCdu)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendCduUrl)
             .param(BTN_UPDATE_CDU, BTN_UPDATE_CDU).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
             .param(WEIGHTING_STRING, WEIGHTING.toString())
@@ -179,7 +179,7 @@ abstract class UpdateCduTest extends CduScreenshotTest {
         replay(mockCduPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCdu)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendCduUrl)
             .param(BTN_UPDATE_CDU, BTN_UPDATE_CDU).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(LOCATION_STRING, cdu.getLocation()).param(REFRESH_STRING, REFRESH.toString())
             .param(WEIGHTING_STRING, WEIGHTING.toString())

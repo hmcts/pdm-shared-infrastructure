@@ -56,7 +56,7 @@ abstract class CduRedirectToUrlPage extends CduUrlMappingTest {
         expectCduSearchSelectedValidator(capturedCommand, capturedErrors, true);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus).param(BTN_MANAGE_URL, ADD)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl).param(BTN_MANAGE_URL, ADD)
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
@@ -89,7 +89,7 @@ abstract class CduRedirectToUrlPage extends CduUrlMappingTest {
         expectCduSearchSelectedValidator(capturedCommand, capturedErrors, false);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus).param(BTN_MANAGE_URL, ADD)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl).param(BTN_MANAGE_URL, ADD)
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
@@ -134,7 +134,7 @@ abstract class CduRedirectToUrlPage extends CduUrlMappingTest {
         replay(mockCduSearchSelectedValidator);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus).param(BTN_MANAGE_URL, ADD)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl).param(BTN_MANAGE_URL, ADD)
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
@@ -178,7 +178,7 @@ abstract class CduRedirectToUrlPage extends CduUrlMappingTest {
         replay(mockCduSearchSelectedValidator);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus).param(BTN_MANAGE_URL, ADD)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl).param(BTN_MANAGE_URL, ADD)
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
@@ -214,7 +214,7 @@ abstract class CduRedirectToUrlPage extends CduUrlMappingTest {
         expectCduSearchSelectedValidator(capturedCommand, capturedErrors, true);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus).param(BTN_MANAGE_URL, "remove")
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl).param(BTN_MANAGE_URL, "remove")
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())).andReturn();
 
