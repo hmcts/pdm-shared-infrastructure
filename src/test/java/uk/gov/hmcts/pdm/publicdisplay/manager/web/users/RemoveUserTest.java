@@ -56,7 +56,7 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            mockMvc.perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM)).andReturn();
 
         // Assert that the objects are as expected
@@ -98,7 +98,7 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            mockMvc.perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM)).andReturn();
 
         // Assert that the objects are as expected
@@ -138,7 +138,7 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            mockMvc.perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM)).andReturn();
 
         // Assert that the objects are as expected
@@ -172,7 +172,7 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM))
+            mockMvc.perform(post(mappingNameManageUserUrl).param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM))
                 .andReturn();
 
         // Assert that the objects are as expected
