@@ -62,9 +62,9 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
     private static final String SUCCESS_MESSAGE = "successMessage";
     private static final String COMMAND = "command";
 
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/proxies";
-
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_PROXIES = "proxies";
+    
     /**
      * View Local Proxy Url.
      */
@@ -74,7 +74,7 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
      * View Local Proxy View.
      */
     private static final String VIEW_NAME_VIEW_LOCAL_PROXY =
-        REQUEST_MAPPING + MAPPING_VIEW_LOCAL_PROXY;
+        FOLDER_PROXIES + MAPPING_VIEW_LOCAL_PROXY;
 
     /**
      * Amend Local Proxy Url.
@@ -85,7 +85,7 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
      * Amend Local Proxy View.
      */
     private static final String VIEW_NAME_AMEND_LOCAL_PROXY =
-        REQUEST_MAPPING + MAPPING_AMEND_LOCAL_PROXY;
+        FOLDER_PROXIES + MAPPING_AMEND_LOCAL_PROXY;
 
     /**
      * Register Local Proxy Url.
@@ -96,7 +96,7 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
      * Register Local Proxy View.
      */
     private static final String VIEW_NAME_REGISTER_LOCAL_PROXY =
-        REQUEST_MAPPING + MAPPING_REGISTER_LOCAL_PROXY;
+        FOLDER_PROXIES + MAPPING_REGISTER_LOCAL_PROXY;
 
     /**
      * The local proxy register validator.

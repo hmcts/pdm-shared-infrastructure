@@ -76,6 +76,9 @@ abstract class DashboardControllerTest extends AbstractJUnit {
     /** The constant for the red character. */
     public static final Character RED_CHAR = 'R';
 
+    /** The mapping name dashboard. */
+    protected String mappingNameDashboard;
+
     /** The view name dashboard. */
     protected String viewNameDashboard;
 
@@ -120,11 +123,11 @@ abstract class DashboardControllerTest extends AbstractJUnit {
         ReflectionTestUtils.setField(classUnderTest, "ragStatusService", mockRagStatusService);
 
         // Get the static variables from the class under test
+        mappingNameDashboard =
+            (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_DASHBOARD");
         viewNameDashboard =
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_DASHBOARD");
-        String classUnderTestRequestMapping =
-            (String) ReflectionTestUtils.getField(classUnderTest, "REQUEST_MAPPING");
-        mappingNameSearch = classUnderTestRequestMapping
+        mappingNameSearch = mappingNameDashboard
             + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_SEARCH");
         viewNameCdus = (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_CDUS");
 
@@ -153,7 +156,8 @@ abstract class DashboardControllerTest extends AbstractJUnit {
         replay(mockRagStatusService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameDashboard)).andReturn();
+        final MvcResult results =
+            mockMvc.perform(get(mappingNameDashboard + mappingNameDashboard)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameDashboard);

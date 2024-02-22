@@ -42,6 +42,9 @@ public class CdusControllerUtility {
     /** The Constant REQUEST_MAPPING. */
     protected static final String REQUEST_MAPPING = "/cdus";
 
+    /** The Constant for the JSP Folder. */
+    protected static final String FOLDER_CDUS = "cdus";
+    
     /**
      * View Cdus Url.
      */
@@ -50,7 +53,7 @@ public class CdusControllerUtility {
     /**
      * The Constant VIEW_NAME_CDUS.
      */
-    protected static final String VIEW_NAME_CDUS = REQUEST_MAPPING + VIEW_CDU;
+    protected static final String VIEW_NAME_CDUS = FOLDER_CDUS + VIEW_CDU;
 
     /**
      * Amend Cdus Url.
@@ -60,7 +63,7 @@ public class CdusControllerUtility {
     /**
      * The Constant VIEW_NAME_AMEND_CDU.
      */
-    protected static final String VIEW_NAME_AMEND_CDU = REQUEST_MAPPING + AMEND_CDU;
+    protected static final String VIEW_NAME_AMEND_CDU = FOLDER_CDUS + AMEND_CDU;
 
     /**
      * Register Cdus Url.
@@ -70,7 +73,7 @@ public class CdusControllerUtility {
     /**
      * The Constant VIEW_NAME_REGISTER_CDU.
      */
-    protected static final String VIEW_NAME_REGISTER_CDU = REQUEST_MAPPING + REGISTER_CDU;
+    protected static final String VIEW_NAME_REGISTER_CDU = FOLDER_CDUS + REGISTER_CDU;
 
     /**
      * Amend Url Mapping.

@@ -36,6 +36,9 @@ public class CourtController extends CourtPageStateSetter {
 
     /** The Constant REQUEST_MAPPING. */
     private static final String REQUEST_MAPPING = "/court";
+    
+    /** The Constant for the JSP Folder. */
+    protected static final String FOLDER_COURT = "court";
 
     /**
      * Court Court.
@@ -55,17 +58,17 @@ public class CourtController extends CourtPageStateSetter {
     /**
      * View Court View.
      */
-    private static final String VIEW_NAME_VIEW_COURT_SITE = REQUEST_MAPPING + MAPPING_VIEW_COURT;
+    private static final String VIEW_NAME_VIEW_COURT_SITE = FOLDER_COURT + MAPPING_VIEW_COURT;
 
     /**
      * Create Court View.
      */
-    private static final String VIEW_NAME_CREATE_COURT = REQUEST_MAPPING + MAPPING_CREATE_COURT;
+    private static final String VIEW_NAME_CREATE_COURT = FOLDER_COURT + MAPPING_CREATE_COURT;
 
     /**
      * Amend court View.
      */
-    private static final String VIEW_NAME_AMEND_COURT = REQUEST_MAPPING + MAPPING_AMEND_COURT;
+    private static final String VIEW_NAME_AMEND_COURT = FOLDER_COURT + MAPPING_AMEND_COURT;
 
     /**
      * The display selected validator.

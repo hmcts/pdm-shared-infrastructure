@@ -61,10 +61,10 @@ public class HearingTypeController extends HearingTypePageStateSetter {
     private static final String CATEGORIES_LIST = "categoriesList";
     private static final String COMMAND = "command";
     private static final String SUCCESS_MESSAGE = "successMessage";
-    
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/hearing";
 
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_HEARING = "hearing";
+    
     /**
      * View Hearing.
      */
@@ -73,7 +73,7 @@ public class HearingTypeController extends HearingTypePageStateSetter {
     /**
      * View Hearing View.
      */
-    private static final String VIEW_NAME_VIEW_HEARING = REQUEST_MAPPING + MAPPING_VIEW_HEARING;
+    private static final String VIEW_NAME_VIEW_HEARING = FOLDER_HEARING + MAPPING_VIEW_HEARING;
 
     /**
      * Amend Hearing.
@@ -83,7 +83,7 @@ public class HearingTypeController extends HearingTypePageStateSetter {
     /**
      * Amend Hearing View.
      */
-    private static final String VIEW_NAME_AMEND_HEARING = REQUEST_MAPPING + MAPPING_AMEND_HEARING;
+    private static final String VIEW_NAME_AMEND_HEARING = FOLDER_HEARING + MAPPING_AMEND_HEARING;
 
     /**
      * Create Hearing.
@@ -93,7 +93,7 @@ public class HearingTypeController extends HearingTypePageStateSetter {
     /**
      * Create Hearing View.
      */
-    private static final String VIEW_NAME_CREATE_HEARING = REQUEST_MAPPING + MAPPING_CREATE_HEARING;
+    private static final String VIEW_NAME_CREATE_HEARING = FOLDER_HEARING + MAPPING_CREATE_HEARING;
 
     
     /**

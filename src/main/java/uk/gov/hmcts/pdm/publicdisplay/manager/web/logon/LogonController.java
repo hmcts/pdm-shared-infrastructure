@@ -80,11 +80,14 @@ public class LogonController {
     /** The Constant MAPPING_INVALID_TOKEN. */
     private static final String MAPPING_INVALID_TOKEN = "/" + INVALID_TOKEN;
 
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_LOGON = "logon";
+    
     /** The Constant VIEW_LOGIN. */
-    private static final String VIEW_LOGIN = "/logon/signin";
+    private static final String VIEW_LOGIN = FOLDER_LOGON + "/signin";
 
     /** The Constant VIEW_LOGOUT. */
-    private static final String VIEW_LOGOUT = "/logon/logout";
+    private static final String VIEW_LOGOUT = FOLDER_LOGON + MAPPING_LOGOUT;
 
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";

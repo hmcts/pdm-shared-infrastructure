@@ -66,14 +66,16 @@ public class DashboardController {
     private static final String STARTS = " - starts";
     private static final String ENDS = " - ends";
 
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_DASHBOARD = "dashboard";
+    private static final String FOLDER_CDUS = "cdus";
+    private static final String FOLDER_PROXIES = "proxies";
+
     /** The Constant VIEW_NAME_CDUS. */
-    private static final String VIEW_NAME_CDUS = "/cdus/cdus";
+    private static final String VIEW_NAME_CDUS = FOLDER_CDUS + "/cdus";
 
     /** The Constant VIEW_NAME_LOCAL_PROXY. */
-    private static final String VIEW_NAME_LOCAL_PROXY = "/proxies/view_localproxy";
-
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/dashboard";
+    private static final String VIEW_NAME_LOCAL_PROXY = FOLDER_PROXIES + "/view_localproxy";
 
     /** The Constant MAPPING_VIEW_DASHBOARD. */
     private static final String MAPPING_VIEW_DASHBOARD = "/dashboard";
@@ -82,7 +84,7 @@ public class DashboardController {
     private static final String MAPPING_JSON_COURTSITE = "/courtsite";
 
     /** The Constant VIEW_NAME_DASHBOARD. */
-    private static final String VIEW_NAME_DASHBOARD = REQUEST_MAPPING + MAPPING_VIEW_DASHBOARD;
+    private static final String VIEW_NAME_DASHBOARD = FOLDER_DASHBOARD + MAPPING_VIEW_DASHBOARD;
 
     /** The Constant MAPPING_VIEW_SEARCH. */
     private static final String MAPPING_VIEW_SEARCH = "/search";
@@ -125,12 +127,14 @@ public class DashboardController {
      * @param refreshStatus the refresh status
      * @return the court site as JSON
      */
-    /* TODO: This endpoint won't work correctly with the regex 
-     * until we have user authentication as this field gets encrypted.
-     * Removed it for now as a workaround.
+    /*
+     * TODO: This endpoint won't work correctly with the regex until we have user authentication as
+     * this field gets encrypted. Removed it for now as a workaround.
      */
-    /*@RequestMapping(value = MAPPING_JSON_COURTSITE + "/{xhibitCourtSiteId:[A-F0-9]{16,}}",
-        method = RequestMethod.GET, produces = "application/json")*/
+    /*
+     * @RequestMapping(value = MAPPING_JSON_COURTSITE + "/{xhibitCourtSiteId:[A-F0-9]{16,}}", method
+     * = RequestMethod.GET, produces = "application/json")
+     */
     @RequestMapping(value = MAPPING_JSON_COURTSITE + "/{xhibitCourtSiteId}",
         method = RequestMethod.GET, produces = "application/json")
     @ResponseBody

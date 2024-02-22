@@ -40,9 +40,9 @@ public class CourtRoomController extends CourtRoomPageStateSetter {
     private static final String SUCCESS_MESSAGE = "successMessage";
     private static final String APPLICATION_JSON = "application/json";
 
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/courtroom";
-
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_COURTROOM = "courtroom";
+    
     /**
      * Create Court Room.
      */
@@ -66,25 +66,25 @@ public class CourtRoomController extends CourtRoomPageStateSetter {
     /**
      * View Court Room.
      */
-    private static final String VIEW_NAME_VIEW_COURTROOM = REQUEST_MAPPING + MAPPING_VIEW_COURTROOM;
+    private static final String VIEW_NAME_VIEW_COURTROOM = FOLDER_COURTROOM + MAPPING_VIEW_COURTROOM;
 
     /**
      * View Court Room.
      */
     private static final String VIEW_NAME_CREATE_COURTROOM =
-        REQUEST_MAPPING + MAPPING_CREATE_COURTROOM;
+        FOLDER_COURTROOM + MAPPING_CREATE_COURTROOM;
 
     /**
      * View Delete Court Room.
      */
     private static final String VIEW_NAME_DELETE_COURTROOM =
-        REQUEST_MAPPING + MAPPING_DELETE_COURTROOM;
+        FOLDER_COURTROOM + MAPPING_DELETE_COURTROOM;
 
     /**
      * View Amend Court Room.
      */
     private static final String VIEW_NAME_AMEND_COURTROOM =
-        REQUEST_MAPPING + MAPPING_AMEND_COURTROOM;
+        FOLDER_COURTROOM + MAPPING_AMEND_COURTROOM;
 
     /**
      * The Court Room selected validator.

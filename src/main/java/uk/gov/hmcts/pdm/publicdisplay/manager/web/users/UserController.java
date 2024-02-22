@@ -63,9 +63,9 @@ public class UserController {
     private static final String USERLIST = "userList";
     private static final String USERERRORS = "userErrors";
 
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/users";
-
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_USERS = "users";
+    
     /**
      * Manage Users Url.
      */
@@ -74,7 +74,7 @@ public class UserController {
     /**
      * View Manage Users View.
      */
-    private static final String VIEW_NAME_MANAGE_USERS = REQUEST_MAPPING + MAPPING_MANAGE_USERS;
+    private static final String VIEW_NAME_MANAGE_USERS = FOLDER_USERS + MAPPING_MANAGE_USERS;
 
     /**
      * Validator for UserAddValidator class.

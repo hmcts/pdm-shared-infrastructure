@@ -52,15 +52,18 @@ class LogonControllerTest extends AbstractJUnit {
     private static final String FALSE = "False";
 
     private static final String NULL = "Null";
+    
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_LOGON = "logon";
 
     /** The view name mapping home. */
     private static final String VIEW_NAME_DASHBOARD = "dashboard/dashboard";
 
     /** The view name mapping logon. */
-    private static final String VIEW_NAME_LOGON_LOGIN = "/logon/signin";
+    private static final String VIEW_NAME_LOGON_LOGIN = FOLDER_LOGON + "/signin";
 
     /** The view name logon logout. */
-    private static final String VIEW_NAME_LOGON_LOGOUT = "/logon/logout";
+    private static final String VIEW_NAME_LOGON_LOGOUT = FOLDER_LOGON + "/logout";
 
     /** The mock mvc. */
     private MockMvc mockMvc;
