@@ -47,7 +47,8 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameRegisterLocalProxy)).andReturn();
+        final MvcResult results =
+            mockMvc.perform(get(mappingNameRegisterLocalProxyUrl)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameRegisterLocalProxy);
@@ -91,7 +92,7 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameRegisterLocalProxy).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)
+            post(mappingNameRegisterLocalProxyUrl).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)
                 .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())
                 .param(TITLE, courtSite.getTitle()).param("ipAddress", courtSite.getIpAddress())
                 .param(SCHEDULE_ID_STRING, SCHEDULE_ID.toString()))
@@ -140,10 +141,8 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc
-            .perform(
-                post(viewNameRegisterLocalProxy).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY))
-            .andReturn();
+        final MvcResult results = mockMvc.perform(post(mappingNameRegisterLocalProxyUrl)
+            .param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameRegisterLocalProxy);
@@ -176,7 +175,7 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
         replay(mockProxyRegisterValidator);
         expect(mockLocalProxyService.getXhibitCourtSitesWithoutLocalProxy())
             .andReturn(xhibitCourtSites);
-        
+
         DataRetrievalFailureException dataRetrievalFailureException =
             new DataRetrievalFailureException("Mock data access exception");
         mockLocalProxyService.registerLocalProxy(capture(capturedCommand));
@@ -189,7 +188,7 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameRegisterLocalProxy).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)
+            post(mappingNameRegisterLocalProxyUrl).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)
                 .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())
                 .param(TITLE, courtSite.getTitle()).param("ipAddress", courtSite.getIpAddress())
                 .param(SCHEDULE_ID_STRING, SCHEDULE_ID.toString()))
@@ -232,7 +231,7 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
         replay(mockProxyRegisterValidator);
         expect(mockLocalProxyService.getXhibitCourtSitesWithoutLocalProxy())
             .andReturn(xhibitCourtSites);
-        
+
         XpdmException xpdmException = new XpdmException("Mock runtime exception");
         mockLocalProxyService.registerLocalProxy(capture(capturedCommand));
         expectLastCall().andThrow(xpdmException);
@@ -244,7 +243,7 @@ abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            post(viewNameRegisterLocalProxy).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)
+            post(mappingNameRegisterLocalProxyUrl).param(REGISTER_LOCAL_PROXY, REGISTER_LOCAL_PROXY)
                 .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())
                 .param(TITLE, courtSite.getTitle()).param("ipAddress", courtSite.getIpAddress())
                 .param(SCHEDULE_ID_STRING, SCHEDULE_ID.toString()))

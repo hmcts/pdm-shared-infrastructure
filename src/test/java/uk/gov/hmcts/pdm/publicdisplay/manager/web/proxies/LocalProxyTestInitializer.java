@@ -31,17 +31,27 @@ import static org.easymock.EasyMock.replay;
  *
  * @author harrism
  */
+@SuppressWarnings("PMD.TooManyFields")
 @ExtendWith(EasyMockExtension.class)
 abstract class LocalProxyTestInitializer extends LocalProxyControllerTestBase {
 
-    /** The view name mapping local proxy. */
+    /** The view name local proxy. */
     protected String viewNameLocalProxy;
+
+    /** The view name mapping local proxy. */
+    protected String mappingNameLocalProxyUrl;
 
     /** The view name register local proxy. */
     protected String viewNameRegisterLocalProxy;
 
+    /** The view name mapping register local proxy. */
+    protected String mappingNameRegisterLocalProxyUrl;
+
     /** The view name amend local proxy. */
     protected String viewNameAmendLocalProxy;
+
+    /** The view name mapping amend local proxy. */
+    protected String mappingNameAmendLocalProxyUrl;
 
     /** The mock mvc. */
     protected MockMvc mockMvc;
@@ -104,12 +114,19 @@ abstract class LocalProxyTestInitializer extends LocalProxyControllerTestBase {
             mockProxySelectedValidator);
 
         // Get the static variables from the class under test
+        String mappingName = "/proxies";
         viewNameLocalProxy =
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_VIEW_LOCAL_PROXY");
+        mappingNameLocalProxyUrl = mappingName
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_LOCAL_PROXY");
         viewNameRegisterLocalProxy =
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_REGISTER_LOCAL_PROXY");
+        mappingNameRegisterLocalProxyUrl = mappingName
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_REGISTER_LOCAL_PROXY");
         viewNameAmendLocalProxy =
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_AMEND_LOCAL_PROXY");
+        mappingNameAmendLocalProxyUrl = mappingName
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_LOCAL_PROXY");
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

@@ -53,7 +53,7 @@ class ShowAmendLocalProxyTest extends UpdateLocalProxyTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(BTN_AMEND, BTN_AMEND)
+            mockMvc.perform(post(mappingNameLocalProxyUrl).param(BTN_AMEND, BTN_AMEND)
                 .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())).andReturn();
 
         // Assert that the objects are as expected
@@ -90,7 +90,7 @@ class ShowAmendLocalProxyTest extends UpdateLocalProxyTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(BTN_AMEND, BTN_AMEND)
+            mockMvc.perform(post(mappingNameLocalProxyUrl).param(BTN_AMEND, BTN_AMEND)
                 .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())).andReturn();
 
         // Assert that the objects are as expected

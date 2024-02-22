@@ -75,7 +75,7 @@ abstract class ViewLocalProxyTest extends LocalProxyTestInitializer {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameLocalProxy)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameLocalProxyUrl)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameLocalProxy);
@@ -117,7 +117,7 @@ abstract class ViewLocalProxyTest extends LocalProxyTestInitializer {
 
         // Perform the test
         final MvcResult results = mockMvc.perform(
-            get(viewNameLocalProxy).param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())
+            get(mappingNameLocalProxyUrl).param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())
                 .param("dashboardSearch", "true"))
             .andReturn();
 
@@ -160,7 +160,7 @@ abstract class ViewLocalProxyTest extends LocalProxyTestInitializer {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(VIEW_LOCAL_PROXY, VIEW_LOCAL_PROXY)
+            mockMvc.perform(post(mappingNameLocalProxyUrl).param(VIEW_LOCAL_PROXY, VIEW_LOCAL_PROXY)
                 .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())).andReturn();
 
         // Assert that the objects are as expected
@@ -197,7 +197,7 @@ abstract class ViewLocalProxyTest extends LocalProxyTestInitializer {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(VIEW_LOCAL_PROXY, VIEW_LOCAL_PROXY))
+            mockMvc.perform(post(mappingNameLocalProxyUrl).param(VIEW_LOCAL_PROXY, VIEW_LOCAL_PROXY))
                 .andReturn();
 
         // Assert that the objects are as expected
