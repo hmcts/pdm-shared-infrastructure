@@ -45,13 +45,14 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-                mockMvc.perform(get(viewNameViewJudgeType).param(XHIBIT_COURTSITE_ID, "1")).andReturn();
+        final MvcResult results = mockMvc
+            .perform(get(mappingNameViewJudgeTypeUrl).param(XHIBIT_COURTSITE_ID, "1")).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
         assertEquals(viewNameViewJudgeType, returnedViewName, NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), capturedCourtSites.getValue().get(0), NOT_EQUAL);
 
         verify(mockRefJudgeTypeService);
@@ -63,21 +64,20 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         final List<XhibitCourtSiteDto> xhibitCourtSiteDtos = createCourtSiteDtoList();
         JudgeTypeSearchCommand judgeTypeSearchCommand = new JudgeTypeSearchCommand();
 
-        expect(mockJudgeTypePageStateHolder.getJudgeTypeSearchCommand()).andReturn(judgeTypeSearchCommand).times(2);
+        expect(mockJudgeTypePageStateHolder.getJudgeTypeSearchCommand())
+            .andReturn(judgeTypeSearchCommand).times(2);
         expect(mockJudgeTypePageStateHolder.getSites()).andReturn(xhibitCourtSiteDtos);
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-                mockMvc.perform(get(viewNameViewJudgeType)
-                        .param(XHIBIT_COURTSITE_ID, "1")
-                        .param("reset", "false"))
-                       .andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewJudgeTypeUrl)
+            .param(XHIBIT_COURTSITE_ID, "1").param("reset", "false")).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
         assertEquals(viewNameViewJudgeType, returnedViewName, NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
         verify(mockJudgeTypePageStateHolder);
     }
 
@@ -97,16 +97,14 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-                mockMvc.perform(get(viewNameViewJudgeType)
-                        .param(XHIBIT_COURTSITE_ID, "1")
-                        .param("reset", "false"))
-                       .andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewJudgeTypeUrl)
+            .param(XHIBIT_COURTSITE_ID, "1").param("reset", "false")).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
         assertEquals(viewNameViewJudgeType, returnedViewName, NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), capturedCourtSites.getValue().get(0), NOT_EQUAL);
 
         verify(mockRefJudgeTypeService);
@@ -122,8 +120,10 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         final List<XhibitCourtSiteDto> xhibitCourtSiteDtos = createCourtSiteDtoList();
         final Capture<XhibitCourtSiteDto> capturedCourtSite = newCapture();
 
-        mockJudgeTypePageStateHolder.setJudgeTypeSearchCommand(capture(capturedJudgeTypeSearchCommand));
-        mockJudgeTypeSelectedValidator.validate(capture(capturedJudgeTypeSearchCommand), capture(capturedErrors));
+        mockJudgeTypePageStateHolder
+            .setJudgeTypeSearchCommand(capture(capturedJudgeTypeSearchCommand));
+        mockJudgeTypeSelectedValidator.validate(capture(capturedJudgeTypeSearchCommand),
+            capture(capturedErrors));
         expectLastCall();
         expect(mockRefJudgeTypeService.getJudgeTypes(eq(8L))).andReturn(refSystemCodeDtoList);
         mockJudgeTypePageStateHolder.setJudgeTypes(capture(capturedRefSysCodeDtos));
@@ -137,19 +137,18 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudgeType)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnAmend", ADD)).andReturn();
+        final MvcResult results = mockMvc.perform(post(mappingNameViewJudgeTypeUrl)
+            .param(XHIBIT_COURTSITE_ID, "8").param("btnAmend", ADD)).andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeTypeAmendCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeTypeAmendCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertEquals(refSystemCodeDtoList, model.get(JUDGE_TYPE_LIST), NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), model.get("courtSite"), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
         assertEquals(refSystemCodeDtoList, capturedRefSysCodeDtos.getValue(), NOT_EQUAL);
-        assertEquals(8, capturedJudgeTypeSearchCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);
+        assertEquals(8, capturedJudgeTypeSearchCommand.getValue().getXhibitCourtSiteId(),
+            NOT_EQUAL);
         assertEquals(viewNameAmendJudgeType, results.getModelAndView().getViewName(), NOT_EQUAL);
         verify(mockRefJudgeTypeService);
         verify(mockJudgeTypePageStateHolder);
@@ -163,7 +162,8 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         final List<XhibitCourtSiteDto> xhibitCourtSiteDtos = createCourtSiteDtoList();
         final Capture<List<XhibitCourtSiteDto>> capturedCourtSites = newCapture();
 
-        mockJudgeTypeAmendValidator.validate(capture(capturedJudgeTypeAmendCommand), capture(capturedErrors));
+        mockJudgeTypeAmendValidator.validate(capture(capturedJudgeTypeAmendCommand),
+            capture(capturedErrors));
         expectLastCall();
         mockRefJudgeTypeService.updateJudgeType(capture(capturedJudgeTypeAmendCommand));
         expectLastCall();
@@ -178,19 +178,16 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendJudgeType)
-                                            .param(XHIBIT_COURTSITE_ID, "8")
-                                            .param("btnUpdateConfirm", ADD)
-                                            .param("refSystemCodeId", "2")
-                                            .param(DESCRIPTION, JUDGE_TYPE_DESCRIPTION))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendJudgeTypeUrl)
+            .param(XHIBIT_COURTSITE_ID, "8").param("btnUpdateConfirm", ADD)
+            .param("refSystemCodeId", "2").param(DESCRIPTION, JUDGE_TYPE_DESCRIPTION)).andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeTypeSearchCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeTypeSearchCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
-        assertEquals(JUDGE_TYPE_DESCRIPTION, capturedJudgeTypeAmendCommand.getValue().getDescription(), NOT_EQUAL);
+        assertEquals(JUDGE_TYPE_DESCRIPTION,
+            capturedJudgeTypeAmendCommand.getValue().getDescription(), NOT_EQUAL);
         assertEquals(viewNameViewJudgeType, results.getModelAndView().getViewName(), NOT_EQUAL);
         verify(mockRefJudgeTypeService);
         verify(mockJudgeTypePageStateHolder);
@@ -206,8 +203,10 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         final List<XhibitCourtSiteDto> xhibitCourtSiteDtos = createCourtSiteDtoList();
         final Capture<XhibitCourtSiteDto> capturedCourtSite = newCapture();
 
-        mockJudgeTypePageStateHolder.setJudgeTypeSearchCommand(capture(capturedJudgeTypeSearchCommand));
-        mockJudgeTypeSelectedValidator.validate(capture(capturedJudgeTypeSearchCommand), capture(capturedErrors));
+        mockJudgeTypePageStateHolder
+            .setJudgeTypeSearchCommand(capture(capturedJudgeTypeSearchCommand));
+        mockJudgeTypeSelectedValidator.validate(capture(capturedJudgeTypeSearchCommand),
+            capture(capturedErrors));
         expectLastCall();
         expect(mockRefJudgeTypeService.getJudgeTypes(eq(8L))).andReturn(refSystemCodeDtoList);
         mockJudgeTypePageStateHolder.setJudgeTypes(capture(capturedRefSysCodeDtos));
@@ -221,20 +220,19 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudgeType)
-                                            .param(XHIBIT_COURTSITE_ID, "8")
-                                            .param("btnAdd", ADD))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameViewJudgeTypeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnAdd", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeTypeCreateCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeTypeCreateCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertEquals(refSystemCodeDtoList, model.get(JUDGE_TYPE_LIST), NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), model.get("courtSite"), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
         assertEquals(refSystemCodeDtoList, capturedRefSysCodeDtos.getValue(), NOT_EQUAL);
-        assertEquals(8, capturedJudgeTypeSearchCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);
+        assertEquals(8, capturedJudgeTypeSearchCommand.getValue().getXhibitCourtSiteId(),
+            NOT_EQUAL);
         assertEquals(viewNameCreateJudgeType, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertEquals(8, capturedCourtSite.getValue().getId(), NOT_EQUAL);
         verify(mockRefJudgeTypeService);
@@ -252,8 +250,8 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         final Capture<List<XhibitCourtSiteDto>> capturedCourtSites = newCapture();
 
         expect(mockJudgeTypePageStateHolder.getJudgeTypes()).andReturn(refSystemCodeDtoList);
-        mockJudgeTypeCreateValidator.validate(capture(capturedJudgeTypeCreateCommand), capture(capturedErrors),
-                capture(capturedRefSysCodeDtos));
+        mockJudgeTypeCreateValidator.validate(capture(capturedJudgeTypeCreateCommand),
+            capture(capturedErrors), capture(capturedRefSysCodeDtos));
         expectLastCall();
         expect(mockJudgeTypePageStateHolder.getCourtSite()).andReturn(xhibitCourtSiteDtos.get(0));
         mockRefJudgeTypeService.createJudgeType(capture(capturedJudgeTypeCreateCommand), eq(10));
@@ -269,20 +267,20 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateJudgeType)
-                                                 .param("code", CREATE_COMMAND_CODE)
-                                                 .param(DESCRIPTION, "CreateCommandDescription")
-                                                 .param("btnCreateConfirm", ADD))
-                                         .andReturn();
+        final MvcResult results = mockMvc
+            .perform(post(mappingNameCreateJudgeTypeUrl).param("code", CREATE_COMMAND_CODE)
+                .param(DESCRIPTION, "CreateCommandDescription").param("btnCreateConfirm", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeTypeSearchCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeTypeSearchCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
-        assertEquals("Judge Type has been created successfully.", model.get("successMessage"), NOT_EQUAL);
+        assertEquals("Judge Type has been created successfully.", model.get("successMessage"),
+            NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
         assertEquals(refSystemCodeDtoList, capturedRefSysCodeDtos.getValue(), NOT_EQUAL);
-        assertEquals(CREATE_COMMAND_CODE, capturedJudgeTypeCreateCommand.getValue().getCode(), NOT_EQUAL);
+        assertEquals(CREATE_COMMAND_CODE, capturedJudgeTypeCreateCommand.getValue().getCode(),
+            NOT_EQUAL);
         assertEquals(viewNameViewJudgeType, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos, capturedCourtSites.getValue(), NOT_EQUAL);
         verify(mockRefJudgeTypeService);
@@ -301,9 +299,11 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameAmendJudgeType + "/7")).andReturn();
+        final MvcResult results =
+            mockMvc.perform(get(mappingNameAmendJudgeTypeUrl + "/7")).andReturn();
         String response = results.getResponse().getContentAsString();
-        RefSystemCodeDto returnedRefSysCodeDto = new ObjectMapper().readValue(response, RefSystemCodeDto.class);
+        RefSystemCodeDto returnedRefSysCodeDto =
+            new ObjectMapper().readValue(response, RefSystemCodeDto.class);
 
         assertEquals(7, returnedRefSysCodeDto.getRefSystemCodeId(), NOT_EQUAL);
         assertEquals("A Code Type", returnedRefSysCodeDto.getCodeType(), NOT_EQUAL);
@@ -321,7 +321,8 @@ class JudgeTypeControllerTest extends JudgeTypeErrorControllerTest {
         replay(mockJudgeTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameAmendJudgeType + "/7")).andReturn();
+        final MvcResult results =
+            mockMvc.perform(get(mappingNameAmendJudgeTypeUrl + "/7")).andReturn();
         String response = results.getResponse().getContentAsString();
 
         assertEquals("", response, NOT_EQUAL);

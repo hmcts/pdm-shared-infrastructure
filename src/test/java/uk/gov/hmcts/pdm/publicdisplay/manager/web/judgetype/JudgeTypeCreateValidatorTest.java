@@ -45,7 +45,8 @@ class JudgeTypeCreateValidatorTest extends AbstractJUnit {
         mockMessageSource = createMock(MessageSource.class);
 
         // Map the mock to the class under tests called class
-        ReflectionTestUtils.setField(classUnderTest, "judgeTypePageStateHolder", mockJudgeTypePageStateHolder);
+        ReflectionTestUtils.setField(classUnderTest, "judgeTypePageStateHolder",
+            mockJudgeTypePageStateHolder);
         ReflectionTestUtils.setField(classUnderTest, "messageSource", mockMessageSource);
     }
 
@@ -60,11 +61,13 @@ class JudgeTypeCreateValidatorTest extends AbstractJUnit {
         JudgeTypeCreateCommand judgeTypeCreateCommand = new JudgeTypeCreateCommand();
         judgeTypeCreateCommand.setCode(null);
 
-        final BindingResult errors = new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
+        final BindingResult errors =
+            new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
 
         classUnderTest.validate(judgeTypeCreateCommand, errors, refSystemCodeDtos);
 
-        assertEquals("judgeTypeCreateCommand.code.notBlank", errors.getGlobalErrors().get(0).getCode(), NOT_FALSE);
+        assertEquals("judgeTypeCreateCommand.code.notBlank",
+            errors.getGlobalErrors().get(0).getCode(), NOT_FALSE);
     }
 
     @Test
@@ -72,13 +75,15 @@ class JudgeTypeCreateValidatorTest extends AbstractJUnit {
         JudgeTypeCreateCommand judgeTypeCreateCommand = new JudgeTypeCreateCommand();
         judgeTypeCreateCommand.setCode("A code");
 
-        final BindingResult errors = new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
-        expect(mockMessageSource.getMessage("judgeTypeCreateCommand.code.exists",
-                null, Locale.getDefault())).andReturn("Code is required.");
+        final BindingResult errors =
+            new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
+        expect(mockMessageSource.getMessage("judgeTypeCreateCommand.code.exists", null,
+            Locale.getDefault())).andReturn("Code is required.");
         replay(mockMessageSource);
         classUnderTest.validate(judgeTypeCreateCommand, errors, refSystemCodeDtos);
 
-        assertEquals("Code is required.", errors.getAllErrors().get(0).getDefaultMessage(), NOT_FALSE);
+        assertEquals("Code is required.", errors.getAllErrors().get(0).getDefaultMessage(),
+            NOT_FALSE);
     }
 
     @Test
@@ -86,12 +91,13 @@ class JudgeTypeCreateValidatorTest extends AbstractJUnit {
         JudgeTypeCreateCommand judgeTypeCreateCommand = new JudgeTypeCreateCommand();
         judgeTypeCreateCommand.setCode("A different Code");
 
-        final BindingResult errors = new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
+        final BindingResult errors =
+            new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
 
         classUnderTest.validate(judgeTypeCreateCommand, errors, refSystemCodeDtos);
 
-        assertEquals("judgeTypeAmendCommand.description.notBlank", errors.getGlobalErrors().get(0).getCode(),
-                NOT_FALSE);
+        assertEquals("judgeTypeAmendCommand.description.notBlank",
+            errors.getGlobalErrors().get(0).getCode(), NOT_FALSE);
     }
 
     @Test
@@ -101,9 +107,11 @@ class JudgeTypeCreateValidatorTest extends AbstractJUnit {
         judgeTypeCreateCommand.setDescription("A description");
         final JudgeTypeSearchCommand judgeTypeSearchCommand = new JudgeTypeSearchCommand();
         judgeTypeSearchCommand.setXhibitCourtSiteId(1L);
-        final BindingResult errors = new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
+        final BindingResult errors =
+            new BeanPropertyBindingResult(judgeTypeCreateCommand, JUDGE_TYPE_CREATE_VALIDATOR);
 
-        expect(mockJudgeTypePageStateHolder.getJudgeTypeSearchCommand()).andReturn(judgeTypeSearchCommand);
+        expect(mockJudgeTypePageStateHolder.getJudgeTypeSearchCommand())
+            .andReturn(judgeTypeSearchCommand);
         replay(mockJudgeTypePageStateHolder);
         classUnderTest.validate(judgeTypeCreateCommand, errors, refSystemCodeDtos);
 
