@@ -25,8 +25,11 @@ abstract class CourtControllerBase extends AbstractJUnit {
     protected CourtPageStateHolder mockCourtPageStateHolder;
     protected ICourtService mockCourtService;
     protected String viewNameViewCourtSite;
+    protected String mappingNameViewCourtSiteUrl;
     protected String viewNameCreateCourt;
+    protected String mappingNameCreateCourtUrl;
     protected String viewNameAmendCourt;
+    protected String mappingNameAmendCourtUrl;
     protected MockMvc mockMvc;
     protected static final String NOT_NULL = "Not null";
     protected static final String NULL = "Null";
@@ -43,7 +46,7 @@ abstract class CourtControllerBase extends AbstractJUnit {
     protected static final String THREE = "3";
     protected static final String MOCK_ERROR_MESSAGE = "mock error message";
     protected static final String XHIBIT_COURTSITE_ID = "xhibitCourtSiteId";
-    protected static final String REQUEST_MAPPING = "REQUEST_MAPPING";
+    protected static final String REQUEST_MAPPING = "/court";
     protected static final String COURTSITE_NAME_PARAM = "courtSiteName";
     protected static final String COURTSITE_CODE_PARAM = "courtSiteCode";
     protected static final String COURTSITE_NAME = "A court site name";
@@ -56,24 +59,29 @@ abstract class CourtControllerBase extends AbstractJUnit {
         // Setup the mock version of the called classes
         mockObjects();
         // Map the mock to the class under tests called class
-        ReflectionTestUtils.setField(classUnderTest, "courtSelectedValidator", mockCourtSelectedValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtCreateValidator", mockCourtCreateValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtAmendValidator", mockCourtAmendValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtPageStateHolder", mockCourtPageStateHolder);
+        ReflectionTestUtils.setField(classUnderTest, "courtSelectedValidator",
+            mockCourtSelectedValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtCreateValidator",
+            mockCourtCreateValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtAmendValidator",
+            mockCourtAmendValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtPageStateHolder",
+            mockCourtPageStateHolder);
         ReflectionTestUtils.setField(classUnderTest, "courtService", mockCourtService);
 
         // Get the static variables from the class under test
         viewNameViewCourtSite =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_COURT");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_VIEW_COURT_SITE");
+        mappingNameViewCourtSiteUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_COURT");
         viewNameCreateCourt =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CREATE_COURT");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_CREATE_COURT");
+        mappingNameCreateCourtUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CREATE_COURT");
         viewNameAmendCourt =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_COURT");
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_AMEND_COURT");
+        mappingNameAmendCourtUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_COURT");
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -81,7 +89,8 @@ abstract class CourtControllerBase extends AbstractJUnit {
         viewResolver.setSuffix(".jsp");
 
         // Setup the mock version of the modelMvc
-        mockMvc = MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
+        mockMvc =
+            MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
     }
 
     protected void mockObjects() {

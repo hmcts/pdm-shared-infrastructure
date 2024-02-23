@@ -32,10 +32,6 @@ public class CourtController extends CourtPageStateSetter {
     private static final String COMMAND = "command";
     private static final String COURT = "court";
     private static final String SUCCESS_MESSAGE = "successMessage";
-
-
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/court";
     
     /** The Constant for the JSP Folder. */
     protected static final String FOLDER_COURT = "court";

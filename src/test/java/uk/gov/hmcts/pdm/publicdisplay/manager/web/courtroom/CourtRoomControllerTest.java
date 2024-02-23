@@ -46,7 +46,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewCourtRoom)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewCourtRoomUrl)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
@@ -66,7 +66,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewCourtRoom).param(RESET, FALSE)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewCourtRoomUrl).param(RESET, FALSE)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
@@ -88,7 +88,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewCourtRoom).param(RESET, FALSE)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewCourtRoomUrl).param(RESET, FALSE)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
@@ -121,7 +121,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtRoom)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewCourtRoomUrl)
                 .param(COURT_ID, THREE)
                 .param("btnAdd", ADD)).andReturn();
         ModelAndView modelAndView = results.getModelAndView();
@@ -163,7 +163,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtRoom)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewCourtRoomUrl)
                 .param(COURT_ID, THREE)
                 .param("btnAmend", ADD)).andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
@@ -209,7 +209,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtRoom)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewCourtRoomUrl)
                 .param(COURT_ID, THREE)
                 .param("btnDelete", ADD)).andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
@@ -258,7 +258,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateCourtRoom)
+        final MvcResult results = mockMvc.perform(post(mappingNameCreateCourtRoomUrl)
                                             .param(XHIBIT_COURTSITE_ID, THREE)
                                             .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
                                             .param("name", "courtRoomCreateCommandName")
@@ -301,7 +301,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameDeleteCourtRoom)
+        final MvcResult results = mockMvc.perform(post(mappingNameDeleteCourtRoomUrl)
                                             .param(XHIBIT_COURTSITE_ID, THREE)
                                             .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
                                             .param("name", "courtRoomCreateCommandName")
@@ -347,7 +347,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
         replay(mockCourtRoomPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCourtRoom)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendCourtRoomUrl)
                                             .param(XHIBIT_COURTSITE_ID, THREE)
                                             .param(DESCRIPTION, CREATE_COMMAND_DESCRIPTION)
                                             .param("name", "courtRoomCreateCommandName")

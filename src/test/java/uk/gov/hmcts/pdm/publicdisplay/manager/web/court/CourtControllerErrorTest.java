@@ -42,7 +42,8 @@ class CourtControllerErrorTest extends CourtControllerTest {
 
         mockCourtPageStateHolder.setCourtSearchCommand(capture(capturedCourtSearchCommand));
         expectLastCall();
-        mockCourtSelectedValidator.validate(capture(capturedCourtSearchCommand), capture(capturedErrors));
+        mockCourtSelectedValidator.validate(capture(capturedCourtSearchCommand),
+            capture(capturedErrors));
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -52,9 +53,9 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtSite)
-                .param(COURT_ID, THREE)
-                .param("btnAdd", ADD)).andReturn();
+        final MvcResult results = mockMvc
+            .perform(post(mappingNameViewCourtSiteUrl).param(COURT_ID, THREE).param("btnAdd", ADD))
+            .andReturn();
         ModelAndView modelAndView = results.getModelAndView();
 
         assertNotNull(modelAndView.getViewName(), NULL);
@@ -74,8 +75,8 @@ class CourtControllerErrorTest extends CourtControllerTest {
         final List<XhibitCourtSiteDto> xhibitCourtSiteDtos = List.of(new XhibitCourtSiteDto());
 
         expect(mockCourtPageStateHolder.getCourt()).andReturn(courtDtos.get(0));
-        mockCourtCreateValidator.validate(capture(capturedCourtCreateCommand), capture(capturedErrors), anyObject(),
-                anyInt());
+        mockCourtCreateValidator.validate(capture(capturedCourtCreateCommand),
+            capture(capturedErrors), anyObject(), anyInt());
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -85,20 +86,19 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateCourt)
-                                                 .param(COURT_ID, THREE)
-                                                 .param("btnCreateConfirm", ADD)
-                                                 .param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
-                                                 .param(COURTSITE_CODE_PARAM, COURTSITE_CODE))
-                                         .andReturn();
+        final MvcResult results =
+            mockMvc.perform(post(mappingNameCreateCourtUrl).param(COURT_ID, THREE)
+                .param("btnCreateConfirm", ADD).param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
+                .param(COURTSITE_CODE_PARAM, COURTSITE_CODE)).andReturn();
         ModelAndView modelAndView = results.getModelAndView();
 
         assertNotNull(modelAndView.getViewName(), NULL);
         assertEquals(viewNameCreateCourt, modelAndView.getViewName(), NOT_EQUAL);
         assertEquals(1, capturedErrors.getValue().getErrorCount(), NOT_EQUAL);
-        assertEquals("A court site name", capturedCourtCreateCommand.getValue().getCourtSiteName(), NOT_EQUAL);
-        assertInstanceOf(CourtCreateCommand.class,
-                modelAndView.getModel().get(COMMAND), NOT_AN_INSTANCE);
+        assertEquals("A court site name", capturedCourtCreateCommand.getValue().getCourtSiteName(),
+            NOT_EQUAL);
+        assertInstanceOf(CourtCreateCommand.class, modelAndView.getModel().get(COMMAND),
+            NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, modelAndView.getModel().get("courtSiteList"), NOT_EQUAL);
         verify(mockCourtCreateValidator);
         verify(mockCourtPageStateHolder);
@@ -111,8 +111,8 @@ class CourtControllerErrorTest extends CourtControllerTest {
         final List<CourtDto> courtDtos = getCourtDtoList();
 
         expect(mockCourtPageStateHolder.getCourt()).andReturn(courtDtos.get(0)).times(3);
-        mockCourtCreateValidator.validate(capture(capturedCourtCreateCommand), capture(capturedErrors), anyObject(),
-                anyInt());
+        mockCourtCreateValidator.validate(capture(capturedCourtCreateCommand),
+            capture(capturedErrors), anyObject(), anyInt());
         expectLastCall();
         replay(mockCourtCreateValidator);
         mockCourtService.createCourt(capture(capturedCourtCreateCommand), eq(3), eq(1));
@@ -121,20 +121,19 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateCourt)
-                                                 .param(COURT_ID, THREE)
-                                                 .param("btnCreateConfirm", ADD)
-                                                 .param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
-                                                 .param(COURTSITE_CODE_PARAM, COURTSITE_CODE))
-                                         .andReturn();
+        final MvcResult results =
+            mockMvc.perform(post(mappingNameCreateCourtUrl).param(COURT_ID, THREE)
+                .param("btnCreateConfirm", ADD).param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
+                .param(COURTSITE_CODE_PARAM, COURTSITE_CODE)).andReturn();
         ModelAndView modelAndView = results.getModelAndView();
 
         assertNotNull(modelAndView.getViewName(), NULL);
         assertEquals(viewNameCreateCourt, modelAndView.getViewName(), NOT_EQUAL);
         assertEquals(1, capturedErrors.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals("Unable to create Court: Create Court Exception",
-                capturedErrors.getValue().getAllErrors().get(0).getDefaultMessage(), NOT_EQUAL);
-        assertEquals("A court site name", capturedCourtCreateCommand.getValue().getCourtSiteName(), NOT_EQUAL);
+            capturedErrors.getValue().getAllErrors().get(0).getDefaultMessage(), NOT_EQUAL);
+        assertEquals("A court site name", capturedCourtCreateCommand.getValue().getCourtSiteName(),
+            NOT_EQUAL);
         verify(mockCourtCreateValidator);
         verify(mockCourtPageStateHolder);
         verify(mockCourtService);
@@ -147,7 +146,8 @@ class CourtControllerErrorTest extends CourtControllerTest {
         final List<CourtDto> courtDtos = getCourtDtoList();
 
         mockCourtPageStateHolder.setCourtSearchCommand(capture(capturedCourtSearchCommand));
-        mockCourtSelectedValidator.validate(capture(capturedCourtSearchCommand), capture(capturedErrors));
+        mockCourtSelectedValidator.validate(capture(capturedCourtSearchCommand),
+            capture(capturedErrors));
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -157,8 +157,10 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtSite).param(COURT_ID, THREE).param("btnAmend",
-                ADD)).andReturn();
+        final MvcResult results = mockMvc
+            .perform(
+                post(mappingNameViewCourtSiteUrl).param(COURT_ID, THREE).param("btnAmend", ADD))
+            .andReturn();
         String viewName = results.getModelAndView().getViewName();
 
         assertNotNull(viewName, NULL);
@@ -173,7 +175,8 @@ class CourtControllerErrorTest extends CourtControllerTest {
         final Capture<CourtAmendCommand> capturedCourtAmendCommand = newCapture();
         final Capture<BindingResult> capturedErrors = newCapture();
 
-        mockCourtAmendValidator.validate(capture(capturedCourtAmendCommand), capture(capturedErrors));
+        mockCourtAmendValidator.validate(capture(capturedCourtAmendCommand),
+            capture(capturedErrors));
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -181,13 +184,11 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtAmendValidator);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCourt)
-                                                 .param(XHIBIT_COURTSITE_ID, THREE)
-                                                 .param(COURT_ID, THREE)
-                                                 .param("btnUpdateConfirm", ADD)
-                                                 .param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
-                                                 .param(COURTSITE_CODE_PARAM, COURTSITE_CODE))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameAmendCourtUrl).param(XHIBIT_COURTSITE_ID, THREE).param(COURT_ID, THREE)
+                .param("btnUpdateConfirm", ADD).param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
+                .param(COURTSITE_CODE_PARAM, COURTSITE_CODE))
+            .andReturn();
         final Map<String, Object> model = results.getModelAndView().getModel();
 
         assertInstanceOf(CourtAmendCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
@@ -203,26 +204,24 @@ class CourtControllerErrorTest extends CourtControllerTest {
         final Capture<CourtAmendCommand> capturedCourtAmendCommand = newCapture();
         final Capture<BindingResult> capturedErrors = newCapture();
 
-        mockCourtAmendValidator.validate(capture(capturedCourtAmendCommand), capture(capturedErrors));
+        mockCourtAmendValidator.validate(capture(capturedCourtAmendCommand),
+            capture(capturedErrors));
         expectLastCall();
         mockCourtService.updateCourt(capture(capturedCourtAmendCommand));
-        expectLastCall().andThrow(new DataAccessException("Court Update Error") {
-        });
+        expectLastCall().andThrow(new DataAccessException("Court Update Error") {});
         replay(mockCourtAmendValidator);
         replay(mockCourtService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCourt)
-                                                 .param(XHIBIT_COURTSITE_ID, THREE)
-                                                 .param(COURT_ID, THREE)
-                                                 .param("btnUpdateConfirm", ADD)
-                                                 .param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
-                                                 .param(COURTSITE_CODE_PARAM, COURTSITE_CODE))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameAmendCourtUrl).param(XHIBIT_COURTSITE_ID, THREE).param(COURT_ID, THREE)
+                .param("btnUpdateConfirm", ADD).param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
+                .param(COURTSITE_CODE_PARAM, COURTSITE_CODE))
+            .andReturn();
         final Map<String, Object> model = results.getModelAndView().getModel();
 
         assertEquals("Unable to update Court: Court Update Error",
-                capturedErrors.getValue().getAllErrors().get(0).getDefaultMessage(), NOT_EQUAL);
+            capturedErrors.getValue().getAllErrors().get(0).getDefaultMessage(), NOT_EQUAL);
         assertInstanceOf(CourtAmendCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(3, capturedCourtAmendCommand.getValue().getXhibitCourtSiteId(), NOT_EQUAL);
         verify(mockCourtAmendValidator);
@@ -240,11 +239,10 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-                mockMvc.perform(get(viewNameAmendCourt + "/6"))
-                       .andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameAmendCourtUrl + "/6")).andReturn();
         String response = results.getResponse().getContentAsString();
-        XhibitCourtSiteDto returnedCourtSiteDto = new ObjectMapper().readValue(response, XhibitCourtSiteDto.class);
+        XhibitCourtSiteDto returnedCourtSiteDto =
+            new ObjectMapper().readValue(response, XhibitCourtSiteDto.class);
 
         assertEquals(4, returnedCourtSiteDto.getCourtId(), NOT_EQUAL);
         assertEquals(6, returnedCourtSiteDto.getId(), NOT_EQUAL);
@@ -261,9 +259,7 @@ class CourtControllerErrorTest extends CourtControllerTest {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-                mockMvc.perform(get(viewNameAmendCourt + "/6"))
-                       .andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameAmendCourtUrl + "/6")).andReturn();
         String response = results.getResponse().getContentAsString();
 
         assertEquals("", response, NOT_EQUAL);
