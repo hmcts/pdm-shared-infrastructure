@@ -212,18 +212,15 @@ public class UserDetailsService extends UserDetailsServiceRepository
      * @return the session user name
      */
     private String getSessionUserName() {
-        String userName = null;
-
-        // Get the principal from the Spring security authentication
+        // Get the Spring security authentication
         // object which has the user name of the current logged on user
         final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            userName = ((org.springframework.security.core.userdetails.UserDetails) authentication
-                .getPrincipal()).getUsername();
+            return authentication.getName();
         }
 
-        return userName;
+        return null;
     }
 
     /**

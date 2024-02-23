@@ -38,7 +38,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -145,10 +144,9 @@ public class WebSecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request,
                 HttpServletResponse response, Authentication authentication)
-                throws IOException, ServletException {
-                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                LOG.debug("The user {} has logged in.", userDetails.getUsername());
-                for (GrantedAuthority grantedAuthority : userDetails.getAuthorities()) {
+                throws IOException, ServletException {                
+                LOG.debug("The user {} has logged in.", authentication.getName());
+                for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
                     LOG.debug("Role = {}", grantedAuthority.getAuthority());
                 }
                 response.sendRedirect(HOME_URL);

@@ -40,7 +40,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.ldap.userdetails.Person;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -95,9 +94,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private Authentication mockAuthentication;
-
-    @Mock
-    private Person mockPerson;
 
     @Mock
     private AuthenticationException mockAuthenticationException;
@@ -189,8 +185,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
         WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
         AuthenticationSuccessHandler handlerUnderTest = classUnderTest.getSuccessHandler();
         // Expects
-        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockPerson);
-        Mockito.when(mockPerson.getUsername()).thenReturn("username");
+        Mockito.when(mockAuthentication.getName()).thenReturn("username");
         // Run
         boolean result = false;
         try {
@@ -209,8 +204,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
         WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
         AuthenticationFailureHandler handlerUnderTest = classUnderTest.getFailureHandler();
         // Expects
-        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockPerson);
-        Mockito.when(mockPerson.getUsername()).thenReturn("username");
+        Mockito.when(mockAuthentication.getName()).thenReturn("username");
         // Run
         boolean result = false;
         try {

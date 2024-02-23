@@ -107,18 +107,14 @@ public class DomainInterceptor extends EmptyInterceptor {
      * @return username
      */
     private String getUsername() {
-        // Default username is XHIBIT
-        String username = "XHIBIT";
-
-        // Get the principal from the Spring security authentication
+        // Get the Spring security authentication
         // object which has the username of the current logged on user
         final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            username = ((org.springframework.security.core.userdetails.UserDetails) authentication
-                .getPrincipal()).getUsername();
+            return authentication.getName();
         }
-
-        return username;
+        // Default username is XHIBIT
+        return "XHIBIT";
     }
 }
