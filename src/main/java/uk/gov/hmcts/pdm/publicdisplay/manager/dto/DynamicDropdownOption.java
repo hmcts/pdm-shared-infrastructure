@@ -44,6 +44,10 @@ public class DynamicDropdownOption implements Serializable {
         setText(text);
     }
 
+    public DynamicDropdownOption() {
+    // This constructor is intentionally empty. Nothing special is needed here.
+    }
+
     public Integer getValue() {
         return value;
     }

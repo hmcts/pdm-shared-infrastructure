@@ -3,7 +3,7 @@ package uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteDao;
-import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
+import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbDispMgrCourtSiteProcessor;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyDao;
@@ -79,7 +79,7 @@ public abstract class CduConverter extends CduUtility {
             if (xhbDispMgrCourtSiteDao.getXhbCourtSiteDao() != null) {
                 XhbCourtSiteDao xhbCourtsiteDao = xhbDispMgrCourtSiteDao.getXhbCourtSiteDao();
                 IXhibitCourtSite xhibitCourtSite =
-                    XhbCourtSiteRepository.getXhibitCourtSiteFromDao(xhbCourtsiteDao);
+                        XhbDispMgrCourtSiteProcessor.getXhibitCourtSiteFromDao(xhbCourtsiteDao);
                 courtSite.setXhibitCourtSite(xhibitCourtSite);
             }
         }

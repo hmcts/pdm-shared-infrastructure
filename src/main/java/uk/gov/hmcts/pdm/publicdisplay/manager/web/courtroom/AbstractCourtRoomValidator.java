@@ -25,7 +25,7 @@ public abstract class AbstractCourtRoomValidator implements Validator {
      *
      * @return the courtroom page state holder
      */
-    protected CourtRoomPageStateHolder getDisplayPageStateHolder() {
+    protected CourtRoomPageStateHolder getCourtRoomPageStateHolder() {
         return courtRoomPageStateHolder;
     }
 
