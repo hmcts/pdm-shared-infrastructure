@@ -216,8 +216,7 @@ public class UserController {
         final String methodName = "removeUser";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
-        // TODO: This will not work until we have user authentication
-        // userRemoveValidator.validate(userRemoveCommand, result);
+        userRemoveValidator.validate(userRemoveCommand, result);
         if (!result.hasErrors()) {
             try {
                 // Remove the user
