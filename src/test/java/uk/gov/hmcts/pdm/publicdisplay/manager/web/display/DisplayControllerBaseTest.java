@@ -40,9 +40,13 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
     protected DisplayDeleteValidator mockDisplayDeleteValidator;
     protected IDisplayService mockDisplayService;
     protected String viewNameViewDisplay;
+    protected String mappingNameViewDisplayUrl;
     protected String viewNameCreateDisplay;
+    protected String mappingNameCreateDisplayUrl;
     protected String viewNameAmendDisplay;
+    protected String mappingNameAmendDisplayUrl;
     protected String viewNameDeleteDisplay;
+    protected String mappingNameDeleteDisplayUrl;
     protected MockMvc mockMvc;
     protected static final String NOT_NULL = "Not null";
     protected static final String NULL = "Null";
@@ -64,7 +68,7 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
     protected static final String DISPLAY_LIST = "displayList";
     protected static final String DISPLAY_TYPE_LIST = "displayTypeList";
     protected static final String ROTATION_SET_LIST = "rotationSetList";
-    protected static final String REQUEST_MAPPING = "REQUEST_MAPPING";
+    protected static final String REQUEST_MAPPING = "/display";
 
     @BeforeEach
     public void setup() {
@@ -73,29 +77,35 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
         // Setup the mock version of the called classes
         mockObjects();
         // Map the mock to the class under tests called class
-        ReflectionTestUtils.setField(classUnderTest, "displaySelectedValidator", mockDisplaySelectedValidator);
-        ReflectionTestUtils.setField(classUnderTest, "displayCreateValidator", mockDisplayCreateValidator);
-        ReflectionTestUtils.setField(classUnderTest, "displayAmendValidator", mockDisplayAmendValidator);
-        ReflectionTestUtils.setField(classUnderTest, "displayDeleteValidator", mockDisplayDeleteValidator);
-        ReflectionTestUtils.setField(classUnderTest, "displayPageStateHolder", mockDisplayPageStateHolder);
+        ReflectionTestUtils.setField(classUnderTest, "displaySelectedValidator",
+            mockDisplaySelectedValidator);
+        ReflectionTestUtils.setField(classUnderTest, "displayCreateValidator",
+            mockDisplayCreateValidator);
+        ReflectionTestUtils.setField(classUnderTest, "displayAmendValidator",
+            mockDisplayAmendValidator);
+        ReflectionTestUtils.setField(classUnderTest, "displayDeleteValidator",
+            mockDisplayDeleteValidator);
+        ReflectionTestUtils.setField(classUnderTest, "displayPageStateHolder",
+            mockDisplayPageStateHolder);
         ReflectionTestUtils.setField(classUnderTest, "displayService", mockDisplayService);
 
         // Get the static variables from the class under test
         viewNameViewDisplay =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_DISPLAY");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_VIEW_DISPLAY");
+        mappingNameViewDisplayUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_DISPLAY");
         viewNameCreateDisplay =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CREATE_DISPLAY");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_CREATE_DISPLAY");
+        mappingNameCreateDisplayUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CREATE_DISPLAY");
         viewNameAmendDisplay =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_DISPLAY");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_AMEND_DISPLAY");
+        mappingNameAmendDisplayUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_DISPLAY");
         viewNameDeleteDisplay =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_DELETE_DISPLAY");
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_DELETE_DISPLAY");
+        mappingNameDeleteDisplayUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_DELETE_DISPLAY");
 
 
         // Stop circular view path error
@@ -104,7 +114,8 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
         viewResolver.setSuffix(".jsp");
 
         // Setup the mock version of the modelMvc
-        mockMvc = MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
+        mockMvc =
+            MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
     }
 
     protected void mockObjects() {
@@ -157,17 +168,18 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
         replay(mockDisplayPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewDisplay)
-                                                 .param(XHIBIT_COURTSITE_ID, "1"))
-                                         .andReturn();
+        final MvcResult results = mockMvc
+            .perform(get(mappingNameViewDisplayUrl).param(XHIBIT_COURTSITE_ID, "1")).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
-        assertInstanceOf(DisplaySearchCommand.class, results.getModelAndView().getModel().get(COMMAND),
-                NOT_AN_INSTANCE);
+        assertInstanceOf(DisplaySearchCommand.class,
+            results.getModelAndView().getModel().get(COMMAND), NOT_AN_INSTANCE);
         assertNotNull(results, NULL);
         assertEquals(viewNameViewDisplay, returnedViewName, NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), capturedCourtSites.getValue().get(0), NOT_EQUAL);
         verify(mockDisplayService);
         verify(mockDisplayPageStateHolder);
@@ -189,17 +201,17 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
         replay(mockDisplayPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewDisplay)
-                                                 .param(XHIBIT_COURTSITE_ID, "1")
-                                                 .param("reset", "false"))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(
+            get(mappingNameViewDisplayUrl).param(XHIBIT_COURTSITE_ID, "1").param("reset", "false"))
+            .andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
-        assertInstanceOf(DisplaySearchCommand.class, results.getModelAndView().getModel().get(COMMAND),
-                NOT_AN_INSTANCE);
+        assertInstanceOf(DisplaySearchCommand.class,
+            results.getModelAndView().getModel().get(COMMAND), NOT_AN_INSTANCE);
         assertNotNull(results, NULL);
         assertEquals(viewNameViewDisplay, returnedViewName, NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), capturedCourtSites.getValue().get(0), NOT_EQUAL);
         verify(mockDisplayService);
         verify(mockDisplayPageStateHolder);
@@ -210,22 +222,23 @@ abstract class DisplayControllerBaseTest extends AbstractJUnit {
         final List<XhibitCourtSiteDto> xhibitCourtSiteDtos = createCourtSiteDtoList();
         DisplaySearchCommand displaySearchCommand = new DisplaySearchCommand();
 
-        expect(mockDisplayPageStateHolder.getDisplaySearchCommand()).andReturn(displaySearchCommand).times(2);
+        expect(mockDisplayPageStateHolder.getDisplaySearchCommand()).andReturn(displaySearchCommand)
+            .times(2);
         expect(mockDisplayPageStateHolder.getSites()).andReturn(xhibitCourtSiteDtos);
         replay(mockDisplayPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewDisplay)
-                                                 .param(XHIBIT_COURTSITE_ID, "1")
-                                                 .param("reset", "false"))
-                                         .andReturn();
+        final MvcResult results = mockMvc.perform(
+            get(mappingNameViewDisplayUrl).param(XHIBIT_COURTSITE_ID, "1").param("reset", "false"))
+            .andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
         assertEquals(viewNameViewDisplay, returnedViewName, NOT_EQUAL);
-        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST), NOT_EQUAL);
-        assertInstanceOf(DisplaySearchCommand.class, results.getModelAndView().getModel().get(COMMAND),
-                NOT_AN_INSTANCE);
+        assertEquals(xhibitCourtSiteDtos, results.getModelAndView().getModel().get(COURTSITE_LIST),
+            NOT_EQUAL);
+        assertInstanceOf(DisplaySearchCommand.class,
+            results.getModelAndView().getModel().get(COMMAND), NOT_AN_INSTANCE);
         verify(mockDisplayPageStateHolder);
     }
 }
