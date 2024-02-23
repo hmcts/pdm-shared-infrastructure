@@ -2,6 +2,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.common.json.CduJson;
 import uk.gov.hmcts.pdm.publicdisplay.common.json.CourtSiteJson;
@@ -44,8 +46,7 @@ public class LocalProxyRestCduFinder extends LocalProxyRestClientRequest {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ILocalProxyRestClient#getCdus()
+     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ILocalProxyRestClient#getCdus()
      */
     public List<CduJson> getCdus(final ILocalProxy localProxy) {
         LOGGER.info("getCdus method starts");
@@ -68,9 +69,8 @@ public class LocalProxyRestCduFinder extends LocalProxyRestClientRequest {
     /*
      * (non-Javadoc)
      * 
-     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ILocalProxyRestClient#
-     * restartCdu( uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ILocalProxy,
-     * java.util.List)
+     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ILocalProxyRestClient# restartCdu(
+     * uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ILocalProxy, java.util.List)
      */
     public void restartCdu(final ILocalProxy localProxy, final List<String> ipAddresses) {
         final String methodName = "restartCdu";
@@ -127,20 +127,14 @@ public class LocalProxyRestCduFinder extends LocalProxyRestClientRequest {
      * @return username
      */
     protected String getUsername() {
-        //TODO: re-add this when we have authentication working
-        // Default username is XHIBIT
-        //String username = "XHIBIT";
-
-        // Get the principal from the Spring security authentication
+        // Get the Spring security authentication
         // object which has the username of the current logged on user
-        //TODO: This is a workaround as we have no working user authentication currently
-        /*final Authentication authentication =
+        final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            username = ((User) authentication.getPrincipal()).getUsername();
-        }*/
-
-        //return username;
+            return authentication.getName();
+        }
+        // Default username is XHIBIT
         return "XHIBIT";
     }
 

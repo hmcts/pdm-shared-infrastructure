@@ -15,5 +15,4 @@ public class PdmanagerSpringbootApplication {
          * empty constructor
          */
     }
-
 }

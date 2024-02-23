@@ -32,14 +32,13 @@
 				
 				<h3>Manage Display</h3>
 
-				<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-				<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+				<security:authorize access="hasRole('ROLE_ADMIN')"> 
 					<p>The &quot;Amend Display&quot; option allows update of the data stored against the selected sites display.</p>
 				
 					<p>The &quot;Create Display&quot; option allows creation of a new display stored against the selected site.</p>
 				
 					<p>The &quot;Delete Display&quot; option allows deletion of a display stored against the selected site.</p>
-				<%--</security:authorize> --%>
+				</security:authorize>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

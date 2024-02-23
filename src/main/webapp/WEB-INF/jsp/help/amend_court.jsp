@@ -32,12 +32,11 @@
 				
 				<h3>Amend Court</h3>
 
-				<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-				<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+				<security:authorize access="hasRole('ROLE_ADMIN')"> 
 					<p>The &quot;Update Court&quot; updates the data stored against the selected court.</p>
 				
 					<p>The &quot;Return to Manage Court&quot; returns back to the Manage Court screen.</p>
-				<%--</security:authorize> --%>
+				</security:authorize>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

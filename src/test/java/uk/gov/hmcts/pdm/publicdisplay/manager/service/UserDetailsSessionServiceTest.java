@@ -1,17 +1,20 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserDetailsSessionServiceTest extends LoadUserDetailsServiceTest {
+    
     /**
      * Test is session user success.
      */
-    //TODO: Re-add this when user authentication working
-    /*@Test
+    @Test
     void testIsSessionUserTrue() {
         // Define a mock version of the called methods via private method
         mockGetSessionUserName(true);
@@ -21,7 +24,7 @@ class UserDetailsSessionServiceTest extends LoadUserDetailsServiceTest {
 
         // Assert that the objects are as Mockito.whened
         assertTrue(result, FALSE);
-    }*/
+    }
 
     /**
      * Test is session user false.
@@ -69,8 +72,7 @@ class UserDetailsSessionServiceTest extends LoadUserDetailsServiceTest {
     /**
      * Test is session user exists true.
      */
-    //TODO: Re-add this when user authentication working
-    /*@Test
+    @Test
     void testIsSessionUserExistsTrue() {
         // Capture the UserName
         final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
@@ -87,5 +89,5 @@ class UserDetailsSessionServiceTest extends LoadUserDetailsServiceTest {
         // Assert that the objects are as Mockito.whened
         assertTrue(result, FALSE);
         assertEquals(USER_NAME, capturedUserName.getValue(), NOT_EQUAL);
-    }*/
+    }
 }

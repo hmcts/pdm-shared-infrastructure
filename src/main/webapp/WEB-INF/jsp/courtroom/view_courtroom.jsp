@@ -39,9 +39,8 @@
 								<%-- We have court site data so render the form --%>
 								<form:form commandName="courtRoomSearchCommand" action="${context}/courtroom/view_courtroom" method="POST" class="form-horizontal">
 
-								<%-- CSRF Guard token where uri equals form action --%>
-								<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/courtroom/view_courtroom"/>"/>--%>
-
+								<%-- CSRF token --%>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 								<%-- messages_success is always present so the JS can insert its own messages --%>
 								<div id="messages_success" class="alert alert-success" style="${empty successMessage ? 'display:none;' : ''}">
@@ -84,15 +83,14 @@
 								<%-- button group --%>
 								<div class="form-group">
 									<div class="col-md-12">
-										<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-										<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+										<security:authorize access="hasRole('ROLE_ADMIN')">
 											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
 												<span class="glyphicon glyphicon-edit"></span> Amend Court Room</button>
 											<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
 												<span class="glyphicon glyphicon-plus"></span> Create Court Room</button>
 											<button id="btnDelete" class="btn btn-primary" name="btnDelete" value="delete">
 												<span class="glyphicon glyphicon-minus"></span> Delete Court Room</button>
-										<%-- </security:authorize>	--%>
+										</security:authorize>
 									</div>
 								</div>
 							</form:form>

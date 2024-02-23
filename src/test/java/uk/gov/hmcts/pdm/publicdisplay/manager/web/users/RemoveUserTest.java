@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -56,14 +57,13 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            mockMvc.perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        // TODO Uncomment this line once User Authentication is done
-        // assertFalse(capturedBindingResult.getValue().hasErrors());
+        assertFalse(capturedBindingResult.getValue().hasErrors(), TRUE);
         assertEquals(users, capturedUsers.getValue(), NOT_EQUAL);
         assertNull(capturedCommand.getValue().getUserName(), NOT_NULL);
 
@@ -98,14 +98,13 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            mockMvc.perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        // TODO Uncomment this line once User Authentication is done
-        // assertEquals(1, capturedBindingResult.getValue().getErrorCount());
+        assertEquals(1, capturedBindingResult.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals(userCommand.getUserName(), capturedCommand.getValue().getUserName(),
             NOT_EQUAL);
 
@@ -138,14 +137,13 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            mockMvc.perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        // TODO Uncomment this line once User Authentication is done
-        // assertEquals(1, capturedBindingResult.getValue().getErrorCount());
+        assertEquals(1, capturedBindingResult.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals(userCommand.getUserName(), capturedCommand.getValue().getUserName(),
             NOT_EQUAL);
 
@@ -172,14 +170,13 @@ class RemoveUserTest extends AddUserTest {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM))
+            mockMvc.perform(post(mappingNameManageUserUrl).param(BTN_REMOVE_CONFIRM, BTN_REMOVE_CONFIRM))
                 .andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        // TODO Uncomment this line once User Authentication is done
-        // assertEquals(2, capturedBindingResult.getValue().getErrorCount());
+        assertEquals(2, capturedBindingResult.getValue().getErrorCount(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockUserPageStateHolder);

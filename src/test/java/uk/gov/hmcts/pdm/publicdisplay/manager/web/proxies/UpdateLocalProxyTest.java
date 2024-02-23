@@ -63,7 +63,7 @@ abstract class UpdateLocalProxyTest extends RegisterLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendLocalProxy)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendLocalProxyUrl)
             .param(BTN_UPDATE_CONFIRM, BTN_UPDATE_CONFIRM).param(TITLE, courtSite.getTitle())
             .param(SCHEDULE_ID_STRING, courtSite.getScheduleId().toString())
             .param(NOTIFICATION, courtSite.getNotification())).andReturn();
@@ -103,7 +103,7 @@ abstract class UpdateLocalProxyTest extends RegisterLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendLocalProxy)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendLocalProxyUrl)
             .param(BTN_UPDATE_CONFIRM, BTN_UPDATE_CONFIRM).param(TITLE, courtSite.getTitle())
             .param(SCHEDULE_ID_STRING, courtSite.getScheduleId().toString())
             .param(NOTIFICATION, courtSite.getNotification())).andReturn();
@@ -144,7 +144,7 @@ abstract class UpdateLocalProxyTest extends RegisterLocalProxyTest {
         expect(mockLocalProxyPageStateHolder.getCourtSite()).andReturn(courtSite);
         expectLastCall().times(2);
         expect(mockLocalProxyPageStateHolder.getSchedules()).andReturn(schedules);
-        
+
         DataRetrievalFailureException dataRetrievalFailureException =
             new DataRetrievalFailureException("Mock data access exception");
         mockLocalProxyService.updateLocalProxy(capture(capturedCourtSiteDto),
@@ -154,7 +154,7 @@ abstract class UpdateLocalProxyTest extends RegisterLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendLocalProxy)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendLocalProxyUrl)
             .param(BTN_UPDATE_CONFIRM, BTN_UPDATE_CONFIRM).param(TITLE, courtSite.getTitle())
             .param(SCHEDULE_ID_STRING, courtSite.getScheduleId().toString())
             .param(NOTIFICATION, courtSite.getNotification())).andReturn();
@@ -186,14 +186,14 @@ abstract class UpdateLocalProxyTest extends RegisterLocalProxyTest {
         courtSite.setTitle(NEW + courtSite.getTitle());
         courtSite.setScheduleId(courtSite.getScheduleId() + 1L);
         courtSite.setNotification(NEW + courtSite.getNotification());
-        
+
 
         // Add the mock calls to child classes
         expectAmendValidator(capturedCommand, capturedBindingResult, true);
         expect(mockLocalProxyPageStateHolder.getCourtSite()).andReturn(courtSite);
         expectLastCall().times(2);
         expect(mockLocalProxyPageStateHolder.getSchedules()).andReturn(schedules);
-        
+
         XpdmException xpdmException = new XpdmException("Mock runtime exception");
         mockLocalProxyService.updateLocalProxy(capture(capturedCourtSiteDto),
             capture(capturedCommand));
@@ -202,7 +202,7 @@ abstract class UpdateLocalProxyTest extends RegisterLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendLocalProxy)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendLocalProxyUrl)
             .param(BTN_UPDATE_CONFIRM, BTN_UPDATE_CONFIRM).param(TITLE, courtSite.getTitle())
             .param(SCHEDULE_ID_STRING, courtSite.getScheduleId().toString())
             .param(NOTIFICATION, courtSite.getNotification())).andReturn();

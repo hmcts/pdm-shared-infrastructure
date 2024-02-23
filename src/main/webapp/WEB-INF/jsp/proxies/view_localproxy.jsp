@@ -39,9 +39,9 @@
 								<%-- We have court site data so render the form --%>
 								<form:form commandName="localProxySearchCommand" action="${context}/proxies/view_localproxy" method="POST" class="form-horizontal">
 
-								<%-- CSRF Guard token where uri equals form action --%>
-								<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/proxies/view_localproxy"/>"/>--%>
-
+								<%-- CSRF token --%>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						
 
 								<%-- messages_success is always present so the JS can insert its own messages --%>
 								<div id="messages_success" class="alert alert-success" style="${empty successMessage ? 'display:none;' : ''}">
@@ -86,13 +86,12 @@
 									<div class="col-md-12">
 										<button id="btnView" class="btn btn-primary" name="viewlocalproxy" value="view">
 											<span class="glyphicon glyphicon-search"></span> View Local Proxy</button>
-                    <%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-										<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+										<security:authorize access="hasRole('ROLE_ADMIN')"> 
 											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
 												<span class="glyphicon glyphicon-edit"></span> Amend Local Proxy</button>
 											<button type="button" id="btnUnregister" class="btn btn-primary" name="unregister" data-toggle="modal" data-target="#unregisterModal">
 												<span class="glyphicon glyphicon-minus"></span> Unregister Local Proxy</button>
-										<%-- </security:authorize>	--%>
+										</security:authorize>	
 									</div>
 								</div>
 

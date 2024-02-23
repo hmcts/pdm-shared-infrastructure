@@ -42,7 +42,8 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
 
         mockJudgePageStateHolder.setJudgeSearchCommand(capture(capturedJudgeSearchCommand));
         expectLastCall();
-        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand), capture(capturedErrors));
+        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand),
+            capture(capturedErrors));
         expectLastCall();
         expect(mockRefJudgeService.getJudges(eq(8L))).andReturn(refJudgeDtos);
         expect(mockRefJudgeService.getJudgeTypes(eq(8L))).andReturn(refSystemCodeDtos);
@@ -61,13 +62,12 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
         replay(mockJudgePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudge)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnAmend", ADD)).andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameViewJudgeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnAmend", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeAmendCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeAmendCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertEquals(refSystemCodeDtos, model.get(JUDGE_TYPE_LIST), NOT_EQUAL);
         assertEquals(refJudgeDtos, model.get(JUDGE_LIST), NOT_EQUAL);
@@ -89,7 +89,8 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
 
         mockJudgePageStateHolder.setJudgeSearchCommand(capture(capturedJudgeSearchCommand));
         expectLastCall();
-        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand), capture(capturedErrors));
+        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand),
+            capture(capturedErrors));
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -99,9 +100,9 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
         replay(mockJudgePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudge)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnAmend", ADD)).andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameViewJudgeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnAmend", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
@@ -125,7 +126,8 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
 
         mockJudgePageStateHolder.setJudgeSearchCommand(capture(capturedJudgeSearchCommand));
         expectLastCall();
-        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand), capture(capturedErrors));
+        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand),
+            capture(capturedErrors));
         expectLastCall();
         expect(mockRefJudgeService.getJudges(eq(8L))).andReturn(refJudgeDtos);
         expect(mockRefJudgeService.getJudgeTypes(eq(8L))).andReturn(refSystemCodeDtos);
@@ -143,13 +145,13 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
         replay(mockJudgePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudge)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnAdd", ADD)).andReturn();
+        final MvcResult results = mockMvc
+            .perform(
+                post(mappingNameViewJudgeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnAdd", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeCreateCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeCreateCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertEquals(refSystemCodeDtos, model.get(JUDGE_TYPE_LIST), NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), model.get(COURTSITE), NOT_EQUAL);
@@ -171,7 +173,8 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
 
         mockJudgePageStateHolder.setJudgeSearchCommand(capture(capturedJudgeSearchCommand));
         expectLastCall();
-        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand), capture(capturedErrors));
+        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand),
+            capture(capturedErrors));
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -183,9 +186,10 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
         replay(mockJudgePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudge)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnAdd", ADD)).andReturn();
+        final MvcResult results = mockMvc
+            .perform(
+                post(mappingNameViewJudgeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnAdd", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
@@ -210,7 +214,8 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
 
         mockJudgePageStateHolder.setJudgeSearchCommand(capture(capturedJudgeSearchCommand));
         expectLastCall();
-        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand), capture(capturedErrors));
+        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand),
+            capture(capturedErrors));
         expectLastCall();
         expect(mockRefJudgeService.getJudges(eq(8L))).andReturn(refJudgeDtos);
         expect(mockRefJudgeService.getJudgeTypes(eq(8L))).andReturn(refSystemCodeDtos);
@@ -229,13 +234,12 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
         replay(mockJudgePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudge)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnDelete", ADD)).andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameViewJudgeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnDelete", ADD))
+            .andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
 
-        assertInstanceOf(JudgeDeleteCommand.class,
-                model.get(COMMAND), NOT_AN_INSTANCE);
+        assertInstanceOf(JudgeDeleteCommand.class, model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(refJudgeDtos, model.get(JUDGE_LIST), NOT_EQUAL);
         assertEquals(refSystemCodeDtos, model.get(JUDGE_TYPE_LIST), NOT_EQUAL);
         assertEquals(xhibitCourtSiteDtos.get(0), model.get(COURTSITE), NOT_EQUAL);
@@ -258,7 +262,8 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
 
         mockJudgePageStateHolder.setJudgeSearchCommand(capture(capturedJudgeSearchCommand));
         expectLastCall();
-        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand), capture(capturedErrors));
+        mockJudgeSelectedValidator.validate(capture(capturedJudgeSearchCommand),
+            capture(capturedErrors));
         expectLastCall().andAnswer((IAnswer<Void>) () -> {
             ((BindingResult) getCurrentArguments()[1]).reject(MOCK_ERROR_MESSAGE);
             return null;
@@ -268,9 +273,9 @@ abstract class JudgeShowControllerTest extends JudgeControllerBaseTest {
         replay(mockJudgePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewJudge)
-                .param(XHIBIT_COURTSITE_ID, "8")
-                .param("btnDelete", ADD)).andReturn();
+        final MvcResult results = mockMvc.perform(
+            post(mappingNameViewJudgeUrl).param(XHIBIT_COURTSITE_ID, "8").param("btnDelete", ADD))
+            .andReturn();
         final Map<String, Object> model = results.getModelAndView().getModel();
 
         assertEquals(1, capturedErrors.getValue().getErrorCount(), NOT_EQUAL);

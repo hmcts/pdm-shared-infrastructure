@@ -63,9 +63,9 @@ public class JudgeController extends JudgePageStateSetter {
     private static final String COMMAND = "command";
     private static final String SUCCESS_MESSAGE = "successMessage";
 
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/judge";
-
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_JUDGE = "judge";
+    
     /**
      * View Judge.
      */
@@ -74,7 +74,7 @@ public class JudgeController extends JudgePageStateSetter {
     /**
      * View Judge View.
      */
-    private static final String VIEW_NAME_VIEW_JUDGE = REQUEST_MAPPING + MAPPING_VIEW_JUDGE;
+    private static final String VIEW_NAME_VIEW_JUDGE = FOLDER_JUDGE + MAPPING_VIEW_JUDGE;
 
     /**
      * Amend Judge.
@@ -84,7 +84,7 @@ public class JudgeController extends JudgePageStateSetter {
     /**
      * Amend Judge View.
      */
-    private static final String VIEW_NAME_AMEND_JUDGE = REQUEST_MAPPING + MAPPING_AMEND_JUDGE;
+    private static final String VIEW_NAME_AMEND_JUDGE = FOLDER_JUDGE + MAPPING_AMEND_JUDGE;
 
     /**
      * Create Judge.
@@ -94,7 +94,7 @@ public class JudgeController extends JudgePageStateSetter {
     /**
      * Create Judge View.
      */
-    private static final String VIEW_NAME_CREATE_JUDGE = REQUEST_MAPPING + MAPPING_CREATE_JUDGE;
+    private static final String VIEW_NAME_CREATE_JUDGE = FOLDER_JUDGE + MAPPING_CREATE_JUDGE;
 
     /**
      * Delete Judge.
@@ -104,7 +104,7 @@ public class JudgeController extends JudgePageStateSetter {
     /**
      * Delete Judge View.
      */
-    private static final String VIEW_NAME_DELETE_JUDGE = REQUEST_MAPPING + MAPPING_DELETE_JUDGE;
+    private static final String VIEW_NAME_DELETE_JUDGE = FOLDER_JUDGE + MAPPING_DELETE_JUDGE;
 
     /**
      * The judge selected validator.

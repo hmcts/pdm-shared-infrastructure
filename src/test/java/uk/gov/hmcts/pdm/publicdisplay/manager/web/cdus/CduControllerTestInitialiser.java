@@ -17,14 +17,26 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CourtSiteDto;
 @ExtendWith(EasyMockExtension.class)
 class CduControllerTestInitialiser extends CdusControllerTestBase {
 
+    /** The mapping name cdus. */
+    protected String mappingNameCdus;
+
     /** The view name cdus. */
     protected String viewNameCdus;
+
+    /** The mapping name cdus. */
+    protected String mappingNameCdusUrl;
 
     /** The view name amend cdu. */
     protected String viewNameAmendCdu;
 
+    /** The mapping name amend cdu. */
+    protected String mappingNameAmendCduUrl;
+
     /** The view name register cdu. */
     protected String viewNameRegisterCdu;
+    
+    /** The mapping name register cdu. */
+    protected String mappingNameRegisterCduUrl;
 
     /** The view name mapping add url. */
     protected String viewNameMappingAddUrl;
@@ -71,17 +83,22 @@ class CduControllerTestInitialiser extends CdusControllerTestBase {
         ReflectionTestUtils.setField(classUnderTest, "urlService", mockUrlService);
 
         // Get the static variables from the class under test
+        mappingNameCdus = (String) ReflectionTestUtils.getField(classUnderTest, "REQUEST_MAPPING");
+        mappingNameCdusUrl =
+            mappingNameCdus + (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_CDU");
         viewNameCdus = (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_CDUS");
+        mappingNameAmendCduUrl =
+            mappingNameCdus + (String) ReflectionTestUtils.getField(classUnderTest, "AMEND_CDU");
         viewNameAmendCdu =
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_AMEND_CDU");
-        viewNameRegisterCdu =
-            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_REGISTER_CDU");
+        mappingNameRegisterCduUrl =
+            mappingNameCdus + (String) ReflectionTestUtils.getField(classUnderTest, "REGISTER_CDU");
+        viewNameRegisterCdu = (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_REGISTER_CDU");
         viewNameMappingAddUrl = (String) ReflectionTestUtils.getField(classUnderTest, "ADD_URL");
         viewNameMappingRemoveUrl =
             (String) ReflectionTestUtils.getField(classUnderTest, "REMOVE_URL");
-        viewNameCduScreenshot =
-            (String) ReflectionTestUtils.getField(classUnderTest, "REQUEST_MAPPING")
-                + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CDU_SCREENSHOT");
+        viewNameCduScreenshot = mappingNameCdus
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CDU_SCREENSHOT");
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

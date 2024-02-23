@@ -59,9 +59,10 @@ abstract class UnregisterLocalProxyTest extends ViewLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM)
-                .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())).andReturn();
+        final MvcResult results = mockMvc
+            .perform(post(mappingNameLocalProxyUrl).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM)
+                .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString()))
+            .andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameLocalProxy);
@@ -106,9 +107,9 @@ abstract class UnregisterLocalProxyTest extends ViewLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM))
-                .andReturn();
+        final MvcResult results = mockMvc
+            .perform(post(mappingNameLocalProxyUrl).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM))
+            .andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameLocalProxy);
@@ -156,9 +157,10 @@ abstract class UnregisterLocalProxyTest extends ViewLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM)
-                .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())).andReturn();
+        final MvcResult results = mockMvc
+            .perform(post(mappingNameLocalProxyUrl).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM)
+                .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString()))
+            .andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameLocalProxy);
@@ -204,9 +206,10 @@ abstract class UnregisterLocalProxyTest extends ViewLocalProxyTest {
         replay(mockLocalProxyPageStateHolder);
 
         // Perform the test
-        final MvcResult results =
-            mockMvc.perform(post(viewNameLocalProxy).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM)
-                .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString())).andReturn();
+        final MvcResult results = mockMvc
+            .perform(post(mappingNameLocalProxyUrl).param(UNREGISTER_CONFIRM, UNREGISTER_CONFIRM)
+                .param(XHIBIT_COURTSITE_ID, XHIBIT_COURT_SITE_ID.toString()))
+            .andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameLocalProxy);

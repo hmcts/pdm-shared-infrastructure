@@ -46,7 +46,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewCourtSite)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewCourtSiteUrl)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
@@ -66,7 +66,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewCourtSite).param(RESET, FALSE)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewCourtSiteUrl).param(RESET, FALSE)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
@@ -88,7 +88,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewCourtSite).param(RESET, FALSE)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameViewCourtSiteUrl).param(RESET, FALSE)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
 
         assertNotNull(results, NULL);
@@ -119,7 +119,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtSite)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewCourtSiteUrl)
                 .param(COURT_ID, THREE)
                 .param("btnAdd", ADD)).andReturn();
         ModelAndView modelAndView = results.getModelAndView();
@@ -159,7 +159,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateCourt)
+        final MvcResult results = mockMvc.perform(post(mappingNameCreateCourtUrl)
                                                  .param(COURT_ID, THREE)
                                                  .param("btnCreateConfirm", ADD)
                                                  .param(COURTSITE_NAME_PARAM, COURTSITE_NAME)
@@ -206,7 +206,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewCourtSite)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewCourtSiteUrl)
                 .param(COURT_ID, THREE)
                 .param("btnAmend", ADD)).andReturn();
         Map<String, Object> model = results.getModelAndView().getModel();
@@ -248,7 +248,7 @@ abstract class CourtControllerTest extends CourtControllerBase {
         replay(mockCourtPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendCourt)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendCourtUrl)
                                                  .param(XHIBIT_COURTSITE_ID, THREE)
                                                  .param(COURT_ID, THREE)
                                                  .param("btnUpdateConfirm", ADD)

@@ -12,7 +12,7 @@
 			<div class="row" style="margin-bottom : 10px;">			
 				<div class="col-md-12">		
 					<div class="btn-group pull-right">	
-						<a href="<c:url value="/pdm/help/"/>" target="pdm_help" class="btn btn-primary" id="lnkHelp"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Help</a>
+						<a href="<c:url value="/help/"/>" target="pdm_help" class="btn btn-primary" id="lnkHelp"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Help</a>
 					</div>
 				</div>
 			</div>

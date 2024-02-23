@@ -32,7 +32,7 @@
 						<div class="col-md-6">
 							<div class="panel panel-info">
 								<div class="panel-heading">
-									<h3 class="panel-title"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;Error Code <c:out value="${requestScope['javax.servlet.error.status_code']}"/></h3>							
+									<h3 class="panel-title"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;Error Code <c:out value="${requestScope['jakarta.servlet.error.status_code']}"/></h3>							
 								</div>
 								<div class="panel-body">
 									<p>The application has encountered an error. Please contact support for assistance.</p>

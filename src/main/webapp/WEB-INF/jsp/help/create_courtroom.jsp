@@ -32,12 +32,11 @@
 				
 				<h3>Create Court Room</h3>
 
-				<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-				<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+				<security:authorize access="hasRole('ROLE_ADMIN')">
 					<p>The &quot;Create Court Room&quot; creates the court room.</p>
 				
 					<p>The &quot;Return to Manage Court Room&quot; returns back to the Manage Court Room screen.</p>
-				<%--</security:authorize> --%>
+				</security:authorize> 
 			</div>
 			<!-- /col-md-12 -->
 		</div>

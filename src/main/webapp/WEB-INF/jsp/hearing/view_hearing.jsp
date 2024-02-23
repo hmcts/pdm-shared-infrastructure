@@ -39,9 +39,9 @@
 								<%-- We have court site data so render the form --%>
 								<form:form commandName="hearingTypeSearchCommand" action="${context}/hearing/view_hearing" method="POST" class="form-horizontal">
 
-								<%-- CSRF Guard token where uri equals form action --%>
-								<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/hearing/view_hearing"/>"/>--%>
-
+								<%-- CSRF token --%>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						
 
 								<%-- messages_success is always present so the JS can insert its own messages --%>
 								<div id="messages_success" class="alert alert-success" style="${empty successMessage ? 'display:none;' : ''}">
@@ -84,13 +84,12 @@
 								<%-- button group --%>
 								<div class="form-group">
 									<div class="col-md-12">
-										<%-- COMMENTING OUT AUTHENTICATION BLOCK TEMPORARILY FOR TESTING --%>
-										<%-- <security:authorize access="hasRole('ROLE_ADMIN')"> --%>
+										<security:authorize access="hasRole('ROLE_ADMIN')"> 
 											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
 												<span class="glyphicon glyphicon-edit"></span> Amend Hearing Type</button>
 											<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
 												<span class="glyphicon glyphicon-plus"></span> Create Hearing Type</button>
-										<%-- </security:authorize>	--%>
+										</security:authorize>
 									</div>
 								</div>
 							</form:form>

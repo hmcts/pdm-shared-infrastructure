@@ -26,7 +26,9 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,8 +117,7 @@ public class UserDetailsService extends UserDetailsServiceRepository
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService#removeUser
+     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService#removeUser
      * (uk.gov.hmcts.pdm.publicdisplay.manager.web.users.UserRemoveCommand)
      */
     @Override
@@ -140,8 +141,7 @@ public class UserDetailsService extends UserDetailsServiceRepository
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService#getUsers()
+     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService#getUsers()
      */
     @Override
     @Secured(UserRole.ROLE_ADMIN_VALUE)
@@ -166,8 +166,8 @@ public class UserDetailsService extends UserDetailsServiceRepository
     /*
      * (non-Javadoc)
      * 
-     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService#
-     * isSessionUser (java.lang.String)
+     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService# isSessionUser
+     * (java.lang.String)
      */
     @Override
     public boolean isSessionUser(final String userName) {
@@ -212,19 +212,14 @@ public class UserDetailsService extends UserDetailsServiceRepository
      * @return the session user name
      */
     private String getSessionUserName() {
-        //TODO: re-add this when we have authentication working
-        //String userName = null;
-
-        // Get the principal from the Spring security authentication
+        // Get the Spring security authentication
         // object which has the user name of the current logged on user
-        //TODO: This is a workaround as we have no working user authentication currently
-        /*final Authentication authentication =
+        final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            userName = ((UserModel) authentication.getPrincipal()).getUsername();
-        }*/
+            return authentication.getName();
+        }
 
-        //return userName;
         return null;
     }
 

@@ -61,9 +61,9 @@ public class JudgeTypeController extends JudgeTypePageStateSetter {
     private static final String COMMAND = "command";
     private static final String SUCCESS_MESSAGE = "successMessage";
 
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/judgetype";
-
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_JUDGETYPE = "judgetype";
+    
     /**
      * View Judge Type.
      */
@@ -73,7 +73,7 @@ public class JudgeTypeController extends JudgeTypePageStateSetter {
      * View Judge Type View.
      */
     private static final String VIEW_NAME_VIEW_JUDGE_TYPE =
-        REQUEST_MAPPING + MAPPING_VIEW_JUDGE_TYPE;
+        FOLDER_JUDGETYPE + MAPPING_VIEW_JUDGE_TYPE;
 
     /**
      * Amend Judge Type.
@@ -84,7 +84,7 @@ public class JudgeTypeController extends JudgeTypePageStateSetter {
      * Amend Judge Type View.
      */
     private static final String VIEW_NAME_AMEND_JUDGE_TYPE =
-        REQUEST_MAPPING + MAPPING_AMEND_JUDGE_TYPE;
+        FOLDER_JUDGETYPE + MAPPING_AMEND_JUDGE_TYPE;
 
     /**
      * Create Judge Type.
@@ -95,7 +95,7 @@ public class JudgeTypeController extends JudgeTypePageStateSetter {
      * Create Judge View.
      */
     private static final String VIEW_NAME_CREATE_JUDGE_TYPE =
-        REQUEST_MAPPING + MAPPING_CREATE_JUDGE_TYPE;
+        FOLDER_JUDGETYPE + MAPPING_CREATE_JUDGE_TYPE;
 
     /**
      * The judge type selected validator.

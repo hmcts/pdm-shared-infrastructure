@@ -40,6 +40,9 @@ import java.util.Arrays;
 @Controller
 @RequestMapping("/help")
 public class HelpController {
+    
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_HELP = "help";
 
     /** The Constant VALID_HELP_PAGES. */
     private static final String[] VALID_HELP_PAGES =
@@ -64,7 +67,7 @@ public class HelpController {
         if (!isValidPage(page)) {
             throw new NoHandlerFoundException("help", page, new HttpHeaders());
         }
-        return "help/" + page;
+        return FOLDER_HELP + "/" + page;
     }
 
     /**

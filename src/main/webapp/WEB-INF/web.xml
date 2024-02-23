@@ -188,14 +188,6 @@
         <role-name>AUTHENTICATED_USER</role-name>
     </security-role>
 
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/pdm/login</form-login-page>
-            <form-error-page>/pdm/loginError</form-error-page>
-        </form-login-config>
-    </login-config>
-
     <!-- XHIBIT data source -->
     <resource-ref>
        <res-ref-name>jdbc/XhibitDataSource</res-ref-name>

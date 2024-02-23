@@ -78,8 +78,11 @@ abstract class UserControllerTestBase extends AbstractJUnit {
 
     protected static final String BTN_REMOVE_CONFIRM = "btnRemoveConfirm";
 
-    /** The view name mapping manage user. */
+    /** The view name manage user. */
     protected String viewNameManageUser;
+    
+    /** The view name mapping manage user. */
+    protected String mappingNameManageUserUrl;
 
     /** The mock mvc. */
     protected MockMvc mockMvc;
@@ -122,6 +125,9 @@ abstract class UserControllerTestBase extends AbstractJUnit {
             mockUserRemoveValidator);
 
         // Get the static variables from the class under test
+        mappingNameManageUserUrl =
+            (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_MANAGE_USERS");
+        mappingNameManageUserUrl += mappingNameManageUserUrl;
         viewNameManageUser =
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_MANAGE_USERS");
 

@@ -45,7 +45,6 @@
 								   class="form-horizontal">
 
 						<%-- CSRF Guard token where uri equals form action --%>
-            <%-- COMMENTING OUT AUTHENTICATION TEMPORARILY FOR TESTING --%>
 						<%-- <input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/pdm/proxies/amend_localproxy"/>"/> --%>
 
 						<%--

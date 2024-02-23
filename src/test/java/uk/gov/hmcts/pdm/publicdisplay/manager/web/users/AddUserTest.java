@@ -60,7 +60,7 @@ abstract class AddUserTest extends UserControllerTestBase {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            .perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param("userRole", userCommand.getUserRole().toString()).param(BTN_ADD, BTN_ADD))
             .andReturn();
 
@@ -103,7 +103,7 @@ abstract class AddUserTest extends UserControllerTestBase {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            .perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param("userRole", userCommand.getUserRole().toString()).param(BTN_ADD, BTN_ADD))
             .andReturn();
 
@@ -146,7 +146,7 @@ abstract class AddUserTest extends UserControllerTestBase {
 
         // Perform the test
         final MvcResult results = mockMvc
-            .perform(post(viewNameManageUser).param(USERNAME, userCommand.getUserName())
+            .perform(post(mappingNameManageUserUrl).param(USERNAME, userCommand.getUserName())
                 .param("userRole", userCommand.getUserRole().toString()).param(BTN_ADD, BTN_ADD))
             .andReturn();
 
@@ -182,7 +182,7 @@ abstract class AddUserTest extends UserControllerTestBase {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(post(viewNameManageUser).param(BTN_ADD, BTN_ADD)).andReturn();
+            mockMvc.perform(post(mappingNameManageUserUrl).param(BTN_ADD, BTN_ADD)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
@@ -213,7 +213,7 @@ abstract class AddUserTest extends UserControllerTestBase {
         replay(mockUserPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameManageUser)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameManageUserUrl)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);

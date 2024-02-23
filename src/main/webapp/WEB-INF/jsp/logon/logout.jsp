@@ -64,7 +64,7 @@
 							</c:choose>
 	
 							<div class="btn-group">						
-								<a href="<c:url value="/pdm/home"/>" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</a>
+								<a href="<c:url value="/login"/>" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</a>
 							</div>
 						</div>
 					

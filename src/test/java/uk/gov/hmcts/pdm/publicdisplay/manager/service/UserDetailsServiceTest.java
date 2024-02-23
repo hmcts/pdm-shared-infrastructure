@@ -35,14 +35,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgruserdetails.XhbDispMgrUserDetailsRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.ServiceException;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IUserDetails;
-import uk.gov.hmcts.pdm.publicdisplay.manager.security.UserModel;
 import uk.gov.hmcts.pdm.publicdisplay.manager.security.UserRole;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.users.UserAddCommand;
@@ -484,17 +482,17 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         // set the user dependent on if a match is required. I.e. is same user of not when comparing
         // in
         // assert
-        UserModel user;
+        String user;
         if (isMatch) {
-            user = new UserModel(USER_NAME, "N/A", AuthorityUtils.NO_AUTHORITIES);
+            user = USER_NAME;
         } else {
-            user = new UserModel(USER_NAME + "_NO_MATCH", "N/A", AuthorityUtils.NO_AUTHORITIES);
+            user = USER_NAME + "_NO_MATCH";
         }
 
         // Define a mock version of the called methods
         Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
         Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(user);
+        Mockito.when(mockAuthentication.getName()).thenReturn(user);
     }
 
 }

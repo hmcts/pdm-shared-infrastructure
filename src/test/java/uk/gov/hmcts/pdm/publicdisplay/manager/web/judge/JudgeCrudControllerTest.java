@@ -56,7 +56,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameAmendJudge)
+                mockMvc.perform(post(mappingNameAmendJudgeUrl)
                         .param(REF_JUDGE_ID, ONE)
                         .param(SURNAME, A_SURNAME)
                         .param(FIRST_NAME, A_FIRST_NAME)
@@ -104,7 +104,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameAmendJudge)
+                mockMvc.perform(post(mappingNameAmendJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -141,7 +141,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameAmendJudge)
+                mockMvc.perform(post(mappingNameAmendJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -191,7 +191,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameCreateJudge)
+                mockMvc.perform(post(mappingNameCreateJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -242,7 +242,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameCreateJudge)
+                mockMvc.perform(post(mappingNameCreateJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -284,7 +284,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameCreateJudge)
+                mockMvc.perform(post(mappingNameCreateJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -330,7 +330,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameDeleteJudge)
+                mockMvc.perform(post(mappingNameDeleteJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -369,7 +369,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameDeleteJudge)
+                mockMvc.perform(post(mappingNameDeleteJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)
@@ -404,7 +404,7 @@ class JudgeCrudControllerTest extends JudgeShowControllerTest {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(post(viewNameDeleteJudge)
+                mockMvc.perform(post(mappingNameDeleteJudgeUrl)
                                .param(REF_JUDGE_ID, ONE)
                                .param(SURNAME, A_SURNAME)
                                .param(FIRST_NAME, A_FIRST_NAME)

@@ -62,9 +62,9 @@ public class DisplayController extends DisplayPageStateSetter {
     private static final String ROTATION_SET_LIST = "rotationSetList";
     private static final String COMMAND = "command";
     private static final String SUCCESS_MESSAGE = "successMessage";
-
-    /** The Constant REQUEST_MAPPING. */
-    private static final String REQUEST_MAPPING = "/display";
+    
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_DISPLAY = "display";
 
     /**
      * View Display.
@@ -74,7 +74,7 @@ public class DisplayController extends DisplayPageStateSetter {
     /**
      * View Display View.
      */
-    private static final String VIEW_NAME_VIEW_DISPLAY = REQUEST_MAPPING + MAPPING_VIEW_DISPLAY;
+    private static final String VIEW_NAME_VIEW_DISPLAY = FOLDER_DISPLAY + MAPPING_VIEW_DISPLAY;
 
     /**
      * Amend Display.
@@ -84,7 +84,7 @@ public class DisplayController extends DisplayPageStateSetter {
     /**
      * Amend Display View.
      */
-    private static final String VIEW_NAME_AMEND_DISPLAY = REQUEST_MAPPING + MAPPING_AMEND_DISPLAY;
+    private static final String VIEW_NAME_AMEND_DISPLAY = FOLDER_DISPLAY + MAPPING_AMEND_DISPLAY;
 
     /**
      * Create Display.
@@ -94,7 +94,7 @@ public class DisplayController extends DisplayPageStateSetter {
     /**
      * Create Display View.
      */
-    private static final String VIEW_NAME_CREATE_DISPLAY = REQUEST_MAPPING + MAPPING_CREATE_DISPLAY;
+    private static final String VIEW_NAME_CREATE_DISPLAY = FOLDER_DISPLAY + MAPPING_CREATE_DISPLAY;
 
     /**
      * Delete Display.
@@ -104,7 +104,7 @@ public class DisplayController extends DisplayPageStateSetter {
     /**
      * Delete Display View.
      */
-    private static final String VIEW_NAME_DELETE_DISPLAY = REQUEST_MAPPING + MAPPING_DELETE_DISPLAY;
+    private static final String VIEW_NAME_DELETE_DISPLAY = FOLDER_DISPLAY + MAPPING_DELETE_DISPLAY;
 
     /**
      * The display selected validator.

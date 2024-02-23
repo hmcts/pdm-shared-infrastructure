@@ -65,7 +65,7 @@ abstract class ShowCduTest extends TestCdus {
         replay(mockCduPageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameCdus)).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameCdusUrl)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameCdus);
@@ -104,7 +104,7 @@ abstract class ShowCduTest extends TestCdus {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(get(viewNameCdus).param("reset", "false")).andReturn();
+            mockMvc.perform(get(mappingNameCdusUrl).param("reset", "false")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameCdus);
@@ -144,7 +144,7 @@ abstract class ShowCduTest extends TestCdus {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(get(viewNameCdus).param("reset", "false")).andReturn();
+            mockMvc.perform(get(mappingNameCdusUrl).param("reset", "false")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameCdus);
@@ -179,7 +179,7 @@ abstract class ShowCduTest extends TestCdus {
 
         // Perform the test
         final MvcResult results =
-            mockMvc.perform(get(viewNameCdus).param("reset", "false")).andReturn();
+            mockMvc.perform(get(mappingNameCdusUrl).param("reset", "false")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, viewNameCdus);
@@ -220,7 +220,7 @@ abstract class ShowCduTest extends TestCdus {
         replay(mockCduService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameCdus).param("dashboardSearch", "true")
+        final MvcResult results = mockMvc.perform(get(mappingNameCdusUrl).param("dashboardSearch", "true")
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 
@@ -273,7 +273,7 @@ abstract class ShowCduTest extends TestCdus {
         replay(mockCduService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameCdus).param("dashboardSearch", "true")
+        final MvcResult results = mockMvc.perform(get(mappingNameCdusUrl).param("dashboardSearch", "true")
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 
@@ -319,7 +319,7 @@ abstract class ShowCduTest extends TestCdus {
         replay(mockCduService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameCdus).param("dashboardSearch", "true")
+        final MvcResult results = mockMvc.perform(get(mappingNameCdusUrl).param("dashboardSearch", "true")
             .param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 
@@ -360,7 +360,7 @@ abstract class ShowCduTest extends TestCdus {
         replay(mockCduService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl)
             .param(BTN_SEARCH_SITE, BTN_SEARCH_SITE).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 
@@ -398,7 +398,7 @@ abstract class ShowCduTest extends TestCdus {
         expectCduSearchValidator(capturedCommand, capturedErrors, false);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl)
             .param(BTN_SEARCH_SITE, BTN_SEARCH_SITE).param(MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 
@@ -433,7 +433,7 @@ abstract class ShowCduTest extends TestCdus {
         expectCduSearchSelectedValidator(capturedCommand, capturedErrors, true);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCdus)
+        final MvcResult results = mockMvc.perform(post(mappingNameCdusUrl)
             .param(BTN_SHOW_CDU, BTN_SHOW_CDU).param(SELECTED_MAC_ADDRESS, cdu.getMacAddress())
             .param(XHIBIT_COURTSITE_ID, cdu.getXhibitCourtSiteId().toString())).andReturn();
 

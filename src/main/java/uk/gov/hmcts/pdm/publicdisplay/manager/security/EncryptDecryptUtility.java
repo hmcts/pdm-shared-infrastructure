@@ -27,6 +27,7 @@ import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.salt.SaltGenerator;
 import org.jasypt.salt.StringFixedSaltGenerator;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 
 /**
@@ -74,12 +75,8 @@ public enum EncryptDecryptUtility {
         if (textValue == null) {
             throw new IllegalArgumentException("Null value passed in for encryption");
         }
-        //TODO: This is a workaround as we have no working user authentication currently
-        /*final String key =
-            ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getKey();*/
-        final String key = "key";
 
-        final StringEncryptor encryptor = createStringEncryptor(key);
+        final StringEncryptor encryptor = createStringEncryptor(getKey());
 
         return encryptor.encrypt(textValue);
     }
@@ -95,12 +92,7 @@ public enum EncryptDecryptUtility {
             throw new IllegalArgumentException("Null value passed in for decryption");
         }
 
-        //TODO: This is a workaround as we have no working user authentication currently
-        /*final String key =
-            ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getKey();*/
-        final String key = "key";
-
-        final StringEncryptor encryptor = createStringEncryptor(key);
+        final StringEncryptor encryptor = createStringEncryptor(getKey());
 
         return encryptor.decrypt(textValue);
     }
@@ -120,6 +112,11 @@ public enum EncryptDecryptUtility {
         stringEncryptor.setKeyObtentionIterations(ITERATIONS);
         stringEncryptor.setStringOutputType(STRING_OUTPUT);
         return stringEncryptor;
+    }
+
+    private String getKey() {
+        return Integer.toString(
+            SecurityContextHolder.getContext().getAuthentication().getPrincipal().hashCode());
     }
 
 }

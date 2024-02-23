@@ -23,7 +23,7 @@
 				</div>
 				<!-- /panel panel-default-->
 				
-				<%--<security:authorize access="hasRole('ROLE_ADMIN')">--%>
+				<security:authorize access="hasRole('ROLE_ADMIN')">
 					<div class="panel panel-default sb-panel sb-panel-default">
 						<div class="panel-heading sb-panel-heading" id="headingProxies" role="tab">
 							<h4 class="panel-title sb-panel-title">
@@ -40,9 +40,9 @@
 						</div>
 						<!-- /panel-collapse -->
 					</div>
-				<%--</security:authorize>--%>
+				</security:authorize>
 				
-				<%--<security:authorize access="hasRole('ROLE_USER')">--%>
+				<security:authorize access="hasRole('ROLE_USER')">
 					<div class="panel panel-default sb-panel sb-panel-default">
 						<div class="panel panel-default sb-panel sb-panel-default">
 							<div class="panel-heading sb-panel-heading" id="headingProxies" role="tab">
@@ -55,7 +55,7 @@
 						</div>
 						<!-- /panel panel-default-->
 					</div>
-				<%--</security:authorize>--%>
+				</security:authorize>
 				<!-- /panel panel-default-->
 				
 				<div class="panel panel-default sb-panel sb-panel-default">
@@ -72,7 +72,7 @@
 				</div>
 				<!-- /panel panel-default-->
 				
-				<%--<security:authorize access="hasRole('ROLE_ADMIN')">--%>
+				<security:authorize access="hasRole('ROLE_ADMIN')">
 					<div class="panel panel-default sb-panel sb-panel-default">
 						<div class="panel panel-default sb-panel sb-panel-default">
 							<div class="panel-heading sb-panel-heading" id="headingUsers" role="tab">
@@ -86,9 +86,9 @@
 						<!-- /panel panel-default-->
 					</div>
 					<!-- /panel panel-default-->			
-				<%--</security:authorize>--%>
+				</security:authorize>
 
-				<%--<security:authorize access="hasRole('ROLE_ADMIN')">--%>
+				<security:authorize access="hasRole('ROLE_ADMIN')">
 					<div class="panel panel-default sb-panel sb-panel-default">
 						<div class="panel-heading sb-panel-heading" id="headingManageData" role="tab">
 							<h4 class="panel-title sb-panel-title">
@@ -109,7 +109,7 @@
 						</div>
 						<!-- /panel-collapse -->
 					</div>
-				<%--</security:authorize>--%>
+				</security:authorize>
 			</div>
 			<!-- /#sidebaraccordion -->			
         </div>

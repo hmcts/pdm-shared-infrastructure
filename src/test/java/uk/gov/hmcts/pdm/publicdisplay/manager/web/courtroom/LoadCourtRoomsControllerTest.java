@@ -41,9 +41,13 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
     protected CourtRoomPageStateHolder mockCourtRoomPageStateHolder;
     protected ICourtRoomService mockCourtRoomService;
     protected String viewNameViewCourtRoom;
+    protected String mappingNameViewCourtRoomUrl;
     protected String viewNameCreateCourtRoom;
+    protected String mappingNameCreateCourtRoomUrl;
     protected String viewNameAmendCourtRoom;
+    protected String mappingNameAmendCourtRoomUrl;
     protected String viewNameDeleteCourtRoom;
+    protected String mappingNameDeleteCourtRoomUrl;
     protected MockMvc mockMvc;
     protected static final String NOT_NULL = "Not null";
     protected static final String NULL = "Null";
@@ -66,7 +70,7 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
     protected static final String COURT_ROOM_CREATE_COMMAND_NAME = "courtRoomCreateCommandName";
     protected static final String NAME = "name";
     protected static final String COURTROOM_ID = "courtRoomId";
-    protected static final String REQUEST_MAPPING = "REQUEST_MAPPING";
+    protected static final String REQUEST_MAPPING = "/courtroom";
     protected static final String COURTROOM_NAME = "courtRoomName";
 
     @BeforeEach
@@ -76,29 +80,35 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         // Setup the mock version of the called classes
         mockObjects();
         // Map the mock to the class under tests called class
-        ReflectionTestUtils.setField(classUnderTest, "courtRoomSelectedValidator", mockCourtRoomSelectedValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtRoomCreateValidator", mockCourtRoomCreateValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtRoomDeleteValidator", mockCourtRoomDeleteValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtRoomAmendValidator", mockCourtRoomAmendValidator);
-        ReflectionTestUtils.setField(classUnderTest, "courtRoomPageStateHolder", mockCourtRoomPageStateHolder);
+        ReflectionTestUtils.setField(classUnderTest, "courtRoomSelectedValidator",
+            mockCourtRoomSelectedValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtRoomCreateValidator",
+            mockCourtRoomCreateValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtRoomDeleteValidator",
+            mockCourtRoomDeleteValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtRoomAmendValidator",
+            mockCourtRoomAmendValidator);
+        ReflectionTestUtils.setField(classUnderTest, "courtRoomPageStateHolder",
+            mockCourtRoomPageStateHolder);
         ReflectionTestUtils.setField(classUnderTest, "courtRoomService", mockCourtRoomService);
 
         // Get the static variables from the class under test
         viewNameViewCourtRoom =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_COURTROOM");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_VIEW_COURTROOM");
+        mappingNameViewCourtRoomUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_VIEW_COURTROOM");
         viewNameCreateCourtRoom =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CREATE_COURTROOM");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_CREATE_COURTROOM");
+        mappingNameCreateCourtRoomUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CREATE_COURTROOM");
         viewNameAmendCourtRoom =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_COURTROOM");
-
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_AMEND_COURTROOM");
+        mappingNameAmendCourtRoomUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_AMEND_COURTROOM");
         viewNameDeleteCourtRoom =
-                ReflectionTestUtils.getField(classUnderTest, REQUEST_MAPPING)
-                        + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_DELETE_COURTROOM");
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_DELETE_COURTROOM");
+        mappingNameDeleteCourtRoomUrl = REQUEST_MAPPING
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_DELETE_COURTROOM");
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -106,7 +116,8 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         viewResolver.setSuffix(".jsp");
 
         // Setup the mock version of the modelMvc
-        mockMvc = MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
+        mockMvc =
+            MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
     }
 
     protected void mockObjects() {
@@ -139,7 +150,8 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         Capture<Long> capturedCourtSiteId = newCapture();
         Capture<List<CourtRoomDto>> capturedCourtRoomList = newCapture();
 
-        expect(mockCourtRoomService.getCourtRooms(capture(capturedCourtSiteId))).andReturn(courtRoomDtos);
+        expect(mockCourtRoomService.getCourtRooms(capture(capturedCourtSiteId)))
+            .andReturn(courtRoomDtos);
         mockCourtRoomPageStateHolder.setCourtRoomsList(capture(capturedCourtRoomList));
         expectLastCall();
         expect(mockCourtRoomPageStateHolder.getCourtRoomsList()).andReturn(courtRoomDtos);
@@ -147,16 +159,20 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         replay(mockCourtRoomService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameAmendCourtRoom + "/3")).andReturn();
+        final MvcResult results =
+            mockMvc.perform(get(mappingNameAmendCourtRoomUrl + "/3")).andReturn();
         String response = results.getResponse().getContentAsString();
-        DynamicDropdownList dynamicDropdownList1 = new ObjectMapper().readValue(response,
-                dynamicDropdownList.getClass());
+        DynamicDropdownList dynamicDropdownList1 =
+            new ObjectMapper().readValue(response, dynamicDropdownList.getClass());
         DynamicDropdownOption dynamicDropdownOption = dynamicDropdownList1.getOptions().get(0);
 
-        assertEquals(dynamicDropdownList.getOptions().get(0).getText(), dynamicDropdownOption.getText(), NOT_EQUAL);
-        assertEquals(dynamicDropdownList.getOptions().get(0).getValue(), dynamicDropdownOption.getValue(), NOT_EQUAL);
+        assertEquals(dynamicDropdownList.getOptions().get(0).getText(),
+            dynamicDropdownOption.getText(), NOT_EQUAL);
+        assertEquals(dynamicDropdownList.getOptions().get(0).getValue(),
+            dynamicDropdownOption.getValue(), NOT_EQUAL);
         assertEquals(3L, capturedCourtSiteId.getValue(), NOT_EQUAL);
-        assertEquals(COURTROOM_NAME, capturedCourtRoomList.getValue().get(0).getCourtRoomName(), NOT_EQUAL);
+        assertEquals(COURTROOM_NAME, capturedCourtRoomList.getValue().get(0).getCourtRoomName(),
+            NOT_EQUAL);
         verify(mockCourtRoomPageStateHolder);
         verify(mockCourtRoomService);
     }
@@ -173,9 +189,10 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameAmendCourtRoom + "/courtRoom/7")).andReturn();
+            mockMvc.perform(get(mappingNameAmendCourtRoomUrl + "/courtRoom/7")).andReturn();
         String response = results.getResponse().getContentAsString();
-        CourtRoomDto returnedCourtRoomDto = new ObjectMapper().readValue(response, courtRoomDto.getClass());
+        CourtRoomDto returnedCourtRoomDto =
+            new ObjectMapper().readValue(response, courtRoomDto.getClass());
 
         assertEquals(7, returnedCourtRoomDto.getId(), NOT_EQUAL);
         assertEquals(15, returnedCourtRoomDto.getCourtRoomNo(), NOT_EQUAL);
@@ -193,7 +210,7 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameAmendCourtRoom + "/courtRoom/7")).andReturn();
+            mockMvc.perform(get(mappingNameAmendCourtRoomUrl + "/courtRoom/7")).andReturn();
 
         assertEquals("", results.getResponse().getContentAsString(), NOT_EQUAL);
         verify(mockCourtRoomPageStateHolder);
@@ -211,7 +228,8 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         Capture<Long> capturedCourtSiteId = newCapture();
         Capture<List<CourtRoomDto>> capturedCourtRoomList = newCapture();
 
-        expect(mockCourtRoomService.getCourtRooms(capture(capturedCourtSiteId))).andReturn(courtRoomDtos);
+        expect(mockCourtRoomService.getCourtRooms(capture(capturedCourtSiteId)))
+            .andReturn(courtRoomDtos);
         mockCourtRoomPageStateHolder.setCourtRoomsList(capture(capturedCourtRoomList));
         expectLastCall();
         expect(mockCourtRoomPageStateHolder.getCourtRoomsList()).andReturn(courtRoomDtos);
@@ -219,16 +237,20 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         replay(mockCourtRoomService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameDeleteCourtRoom + "/3")).andReturn();
+        final MvcResult results =
+            mockMvc.perform(get(mappingNameDeleteCourtRoomUrl + "/3")).andReturn();
         String response = results.getResponse().getContentAsString();
-        DynamicDropdownList dynamicDropdownList1 = new ObjectMapper().readValue(response,
-                dynamicDropdownList.getClass());
+        DynamicDropdownList dynamicDropdownList1 =
+            new ObjectMapper().readValue(response, dynamicDropdownList.getClass());
         DynamicDropdownOption dynamicDropdownOption = dynamicDropdownList1.getOptions().get(0);
 
-        assertEquals(dynamicDropdownList.getOptions().get(0).getText(), dynamicDropdownOption.getText(), NOT_EQUAL);
-        assertEquals(dynamicDropdownList.getOptions().get(0).getValue(), dynamicDropdownOption.getValue(), NOT_EQUAL);
+        assertEquals(dynamicDropdownList.getOptions().get(0).getText(),
+            dynamicDropdownOption.getText(), NOT_EQUAL);
+        assertEquals(dynamicDropdownList.getOptions().get(0).getValue(),
+            dynamicDropdownOption.getValue(), NOT_EQUAL);
         assertEquals(3L, capturedCourtSiteId.getValue(), NOT_EQUAL);
-        assertEquals("courtRoomDescription", capturedCourtRoomList.getValue().get(0).getDescription(), NOT_EQUAL);
+        assertEquals("courtRoomDescription",
+            capturedCourtRoomList.getValue().get(0).getDescription(), NOT_EQUAL);
         verify(mockCourtRoomPageStateHolder);
         verify(mockCourtRoomService);
     }
@@ -245,9 +267,10 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameDeleteCourtRoom + "/courtRoom/16")).andReturn();
+            mockMvc.perform(get(mappingNameDeleteCourtRoomUrl + "/courtRoom/16")).andReturn();
         String response = results.getResponse().getContentAsString();
-        CourtRoomDto returnedCourtRoomDto = new ObjectMapper().readValue(response, courtRoomDto.getClass());
+        CourtRoomDto returnedCourtRoomDto =
+            new ObjectMapper().readValue(response, courtRoomDto.getClass());
 
         assertEquals(16, returnedCourtRoomDto.getId(), NOT_EQUAL);
         assertEquals(19, returnedCourtRoomDto.getCourtRoomNo(), NOT_EQUAL);
@@ -266,7 +289,7 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
 
         // Perform the test
         final MvcResult results =
-                mockMvc.perform(get(viewNameDeleteCourtRoom + "/courtRoom/17")).andReturn();
+            mockMvc.perform(get(mappingNameDeleteCourtRoomUrl + "/courtRoom/17")).andReturn();
 
         assertEquals("", results.getResponse().getContentAsString(), NOT_EQUAL);
         verify(mockCourtRoomPageStateHolder);

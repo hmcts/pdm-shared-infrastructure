@@ -26,9 +26,12 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -61,6 +64,9 @@ public class LogonController {
 
     /** The Constant MAPPING_LOGIN. */
     private static final String MAPPING_LOGIN = "/login";
+    
+    /** The Constant MAPPING_LOGOUT. */
+    private static final String MAPPING_LOGOUT = "/logout";
 
     /** The Constant MAPPING_LOGIN_ERROR. */
     private static final String MAPPING_LOGIN_ERROR = "/loginError";
@@ -74,14 +80,20 @@ public class LogonController {
     /** The Constant MAPPING_INVALID_TOKEN. */
     private static final String MAPPING_INVALID_TOKEN = "/" + INVALID_TOKEN;
 
+    /** The Constant for the JSP Folder. */
+    private static final String FOLDER_LOGON = "logon";
+    
     /** The Constant VIEW_LOGIN. */
-    private static final String VIEW_LOGIN = "logon/login";
+    private static final String VIEW_LOGIN = FOLDER_LOGON + "/signin";
 
     /** The Constant VIEW_LOGOUT. */
-    private static final String VIEW_LOGOUT = "logon/logout";
+    private static final String VIEW_LOGOUT = FOLDER_LOGON + MAPPING_LOGOUT;
 
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
+    
+    /** The SecurityContextLogoutHandler. */
+    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     /**
      * Home.
@@ -99,8 +111,19 @@ public class LogonController {
      * @return the string
      */
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
-    public String login() {
+    public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
         return VIEW_LOGIN;
+    }
+    
+    /**
+     * Logout.
+     *
+     * @return the string
+     */
+    @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
+    public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+        this.logoutHandler.logout(request, response, authentication);
+        return VIEW_LOGOUT;
     }
 
     /**
@@ -109,7 +132,7 @@ public class LogonController {
      * @param model the model
      * @return the string
      */
-    @RequestMapping(value = MAPPING_LOGIN_ERROR, method = RequestMethod.POST)
+    @RequestMapping(value = MAPPING_LOGIN_ERROR, method = RequestMethod.GET)
     public String loginError(final Model model) {
         model.addAttribute(MODEL_ERROR, "true");
         return VIEW_LOGIN;

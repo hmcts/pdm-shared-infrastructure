@@ -45,10 +45,9 @@
 								<%-- We have court site data so render the form --%>
 								<form:form commandName="localProxyRegisterCommand" action="${context}/proxies/register_localproxy" method="POST" class="form-horizontal">
 
-                <%-- COMMENTING OUT AUTHENTICATION TEMPORARILY FOR TESTING --%>
-								<%-- CSRF Guard token where uri equals form action --%>
-								<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/proxies/register_localproxy"/>"/>--%>
-
+								<%-- CSRF token --%>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						
 								<%--
 									This error block must be within the form:form tags , otherwise you won't get any errors back !!
 								--%>

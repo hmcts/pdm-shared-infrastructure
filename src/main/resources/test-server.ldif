@@ -1,0 +1,61 @@
+dn: dc=springframework,dc=org
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: springframework
+
+# Groups
+dn: ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+# People
+dn: ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+# User - devuser3
+dn: uid=devuser3,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: DevUser3
+sn: Dev
+userPassword: $2a$12$dxwUrCPiLrc/Gmu0/kJF0OYU.yeAiqhCZ6Xk3Rxnk3NARg0Db7rlO
+
+# User - mojuser
+dn: uid=mojuser,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: MOJUser
+sn: MOJ
+userPassword: $2a$12$dxwUrCPiLrc/Gmu0/kJF0OYU.yeAiqhCZ6Xk3Rxnk3NARg0Db7rlO
+
+# User - norights
+dn: uid=norights,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: NoRights
+sn: No Rights
+userPassword: $2a$12$dxwUrCPiLrc/Gmu0/kJF0OYU.yeAiqhCZ6Xk3Rxnk3NARg0Db7rlO
+
+# Role - user
+dn: cn=user,ou=groups,dc=springframework,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: user
+member: uid=mojuser,ou=people,dc=springframework,dc=org
+
+# Role - admin
+dn: cn=admin,ou=groups,dc=springframework,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member: uid=devuser3,ou=people,dc=springframework,dc=org

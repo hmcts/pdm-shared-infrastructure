@@ -42,9 +42,9 @@
 										method="POST"
 										cssClass="form-horizontal">
 
-							<%-- CSRF Guard token where uri equals form action --%>
-							<%--<input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/pdm/cdus/cdus"/>"/>--%>
-
+							<%-- CSRF token --%>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							
 							<%-- messages_success is always present so the JS can insert its own messages --%>
 							<div id="messages_success" class="alert alert-success" style="${empty successMessage ? 'display:none;' : ''}">
 								<c:if test="${not empty successMessage}" >
@@ -169,14 +169,14 @@
 															</spring:hasBindErrors>
 													</div>
 												</spring:bind>
-												<%--<security:authorize access="hasRole('ROLE_ADMIN')">--%>
+												<security:authorize access="hasRole('ROLE_ADMIN')">
 													<div class="col-md-6">
 														<button type="button" id="btnRestartAllCdu" name="btnRestartAllCdu" class="btn btn-primary" data-toggle="modal" data-target="#restartAllModal">
 															<span class="glyphicon glyphicon-off"> </span>
 															Restart All CDUs
 														</button>
 													</div>
-												<%--</security:authorize>--%>
+												</security:authorize>
 											</div>
 
 											<div class="form-group">
@@ -188,7 +188,7 @@
 														Show CDU Information
 													</button>
 
-													<%--<security:authorize access="hasRole('ROLE_ADMIN')">--%>
+													<security:authorize access="hasRole('ROLE_ADMIN')">
 														<button id="btnShowRegisterCdu" name="btnShowRegisterCdu" class="btn btn-primary" >
 															<span class="glyphicon glyphicon-plus-sign"> </span>
 															Register CDU
@@ -198,7 +198,7 @@
 															<span class="glyphicon glyphicon-minus-sign"> </span>
 															Unregister CDU
 														</button>
-													<%--</security:authorize>--%>
+													</security:authorize>
 
 													<button type="button" id="btnRestartCdu" name="btnRestartCdu" class="btn btn-primary" data-toggle="modal" data-target="#restartModal">
 														<span class="glyphicon glyphicon-off"> </span>
@@ -250,7 +250,7 @@
 												<!-- /form-group -->
 											</c:if>
 
-											<%--<security:authorize access="hasRole('ROLE_ADMIN')">--%>
+											<security:authorize access="hasRole('ROLE_ADMIN')">
 												<div class="form-group">
 													<div class="col-md-12">
 														<button name="btnShowAmendCdu" id="btnShowAmendCdu" class="btn btn-primary" value="amend">
@@ -269,7 +269,7 @@
 													</div>
 												</div>
 												<!-- /form-group -->
-											<%--</security:authorize>--%>
+											</security:authorize>
 										</c:when>
 
 										<c:otherwise>

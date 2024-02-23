@@ -26,9 +26,12 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.domain;
 
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.publicdisplay.common.domain.api.IDomainObject;
 
 import java.io.Serializable;
+
 /**
  * Hibernate Interceptor to set the createdBy and updatedBy fields to the current username from the
  * Spring Security context.
@@ -104,20 +107,14 @@ public class DomainInterceptor extends EmptyInterceptor {
      * @return username
      */
     private String getUsername() {
-        //TODO: re-add this when we have authentication working
-        // Default username is XHIBIT
-        //String username = "XHIBIT";
-
-        // Get the principal from the Spring security authentication
+        // Get the Spring security authentication
         // object which has the username of the current logged on user
-        //TODO: This is a workaround as we have no working user authentication currently
-        /*final Authentication authentication =
+        final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            username = ((User) authentication.getPrincipal()).getUsername();
-        }*/
-        
-        //return username;
+            return authentication.getName();
+        }
+        // Default username is XHIBIT
         return "XHIBIT";
     }
 }
