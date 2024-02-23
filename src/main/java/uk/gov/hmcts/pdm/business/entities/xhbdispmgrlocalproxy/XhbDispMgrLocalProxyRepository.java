@@ -2,6 +2,8 @@ package uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.business.entities.AbstractRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
@@ -98,9 +100,11 @@ public class XhbDispMgrLocalProxyRepository extends AbstractRepository<XhbDispMg
         localProxyDao.setCourtSiteId(dispMgrCourtSite.getId());
         localProxyDao.setLastUpdateDate(LocalDateTime.now());
         localProxyDao.setCreationDate(LocalDateTime.now());
-        // TODO These fields will need to be populated once authentication is done
-        localProxyDao.setCreatedBy(null);
-        localProxyDao.setLastUpdatedBy(null);
+        final Authentication authentication =
+            SecurityContextHolder.getContext().getAuthentication();
+        final String username = authentication != null ? authentication.getName() : null;
+        localProxyDao.setCreatedBy(username);
+        localProxyDao.setLastUpdatedBy(username);
 
         save(localProxyDao);
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
