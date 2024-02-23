@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.validation.BindingResult;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.XpdmException;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.UserDto;
+
 import java.util.List;
 
 import static org.easymock.EasyMock.capture;
@@ -62,7 +63,7 @@ class RemoveUserTest extends AddUserTest {
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        assertFalse(capturedBindingResult.getValue().hasErrors());
+        assertFalse(capturedBindingResult.getValue().hasErrors(), TRUE);
         assertEquals(users, capturedUsers.getValue(), NOT_EQUAL);
         assertNull(capturedCommand.getValue().getUserName(), NOT_NULL);
 
@@ -103,7 +104,7 @@ class RemoveUserTest extends AddUserTest {
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        assertEquals(1, capturedBindingResult.getValue().getErrorCount());
+        assertEquals(1, capturedBindingResult.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals(userCommand.getUserName(), capturedCommand.getValue().getUserName(),
             NOT_EQUAL);
 
@@ -142,7 +143,7 @@ class RemoveUserTest extends AddUserTest {
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        assertEquals(1, capturedBindingResult.getValue().getErrorCount());
+        assertEquals(1, capturedBindingResult.getValue().getErrorCount(), NOT_EQUAL);
         assertEquals(userCommand.getUserName(), capturedCommand.getValue().getUserName(),
             NOT_EQUAL);
 
@@ -175,7 +176,7 @@ class RemoveUserTest extends AddUserTest {
         // Assert that the objects are as expected
         assertViewName(results, viewNameManageUser);
         assertManageUsersModel(results.getModelAndView().getModelMap());
-        assertEquals(2, capturedBindingResult.getValue().getErrorCount());
+        assertEquals(2, capturedBindingResult.getValue().getErrorCount(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockUserPageStateHolder);

@@ -115,9 +115,10 @@ public class DomainInterceptor extends EmptyInterceptor {
         final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            username = ((org.springframework.security.core.userdetails.UserDetails) authentication.getPrincipal()).getUsername();
+            username = ((org.springframework.security.core.userdetails.UserDetails) authentication
+                .getPrincipal()).getUsername();
         }
-        
+
         return username;
     }
 }

@@ -41,6 +41,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.security.UserRole;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.users.UserAddCommand;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.users.UserRemoveCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 
