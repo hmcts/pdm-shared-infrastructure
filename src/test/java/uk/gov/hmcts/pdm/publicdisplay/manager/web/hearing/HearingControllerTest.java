@@ -46,7 +46,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewHearing)
+        final MvcResult results = mockMvc.perform(get(mappingNameViewHearingUrl)
                                             .param(XHIBIT_COURTSITE_ID, "1"))
                                          .andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
@@ -75,7 +75,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewHearing)
+        final MvcResult results = mockMvc.perform(get(mappingNameViewHearingUrl)
                                             .param(XHIBIT_COURTSITE_ID, "1")
                                             .param(
                                             "reset", "false"))
@@ -100,7 +100,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameViewHearing)
+        final MvcResult results = mockMvc.perform(get(mappingNameViewHearingUrl)
                                             .param(XHIBIT_COURTSITE_ID, "1")
                                             .param(
                                             "reset", "false"))
@@ -147,7 +147,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewHearing)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewHearingUrl)
                                             .param(XHIBIT_COURTSITE_ID, "8")
                                             .param(
                                             "btnAmend", ADD))
@@ -190,7 +190,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendHearing)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendHearingUrl)
                                             .param("refHearingTypeId", "11")
                                             .param("btnUpdateConfirm", ADD)
                                             .param(HEARING_TYPE_DESC, A_HEARING_TYPE_DESC)
@@ -230,7 +230,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameAmendHearing)
+        final MvcResult results = mockMvc.perform(post(mappingNameAmendHearingUrl)
                                             .param("refHearingTypeId", "11")
                                             .param("btnUpdateConfirm", ADD)
                                             .param(HEARING_TYPE_DESC, A_HEARING_TYPE_DESC)
@@ -278,7 +278,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameViewHearing)
+        final MvcResult results = mockMvc.perform(post(mappingNameViewHearingUrl)
                                             .param(XHIBIT_COURTSITE_ID, "8")
                                             .param("btnAdd", ADD))
                                          .andReturn();
@@ -327,7 +327,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypeService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateHearing)
+        final MvcResult results = mockMvc.perform(post(mappingNameCreateHearingUrl)
                                             .param("hearingTypeCode", A_HEARING_TYPE_CODE)
                                             .param("btnCreateConfirm", ADD)
                                             .param(HEARING_TYPE_DESC, A_HEARING_TYPE_DESC)
@@ -372,7 +372,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypeService);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(post(viewNameCreateHearing)
+        final MvcResult results = mockMvc.perform(post(mappingNameCreateHearingUrl)
                                             .param("hearingTypeCode", A_HEARING_TYPE_CODE)
                                             .param("btnCreateConfirm", ADD)
                                             .param(HEARING_TYPE_DESC, A_HEARING_TYPE_DESC)
@@ -399,7 +399,7 @@ class HearingControllerTest extends HearingErrorController {
         replay(mockHearingTypePageStateHolder);
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get(viewNameAmendHearing + "/2")).andReturn();
+        final MvcResult results = mockMvc.perform(get(mappingNameAmendHearingUrl + "/2")).andReturn();
         String response = results.getResponse().getContentAsString();
         HearingTypeDto returnedHearingTypeDto = new ObjectMapper().readValue(response, HearingTypeDto.class);
 
