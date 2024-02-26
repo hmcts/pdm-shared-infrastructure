@@ -34,7 +34,7 @@ class CduControllerTestInitialiser extends CdusControllerTestBase {
 
     /** The view name register cdu. */
     protected String viewNameRegisterCdu;
-    
+
     /** The mapping name register cdu. */
     protected String mappingNameRegisterCduUrl;
 
@@ -93,10 +93,12 @@ class CduControllerTestInitialiser extends CdusControllerTestBase {
             (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_AMEND_CDU");
         mappingNameRegisterCduUrl =
             mappingNameCdus + (String) ReflectionTestUtils.getField(classUnderTest, "REGISTER_CDU");
-        viewNameRegisterCdu = (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_REGISTER_CDU");
-        viewNameMappingAddUrl = (String) ReflectionTestUtils.getField(classUnderTest, "ADD_URL");
-        viewNameMappingRemoveUrl =
-            (String) ReflectionTestUtils.getField(classUnderTest, "REMOVE_URL");
+        viewNameRegisterCdu =
+            (String) ReflectionTestUtils.getField(classUnderTest, "VIEW_NAME_REGISTER_CDU");
+        viewNameMappingAddUrl = mappingNameCdus
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_ADD_URL");
+        viewNameMappingRemoveUrl = mappingNameCdus
+            + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_REMOVE_URL");
         viewNameCduScreenshot = mappingNameCdus
             + (String) ReflectionTestUtils.getField(classUnderTest, "MAPPING_CDU_SCREENSHOT");
 
