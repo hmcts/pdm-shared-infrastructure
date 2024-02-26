@@ -82,17 +82,11 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
     @Mock
     protected XhbDispMgrUserDetailsRepository mockUserDetailsRepo;
 
-    // /** The user details. */
-    // protected final IUserDetails userDetails = getTestUserDetails("");
-
     /** The user add command. */
     protected final UserAddCommand userAddCommand = getTestUserAddCommand();
 
     /** The user remove command. */
     protected final UserRemoveCommand userRemoveCommand = getTestUserRemoveCommand();
-
-    // /** The user details list. */
-    // protected final List<IUserDetails> userDetailsList = getTestUserDetailList();
 
     /** The mock security context. */
     @Mock
@@ -118,89 +112,6 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         Mockito.clearAllCaches();
     }
 
-    // /**
-    // * Test valid username.
-    // */
-    // @Test
-    // void testLoadUserByUsernameValid() {
-    // // Capture the UserName
-    // final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
-    //
-    // // Define a mock version of the called methods, to retrieve user details via a passed in
-    // // user
-    // // name
-    // Mockito.when(mockUserDetailsRepo.findUserDetailsByUserName(capturedUserName.capture()))
-    // .thenReturn(userDetails);
-    //
-    // // Perform the test
-    // final UserDetails result = classUnderTest.loadUserByUsername(USER_NAME);
-    //
-    // // Capture
-    // Mockito.verify(mockUserDetailsRepo).findUserDetailsByUserName(capturedUserName.capture());
-    //
-    // // Check the results
-    // assertNotNull(result, NULL);
-    // assertEquals(result.getUsername(), capturedUserName.getValue(), NOT_EQUAL);
-    // assertTrue(
-    // result.getAuthorities().contains(new SimpleGrantedAuthority(UserRole.ROLE_USER_VALUE)),
-    // NOT_EQUAL);
-    // }
-    //
-    // /**
-    // * Test load user error.
-    // *
-    // * @throws Exception the exception
-    // */
-    // @Test
-    // void testLoadUserByUsernameWithException() throws Exception {
-    //
-    // DataRetrievalFailureException dataRetrievalFailureException =
-    // new DataRetrievalFailureException("Mock data access exception");
-    //
-    // // Capture the UserName
-    // final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
-    //
-    // // Define a mock version of method calls with exception handling
-    // Mockito.when(mockUserDetailsRepo.findUserDetailsByUserName(Mockito.isA(String.class)))
-    // .thenThrow(dataRetrievalFailureException);
-    //
-    // UserDetails result = null;
-    // try {
-    // // Perform the test
-    // result = classUnderTest.loadUserByUsername(USER_NAME);
-    // } catch (Exception e) {
-    // assertEquals(dataRetrievalFailureException.getClass(), e.getClass(), NOT_EQUAL);
-    // } finally {
-    // // Capture
-    // verify(mockUserDetailsRepo).findUserDetailsByUserName(capturedUserName.capture());
-    //
-    // // Check the results
-    // assertNull(result, NOT_NULL);
-    // assertEquals(USER_NAME, capturedUserName.getValue(), NOT_EQUAL);
-    // }
-    // }
-    //
-    // /**
-    // * Test invalid username.
-    // */
-    // @Test
-    // void testLoadUserByUsernameInvalid() {
-    // // Capture the UserName
-    // final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
-    //
-    // // Define a mock version of the called methods with invalid/null user name
-    // Mockito.when(mockUserDetailsRepo.findUserDetailsByUserName(capturedUserName.capture()))
-    // .thenReturn(null);
-    //
-    // // Perform the test
-    // final UserDetails result = classUnderTest.loadUserByUsername(USER_NAME);
-    //
-    // // Check the results
-    // assertNotNull(result, NULL);
-    // assertEquals(result.getUsername(), capturedUserName.getValue(), NOT_EQUAL);
-    // assertEquals(0, result.getAuthorities().size(), NOT_EQUAL);
-    // }
-
     /**
      * Test remove user valid.
      */
@@ -223,27 +134,6 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
             userAddCommand.getUserRole().toString(), NOT_EQUAL);
     }
 
-    // /**
-    // * Test add user valid.
-    // */
-    // @Test
-    // void testRemoveUserValid() {
-    // // Capture the UserName
-    // final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
-    //
-    // // Define a mock version of the called methods
-    // Mockito.when(mockUserDetailsRepo.findUserDetailsByUserName(capturedUserName.capture()))
-    // .thenReturn(userDetails);
-    // mockUserDetailsRepo.deleteDaoFromBasicValue(userDetails);
-    // Mockito.atLeastOnce();
-    //
-    // // Perform the test
-    // classUnderTest.removeUser(userRemoveCommand);
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertEquals(userRemoveCommand.getUserName(), capturedUserName.getValue(), NOT_EQUAL);
-    // }
-
     /**
      * Test remove user is null.
      */
@@ -265,22 +155,6 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
             assertEquals(userRemoveCommand.getUserName(), capturedUserName.getValue(), NOT_EQUAL);
         }
     }
-
-    // /**
-    // * Test get users valid.
-    // */
-    // @Test
-    // void testGetUsersValid() {
-    // // Define a mock version of the called methods
-    // Mockito.when(mockUserDetailsRepo.getUserDetails()).thenReturn(userDetailsList);
-    //
-    // // Perform the test
-    // final List<UserDto> results = classUnderTest.getUsers();
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertNotNull(results, NULL);
-    // assertEquals(results.size(), userDetailsList.size(), NOT_EQUAL);
-    // }
 
     /**
      * Test is user with user name success.
@@ -337,100 +211,6 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         assertFalse(result, TRUE);
     }
 
-    // /**
-    // * Test is session user success.
-    // */
-    // @Test
-    // void testIsSessionUserTrue() {
-    // // Define a mock version of the called methods via private method
-    // mockGetSessionUserName(true);
-    //
-    // // Perform the test
-    // final boolean result = classUnderTest.isSessionUser(USER_NAME);
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertTrue(result, FALSE);
-    // }
-    //
-    // /**
-    // * Test is session user false.
-    // */
-    // @Test
-    // void testIsSessionUserFalse() {
-    // // Define a mock version of the called methods via private method
-    // mockGetSessionUserName(false);
-    //
-    // // Perform the test
-    // final boolean result = classUnderTest.isSessionUser(USER_NAME);
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertFalse(result, TRUE);
-    // }
-    //
-    // /**
-    // * Test is session user null.
-    // */
-    // @Test
-    // void testIsSessionUserNull() {
-    // // Perform the test
-    // final boolean result = classUnderTest.isSessionUser(null);
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertFalse(result, TRUE);
-    // }
-    //
-    // /**
-    // * Test is session authentication null.
-    // */
-    // @Test
-    // void testIsSessionAuthenticationNull() {
-    // // Define a mock version of the called methods
-    // Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
-    // Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(null);
-    //
-    // // Perform the test
-    // final boolean result = classUnderTest.isSessionUser(USER_NAME);
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertFalse(result, TRUE);
-    // }
-    //
-    // /**
-    // * Test is session user exists true.
-    // */
-    // @Test
-    // void testIsSessionUserExistsTrue() {
-    // // Capture the UserName
-    // final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
-    //
-    // // Define a mock version of the called methods via private method
-    // mockGetSessionUserName(true);
-    // // Define a mock version of the other called methods
-    // Mockito.when(mockUserDetailsRepo.isUserDetailsWithUserName(capturedUserName.capture()))
-    // .thenReturn(true);
-    //
-    // // Perform the test
-    // final boolean result = classUnderTest.isSessionUserExist();
-    //
-    // // Assert that the objects are as Mockito.whened
-    // assertTrue(result, FALSE);
-    // assertEquals(USER_NAME, capturedUserName.getValue(), NOT_EQUAL);
-    // }
-
-    // /**
-    // * Gets the test user details.
-    // *
-    // * @param appendToUserName the append to user name
-    // * @return the test user details
-    // */
-    // protected IUserDetails getTestUserDetails(final String appendToUserName) {
-    // final IUserDetails user =
-    // new uk.gov.hmcts.pdm.publicdisplay.manager.domain.UserDetails();
-    // user.setUserName(USER_NAME + "_" + appendToUserName);
-    // user.setUserRole(UserRole.ROLE_USER_VALUE);
-    // return user;
-    // }
-
     /**
      * Gets the test user add command.
      *
@@ -455,24 +235,6 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         return removeCommand;
     }
 
-    // /**
-    // * Gets the test user detail list.
-    // *
-    // * @return the test user detail list
-    // */
-    // protected List<IUserDetails> getTestUserDetailList() {
-    // final List<IUserDetails> userDetailsList = new ArrayList<>();
-    // final IUserDetails user1 = getTestUserDetails("ONE");
-    // final IUserDetails user2 = getTestUserDetails("TWO");
-    // final IUserDetails user3 = getTestUserDetails("THREE");
-    //
-    // userDetailsList.add(user1);
-    // userDetailsList.add(user2);
-    // userDetailsList.add(user3);
-    //
-    // return userDetailsList;
-    // }
-
     /**
      * Mock get session user name.
      *
@@ -480,8 +242,7 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
      */
     protected void mockGetSessionUserName(final boolean isMatch) {
         // set the user dependent on if a match is required. I.e. is same user of not when comparing
-        // in
-        // assert
+        // in assert
         String user;
         if (isMatch) {
             user = USER_NAME;
