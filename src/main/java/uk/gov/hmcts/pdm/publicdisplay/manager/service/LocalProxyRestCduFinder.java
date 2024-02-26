@@ -31,13 +31,13 @@ public class LocalProxyRestCduFinder extends LocalProxyRestClientRequest {
     private static final String LIST_CDU_SERVICE = "listCDU";
 
     /** The Constant LIST_CDU_PATH. */
-    private static final String LIST_CDU_PATH = "/listcdu";
+    private static final String LIST_CDU_PATH = "listcdu";
 
     /** The Constant RESTART_CDU_SERVICE. */
     private static final String RESTART_CDU_SERVICE = "restartCDU";
 
     /** The Constant RESTART_CDU_PATH. */
-    private static final String RESTART_CDU_PATH = "/restartcdu";
+    private static final String RESTART_CDU_PATH = "restartcdu";
 
     private static final String METHOD = "Method ";
     private static final String THREE_PARAMS = "{}{}{}";
