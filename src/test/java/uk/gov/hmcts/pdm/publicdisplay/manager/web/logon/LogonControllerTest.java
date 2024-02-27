@@ -24,10 +24,17 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import jakarta.servlet.http.HttpServletResponse;
-import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -44,7 +51,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  *
  * @author boparaij
  */
-@ExtendWith(EasyMockExtension.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class LogonControllerTest extends AbstractJUnit {
 
     private static final String NOT_EQUAL = "Not equal";
@@ -52,7 +60,7 @@ class LogonControllerTest extends AbstractJUnit {
     private static final String FALSE = "False";
 
     private static final String NULL = "Null";
-    
+
     /** The Constant for the JSP Folder. */
     private static final String FOLDER_LOGON = "logon";
 
@@ -64,6 +72,14 @@ class LogonControllerTest extends AbstractJUnit {
 
     /** The view name logon logout. */
     private static final String VIEW_NAME_LOGON_LOGOUT = FOLDER_LOGON + "/logout";
+
+    /** The mock security context. */
+    @Mock
+    private SecurityContext mockSecurityContext;
+
+    /** The mock authentication. */
+    @Mock
+    private Authentication mockAuthentication;
 
     /** The mock mvc. */
     private MockMvc mockMvc;
@@ -93,11 +109,17 @@ class LogonControllerTest extends AbstractJUnit {
      */
     @Test
     void testHome() throws Exception {
+        Mockito.mockStatic(SecurityContextHolder.class);
+        Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
+        Mockito.when(mockAuthentication.getName()).thenReturn("user");
+
         // Perform the test
         final MvcResult results = mockMvc.perform(get("/home")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_DASHBOARD);
+        Mockito.clearAllCaches();
     }
 
     /**

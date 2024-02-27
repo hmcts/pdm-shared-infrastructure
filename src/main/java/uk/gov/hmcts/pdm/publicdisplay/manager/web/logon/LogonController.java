@@ -64,7 +64,7 @@ public class LogonController {
 
     /** The Constant MAPPING_LOGIN. */
     private static final String MAPPING_LOGIN = "/login";
-    
+
     /** The Constant MAPPING_LOGOUT. */
     private static final String MAPPING_LOGOUT = "/logout";
 
@@ -82,7 +82,7 @@ public class LogonController {
 
     /** The Constant for the JSP Folder. */
     private static final String FOLDER_LOGON = "logon";
-    
+
     /** The Constant VIEW_LOGIN. */
     private static final String VIEW_LOGIN = FOLDER_LOGON + "/signin";
 
@@ -91,7 +91,9 @@ public class LogonController {
 
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
-    
+
+    private static final String ANONYMOUS_USER = "anonymousUser";
+
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
@@ -102,6 +104,11 @@ public class LogonController {
      */
     @RequestMapping(value = MAPPING_HOME, method = RequestMethod.GET)
     public String home() {
+        final Authentication authentication =
+            SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || ANONYMOUS_USER.equals(authentication.getName())) {
+            return "redirect:login";
+        }
         return "redirect:dashboard/dashboard";
     }
 
@@ -114,14 +121,15 @@ public class LogonController {
     public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
         return VIEW_LOGIN;
     }
-    
+
     /**
      * Logout.
      *
      * @return the string
      */
     @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
-    public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+    public String logout(Authentication authentication, HttpServletRequest request,
+        HttpServletResponse response) {
         this.logoutHandler.logout(request, response, authentication);
         return VIEW_LOGOUT;
     }
