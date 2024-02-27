@@ -159,7 +159,13 @@ class LogonControllerTest extends AbstractJUnit {
     @Test
     void testLogoutSuccessValid() throws Exception {
         // Perform the test
-        final MvcResult results = mockMvc.perform(get("/logoutSuccess")).andReturn();
+        MvcResult results = mockMvc.perform(get("/logoutSuccess")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
+
+        // Perform the test again for logout
+        results = mockMvc.perform(get("/logout")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGOUT);

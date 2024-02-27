@@ -70,7 +70,7 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
     private XhbDispMgrCourtSiteRepository mockXhbDispMgrCourtSiteRepository;
 
     @InjectMocks
-    protected final XhbDispMgrLocalProxyRepository classUnderTest =
+    private final XhbDispMgrLocalProxyRepository classUnderTest =
         new XhbDispMgrLocalProxyRepository(mockEntityManager, mockXhbDispMgrCourtSiteRepository);
 
 
