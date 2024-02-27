@@ -53,6 +53,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.web.proxies.LocalProxyRegisterComm
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -450,6 +451,8 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
             dto.setOfflineIndicator(cdu.getOfflineIndicator());
             dtos.add(dto);
         }
+        Collections.sort(dtos, (cdu1, cdu2) -> String.CASE_INSENSITIVE_ORDER
+            .compare(cdu1.getLocation(), cdu2.getLocation()));
         return dtos;
     }
 

@@ -98,12 +98,10 @@
                     </div>
 				</div>
 
-				<form id="cduSearchCommand" action="${context}/dashboard/search" method="post">
-					<%-- CSRF Guard token where uri equals form action --%>
-					<%-- <input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/pdm/dashboard/search"/>"/>--%>
+				<form:form id="cduSearchCommand" action="${context}/dashboard/search" method="post">
 					<input type="hidden" id="xhibitCourtSiteId" name="xhibitCourtSiteId" />
 					<input type="hidden" id="selectedMacAddress" name="selectedMacAddress" />
-				</form>
+				</form:form>
 
 				<div class="row">
 					<!-- Add in our collapsible panel group to show the site statuses -->

@@ -195,6 +195,7 @@ abstract class LocalProxyServiceTestBase extends AbstractJUnit {
         final ICduModel cdu = new CduModel();
         cdu.setId(id);
         cdu.setMacAddress("MACADDRESS" + id);
+        cdu.setLocation("Location" + id);
         cdu.setRagStatus(ragStatus);
         cdu.setRagStatusDate(LocalDateTime.now());
         cdu.setOfflineIndicator(AppConstants.NO_CHAR);

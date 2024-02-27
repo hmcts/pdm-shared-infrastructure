@@ -88,12 +88,12 @@ public class CdusControllerUtility {
     /**
      * Add Url.
      */
-    protected static final String ADD_URL = REQUEST_MAPPING + MAPPING_ADD_URL;
+    protected static final String ADD_URL = FOLDER_CDUS + MAPPING_ADD_URL;
 
     /**
      * Remove Url.
      */
-    protected static final String REMOVE_URL = REQUEST_MAPPING + MAPPING_REMOVE_URL;
+    protected static final String REMOVE_URL = FOLDER_CDUS + MAPPING_REMOVE_URL;
 
     /**
      * Cdu screenshot Mapping.

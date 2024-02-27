@@ -127,7 +127,7 @@ public class DashboardController {
      * @param refreshStatus the refresh status
      * @return the court site as JSON
      */
-    @RequestMapping(value = MAPPING_JSON_COURTSITE + "/{xhibitCourtSiteId:[A-F0-9]{16,}}",
+    @RequestMapping(value = MAPPING_JSON_COURTSITE + "/{xhibitCourtSiteId}",
         method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public DashboardCourtSiteDto courtSite(
