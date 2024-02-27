@@ -29,6 +29,13 @@ public class XhbDispMgrLocalProxyRepository extends AbstractRepository<XhbDispMg
         super(em);
     }
 
+    // Junit constructor
+    public XhbDispMgrLocalProxyRepository(EntityManager em,
+        XhbDispMgrCourtSiteRepository xhbDispMgrCourtSiteRepository) {
+        this(em);
+        this.xhbDispMgrCourtSiteRepository = xhbDispMgrCourtSiteRepository;
+    }
+
     @Override
     public Class<XhbDispMgrLocalProxyDao> getDaoClass() {
         return XhbDispMgrLocalProxyDao.class;
