@@ -24,6 +24,8 @@
 package uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -73,26 +75,40 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
     private final XhbDispMgrLocalProxyRepository classUnderTest =
         new XhbDispMgrLocalProxyRepository(mockEntityManager, mockXhbDispMgrCourtSiteRepository);
 
+    /**
+     * Setup.
+     */
+    @BeforeEach
+    public void setup() {
+        Mockito.mockStatic(EntityManagerUtil.class);
+    }
+
+    /**
+     * Teardown.
+     */
+    @AfterEach
+    public void teardown() {
+        Mockito.clearAllCaches();
+    }
 
     /**
      * Test saveDaoFromBasicValue.
      */
     @Test
     void testsaveDaoFromBasicValue() {
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
+        Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+        
         // Setup
         ILocalProxy localProxy = getDummyLocalProxy();
         XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
         xhbDispMgrCourtSiteDao.setId(Integer.valueOf(2));
-
+        
         // Expects
         Mockito
             .when(mockXhbDispMgrCourtSiteRepository.findDaoByXhibitCourtSiteId(
                 localProxy.getCourtSite().getXhibitCourtSite().getId().intValue()))
             .thenReturn(xhbDispMgrCourtSiteDao);
-        
-        Mockito.mockStatic(EntityManagerUtil.class);
-        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
-        Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
         
         // Perform the test
         boolean result = false;
@@ -105,7 +121,6 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
         
         // Verify
         assertTrue(result, TRUE);
-        Mockito.clearAllCaches();
     }
 
     private ILocalProxy getDummyLocalProxy() {
