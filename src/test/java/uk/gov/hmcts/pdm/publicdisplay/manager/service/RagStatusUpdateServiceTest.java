@@ -58,10 +58,10 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
             expectLastCall();
         }
         replay(mockCduRepo);
-        expect(mockCourtSiteRepo.findCourtSiteByXhibitCourtSiteId(XHIBIT_COURT_SITE_ID.intValue()))
+        expect(mockDispMgrCourtSiteRepo.findByXhibitCourtSiteId(XHIBIT_COURT_SITE_ID.intValue()))
             .andReturn(courtSite);
-        mockCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
-        replay(mockCourtSiteRepo);
+        mockDispMgrCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
+        replay(mockDispMgrCourtSiteRepo);
         mockLocalProxyRepo.updateDaoFromBasicValue(capture(capturedLocalProxy));
         expectLastCall();
         replay(mockLocalProxyRepo);
@@ -88,7 +88,7 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         verify(mockLocalProxyRestClient);
         verify(mockLocalProxyRepo);
         verify(mockCduRepo);
-        verify(mockCourtSiteRepo);
+        verify(mockDispMgrCourtSiteRepo);
     }
 
     /**
@@ -111,10 +111,10 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
             expectLastCall();
         }
         replay(mockCduRepo);
-        expect(mockCourtSiteRepo.findCourtSiteByXhibitCourtSiteId(XHIBIT_COURT_SITE_ID.intValue()))
+        expect(mockDispMgrCourtSiteRepo.findByXhibitCourtSiteId(XHIBIT_COURT_SITE_ID.intValue()))
             .andReturn(courtSite);
-        mockCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
-        replay(mockCourtSiteRepo);
+        mockDispMgrCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
+        replay(mockDispMgrCourtSiteRepo);
         mockLocalProxyRepo.updateDaoFromBasicValue(capture(capturedLocalProxy));
         expectLastCall();
         replay(mockLocalProxyRepo);
@@ -141,7 +141,7 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         verify(mockLocalProxyRestClient);
         verify(mockLocalProxyRepo);
         verify(mockCduRepo);
-        verify(mockCourtSiteRepo);
+        verify(mockDispMgrCourtSiteRepo);
     }
 
     /**
@@ -164,10 +164,10 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
             expectLastCall();
         }
         replay(mockCduRepo);
-        expect(mockCourtSiteRepo.findCourtSiteByXhibitCourtSiteId(XHIBIT_COURT_SITE_ID.intValue()))
+        expect(mockDispMgrCourtSiteRepo.findByXhibitCourtSiteId(XHIBIT_COURT_SITE_ID.intValue()))
             .andReturn(courtSite);
-        mockCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
-        replay(mockCourtSiteRepo);
+        mockDispMgrCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
+        replay(mockDispMgrCourtSiteRepo);
         mockLocalProxyRepo.updateDaoFromBasicValue(capture(capturedLocalProxy));
         expectLastCall();
         replay(mockLocalProxyRepo);
@@ -194,7 +194,7 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         verify(mockLocalProxyRestClient);
         verify(mockLocalProxyRepo);
         verify(mockCduRepo);
-        verify(mockCourtSiteRepo);
+        verify(mockDispMgrCourtSiteRepo);
     }
 
     /**
@@ -213,10 +213,10 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
             expectLastCall();
         }
         replay(mockCduRepo);
-        expect(mockCourtSiteRepo.findCourtSiteByXhibitCourtSiteId(courtSite.getId().intValue()))
+        expect(mockDispMgrCourtSiteRepo.findByXhibitCourtSiteId(courtSite.getId().intValue()))
             .andReturn(courtSite);
-        mockCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
-        replay(mockCourtSiteRepo);
+        mockDispMgrCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
+        replay(mockDispMgrCourtSiteRepo);
         expect(mockLocalProxyRestClient.getCourtSiteStatus(localProxy))
             .andThrow(new RestException("mock Exception"));
         replay(mockLocalProxyRestClient);
@@ -246,7 +246,7 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
 
             // Verify the expected mocks were called
             verify(mockCduRepo);
-            verify(mockCourtSiteRepo);
+            verify(mockDispMgrCourtSiteRepo);
             verify(mockLocalProxyRestClient);
             verify(mockLocalProxyRepo);
         }

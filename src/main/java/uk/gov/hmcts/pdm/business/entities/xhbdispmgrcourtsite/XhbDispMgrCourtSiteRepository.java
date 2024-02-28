@@ -2,7 +2,6 @@ package uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.gov.hmcts.pdm.business.entities.AbstractRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteDao;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduDao;
@@ -22,9 +21,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
-public class XhbDispMgrCourtSiteRepository extends AbstractRepository<XhbDispMgrCourtSiteDao> {
+public class XhbDispMgrCourtSiteRepository extends DispMgrCourtSiteConverter {
 
     private static final Logger LOG = LoggerFactory.getLogger(XhbDispMgrCourtSiteRepository.class);
 
@@ -44,23 +42,6 @@ public class XhbDispMgrCourtSiteRepository extends AbstractRepository<XhbDispMgr
     @Override
     public Class<XhbDispMgrCourtSiteDao> getDaoClass() {
         return XhbDispMgrCourtSiteDao.class;
-    }
-
-    /**
-     * findDaoByXhibitCourtSiteId.
-     * 
-     * @param xhibitCourtSiteId Integer
-     * @return XhbDispMgrCourtSiteDao
-     */
-    public XhbDispMgrCourtSiteDao findDaoByXhibitCourtSiteId(final Integer xhibitCourtSiteId) {
-        final String methodName = "findDaoByXhibitCourtSiteId";
-        LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
-        Query query =
-            getEntityManager().createNamedQuery("XHB_DISP_MGR_COURT_SITE.findByXhibitCourtSiteId");
-        query.setParameter("xhibitCourtSiteId", xhibitCourtSiteId);
-        LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
-        return query.getResultList().isEmpty() ? null
-            : (XhbDispMgrCourtSiteDao) query.getResultList().get(0);
     }
 
     // Wrapper Method to Return an ICourtSite from findById
