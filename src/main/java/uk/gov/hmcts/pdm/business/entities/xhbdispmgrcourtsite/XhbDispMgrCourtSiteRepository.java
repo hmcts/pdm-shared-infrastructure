@@ -78,16 +78,15 @@ public class XhbDispMgrCourtSiteRepository extends AbstractRepository<XhbDispMgr
     }
 
     // Wrapper Method to Return an IXhibitCourtSite from findByXhibitCourtSiteId
-    public IXhibitCourtSite findByXhibitCourtSiteId(final Integer xhibitCourtSiteId) {
+    public ICourtSite findByXhibitCourtSiteId(final Integer xhibitCourtSiteId) {
         final String methodName = "findByXhibitCourtSiteId";
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
         XhbDispMgrCourtSiteDao dao = findDaoByXhibitCourtSiteId(xhibitCourtSiteId);
+        LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         if (dao != null) {
-            LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
             return getXhbCourtSiteRepository()
-                .convertDaoToXhibitCourtSiteBasicValue(dao.getXhbCourtSiteDao());
+                .convertDaoToCourtSiteBasicValue(dao.getXhbCourtSiteDao());
         } else {
-            LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
             return null;
         }
     }

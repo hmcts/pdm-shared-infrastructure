@@ -224,8 +224,8 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
         final Long xhibitCourtSiteId) {
         final String methodName = "getDashboardCourtSiteByXhibitCourtSiteId";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
-        final ICourtSite courtSite = getXhbCourtSiteRepository()
-            .findCourtSiteByXhibitCourtSiteId(xhibitCourtSiteId.intValue());
+        final ICourtSite courtSite = getXhbDispMgrCourtSiteRepository()
+            .findByXhibitCourtSiteId(xhibitCourtSiteId.intValue());
         final DashboardCourtSiteDto courtSiteDto = new DashboardCourtSiteDto();
         final DashboardLocalProxyDto localProxyDto = new DashboardLocalProxyDto();
         localProxyDto.setRagStatus(courtSite.getLocalProxy().getRagStatus());
@@ -316,11 +316,11 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
                 + localProxyRegisterCommand.getXhibitCourtSiteId() + "  - creating new court site");
             courtSite = new CourtSite();
 
-            // Need to link it back to Xhibit Court Site
-            final IXhibitCourtSite xhibitCourtSite =
-                getXhbDispMgrCourtSiteRepository().findByXhibitCourtSiteId(
-                    localProxyRegisterCommand.getXhibitCourtSiteId().intValue());
-            courtSite.setXhibitCourtSite(xhibitCourtSite);
+            // TODO : Need to link it back to Xhibit Court Site
+            // final IXhibitCourtSite xhibitCourtSite =
+            // getXhbDispMgrCourtSiteRepository().findByXhibitCourtSiteId(
+            // localProxyRegisterCommand.getXhibitCourtSiteId().intValue());
+            // courtSite.setXhibitCourtSite(xhibitCourtSite);
             LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site created ");
         } else {
             LOGGER.debug(THREE_PARAMS, METHOD, methodName,
