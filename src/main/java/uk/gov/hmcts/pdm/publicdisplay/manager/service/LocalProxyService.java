@@ -35,6 +35,7 @@ import uk.gov.hmcts.pdm.publicdisplay.common.exception.ServiceException;
 import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.LocalProxy;
+import uk.gov.hmcts.pdm.publicdisplay.manager.domain.XhibitCourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICduModel;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ILocalProxy;
@@ -316,11 +317,10 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
                 + localProxyRegisterCommand.getXhibitCourtSiteId() + "  - creating new court site");
             courtSite = new CourtSite();
 
-            // TODO : Need to link it back to Xhibit Court Site
-            // final IXhibitCourtSite xhibitCourtSite =
-            // getXhbDispMgrCourtSiteRepository().findByXhibitCourtSiteId(
-            // localProxyRegisterCommand.getXhibitCourtSiteId().intValue());
-            // courtSite.setXhibitCourtSite(xhibitCourtSite);
+            // Need to link it back to Xhibit Court Site
+            final IXhibitCourtSite xhibitCourtSite = new XhibitCourtSite();
+            xhibitCourtSite.setId(localProxyRegisterCommand.getXhibitCourtSiteId());
+            courtSite.setXhibitCourtSite(xhibitCourtSite);
             LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site created ");
         } else {
             LOGGER.debug(THREE_PARAMS, METHOD, methodName,
