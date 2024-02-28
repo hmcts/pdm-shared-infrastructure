@@ -46,7 +46,9 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IXhibitCourtSite;
 
 import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -63,11 +65,14 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
     private static final String TRUE = "Result is not True";
 
     @Mock
+    private EntityManagerFactory mockEntityManagerFactory;
+
+    @Mock
     private EntityManager mockEntityManager;
 
     @Mock
     private EntityTransaction mockTransaction;
-    
+
     @Mock
     private XhbDispMgrCourtSiteRepository mockXhbDispMgrCourtSiteRepository;
 
@@ -80,6 +85,7 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
+        Mockito.mockStatic(Persistence.class);
         Mockito.mockStatic(EntityManagerUtil.class);
     }
 
@@ -96,20 +102,22 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
      */
     @Test
     void testsaveDaoFromBasicValue() {
+        Mockito.when(Persistence.createEntityManagerFactory("PDM"))
+            .thenReturn(mockEntityManagerFactory);
         Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
-        
+
         // Setup
         ILocalProxy localProxy = getDummyLocalProxy();
         XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
         xhbDispMgrCourtSiteDao.setId(Integer.valueOf(2));
-        
+
         // Expects
         Mockito
             .when(mockXhbDispMgrCourtSiteRepository.findDaoByXhibitCourtSiteId(
                 localProxy.getCourtSite().getXhibitCourtSite().getId().intValue()))
             .thenReturn(xhbDispMgrCourtSiteDao);
-        
+
         // Perform the test
         boolean result = false;
         try {
@@ -118,7 +126,7 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
         } catch (Exception exception) {
             fail(exception);
         }
-        
+
         // Verify
         assertTrue(result, TRUE);
     }
