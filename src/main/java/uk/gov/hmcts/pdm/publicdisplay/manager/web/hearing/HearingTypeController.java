@@ -245,7 +245,7 @@ public class HearingTypeController extends HearingTypePageStateSetter {
         params = "btnUpdateConfirm")
     public ModelAndView updateHearingType(@Valid final HearingTypeAmendCommand hearingTypeAmendCommand,
         final BindingResult result, final ModelAndView model) {
-        final String methodName = "updateHearing";
+        final String methodName = "updateHearingType";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         hearingTypeAmendValidator.validate(hearingTypeAmendCommand, result);
@@ -261,7 +261,7 @@ public class HearingTypeController extends HearingTypePageStateSetter {
             model.addObject(COURTSITE, courtSite);
         } else {
             try {
-                LOGGER.debug("{}{} - updating Display", METHOD, methodName);
+                LOGGER.debug("{}{} - updating Hearing Type", METHOD, methodName);
 
 
                 hearingTypeService.updateHearingType(hearingTypeAmendCommand);

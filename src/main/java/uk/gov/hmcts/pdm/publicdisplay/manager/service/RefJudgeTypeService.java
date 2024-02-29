@@ -73,7 +73,7 @@ public class RefJudgeTypeService extends RefJudgeTypeServiceFinder implements IR
      */
     @Override
     public List<XhibitCourtSiteDto> getCourtSites() {
-        final String methodName = "getXhibitCourtSites";
+        final String methodName = "getCourtSites";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<XhibitCourtSiteDto> resultList = new ArrayList<>();
         final List<XhbCourtSiteDao> xhibitCourtSiteList = getXhbCourtSiteRepository().findAll();
@@ -155,7 +155,7 @@ public class RefJudgeTypeService extends RefJudgeTypeServiceFinder implements IR
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void createJudgeType(final JudgeTypeCreateCommand command, Integer courtId) {
 
-        final String methodName = "createCourt";
+        final String methodName = "createJudgeType";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         // Create the courtSiteDao

@@ -247,7 +247,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
     @Secured(UserRole.ROLE_ADMIN_VALUE)
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unregisterLocalProxy(final Long courtSiteId) {
-        final String methodName = "deleteLocalProxy";
+        final String methodName = "unregisterLocalProxy";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         // Get the court site object associated with courtSiteId

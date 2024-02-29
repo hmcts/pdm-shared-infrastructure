@@ -225,7 +225,7 @@ public class CdusControllerUtility {
      * @return the selected cdu
      */
     protected CduDto populateSelectedCduInPageStateHolder(final String macAddress) {
-        final String methodName = "setSelectedCduInPageStateHolder ";
+        final String methodName = "populateSelectedCduInPageStateHolder ";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final CduDto selectedCdu = getSelectedCdu(macAddress);
         cduPageStateHolder.setCdu(selectedCdu);

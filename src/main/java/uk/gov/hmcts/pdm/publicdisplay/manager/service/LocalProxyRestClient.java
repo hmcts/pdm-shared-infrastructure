@@ -334,7 +334,7 @@ public class LocalProxyRestClient extends LocalProxyRestCduFinder
      */
     @Override
     public CourtSiteStatusJson getCourtSiteStatus(final ILocalProxy localProxy) {
-        LOGGER.info("getCduStatusList method starts");
+        LOGGER.info("getCourtSiteStatus method starts");
         final ICourtSite courtSite = localProxy.getCourtSite();
 
         // Create json object and set user for auditing
@@ -347,7 +347,7 @@ public class LocalProxyRestClient extends LocalProxyRestCduFinder
         // Send rest request and return updated json
         final CourtSiteStatusJson courtSiteStatusJson = this.sendRequest(localProxy,
             RAG_STATUS_SERVICE, RAG_STATUS_PATH, courtSiteJson, CourtSiteStatusJson.class);
-        LOGGER.info("getCduStatusList method ends");
+        LOGGER.info("getCourtSiteStatus method ends");
         return courtSiteStatusJson;
     }
 
