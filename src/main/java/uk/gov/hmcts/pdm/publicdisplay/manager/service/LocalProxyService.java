@@ -31,6 +31,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import uk.gov.hmcts.pdm.publicdisplay.common.dao.RagStatusOrder;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.ServiceException;
 import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
@@ -186,6 +187,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
         final List<IXhibitCourtSite> courtSiteList =
             getXhbCourtSiteRepository().findXhibitCourtSitesOrderedByRagStatus();
         final List<XhibitCourtSiteDto> resultList = getXhibitCourtSites(courtSiteList);
+        Collections.sort(resultList, new RagStatusOrder());
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
         return resultList;
     }
