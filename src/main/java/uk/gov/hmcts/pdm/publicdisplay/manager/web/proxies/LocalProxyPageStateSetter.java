@@ -94,7 +94,7 @@ public class LocalProxyPageStateSetter {
      */
     protected CourtSiteDto populateSelectedCourtSiteInPageStateHolder(
         final Long xhibitCourtSiteId) {
-        final String methodName = "setSelectedCourtSiteInPageStateHolder ";
+        final String methodName = "populateSelectedCourtSiteInPageStateHolder ";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final CourtSiteDto selectedCourtSite =
             localProxyService.getCourtSiteByXhibitCourtSiteId(xhibitCourtSiteId);

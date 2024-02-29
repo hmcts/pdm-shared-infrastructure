@@ -82,7 +82,7 @@ public class CourtService extends CourtServiceFinder implements ICourtService {
      */
     @Override
     public List<XhibitCourtSiteDto> getCourtSites(Integer courtId) {
-        final String methodName = "getXhibitCourtSites";
+        final String methodName = "getCourtSites";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<XhibitCourtSiteDto> resultList = new ArrayList<>();
         final List<XhbCourtSiteDao> xhibitCourtSiteList =

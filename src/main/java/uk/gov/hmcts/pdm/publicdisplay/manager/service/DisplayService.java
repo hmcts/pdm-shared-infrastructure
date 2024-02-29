@@ -77,7 +77,7 @@ public class DisplayService extends DisplayServiceFinder implements IDisplayServ
      */
     @Override
     public List<XhibitCourtSiteDto> getCourtSites() {
-        final String methodName = "getXhibitCourtSites";
+        final String methodName = "getCourtSites";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<XhibitCourtSiteDto> resultList = new ArrayList<>();
         final List<XhbCourtSiteDao> xhibitCourtSiteList = getXhbCourtSiteRepository().findAll();
@@ -118,7 +118,7 @@ public class DisplayService extends DisplayServiceFinder implements IDisplayServ
     @Override
     public List<DisplayDto> getDisplays(Long xhibitCourtSiteId, List<DisplayTypeDto> displayTypes,
         List<XhibitCourtSiteDto> xhibitCourtSites, List<RotationSetsDto> rotationSets) {
-        final String methodName = "getDisplayByCourtSiteId";
+        final String methodName = "getDisplays";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<DisplayDto> resultList = new ArrayList<>();
         final List<XhbDisplayDao> xhbDisplayList =

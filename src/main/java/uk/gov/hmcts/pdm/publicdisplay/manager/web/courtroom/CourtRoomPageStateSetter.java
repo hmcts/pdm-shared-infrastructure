@@ -65,7 +65,7 @@ public class CourtRoomPageStateSetter {
      * @return the court dto
      */
     protected CourtDto populateSelectedCourtInPageStateHolder(final Integer courtId) {
-        final String methodName = "populateSelectedCourtSiteInPageStateHolder ";
+        final String methodName = "populateSelectedCourtInPageStateHolder ";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         CourtDto selectedCourt = null;

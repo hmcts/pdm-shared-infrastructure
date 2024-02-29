@@ -71,7 +71,7 @@ public class HearingTypeService extends HearingTypeServiceFinder implements IHea
      */
     @Override
     public List<XhibitCourtSiteDto> getCourtSites() {
-        final String methodName = "getXhibitCourtSites";
+        final String methodName = "getCourtSites";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<XhibitCourtSiteDto> resultList = new ArrayList<>();
         final List<XhbCourtSiteDao> xhibitCourtSiteList = getXhbCourtSiteRepository().findAll();
@@ -111,7 +111,7 @@ public class HearingTypeService extends HearingTypeServiceFinder implements IHea
      */
     @Override
     public List<HearingTypeDto> getHearingTypes(Long courtSiteId) {
-        final String methodName = "getHearingsByCourtId";
+        final String methodName = "getHearingTypes";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<HearingTypeDto> resultList = new ArrayList<>();
         final List<XhbRefHearingTypeDao> xhbHearingList =
@@ -143,7 +143,7 @@ public class HearingTypeService extends HearingTypeServiceFinder implements IHea
      */
     @Override
     public List<String> getAllCategories() {
-        final String methodName = "getCategories";
+        final String methodName = "getAllCategories";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
         final List<String> resultList = getXhbRefHearingTypeRepository().findAllCategories();
         LOGGER.debug(FOUR_PARAMS, METHOD, methodName, " - Category Types returned : ",
@@ -160,7 +160,7 @@ public class HearingTypeService extends HearingTypeServiceFinder implements IHea
     @Secured(UserRole.ROLE_ADMIN_VALUE)
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void updateHearingType(final HearingTypeAmendCommand command) {
-        final String methodName = "updateDisplay";
+        final String methodName = "updateHearingType";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         Optional<XhbRefHearingTypeDao> existingDao =

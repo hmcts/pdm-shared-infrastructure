@@ -64,7 +64,7 @@ public class CdusController extends CduRegistrationController {
     @RequestMapping(value = VIEW_CDU, method = RequestMethod.GET, params = "dashboardSearch")
     public ModelAndView searchForCduFromDashboard(final CduSearchCommand cduSearchCommand,
         final BindingResult result, final ModelAndView model) {
-        final String methodName = "searchForCduDashboard";
+        final String methodName = "searchForCduFromDashboard";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         // Populate the sites list (this will be null from the dashboard as we are bypassing the
