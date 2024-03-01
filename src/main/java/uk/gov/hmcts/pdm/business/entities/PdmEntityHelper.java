@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 public class PdmEntityHelper {
@@ -27,7 +28,9 @@ public class PdmEntityHelper {
     }
 
     public static EntityManager getEntityManager() {
-        return ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        entityManager.setFlushMode(FlushModeType.AUTO);
+        return entityManager;
 
     }
 
