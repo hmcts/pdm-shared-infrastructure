@@ -12,8 +12,6 @@ import javax.persistence.Query;
 
 
 
-
-
 public abstract class AbstractRepository<T extends AbstractDao> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRepository.class);
@@ -35,6 +33,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> findById(Integer id) {
+        LOG.debug("findById({})", id);
         T dao = getEntityManager().find(getDaoClass(), id);
         return dao != null ? (Optional<T>) Optional.of(dao) : Optional.empty();
     }
@@ -46,6 +45,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> findById(Long id) {
+        LOG.debug("findById({})", id);
         T dao = getEntityManager().find(getDaoClass(), id);
         return dao != null ? Optional.of(dao) : Optional.empty();
     }
@@ -58,11 +58,12 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      */
     @SuppressWarnings("unchecked")
     public List<T> findAll() {
+        LOG.debug("findAll()");
         Query query = getEntityManager().createQuery(getFindAllQuery(getDaoClass().getName()));
         return query.getResultList();
     }
-    
-    
+
+
     private String getFindAllQuery(String className) {
         return "from " + className;
     }
