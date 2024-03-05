@@ -12,4 +12,4 @@ echo ------ Starting docker build -----
 docker-compose build
 docker-compose up
 echo ------- Finished ------
-echo Now goto:  http://localhost:4550/health
+echo Now goto:  http://localhost:5432/health

@@ -1,7 +1,7 @@
 apiVersion: v2
-name: pdda-public-display-data-aggregator
-description: A Helm chart for Kubernetes pdda-public-display-data-aggregator
-home: https://github.com/hmcts/pdm-shared-interfaces
+name: pdm-public-display-manager
+description: A Helm chart for Kubernetes pdm-public-display-manager
+home: https://github.com/hmcts/pdm-interfaces
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -29,9 +29,9 @@
 		<class>uk.gov.hmcts.pdm.business.entities.xhbrotationsets.XhbRotationSetsDao</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/pdda"/>
-			<property name="javax.persistence.jdbc.user" value="postgres"/>
-			<property name="javax.persistence.jdbc.password" value="password"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pdda-infrastructure-dev.postgres.database.azure.com/pdda"/>
+			<property name="javax.persistence.jdbc.user" value="pgadmin"/>
+			<property name="javax.persistence.jdbc.password" value="UY2mJFyNoRLwHeB(uePz"/>
 			<property name="hibernate.connection.pool_size" value="20"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.show_sql" value="false"/>
