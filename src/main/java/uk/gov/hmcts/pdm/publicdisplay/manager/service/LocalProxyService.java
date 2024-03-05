@@ -31,10 +31,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import uk.gov.hmcts.pdm.publicdisplay.common.dao.RagStatusOrder;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.ServiceException;
 import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.LocalProxy;
+import uk.gov.hmcts.pdm.publicdisplay.manager.domain.XhibitCourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICduModel;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ILocalProxy;
@@ -185,6 +187,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
         final List<IXhibitCourtSite> courtSiteList =
             getXhbCourtSiteRepository().findXhibitCourtSitesOrderedByRagStatus();
         final List<XhibitCourtSiteDto> resultList = getXhibitCourtSites(courtSiteList);
+        Collections.sort(resultList, new RagStatusOrder());
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
         return resultList;
     }
@@ -224,8 +227,8 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
         final Long xhibitCourtSiteId) {
         final String methodName = "getDashboardCourtSiteByXhibitCourtSiteId";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
-        final ICourtSite courtSite = getXhbCourtSiteRepository()
-            .findCourtSiteByXhibitCourtSiteId(xhibitCourtSiteId.intValue());
+        final ICourtSite courtSite = getXhbDispMgrCourtSiteRepository()
+            .findByXhibitCourtSiteId(xhibitCourtSiteId.intValue());
         final DashboardCourtSiteDto courtSiteDto = new DashboardCourtSiteDto();
         final DashboardLocalProxyDto localProxyDto = new DashboardLocalProxyDto();
         localProxyDto.setRagStatus(courtSite.getLocalProxy().getRagStatus());
@@ -317,9 +320,8 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
             courtSite = new CourtSite();
 
             // Need to link it back to Xhibit Court Site
-            final IXhibitCourtSite xhibitCourtSite =
-                getXhbDispMgrCourtSiteRepository().findByXhibitCourtSiteId(
-                    localProxyRegisterCommand.getXhibitCourtSiteId().intValue());
+            final IXhibitCourtSite xhibitCourtSite = new XhibitCourtSite();
+            xhibitCourtSite.setId(localProxyRegisterCommand.getXhibitCourtSiteId());
             courtSite.setXhibitCourtSite(xhibitCourtSite);
             LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site created ");
         } else {

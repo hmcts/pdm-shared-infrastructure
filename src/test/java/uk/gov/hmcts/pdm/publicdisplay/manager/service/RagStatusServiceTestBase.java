@@ -30,8 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.springframework.test.util.ReflectionTestUtils;
-import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduRepository;
+import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.json.CduStatusJson;
 import uk.gov.hmcts.pdm.publicdisplay.common.json.CourtSiteStatusJson;
@@ -54,7 +54,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.easymock.EasyMock.createMock;
-
 
 /**
  * The Class RagStatusServiceTest.
@@ -101,7 +100,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
     protected XhbDispMgrCduRepository mockCduRepo;
 
     /** The mock court site repo. */
-    protected XhbCourtSiteRepository mockCourtSiteRepo;
+    protected XhbDispMgrCourtSiteRepository mockDispMgrCourtSiteRepo;
 
     /** The mock local proxy rest client. */
     protected LocalProxyRestClient mockLocalProxyRestClient;
@@ -144,7 +143,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
 
         // Setup the mock version of the called classes
         mockCduRepo = createMock(XhbDispMgrCduRepository.class);
-        mockCourtSiteRepo = createMock(XhbCourtSiteRepository.class);
+        mockDispMgrCourtSiteRepo = createMock(XhbDispMgrCourtSiteRepository.class);
         mockLocalProxyRepo = createMock(XhbDispMgrLocalProxyRepository.class);
         mockLocalProxyRestClient = createMock(LocalProxyRestClient.class);
         mockScheduler = createMock(Scheduler.class);
@@ -152,7 +151,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository", mockCduRepo);
-        ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockCourtSiteRepo);
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCourtSiteRepository", mockDispMgrCourtSiteRepo);
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrLocalProxyRepository",
             mockLocalProxyRepo);
         ReflectionTestUtils.setField(classUnderTest, "localProxyRestClient",

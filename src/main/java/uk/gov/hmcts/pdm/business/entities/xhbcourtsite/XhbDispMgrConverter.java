@@ -121,6 +121,8 @@ public abstract class XhbDispMgrConverter extends AbstractRepository<XhbCourtSit
             getXhbDispMgrLocalProxyRepository().findByCourtSiteId(courtSiteDao.getId());
 
         if (localProxyDao != null) {
+            // Make sure we have the latest version
+            getEntityManager().refresh(localProxyDao);
             ILocalProxy localProxy =
                 XhbDispMgrLocalProxyRepository.getLocalProxyFromDao(localProxyDao);
             courtSite.setLocalProxy(localProxy);

@@ -111,6 +111,7 @@ abstract class LocalProxyRegistrationServiceTest extends LocalProxyCourtSiteServ
     void testRegisterLocalProxyCourtSiteNotExists() {
         // Local variables
         final IXhibitCourtSite xhibitCourtSite = courtSitesWithLocalProxies.get(0);
+        final ICourtSite courtSite = xhibitCourtSite.getCourtSite();
         final LocalProxyRegisterCommand localProxyRegisterCommand =
             getTestLocalProxyRegisterCommand(xhibitCourtSite.getId());
         final ISchedule schedule = getTestSchedule(localProxyRegisterCommand.getScheduleId());
@@ -125,7 +126,7 @@ abstract class LocalProxyRegistrationServiceTest extends LocalProxyCourtSiteServ
             mockCourtSiteRepo.findCourtSiteByXhibitCourtSiteId(xhibitCourtSite.getId().intValue()))
                 .andReturn(null);
         expect(mockDispMgrCourtSiteRepo.findByXhibitCourtSiteId(xhibitCourtSite.getId().intValue()))
-            .andReturn(xhibitCourtSite);
+            .andReturn(courtSite);
         mockCourtSiteRepo.updateDaoFromBasicValue(capture(capturedCourtSite));
         expectLastCall();
         replay(mockCourtSiteRepo);
