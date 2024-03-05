@@ -23,6 +23,8 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.help;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,8 @@ import java.util.Arrays;
 @RequestMapping("/help")
 public class HelpController {
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelpController.class);
+
     /** The Constant for the JSP Folder. */
     private static final String FOLDER_HELP = "help";
 
@@ -63,6 +67,7 @@ public class HelpController {
      */
     @RequestMapping(value = "/{page}", method = RequestMethod.GET)
     public String help(@PathVariable final String page) throws NoHandlerFoundException {
+        LOGGER.debug("help({})", page);
         // Throw 404 exception if page is invalid
         if (!isValidPage(page)) {
             throw new NoHandlerFoundException("help", page, new HttpHeaders());
