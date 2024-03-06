@@ -1,5 +1,5 @@
 java:
   applicationPort: 5432
-  image: 'sdshmctspublic.azurecr.io/pdda/public-display-data-aggregator:latest'
+  image: 'sdshmctspublic.azurecr.io/pdm/pdm-public-display-manager:latest'
   environment:
     A_KEY: 'a value'
