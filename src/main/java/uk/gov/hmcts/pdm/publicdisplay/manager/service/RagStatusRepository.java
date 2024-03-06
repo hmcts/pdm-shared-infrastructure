@@ -1,8 +1,8 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
-import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduRepository;
+import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyRepository;
 
 import javax.persistence.EntityManager;
@@ -13,7 +13,7 @@ public class RagStatusRepository {
 
     private XhbDispMgrCduRepository xhbDispMgrCduRepository;
 
-    private XhbCourtSiteRepository xhbCourtSiteRepository;
+    private XhbDispMgrCourtSiteRepository xhbDispMgrCourtSiteRepository;
 
     private XhbDispMgrLocalProxyRepository xhbDispMgrLocalProxyRepository;
 
@@ -24,11 +24,11 @@ public class RagStatusRepository {
         return entityManager;
     }
 
-    protected XhbCourtSiteRepository getXhbCourtSiteRepository() {
-        if (xhbCourtSiteRepository == null) {
-            xhbCourtSiteRepository = new XhbCourtSiteRepository(getEntityManager());
+    protected XhbDispMgrCourtSiteRepository getXhbDispMgrCourtSiteRepository() {
+        if (xhbDispMgrCourtSiteRepository == null) {
+            xhbDispMgrCourtSiteRepository = new XhbDispMgrCourtSiteRepository(getEntityManager());
         }
-        return xhbCourtSiteRepository;
+        return xhbDispMgrCourtSiteRepository;
     }
 
     protected XhbDispMgrCduRepository getXhbDispMgrCduRepository() {

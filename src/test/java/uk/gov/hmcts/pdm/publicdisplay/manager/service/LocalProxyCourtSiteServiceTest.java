@@ -173,10 +173,10 @@ abstract class LocalProxyCourtSiteServiceTest extends LocalProxyServiceTestBase 
     @Test
     void testGetDashboardCourtSiteByXhibitCourtSiteIdValid() {
         // Add the mock calls to child classes
-        expect(mockCourtSiteRepo
-            .findCourtSiteByXhibitCourtSiteId(courtSitesWithLocalProxies.get(0).getId().intValue()))
+        expect(mockDispMgrCourtSiteRepo
+            .findByXhibitCourtSiteId(courtSitesWithLocalProxies.get(0).getId().intValue()))
                 .andReturn(courtSitesWithLocalProxies.get(0).getCourtSite());
-        replay(mockCourtSiteRepo);
+        replay(mockDispMgrCourtSiteRepo);
 
         // Perform the test
         final DashboardCourtSiteDto results = classUnderTest
@@ -190,7 +190,7 @@ abstract class LocalProxyCourtSiteServiceTest extends LocalProxyServiceTestBase 
             courtSitesWithLocalProxies.get(0).getCourtSite().getCdus().size(), NOT_EQUAL);
 
         // Verify the expected mocks were called
-        verify(mockCourtSiteRepo);
+        verify(mockDispMgrCourtSiteRepo);
     }
 
     /**

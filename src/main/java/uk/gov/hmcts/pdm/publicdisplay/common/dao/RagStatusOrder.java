@@ -23,92 +23,32 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.common.dao;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.CriteriaQuery;
-import org.hibernate.criterion.Order;
+import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
 
 /**
- * Sub-class of Hibernate Order class for sorting by a RAG status property. Red is regarded as the
- * highest status, followed by amber and then green.
+ * Sub-class for sorting by a RAG status property. Red is regarded as the highest status, followed
+ * by amber and then green.
  *
- * @author uphillj
+ * @author harrism
  */
-public class RagStatusOrder extends Order {
+public class RagStatusOrder implements java.util.Comparator<XhibitCourtSiteDto> {
 
-    /** The serial version UID. */
-    private static final long serialVersionUID = 8595554536790985518L;
+    private static final String RED = AppConstants.RED_CHAR.toString();
+    private static final String AMBER = AppConstants.AMBER_CHAR.toString();
 
-    /** The RAG status ascending order SQL. */
-    private static final String RAG_STATUS_ORDER_ASC =
-        "case ? when 'R' then 3 when 'A' then 2 else 1 end";
-
-    /** The RAG status descending order SQL. */
-    private static final String RAG_STATUS_ORDER_DESC =
-        "case ? when 'R' then 1 when 'A' then 2 else 3 end";
-
-    /**
-     * Instantiates a new rag status order.
-     *
-     * @param propertyName the property name
-     * @param ascending ascending or descending
-     */
-    public RagStatusOrder(final String propertyName, final boolean ascending) {
-        super(propertyName, ascending);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.hibernate.criterion.Order#toSqlString(org.hibernate.Criteria,
-     * org.hibernate.criterion.CriteriaQuery)
-     */
-    @Override
-    public String toSqlString(final Criteria criteria, final CriteriaQuery criteriaQuery) {
-        // Assumption is there will only be one rag status column for the property name
-        final String[] columns =
-            criteriaQuery.getColumnsUsingProjection(criteria, getPropertyName());
-        final String column = columns[0];
-
-        // Create the order by fragment from either the ascending or descending sql
-        String fragment = RAG_STATUS_ORDER_ASC;
-        if (!isAscending()) {
-            fragment = RAG_STATUS_ORDER_DESC;
-        }
-        fragment = fragment.replace("?", column);
-        return fragment;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.hibernate.criterion.Order#toString()
-     */
-    @Override
-    public String toString() {
-        if (isAscending()) {
-            return RAG_STATUS_ORDER_ASC.replace("?", getPropertyName());
+    public static int getRagStatusOrder(String ragStatus) {
+        if (RED.equalsIgnoreCase(ragStatus)) {
+            return 1;
+        } else if (AMBER.equalsIgnoreCase(ragStatus)) {
+            return 2;
         } else {
-            return RAG_STATUS_ORDER_DESC.replace("?", getPropertyName());
+            return 3;
         }
     }
 
-    /**
-     * Create new ascending RagStatusOrder instance.
-     *
-     * @param propertyName the property name
-     * @return RagStatusOrder
-     */
-    public static Order asc(final String propertyName) {
-        return new RagStatusOrder(propertyName, true);
-    }
-
-    /**
-     * Create new ascending RagStatusOrder instance.
-     *
-     * @param propertyName the property name
-     * @return RagStatusOrder
-     */
-    public static Order desc(final String propertyName) {
-        return new RagStatusOrder(propertyName, false);
+    @Override
+    public int compare(XhibitCourtSiteDto obj1, XhibitCourtSiteDto obj2) {
+        return getRagStatusOrder(obj1.getRagStatus()) - getRagStatusOrder(obj2.getRagStatus());
     }
 }

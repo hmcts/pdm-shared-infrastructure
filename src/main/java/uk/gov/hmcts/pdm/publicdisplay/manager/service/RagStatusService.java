@@ -179,8 +179,8 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         // Refresh the court site status
-        final ICourtSite courtSite = getXhbCourtSiteRepository()
-            .findCourtSiteByXhibitCourtSiteId(xhibitCourtSiteId.intValue());
+        final ICourtSite courtSite = getXhbDispMgrCourtSiteRepository()
+            .findByXhibitCourtSiteId(xhibitCourtSiteId.intValue());
         LOGGER.info("refreshing rag status for {}",
             courtSite.getXhibitCourtSite().getCourtSiteName());
         refreshCourtSiteStatus(courtSite);
@@ -291,7 +291,7 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
         if (ragStatusDate != null) {
             courtSite.setRagStatusDate(ragStatusDate);
         }
-        getXhbCourtSiteRepository().updateDaoFromBasicValue(courtSite);
+        getXhbDispMgrCourtSiteRepository().updateDaoFromBasicValue(courtSite);
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 
