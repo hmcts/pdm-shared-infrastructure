@@ -75,6 +75,7 @@ public class LocalProxyServiceFinder extends LocalProxyServiceCreator {
      * getPowerSaveSchedules()
      */
     public List<ScheduleDto> getPowerSaveSchedules() {
+        LOGGER.debug("getPowerSaveSchedules()");
         final List<ScheduleDto> scheduleDtos = new ArrayList<>();
         final List<ISchedule> powerSaveSchedules =
             getXhbDispMgrScheduleRepository().findPowerSaveSchedules();

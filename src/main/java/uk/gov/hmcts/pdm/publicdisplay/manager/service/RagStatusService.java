@@ -110,6 +110,7 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
      */
     @Override
     public String getRagStatusOverall() {
+        LOGGER.debug("getRagStatusOverall()");
         // Get the weightings of the total and operational cdus
         final long weightingTotal = getXhbDispMgrCduRepository().getCduWeightingTotal();
         final long weightingOperational = getXhbDispMgrCduRepository().getCduWeightingOperational();

@@ -27,6 +27,8 @@ import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.salt.SaltGenerator;
 import org.jasypt.salt.StringFixedSaltGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 
@@ -41,6 +43,8 @@ public enum EncryptDecryptUtility {
      * Indicating that this is a singleton.
      */
     INSTANCE;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(EncryptDecryptUtility.class);
 
     /** The encryption algorithm. */
     private static final String ALGORITHM = "PBEWithSHA1AndDESede";
@@ -72,6 +76,7 @@ public enum EncryptDecryptUtility {
      * @return the encrypted text value.
      */
     public String encryptData(final String textValue) {
+        LOG.debug("encryptData()");
         if (textValue == null) {
             throw new IllegalArgumentException("Null value passed in for encryption");
         }
@@ -88,6 +93,7 @@ public enum EncryptDecryptUtility {
      * @return the decrypted text value.
      */
     public String decryptData(final String textValue) {
+        LOG.debug("decryptData()");
         if (textValue == null) {
             throw new IllegalArgumentException("Null value passed in for decryption");
         }
