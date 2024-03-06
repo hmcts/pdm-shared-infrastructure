@@ -16,6 +16,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IHearingTypeService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.hearing.HearingTypeAmendCommand;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.hearing.HearingTypeCreateCommand;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -255,7 +256,10 @@ class HearingTypeServiceTest {
         refHearingTypeDao.setSeqNo(3);
         refHearingTypeDao.setListSequence(4);
         refHearingTypeDao.setCourtId(5);
-
+        refHearingTypeDao.setCreatedBy("User");
+        refHearingTypeDao.setLastUpdatedBy(refHearingTypeDao.getCreatedBy());
+        refHearingTypeDao.setCreationDate(LocalDateTime.now());
+        refHearingTypeDao.setLastUpdateDate(refHearingTypeDao.getCreationDate());
         return Optional.of(refHearingTypeDao);
     }
 }

@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite;
 
+
 import com.pdm.hb.jpa.EntityManagerUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,11 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.test.util.ReflectionTestUtils;
+import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteDao;
+import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduDao;
+import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyDao;
+import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.LocalProxy;
@@ -46,6 +52,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IXhibitCourtSite;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -63,6 +70,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author harrism
  */
+@SuppressWarnings("PMD.ExcessiveImports")
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
@@ -83,6 +91,9 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
     @Mock
     private Query mockQuery;
 
+    @Mock
+    private XhbDispMgrLocalProxyRepository mockXhbDispMgrLocalProxyRepository;
+
     @InjectMocks
     private XhbDispMgrCourtSiteRepository classUnderTest;
 
@@ -95,6 +106,9 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         classUnderTest = new XhbDispMgrCourtSiteRepository(mockEntityManager);
         Mockito.mockStatic(Persistence.class);
         Mockito.mockStatic(EntityManagerUtil.class);
+        // Set the class variables
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrLocalProxyRepository",
+            mockXhbDispMgrLocalProxyRepository);
     }
 
     /**
@@ -103,6 +117,42 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
     @AfterEach
     public void teardown() {
         Mockito.clearAllCaches();
+    }
+
+    /**
+     * Test findByCourtSiteId.
+     */
+    @Test
+    void testFindByCourtSiteId() {
+        Mockito.when(Persistence.createEntityManagerFactory("PDM"))
+            .thenReturn(mockEntityManagerFactory);
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
+        Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+        // Setup
+        XhbDispMgrLocalProxyDao xhbDispMgrLocalProxyDao = new XhbDispMgrLocalProxyDao();
+        xhbDispMgrLocalProxyDao.setId(Integer.valueOf(1));
+        xhbDispMgrLocalProxyDao.setIpAddress("IpAddress");
+        xhbDispMgrLocalProxyDao.setHostName("HostName");
+        xhbDispMgrLocalProxyDao.setRagStatus("A");
+        xhbDispMgrLocalProxyDao.setRagStatusDate(LocalDateTime.now());
+        xhbDispMgrLocalProxyDao.setCreatedBy("User");
+        XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = getDummyXhbDispMgrCourtSiteDao();
+
+        // Expects
+        Mockito.when(
+            mockEntityManager.find(classUnderTest.getDaoClass(), xhbDispMgrCourtSiteDao.getId()))
+            .thenReturn(xhbDispMgrCourtSiteDao);
+        Mockito
+            .when(mockXhbDispMgrLocalProxyRepository
+                .findByCourtSiteId(xhbDispMgrCourtSiteDao.getId()))
+            .thenReturn(xhbDispMgrLocalProxyDao);
+
+        // Perform the test
+        ICourtSite result = classUnderTest.findByCourtSiteId(xhbDispMgrCourtSiteDao.getId());
+
+        // Verify
+        assertNotNull(result, NOT_NULL);
     }
 
     /**
@@ -190,6 +240,43 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
     }
 
     private XhbDispMgrCourtSiteDao getDummyXhbDispMgrCourtSiteDao() {
-        return new XhbDispMgrCourtSiteDao();
+        XhbCourtSiteDao xhbCourtSiteDao = new XhbCourtSiteDao();
+        xhbCourtSiteDao.setId(Integer.valueOf(1));
+        xhbCourtSiteDao.setCourtSiteName("CourtSiteName");
+        xhbCourtSiteDao.setDisplayName("DisplayName");
+        xhbCourtSiteDao.setShortName("ShortName");
+
+        XhbDispMgrCduDao xhbDispMgrCduDao = new XhbDispMgrCduDao();
+        xhbDispMgrCduDao.setId(Integer.valueOf(1));
+        xhbDispMgrCduDao.setCduNumber("CduNumber");
+        xhbDispMgrCduDao.setMacAddress("MacAddress");
+        xhbDispMgrCduDao.setIpAddress("IpAddress");
+        xhbDispMgrCduDao.setTitle("Title");
+        xhbDispMgrCduDao.setDescription("Description");
+        xhbDispMgrCduDao.setLocation("Location");
+        xhbDispMgrCduDao.setRefresh(Long.valueOf(30));
+        xhbDispMgrCduDao.setWeighting(Long.valueOf(20));
+        xhbDispMgrCduDao.setNotification("Notification");
+        xhbDispMgrCduDao.setOfflineInd('Y');
+        xhbDispMgrCduDao.setRagStatus('R');
+        xhbDispMgrCduDao.setRagStatusDate(LocalDateTime.now());
+
+        List<XhbDispMgrCduDao> xhbDispMgrCduDaoArray = new ArrayList<>();
+        xhbDispMgrCduDaoArray.add(xhbDispMgrCduDao);
+
+        XhbDispMgrCourtSiteDao result = new XhbDispMgrCourtSiteDao();
+        result.setId(Integer.valueOf(1));
+        result.setTitle("Title");
+        result.setNotification("Notification");
+        result.setPageUrl("PageUrl");
+        result.setRagStatus("G");
+        result.setCreatedBy("User");
+        result.setLastUpdatedBy(result.getCreatedBy());
+        result.setCreationDate(LocalDateTime.now());
+        result.setLastUpdateDate(result.getCreationDate());
+        result.setRagStatusDate(result.getLastUpdateDate());
+        result.setXhbCourtSiteDao(xhbCourtSiteDao);
+        result.setXhbDispMgrCduDao(new HashSet<XhbDispMgrCduDao>(xhbDispMgrCduDaoArray));
+        return result;
     }
 }
