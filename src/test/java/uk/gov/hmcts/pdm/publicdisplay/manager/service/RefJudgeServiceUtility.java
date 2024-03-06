@@ -91,6 +91,10 @@ abstract class RefJudgeServiceUtility extends AbstractJUnit {
         refJudgeDao.setStatsCode("statsCode");
         refJudgeDao.setSurname("surname");
         refJudgeDao.setTitle("Title");
+        refJudgeDao.setCreatedBy("User");
+        refJudgeDao.setLastUpdatedBy(refJudgeDao.getCreatedBy());
+        refJudgeDao.setCreationDate(LocalDateTime.now());
+        refJudgeDao.setLastUpdateDate(refJudgeDao.getCreationDate());
         return refJudgeDao;
     }
 

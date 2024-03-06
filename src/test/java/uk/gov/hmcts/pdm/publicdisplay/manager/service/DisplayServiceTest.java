@@ -12,6 +12,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DisplayTypeDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.RotationSetsDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -245,7 +246,11 @@ class DisplayServiceTest extends DisplayCrudTest {
         xhbDisplayDao.setDisplayTypeId(4);
         xhbDisplayDao.setLocale("locale");
         xhbDisplayDao.setRotationSetId(5);
-        xhbDisplayDao.setShowUnassignedYn("Yn");
+        xhbDisplayDao.setShowUnassignedYn("Y");
+        xhbDisplayDao.setLastUpdateDate(LocalDateTime.now());
+        xhbDisplayDao.setCreationDate(xhbDisplayDao.getLastUpdateDate());
+        xhbDisplayDao.setCreatedBy("User");
+        xhbDisplayDao.setLastUpdatedBy(xhbDisplayDao.getCreatedBy());
         return xhbDisplayDao;
     }
 

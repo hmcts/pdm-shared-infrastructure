@@ -270,7 +270,11 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         result.setNotification("Notification");
         result.setPageUrl("PageUrl");
         result.setRagStatus("G");
-        result.setRagStatusDate(LocalDateTime.now());
+        result.setCreatedBy("User");
+        result.setLastUpdatedBy(result.getCreatedBy());
+        result.setCreationDate(LocalDateTime.now());
+        result.setLastUpdateDate(result.getCreationDate());
+        result.setRagStatusDate(result.getLastUpdateDate());
         result.setXhbCourtSiteDao(xhbCourtSiteDao);
         result.setXhbDispMgrCduDao(new HashSet<XhbDispMgrCduDao>(xhbDispMgrCduDaoArray));
         return result;

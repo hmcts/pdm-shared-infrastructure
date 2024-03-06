@@ -160,8 +160,11 @@ class XhbCourtSiteRepositoryTest extends AbstractJUnit {
         localProxy.setIpAddress("IpAddress");
         localProxy.setHostName("HostName");
         localProxy.setRagStatus("G");
-        localProxy.setRagStatusDate(LocalDateTime.now());
-        localProxy.setCreatedBy("User");
+        localProxy.setCreationDate(LocalDateTime.now());
+        localProxy.setLastUpdateDate(localProxy.getCreationDate());
+        localProxy.setRagStatusDate(localProxy.getLastUpdateDate());
+        localProxy.setLastUpdatedBy("User");
+        localProxy.setCreatedBy(localProxy.getLastUpdatedBy());
         return localProxy;
     }
 }
