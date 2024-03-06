@@ -26,6 +26,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.domain;
 
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.publicdisplay.common.domain.api.IDomainObject;
@@ -41,6 +43,7 @@ import java.io.Serializable;
  */
 
 public class DomainInterceptor extends EmptyInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(DomainInterceptor.class);
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -141894230121425445L;
@@ -57,6 +60,7 @@ public class DomainInterceptor extends EmptyInterceptor {
     public boolean onFlushDirty(final Object entity, final Serializable id,
         final Object[] currentState, final Object[] previousState, final String[] propertyNames,
         final Type[] types) {
+        LOG.debug("onFlushDirty({})", id);
         // If the entity being modified supports the updatedBy field,
         // update that field in the current state array with the
         // username retrieved from the Spring Security context
@@ -84,6 +88,7 @@ public class DomainInterceptor extends EmptyInterceptor {
     @Override
     public boolean onSave(final Object entity, final Serializable id, final Object[] state,
         final String[] propertyNames, final Type[] types) {
+        LOG.debug("onSave({})", id);
         boolean modified = false;
 
         // If the entity being created supports the createdBy and updatedBy

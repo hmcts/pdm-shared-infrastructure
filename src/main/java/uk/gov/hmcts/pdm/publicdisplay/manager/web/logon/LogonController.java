@@ -26,6 +26,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -43,6 +45,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LogonController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogonController.class);
 
     /** The Constant HEADER_REQUESTED_WITH. */
     private static final String HEADER_REQUESTED_WITH = "X-Requested-With";
@@ -104,6 +108,7 @@ public class LogonController {
      */
     @RequestMapping(value = MAPPING_HOME, method = RequestMethod.GET)
     public String home() {
+        LOGGER.debug("home()");
         final Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || ANONYMOUS_USER.equals(authentication.getName())) {
@@ -119,6 +124,7 @@ public class LogonController {
      */
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
     public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
+        LOGGER.debug("login()");
         return VIEW_LOGIN;
     }
 
@@ -130,6 +136,7 @@ public class LogonController {
     @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
     public String logout(Authentication authentication, HttpServletRequest request,
         HttpServletResponse response) {
+        LOGGER.debug("logout()");
         this.logoutHandler.logout(request, response, authentication);
         return VIEW_LOGOUT;
     }
@@ -142,6 +149,7 @@ public class LogonController {
      */
     @RequestMapping(value = MAPPING_LOGIN_ERROR, method = RequestMethod.GET)
     public String loginError(final Model model) {
+        LOGGER.debug("loginError()");
         model.addAttribute(MODEL_ERROR, "true");
         return VIEW_LOGIN;
     }
@@ -153,6 +161,7 @@ public class LogonController {
      */
     @RequestMapping(value = MAPPING_LOGOUT_SUCCESS, method = RequestMethod.GET)
     public String logoutSuccess() {
+        LOGGER.debug("logoutSuccess()");
         return VIEW_LOGOUT;
     }
 
@@ -167,6 +176,7 @@ public class LogonController {
     @RequestMapping(value = MAPPING_INVALID_SESSION, method = RequestMethod.GET)
     public String invalidSession(final HttpServletRequest request,
         final HttpServletResponse response, final Model model) {
+        LOGGER.debug("invalidSession()");
         // If this is an ajax call, we need to set the status code to
         // 401 so the global ajax error handler can detect this event
         // and manually redirect the user to the correct logout page.
@@ -190,6 +200,7 @@ public class LogonController {
     @RequestMapping(value = MAPPING_INVALID_TOKEN, method = RequestMethod.GET)
     public String invalidToken(final HttpServletRequest request, final HttpServletResponse response,
         final Model model) {
+        LOGGER.debug("invalidToken()");
         // If this is an ajax call, we need to set the status code to
         // 401 so the global ajax error handler can detect this event
         // and manually redirect the user to the correct logout page.

@@ -88,6 +88,7 @@ public class PollingSessionTimeoutFilter extends GenericFilterBean {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
         final FilterChain chain) throws IOException, ServletException {
+        LOG.debug("doFilter()");
         // Cast to http version of request
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
 

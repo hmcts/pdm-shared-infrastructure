@@ -83,6 +83,7 @@ public class LocalProxyRestClientRequest {
      */
     protected <T> T sendRequest(final ILocalProxy localProxy, final String service,
         final String path, final Object request, final Class<T> responseType) {
+        LOGGER.debug("sendRequest({},{},{})", localProxy.getIpAddress(), service, responseType.getName());
         final JsonRequest jsonRequest = createJsonRequest(localProxy, path);
         try {
             return jsonRequest.sendRequest(request, responseType);
@@ -103,6 +104,7 @@ public class LocalProxyRestClientRequest {
      */
     protected void sendRequest(final ILocalProxy localProxy, final String service,
         final String path, final Object request) {
+        LOGGER.debug("sendRequest({},{})", localProxy.getIpAddress(), service);
         final JsonRequest jsonRequest = createJsonRequest(localProxy, path);
         try {
             jsonRequest.sendRequest(request);
@@ -118,6 +120,7 @@ public class LocalProxyRestClientRequest {
      * @param jsonRequest the json request
      */
     protected void auditService(final String service, final JsonRequest jsonRequest) {
+        LOGGER.debug("auditService({})", service);
         try {
             serviceAuditService.auditService(service, jsonRequest);
         } catch (final DataAccessException ex) {
