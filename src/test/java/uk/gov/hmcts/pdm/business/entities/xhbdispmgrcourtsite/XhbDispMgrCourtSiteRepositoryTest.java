@@ -37,9 +37,11 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteDao;
+import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyRepository;
+import uk.gov.hmcts.pdm.business.entities.xhbdispmgrschedule.XhbDispMgrScheduleDao;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.LocalProxy;
@@ -94,6 +96,9 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
     @Mock
     private XhbDispMgrLocalProxyRepository mockXhbDispMgrLocalProxyRepository;
 
+    @Mock
+    private XhbCourtSiteRepository mockXhbCourtSiteRepository;
+
     @InjectMocks
     private XhbDispMgrCourtSiteRepository classUnderTest;
 
@@ -109,6 +114,8 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrLocalProxyRepository",
             mockXhbDispMgrLocalProxyRepository);
+        ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository",
+            mockXhbCourtSiteRepository);
     }
 
     /**
@@ -159,7 +166,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
      * Test findByXhibitCourtSiteId.
      */
     @Test
-    void testFindDaoByXhibitCourtSiteId() {
+    void testFindByXhibitCourtSiteId() {
         Mockito.when(Persistence.createEntityManagerFactory("PDM"))
             .thenReturn(mockEntityManagerFactory);
         Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
@@ -168,6 +175,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         // Setup
         List<XhbDispMgrCourtSiteDao> xhbDispMgrCourtSiteDaoArray = new ArrayList<>();
         xhbDispMgrCourtSiteDaoArray.add(getDummyXhbDispMgrCourtSiteDao());
+        ICourtSite courtSite = getDummyLocalProxy().getCourtSite();
 
         // Expects
         Mockito
@@ -175,14 +183,15 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
                 .createNamedQuery("XHB_DISP_MGR_COURT_SITE.findByXhibitCourtSiteId"))
             .thenReturn(mockQuery);
         Mockito.when(mockQuery.getResultList()).thenReturn(xhbDispMgrCourtSiteDaoArray);
-
+        Mockito.when(mockXhbCourtSiteRepository.convertDaoToCourtSiteBasicValue(
+            xhbDispMgrCourtSiteDaoArray.get(0).getXhbCourtSiteDao())).thenReturn(courtSite);
         // Perform the test
-        XhbDispMgrCourtSiteDao result = classUnderTest.findDaoByXhibitCourtSiteId(
-            getDummyLocalProxy().getCourtSite().getXhibitCourtSite().getId().intValue());
+        ICourtSite result = classUnderTest
+            .findByXhibitCourtSiteId(courtSite.getXhibitCourtSite().getId().intValue());
 
         // Verify
         assertNotNull(result, NOT_NULL);
-        assertEquals(result, xhbDispMgrCourtSiteDaoArray.get(0), EQUAL);
+        assertEquals(result, courtSite, EQUAL);
     }
 
     /**
@@ -263,7 +272,13 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
 
         List<XhbDispMgrCduDao> xhbDispMgrCduDaoArray = new ArrayList<>();
         xhbDispMgrCduDaoArray.add(xhbDispMgrCduDao);
-
+        
+        XhbDispMgrScheduleDao xhbDispMgrScheduleDao = new XhbDispMgrScheduleDao();
+        xhbDispMgrScheduleDao.setId(Integer.valueOf(1));
+        xhbDispMgrScheduleDao.setScheduleType("Type");
+        xhbDispMgrScheduleDao.setTitle("Title");
+        xhbDispMgrScheduleDao.setDetail("Detail");
+        
         XhbDispMgrCourtSiteDao result = new XhbDispMgrCourtSiteDao();
         result.setId(Integer.valueOf(1));
         result.setTitle("Title");
@@ -277,6 +292,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         result.setRagStatusDate(result.getLastUpdateDate());
         result.setXhbCourtSiteDao(xhbCourtSiteDao);
         result.setXhbDispMgrCduDao(new HashSet<XhbDispMgrCduDao>(xhbDispMgrCduDaoArray));
+        result.setXhbDispMgrScheduleDao(xhbDispMgrScheduleDao);
         return result;
     }
 }
