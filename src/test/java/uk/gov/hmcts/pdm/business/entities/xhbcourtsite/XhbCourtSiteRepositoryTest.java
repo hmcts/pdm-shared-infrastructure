@@ -79,12 +79,7 @@ class XhbCourtSiteRepositoryTest extends AbstractJUnit {
     public void setup() {
         mockEntityManager = Mockito.mock(EntityManager.class);
         mockXhbDispMgrLocalProxyRepository = Mockito.mock(XhbDispMgrLocalProxyRepository.class);
-        classUnderTest = new XhbCourtSiteRepository(mockEntityManager) {
-            @Override
-            public void processSchedule(ICourtSite courtSite, XhbDispMgrCourtSiteDao courtSiteDao) {
-                super.processSchedule(courtSite, courtSiteDao);
-            }
-        };
+        classUnderTest = new XhbCourtSiteRepository(mockEntityManager);
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrLocalProxyRepository",
             mockXhbDispMgrLocalProxyRepository);
