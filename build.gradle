@@ -14,7 +14,6 @@ plugins {
 	id 'checkstyle'
   id 'pmd'
   id 'jacoco'
-  id 'org.flywaydb.flyway' version '10.9.1'
 }
 
 group = 'uk.gov.hmcts'
@@ -203,21 +202,3 @@ bootJar {
     attributes('Implementation-Version': project.version.toString())
   }
 }
-
-flyway {
-  url = System.getenv('FLYWAY_URL')
-  user = System.getenv('FLYWAY_USER')
-  password = System.getenv('FLYWAY_PASSWORD')
-  baselineOnMigrate = true
-  baselineVersion = '000'
-  schemas = ['pdda']
-  locations = ["database", "database/data", "database/packages"]
-}
-
-task migratePostgresDatabase(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
-  baselineOnMigrate = true
-  if (project.hasProperty("dburl")) {
-    url = "jdbc:postgresql://${dburl}"
-  }
-}
-
