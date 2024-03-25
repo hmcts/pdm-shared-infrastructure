@@ -25,10 +25,12 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * The Class ApplicationConfiguration.
@@ -41,6 +43,13 @@ public class ApplicationConfiguration {
     /** The property service. */
     @Autowired
     private IPropertyService propertyService;
+    
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+    
+    public ApplicationConfiguration() {
+        InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
+    }
 
     /**
      * Get the software update directory.

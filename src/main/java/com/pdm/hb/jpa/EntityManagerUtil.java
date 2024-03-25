@@ -2,11 +2,11 @@ package com.pdm.hb.jpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
-import javax.persistence.Persistence;
 
 
 
@@ -16,7 +16,7 @@ public class EntityManagerUtil {
     
     static {
         try {
-            ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("PDM");
+            ENTITY_MANAGER_FACTORY = InitializationService.getInstance().getEntityManagerFactory();
 
         } catch (RuntimeException ex) {
             LOG.error("Initial SessionFactory creation failed." + ex);
