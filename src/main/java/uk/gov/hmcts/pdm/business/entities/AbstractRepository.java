@@ -1,14 +1,14 @@
 package uk.gov.hmcts.pdm.business.entities;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 
 
@@ -76,22 +76,18 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao T
      */
     public void save(T dao) {
-        EntityManager localEntityManager = null;
-        try {
-            LOG.debug("Save()");
-            localEntityManager = createEntityManager();
-            localEntityManager.getTransaction().begin();
-            localEntityManager.persist(dao);
-            localEntityManager.getTransaction().commit();
-        } catch (Exception e) {
-            LOG.error(ERROR, e.getMessage());
-            if (localEntityManager != null && localEntityManager.getTransaction().isActive()) {
-                localEntityManager.getTransaction().rollback();
-            }
-            throw e;
-        } finally {
-            if (localEntityManager != null) {
-                localEntityManager.close();
+        try (EntityManager localEntityManager = createEntityManager()) {
+            try {
+                LOG.debug("Save()");
+                localEntityManager.getTransaction().begin();
+                localEntityManager.persist(dao);
+                localEntityManager.getTransaction().commit();
+            } catch (Exception e) {
+                LOG.error(ERROR, e.getMessage());
+                if (localEntityManager != null && localEntityManager.getTransaction().isActive()) {
+                    localEntityManager.getTransaction().rollback();
+                }
+                throw e;
             }
         }
     }
@@ -103,26 +99,23 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> update(T dao) {
-        EntityManager localEntityManager = null;
-        try {
-            LOG.debug("Update()");
-            localEntityManager = createEntityManager();
-            localEntityManager.getTransaction().begin();
-            T mergedDao = localEntityManager.merge(dao);
-            localEntityManager.getTransaction().commit();
-            mergedDao.setVersion(mergedDao.getVersion() != null ? mergedDao.getVersion() + 1 : 1);
-            return Optional.of(mergedDao);
-        } catch (Exception e) {
-            LOG.error(ERROR, e.getMessage());
-            if (localEntityManager != null && localEntityManager.getTransaction().isActive()) {
-                localEntityManager.getTransaction().rollback();
+        try (EntityManager localEntityManager = createEntityManager()) {
+            try {
+                LOG.debug("Update()");
+                localEntityManager.getTransaction().begin();
+                T mergedDao = localEntityManager.merge(dao);
+                localEntityManager.getTransaction().commit();
+                mergedDao
+                    .setVersion(mergedDao.getVersion() != null ? mergedDao.getVersion() + 1 : 1);
+                return Optional.of(mergedDao);
+            } catch (Exception e) {
+                LOG.error(ERROR, e.getMessage());
+                if (localEntityManager != null && localEntityManager.getTransaction().isActive()) {
+                    localEntityManager.getTransaction().rollback();
+                }
             }
-        } finally {
-            if (localEntityManager != null) {
-                localEntityManager.close();
-            }
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     /**
@@ -131,24 +124,20 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao Optional
      */
     public void delete(Optional<T> dao) {
-        EntityManager localEntityManager = null;
-        try {
-            LOG.debug("delete()");
-            if (dao.isPresent()) {
-                localEntityManager = createEntityManager();
-                localEntityManager.getTransaction().begin();
-                T mergedDao = localEntityManager.merge(dao.get());
-                localEntityManager.remove(mergedDao);
-                localEntityManager.getTransaction().commit();
-            }
-        } catch (Exception e) {
-            LOG.error(ERROR, e.getMessage());
-            if (localEntityManager != null && localEntityManager.getTransaction().isActive()) {
-                localEntityManager.getTransaction().rollback();
-            }
-        } finally {
-            if (localEntityManager != null) {
-                localEntityManager.close();
+        try (EntityManager localEntityManager = createEntityManager()) {
+            try {
+                LOG.debug("delete()");
+                if (dao.isPresent()) {
+                    localEntityManager.getTransaction().begin();
+                    T mergedDao = localEntityManager.merge(dao.get());
+                    localEntityManager.remove(mergedDao);
+                    localEntityManager.getTransaction().commit();
+                }
+            } catch (Exception e) {
+                LOG.error(ERROR, e.getMessage());
+                if (localEntityManager != null && localEntityManager.getTransaction().isActive()) {
+                    localEntityManager.getTransaction().rollback();
+                }
             }
         }
     }
@@ -168,7 +157,6 @@ public abstract class AbstractRepository<T extends AbstractDao> {
     }
 
     public void clearEntityManager() {
-        EntityManager em = getEntityManager();
-        em.clear();
+        getEntityManager().clear();
     }
 }

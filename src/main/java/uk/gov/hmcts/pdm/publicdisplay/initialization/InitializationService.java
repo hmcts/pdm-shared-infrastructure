@@ -1,6 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.initialization;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 
 public final class InitializationService {
 

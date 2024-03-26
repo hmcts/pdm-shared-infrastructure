@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -30,7 +31,6 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 
 /**
  * The Class ApplicationConfiguration.
@@ -200,7 +200,7 @@ public class ApplicationConfiguration {
     public String getRagStatusReloadInterval() {
         return propertyService.getPropertyValueByName("rag.status.reload.interval");
     }
-    
+
     /**
      * Gets the housekeeping job cron.
      *
