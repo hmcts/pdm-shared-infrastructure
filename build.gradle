@@ -141,9 +141,10 @@ ext['snakeyaml.version'] = '2.0'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:3.1.8'
-    implementation 'jakarta.persistence:jakarta.persistence-api:3.2.0-M2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.8'
+    implementation 'org.springframework.data:spring-data-commons:3.1.8'
+    implementation 'org.springframework.data:spring-data-jpa:3.1.8'
     implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
-    implementation 'org.apache.openjpa:openjpa-persistence-jdbc:3.2.2'
     implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'org.springframework.security:spring-security-core:6.1.6'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.2.RELEASE'

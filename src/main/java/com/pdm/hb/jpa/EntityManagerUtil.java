@@ -18,7 +18,7 @@ public class EntityManagerUtil {
             ENTITY_MANAGER_FACTORY = InitializationService.getInstance().getEntityManagerFactory();
 
         } catch (RuntimeException ex) {
-            LOG.error("Initial SessionFactory creation failed." + ex);
+            LOG.error("Initial SessionFactory creation failed.{}", ex.getMessage());
             throw new ExceptionInInitializerError(ex);
         }
     }
