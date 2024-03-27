@@ -28,7 +28,6 @@ import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +47,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalPr
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrschedule.XhbDispMgrScheduleDao;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.LocalProxy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.Schedule;
@@ -107,9 +107,9 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
+        InitializationService.getInstance().setEntityManagerFactory(mockEntityManagerFactory);
         mockEntityManager = Mockito.mock(EntityManager.class);
         classUnderTest = new XhbDispMgrCourtSiteRepository(mockEntityManager);
-        Mockito.mockStatic(Persistence.class);
         Mockito.mockStatic(EntityManagerUtil.class);
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrLocalProxyRepository",
@@ -131,8 +131,6 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
      */
     @Test
     void testFindByCourtSiteId() {
-        Mockito.when(Persistence.createEntityManagerFactory("PDM"))
-            .thenReturn(mockEntityManagerFactory);
         Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 
@@ -167,8 +165,6 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
      */
     @Test
     void testFindByXhibitCourtSiteId() {
-        Mockito.when(Persistence.createEntityManagerFactory("PDM"))
-            .thenReturn(mockEntityManagerFactory);
         Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 
@@ -199,8 +195,6 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
      */
     @Test
     void testUpdateDaoFromBasicValue() {
-        Mockito.when(Persistence.createEntityManagerFactory("PDM"))
-            .thenReturn(mockEntityManagerFactory);
         Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 

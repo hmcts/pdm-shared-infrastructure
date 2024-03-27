@@ -24,12 +24,9 @@
 package uk.gov.hmcts.pdm.publicdisplay.initialization;
 
 import jakarta.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -58,11 +55,13 @@ class InitializationServiceTest extends AbstractJUnit {
     void testEntityManagerFactory() {
         // Run
         InitializationService.getInstance().setEntityManagerFactory(mockEntityManagerFactory);
-        EntityManagerFactory result = InitializationService.getInstance().getEntityManagerFactory();
+        try (EntityManagerFactory result =
+            InitializationService.getInstance().getEntityManagerFactory()) {
 
-        // Checks
-        assertEquals(result, mockEntityManagerFactory, EQUALS);
+            // Checks
+            assertEquals(result, mockEntityManagerFactory, EQUALS);
+        }
     }
-    
-    
+
+
 }
