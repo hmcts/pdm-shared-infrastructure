@@ -23,6 +23,8 @@
 
 package uk.gov.hmcts.config;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -31,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -56,6 +59,9 @@ class WebAppInitializerTest extends AbstractJUnit {
     private EntityManagerFactory mockEntityManagerFactory;
 
     @Mock
+    private EntityManager mockEntityManager;
+
+    @Mock
     private ServletContext mockServletContext;
 
     @InjectMocks
@@ -77,11 +83,15 @@ class WebAppInitializerTest extends AbstractJUnit {
     @Test
     void testOnStartup() {
         try {
+            // Expects
+            Mockito.when(mockEntityManagerFactory.createEntityManager())
+                .thenReturn(mockEntityManager);
             // Run
             classUnderTest.onStartup(mockServletContext);
             // Checks
             assertEquals(InitializationService.getInstance().getEntityManagerFactory(),
                 mockEntityManagerFactory, EQUALS);
+            assertEquals(EntityManagerUtil.getEntityManager(), mockEntityManager, EQUALS);
         } catch (ServletException exception) {
             fail(exception.getMessage());
         }
