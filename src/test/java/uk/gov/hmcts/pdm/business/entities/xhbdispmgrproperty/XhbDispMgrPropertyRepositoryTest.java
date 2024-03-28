@@ -23,8 +23,11 @@
 
 package uk.gov.hmcts.pdm.business.entities.xhbdispmgrproperty;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,8 +40,10 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit test for XhbDispMgrLocalProxyRepository.
@@ -55,6 +60,8 @@ class XhbDispMgrPropertyRepositoryTest extends AbstractJUnit {
 
     private Query mockQuery;
 
+    private EntityTransaction mockTransaction;
+
     private XhbDispMgrPropertyRepository classUnderTest;
 
     /**
@@ -62,9 +69,19 @@ class XhbDispMgrPropertyRepositoryTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
+        Mockito.mockStatic(EntityManagerUtil.class);
         mockEntityManager = Mockito.mock(EntityManager.class);
         mockQuery = Mockito.mock(Query.class);
+        mockTransaction = Mockito.mock(EntityTransaction.class);
         classUnderTest = new XhbDispMgrPropertyRepository(mockEntityManager);
+    }
+
+    /**
+     * Teardown.
+     */
+    @AfterEach
+    public void teardown() {
+        Mockito.clearAllCaches();
     }
 
     /**
@@ -83,6 +100,24 @@ class XhbDispMgrPropertyRepositoryTest extends AbstractJUnit {
         List<IProperty> results = classUnderTest.findAllProperties();
         // Checks
         assertEquals(results.size(), dummyProperties.size(), EQUALS);
+    }
+
+    /**
+     * Test delete.
+     */
+    @Test
+    void testDelete() {
+        // Setup
+        XhbDispMgrPropertyDao dummyProperty = getDummyXhbDispMgrPropertyDao();
+        // Expects
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
+        Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+        // Run
+        try {
+            classUnderTest.delete(Optional.of(dummyProperty));
+        } catch (Exception exception) {
+            fail(exception);
+        }
     }
 
     private XhbDispMgrPropertyDao getDummyXhbDispMgrPropertyDao() {
