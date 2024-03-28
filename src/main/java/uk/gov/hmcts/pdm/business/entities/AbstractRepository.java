@@ -38,18 +38,6 @@ public abstract class AbstractRepository<T extends AbstractDao> {
         return dao != null ? (Optional<T>) Optional.of(dao) : Optional.empty();
     }
 
-    /**
-     * findById.
-     * 
-     * @param id Long
-     * @return dao
-     */
-    public Optional<T> findById(Long id) {
-        LOG.debug("findById({})", id);
-        T dao = getEntityManager().find(getDaoClass(), id);
-        return dao != null ? Optional.of(dao) : Optional.empty();
-    }
-
 
     /**
      * findAll.
