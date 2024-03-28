@@ -72,11 +72,12 @@ class ApplicationConfigurationTest extends AbstractJUnit {
      */
     @Test
     void testGetRestClientTimeout() {
-        //Setup
+        // Setup
         String dummyTimeout = "30";
-        
-        //Expects
-        Mockito.when(mockPropertyService.getPropertyValueByName("rest.client.timeout")).thenReturn(dummyTimeout);
+
+        // Expects
+        Mockito.when(mockPropertyService.getPropertyValueByName("rest.client.timeout"))
+            .thenReturn(dummyTimeout);
 
         // Run
         Integer result = classUnderTest.getRestClientTimeout();
@@ -84,5 +85,45 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         // Verify
         assertNotNull(result, NOTNULL);
         assertEquals(result, Integer.valueOf(dummyTimeout), EQUALS);
+    }
+
+    /**
+     * Test getRestTokenExpiry.
+     */
+    @Test
+    void testGetRestTokenExpiry() {
+        // Setup
+        String dummyTokenExpiry = "30";
+
+        // Expects
+        Mockito.when(mockPropertyService.getPropertyValueByName("rest.token.expiry"))
+            .thenReturn(dummyTokenExpiry);
+
+        // Run
+        Integer result = classUnderTest.getRestTokenExpiry();
+
+        // Verify
+        assertNotNull(result, NOTNULL);
+        assertEquals(result, Integer.valueOf(dummyTokenExpiry), EQUALS);
+    }
+
+    /**
+     * Test getRagStatusOverallAmberPercent.
+     */
+    @Test
+    void testGetRagStatusOverallAmberPercent() {
+        // Setup
+        String dummyRagPercentage = "30";
+
+        // Expects
+        Mockito.when(mockPropertyService.getPropertyValueByName("rag.status.overall.amber.percent"))
+            .thenReturn(dummyRagPercentage);
+
+        // Run
+        Integer result = classUnderTest.getRagStatusOverallAmberPercent();
+
+        // Verify
+        assertNotNull(result, NOTNULL);
+        assertEquals(result, Integer.valueOf(dummyRagPercentage), EQUALS);
     }
 }
