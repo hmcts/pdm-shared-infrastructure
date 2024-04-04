@@ -1,7 +1,7 @@
 apiVersion: v2
 name: pdm-public-display-manager
 description: A Helm chart for Kubernetes pdm-public-display-manager
-home: https://github.com/hmcts/pdm-interfaces
+home: https://github.com/hmcts/pdda-shared-infrastructure
 
 # A chart can be either an 'application' or a 'library' chart.
 #
