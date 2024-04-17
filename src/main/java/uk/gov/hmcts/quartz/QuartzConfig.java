@@ -30,7 +30,7 @@ public class QuartzConfig {
     private static final String QUARTZ_JOBSTORE_CLASS = "org.quartz.impl.jdbcjobstore.JobStoreTX";
     private static final String QUARTZ_JOBSTORE_IS_CLUSTERED = "true";
     private static final String QUARTZ_JOBSTORE_MISFIRE_THRESHOLD = "120000";
-    private static final String QUARTZ_JOBSTORE_TABLE_PREFIX = "XHB_DM_QZ_";
+    private static final String QUARTZ_JOBSTORE_TABLE_PREFIX = "pdda.XHB_DM_QZ_";
     private static final String QUARTZ_JOBSTORE_USE_PROPERTIES = "false";
     private static final String QUARTZ_SCHEDULER_INSTANCE_ID = "AUTO";
     private static final String QUARTZ_SCHEDULER_SKIP_UPDATE_CHECK = "true";
