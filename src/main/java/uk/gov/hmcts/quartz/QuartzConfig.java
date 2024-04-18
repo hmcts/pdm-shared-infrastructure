@@ -43,9 +43,6 @@ public class QuartzConfig {
         "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate";
     private static final String QUARTZ_DATA_SOURCE = "xhibitDataSource";
     private static final String QUARTZ_DATA_SOURCE_DRIVER = "org.postgresql.Driver";
-    private static final String QUARTZ_DATA_SOURCE_URL = "jdbc:postgresql://localhost:5432/pdda";
-    private static final String QUARTZ_DATA_SOURCE_USER = "postgres";
-    private static final String QUARTZ_DATA_SOURCE_PASSWORD = "password";
     private static final String DATA_SOURCE = "org.quartz.dataSource.";
 
     /** The rag status update threads. */
@@ -118,11 +115,24 @@ public class QuartzConfig {
         properties.setProperty("org.quartz.jobStore.dataSource", QUARTZ_DATA_SOURCE);
         properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".driver",
             QUARTZ_DATA_SOURCE_DRIVER);
-        properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".URL", QUARTZ_DATA_SOURCE_URL);
-        properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".user", QUARTZ_DATA_SOURCE_USER);
-        properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".password",
-            QUARTZ_DATA_SOURCE_PASSWORD);
+
+        String url = getConnectionUrl();
+        properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".URL", url);
+        String username = System.getenv("DB_USER_NAME");
+        properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".user", username);
+        String password = System.getenv("DB_PASSWORD");
+        properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".password", password);
         return properties;
+    }
+
+    private String getConnectionUrl() {
+        String host = System.getenv("DB_HOST");
+        String port = System.getenv("DB_PORT");
+        String dbName = System.getenv("DB_NAME");
+        StringBuilder sb = new StringBuilder(100);
+        sb.append("jdbc:postgresql://").append(host).append(':').append(port).append('/')
+            .append(dbName);
+        return sb.toString();
     }
 
     // As per applicationContext-task.xml
