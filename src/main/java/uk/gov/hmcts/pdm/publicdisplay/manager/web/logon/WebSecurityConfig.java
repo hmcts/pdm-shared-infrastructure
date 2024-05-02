@@ -47,129 +47,129 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import java.io.IOException;
 
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
-    private static final String HOST = "spring.ldap.host";
-    private static final String PORT = "spring.ldap.embedded.port";
-    private static final String BASE_DN = "spring.ldap.embedded.base-dn";
-    private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
-    private static final String HOME_URL = "/pdm/home";
-    private static final String LOGIN_URL = "/login";
-    private static final String LOGINERROR_URL = "/loginError";
-    private static final String INVALIDSESSION_URL = "/invalidSession";
-
-
-    @Autowired
-    private Environment env;
-
-    protected WebSecurityConfig() {
-        super();
-    }
-
-    // Junit constructor
-    protected WebSecurityConfig(Environment env) {
-        this();
-        this.env = env;
-    }
-
-    /**
-     * Build the SecurityFilterChain from the http.
-     */
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
-        try {
-            return getHttp(http).build();
-        } catch (Exception exception) {
-            LOG.error("securityFilterChain: {}", exception.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Get the http with the custom login form.
-     */
-    protected HttpSecurity getHttp(HttpSecurity http) {
-        try {
-            http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
-                .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
-                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
-                .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
-                .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-
-            return http;
-        } catch (Exception exception) {
-            LOG.error("getHttp: {}", exception.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Configure the Ldap/Ldif authentication.
-     */
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth) {
-        try {
-            auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
-                .groupSearchFilter("member={0}").groupSearchBase("ou=groups").contextSource()
-                .url(getLdapUrl()).and().passwordCompare()
-                .passwordEncoder(new BCryptPasswordEncoder()).passwordAttribute("userPassword");
-        } catch (Exception exception) {
-            LOG.error("configure: {}", exception.getMessage());
-        }
-    }
-
-    /**
-     * Build the ldap url from the application.properties entries.
-     * 
-     * @return url
-     */
-    private String getLdapUrl() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(env.getProperty(HOST)).append(':').append(env.getProperty(PORT))
-            .append('/').append(env.getProperty(BASE_DN));
-        return stringBuilder.toString();
-    }
-
-    /**
-     * Handle the login success. Redirect the page to /home.
-     * 
-     * @return AuthenticationSuccessHandler
-     */
-    @Bean
-    public AuthenticationSuccessHandler getSuccessHandler() {
-        return new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request,
-                HttpServletResponse response, Authentication authentication)
-                throws IOException, ServletException {                
-                LOG.debug("The user {} has logged in.", authentication.getName());
-                for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
-                    LOG.debug("Role = {}", grantedAuthority.getAuthority());
-                }
-                response.sendRedirect(HOME_URL);
-            }
-        };
-    }
-
-    /**
-     * Handle the login failure. No redirection required as this is handled by the http.failureUrl()
-     * off the custom loginPage().
-     * 
-     * @return AuthenticationFailureHandler
-     */
-    @Bean
-    public AuthenticationFailureHandler getFailureHandler() {
-        return new AuthenticationFailureHandler() {
-
-            @Override
-            public void onAuthenticationFailure(HttpServletRequest request,
-                HttpServletResponse response, AuthenticationException exception)
-                throws IOException, ServletException {
-                LOG.debug("Login Failure");
-            }
-        };
-    }
+//    private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
+//    private static final String HOST = "spring.ldap.host";
+//    private static final String PORT = "spring.ldap.embedded.port";
+//    private static final String BASE_DN = "spring.ldap.embedded.base-dn";
+//    private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
+//    private static final String HOME_URL = "/pdm/home";
+//    private static final String LOGIN_URL = "/login";
+//    private static final String LOGINERROR_URL = "/loginError";
+//    private static final String INVALIDSESSION_URL = "/invalidSession";
+//
+//
+//    @Autowired
+//    private Environment env;
+//
+//    protected WebSecurityConfig() {
+//        super();
+//    }
+//
+//    // Junit constructor
+//    protected WebSecurityConfig(Environment env) {
+//        this();
+//        this.env = env;
+//    }
+//
+//    /**
+//     * Build the SecurityFilterChain from the http.
+//     */
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+//        try {
+//            return getHttp(http).build();
+//        } catch (Exception exception) {
+//            LOG.error("securityFilterChain: {}", exception.getMessage());
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     * Get the http with the custom login form.
+//     */
+//    protected HttpSecurity getHttp(HttpSecurity http) {
+//        try {
+//            http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
+//                .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
+//                .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
+//                .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
+//                .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+//
+//            return http;
+//        } catch (Exception exception) {
+//            LOG.error("getHttp: {}", exception.getMessage());
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     * Configure the Ldap/Ldif authentication.
+//     */
+//    @Autowired
+//    public void configure(AuthenticationManagerBuilder auth) {
+//        try {
+//            auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
+//                .groupSearchFilter("member={0}").groupSearchBase("ou=groups").contextSource()
+//                .url(getLdapUrl()).and().passwordCompare()
+//                .passwordEncoder(new BCryptPasswordEncoder()).passwordAttribute("userPassword");
+//        } catch (Exception exception) {
+//            LOG.error("configure: {}", exception.getMessage());
+//        }
+//    }
+//
+//    /**
+//     * Build the ldap url from the application.properties entries.
+//     *
+//     * @return url
+//     */
+//    private String getLdapUrl() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append(env.getProperty(HOST)).append(':').append(env.getProperty(PORT))
+//            .append('/').append(env.getProperty(BASE_DN));
+//        return stringBuilder.toString();
+//    }
+//
+//    /**
+//     * Handle the login success. Redirect the page to /home.
+//     *
+//     * @return AuthenticationSuccessHandler
+//     */
+//    @Bean
+//    public AuthenticationSuccessHandler getSuccessHandler() {
+//        return new AuthenticationSuccessHandler() {
+//            @Override
+//            public void onAuthenticationSuccess(HttpServletRequest request,
+//                HttpServletResponse response, Authentication authentication)
+//                throws IOException, ServletException {
+//                LOG.debug("The user {} has logged in.", authentication.getName());
+//                for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
+//                    LOG.debug("Role = {}", grantedAuthority.getAuthority());
+//                }
+//                response.sendRedirect(HOME_URL);
+//            }
+//        };
+//    }
+//
+//    /**
+//     * Handle the login failure. No redirection required as this is handled by the http.failureUrl()
+//     * off the custom loginPage().
+//     *
+//     * @return AuthenticationFailureHandler
+//     */
+//    @Bean
+//    public AuthenticationFailureHandler getFailureHandler() {
+//        return new AuthenticationFailureHandler() {
+//
+//            @Override
+//            public void onAuthenticationFailure(HttpServletRequest request,
+//                HttpServletResponse response, AuthenticationException exception)
+//                throws IOException, ServletException {
+//                LOG.debug("Login Failure");
+//            }
+//        };
+//    }
 }

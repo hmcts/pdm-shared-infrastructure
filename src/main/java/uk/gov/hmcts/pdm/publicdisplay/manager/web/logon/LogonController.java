@@ -34,8 +34,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The Class LogonController.
@@ -43,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author uphillj
  */
 
-@Controller
+@RestController
 public class LogonController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogonController.class);
@@ -126,6 +128,12 @@ public class LogonController {
     public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
         LOGGER.debug("login()");
         return VIEW_LOGIN;
+    }
+
+    @GetMapping("Admin")
+    public String azureLogin(HttpSession session, HttpServletRequest req, ModelMap model) {
+        LOGGER.debug("azureLogin()");
+        return "Hi Azure";
     }
 
     /**
