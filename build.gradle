@@ -189,7 +189,7 @@ dependencies {
 //    implementation 'com.unboundid:unboundid-ldapsdk:6.0.11'
     implementation 'org.owasp.antisamy:antisamy:1.7.5'
 //    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:4.2.0'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.11.0'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
 //  implementation group: 'com.azure.spring', name: 'spring-cloud-azure-starter-active-directory'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.9'    
