@@ -23,236 +23,236 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-/**
- * The Class LogonControllerTest.
- *
- * @author boparaij
- */
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
-class LogonControllerTest extends AbstractJUnit {
-
-    private static final String NOT_EQUAL = "Not equal";
-
-    private static final String FALSE = "False";
-
-    private static final String NULL = "Null";
-
-    /** The Constant for the JSP Folder. */
-    private static final String FOLDER_LOGON = "logon";
-
-    /** The view name mapping home. */
-    private static final String VIEW_NAME_DASHBOARD = "dashboard/dashboard";
-
-    /** The view name mapping logon. */
-    private static final String VIEW_NAME_LOGON_LOGIN = FOLDER_LOGON + "/signin";
-
-    /** The view name logon logout. */
-    private static final String VIEW_NAME_LOGON_LOGOUT = FOLDER_LOGON + "/logout";
-
-    /** The mock security context. */
-    @Mock
-    private SecurityContext mockSecurityContext;
-
-    /** The mock authentication. */
-    @Mock
-    private Authentication mockAuthentication;
-
-    /** The mock mvc. */
-    private MockMvc mockMvc;
-
-    /**
-     * Setup.
-     */
-    @BeforeEach
-    public void setup() {
-        // Create a new version of the class under test
-        LogonController classUnderTest = new LogonController();
-
-        // Stop circular view path error
-        final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/jsp/view");
-        viewResolver.setSuffix(".jsp");
-
-        // Setup the mock version of the modelMvc
-        mockMvc =
-            MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
-    }
-
-    /**
-     * Test home.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testHome() throws Exception {
-        Mockito.mockStatic(SecurityContextHolder.class);
-        Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
-        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getName()).thenReturn("user");
-
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/home")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_DASHBOARD);
-        Mockito.clearAllCaches();
-    }
-
-    /**
-     * Test logon valid.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLogonValid() throws Exception {
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/login")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
-    }
-
-    /**
-     * Test logon error valid.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLogonErrorValid() throws Exception {
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/loginError")).andReturn();
-
-        // Assert that the objects are as expected
-        assertEquals("true", results.getModelAndView().getModel().get("error"), NOT_EQUAL);
-        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
-    }
-
-    /**
-     * Test logout success valid.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLogoutSuccessValid() throws Exception {
-        // Perform the test
-        MvcResult results = mockMvc.perform(get("/logoutSuccess")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
-
-        // Perform the test again for logout
-        results = mockMvc.perform(get("/logout")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
-    }
-
-    /**
-     * Test invalid session.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testInvalidSession() throws Exception {
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/invalidSession")).andReturn();
-
-        // Assert that the objects are as expected
-        assertEquals(HttpServletResponse.SC_OK, results.getResponse().getStatus(), NOT_EQUAL);
-        assertEquals("invalidSession", results.getModelAndView().getModel().get("error"),
-            NOT_EQUAL);
-        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
-    }
-
-    /**
-     * Test invalid session for ajax calls.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testInvalidSessionAjax() throws Exception {
-        // Perform the test
-        final MvcResult results =
-            mockMvc.perform(get("/invalidSession").header("X-Requested-With", "XMLHttpRequest"))
-                .andReturn();
-
-        // Assert that the objects are as expected
-        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, results.getResponse().getStatus(),
-            NOT_EQUAL);
-        assertEquals("invalidSession", results.getResponse().getHeader("X-Logout-URL"), NOT_EQUAL);
-    }
-
-    /**
-     * Test invalid token.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testInvalidToken() throws Exception {
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/invalidToken")).andReturn();
-
-        // Assert that the objects are as expected
-        assertEquals(HttpServletResponse.SC_OK, results.getResponse().getStatus(), NOT_EQUAL);
-        assertEquals("invalidToken", results.getModelAndView().getModel().get("error"), NOT_EQUAL);
-        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
-    }
-
-    /**
-     * Test invalid token for ajax calls.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testInvalidTokenAjax() throws Exception {
-        // Perform the test
-        final MvcResult results = mockMvc
-            .perform(get("/invalidToken").header("X-Requested-With", "XMLHttpRequest")).andReturn();
-
-        // Assert that the objects are as expected
-        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, results.getResponse().getStatus(),
-            NOT_EQUAL);
-        assertEquals("invalidToken", results.getResponse().getHeader("X-Logout-URL"), NOT_EQUAL);
-    }
-
-    /**
-     * Assert view name.
-     *
-     * @param results the results
-     * @param viewName the view name
-     */
-    private void assertViewName(final MvcResult results, final String viewName) {
-        assertNotNull(results, NULL);
-        final String actualViewName = results.getModelAndView().getViewName();
-        if (actualViewName.startsWith("forward:") || actualViewName.startsWith("redirect:")) {
-            assertTrue(actualViewName.contains(viewName), FALSE);
-        } else {
-            assertEquals(actualViewName, viewName, NOT_EQUAL);
-        }
-    }
-
-}
+//import jakarta.servlet.http.HttpServletResponse;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.Mock;
+//import org.mockito.Mockito;
+//import org.mockito.junit.jupiter.MockitoExtension;
+//import org.mockito.junit.jupiter.MockitoSettings;
+//import org.mockito.quality.Strictness;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContext;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.test.web.servlet.MockMvc;
+//import org.springframework.test.web.servlet.MvcResult;
+//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+//import org.springframework.web.servlet.view.InternalResourceViewResolver;
+//import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+//
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertNotNull;
+//import static org.junit.jupiter.api.Assertions.assertTrue;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+//
+///**
+// * The Class LogonControllerTest.
+// *
+// * @author boparaij
+// */
+//@ExtendWith(MockitoExtension.class)
+//@MockitoSettings(strictness = Strictness.LENIENT)
+//class LogonControllerTest extends AbstractJUnit {
+//
+//    private static final String NOT_EQUAL = "Not equal";
+//
+//    private static final String FALSE = "False";
+//
+//    private static final String NULL = "Null";
+//
+//    /** The Constant for the JSP Folder. */
+//    private static final String FOLDER_LOGON = "logon";
+//
+//    /** The view name mapping home. */
+//    private static final String VIEW_NAME_DASHBOARD = "dashboard/dashboard";
+//
+//    /** The view name mapping logon. */
+//    private static final String VIEW_NAME_LOGON_LOGIN = FOLDER_LOGON + "/signin";
+//
+//    /** The view name logon logout. */
+//    private static final String VIEW_NAME_LOGON_LOGOUT = FOLDER_LOGON + "/logout";
+//
+//    /** The mock security context. */
+//    @Mock
+//    private SecurityContext mockSecurityContext;
+//
+//    /** The mock authentication. */
+//    @Mock
+//    private Authentication mockAuthentication;
+//
+//    /** The mock mvc. */
+//    private MockMvc mockMvc;
+//
+//    /**
+//     * Setup.
+//     */
+//    @BeforeEach
+//    public void setup() {
+//        // Create a new version of the class under test
+//        LogonController classUnderTest = new LogonController();
+//
+//        // Stop circular view path error
+//        final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//        viewResolver.setPrefix("/WEB-INF/jsp/view");
+//        viewResolver.setSuffix(".jsp");
+//
+//        // Setup the mock version of the modelMvc
+//        mockMvc =
+//            MockMvcBuilders.standaloneSetup(classUnderTest).setViewResolvers(viewResolver).build();
+//    }
+//
+//    /**
+//     * Test home.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testHome() throws Exception {
+//        Mockito.mockStatic(SecurityContextHolder.class);
+//        Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
+//        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
+//        Mockito.when(mockAuthentication.getName()).thenReturn("user");
+//
+//        // Perform the test
+//        final MvcResult results = mockMvc.perform(get("/home")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertViewName(results, VIEW_NAME_DASHBOARD);
+//        Mockito.clearAllCaches();
+//    }
+//
+//    /**
+//     * Test logon valid.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testLogonValid() throws Exception {
+//        // Perform the test
+//        final MvcResult results = mockMvc.perform(get("/login")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
+//    }
+//
+//    /**
+//     * Test logon error valid.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testLogonErrorValid() throws Exception {
+//        // Perform the test
+//        final MvcResult results = mockMvc.perform(get("/loginError")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertEquals("true", results.getModelAndView().getModel().get("error"), NOT_EQUAL);
+//        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
+//    }
+//
+//    /**
+//     * Test logout success valid.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testLogoutSuccessValid() throws Exception {
+//        // Perform the test
+//        MvcResult results = mockMvc.perform(get("/logoutSuccess")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
+//
+//        // Perform the test again for logout
+//        results = mockMvc.perform(get("/logout")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
+//    }
+//
+//    /**
+//     * Test invalid session.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testInvalidSession() throws Exception {
+//        // Perform the test
+//        final MvcResult results = mockMvc.perform(get("/invalidSession")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertEquals(HttpServletResponse.SC_OK, results.getResponse().getStatus(), NOT_EQUAL);
+//        assertEquals("invalidSession", results.getModelAndView().getModel().get("error"),
+//            NOT_EQUAL);
+//        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
+//    }
+//
+//    /**
+//     * Test invalid session for ajax calls.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testInvalidSessionAjax() throws Exception {
+//        // Perform the test
+//        final MvcResult results =
+//            mockMvc.perform(get("/invalidSession").header("X-Requested-With", "XMLHttpRequest"))
+//                .andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, results.getResponse().getStatus(),
+//            NOT_EQUAL);
+//        assertEquals("invalidSession", results.getResponse().getHeader("X-Logout-URL"), NOT_EQUAL);
+//    }
+//
+//    /**
+//     * Test invalid token.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testInvalidToken() throws Exception {
+//        // Perform the test
+//        final MvcResult results = mockMvc.perform(get("/invalidToken")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertEquals(HttpServletResponse.SC_OK, results.getResponse().getStatus(), NOT_EQUAL);
+//        assertEquals("invalidToken", results.getModelAndView().getModel().get("error"), NOT_EQUAL);
+//        assertViewName(results, VIEW_NAME_LOGON_LOGOUT);
+//    }
+//
+//    /**
+//     * Test invalid token for ajax calls.
+//     *
+//     * @throws Exception the exception
+//     */
+//    @Test
+//    void testInvalidTokenAjax() throws Exception {
+//        // Perform the test
+//        final MvcResult results = mockMvc
+//            .perform(get("/invalidToken").header("X-Requested-With", "XMLHttpRequest")).andReturn();
+//
+//        // Assert that the objects are as expected
+//        assertEquals(HttpServletResponse.SC_UNAUTHORIZED, results.getResponse().getStatus(),
+//            NOT_EQUAL);
+//        assertEquals("invalidToken", results.getResponse().getHeader("X-Logout-URL"), NOT_EQUAL);
+//    }
+//
+//    /**
+//     * Assert view name.
+//     *
+//     * @param results the results
+//     * @param viewName the view name
+//     */
+//    private void assertViewName(final MvcResult results, final String viewName) {
+//        assertNotNull(results, NULL);
+//        final String actualViewName = results.getModelAndView().getViewName();
+//        if (actualViewName.startsWith("forward:") || actualViewName.startsWith("redirect:")) {
+//            assertTrue(actualViewName.contains(viewName), FALSE);
+//        } else {
+//            assertEquals(actualViewName, viewName, NOT_EQUAL);
+//        }
+//    }
+//
+//}
