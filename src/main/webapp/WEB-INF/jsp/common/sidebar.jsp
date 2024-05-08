@@ -104,7 +104,8 @@
 								<a class="list-group-item"  href="${context}/courtroom/view_courtroom">  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Manage Court Room Data</a>
 								<a class="list-group-item"  href="${context}/judge/view_judge">  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Manage Judge Data</a>							
 								<a class="list-group-item"  href="${context}/hearing/view_hearing">  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Manage Hearing Data</a>							
-								<a class="list-group-item"  href="${context}/judgetype/view_judgetype">  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Manage Judge Type Data</a>							
+								<a class="list-group-item"  href="${context}/judgetype/view_judgetype">  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Manage Judge Type Data</a>
+								<a class="list-group-item"  href="${context}/courtel/view_courtel">  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Manage Courtel Data</a>
 							</div>
 						</div>
 						<!-- /panel-collapse -->
