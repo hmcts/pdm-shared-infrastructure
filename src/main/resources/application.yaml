@@ -24,4 +24,15 @@ spring:
       hibernate:
         default_schema: pdda
         dialect: org.hibernate.dialect.PostgreSQLDialect
-         
+management:
+  endpoint:
+    health:
+      show-details: "always"
+      # group:
+      #  readiness:
+      #   include: "db"
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health, info, prometheus
