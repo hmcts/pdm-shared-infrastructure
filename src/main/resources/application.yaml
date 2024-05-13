@@ -11,7 +11,7 @@ spring:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pdda}${DB_OPTIONS:}
     username: ${DB_USER_NAME:postgres}
     password: ${DB_PASSWORD:password}
-    schema: pdda
+    schema: ${DB_SCHEMA:pdda}
     type: com.zaxxer.hikari.HikariDataSource
   jpa:
     database: postgresql
@@ -22,6 +22,6 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        default_schema: ${spring.datasource.schema}
+        default_schema: pdda
         dialect: org.hibernate.dialect.PostgreSQLDialect
          

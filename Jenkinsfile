@@ -3,8 +3,8 @@
 @Library("Infrastructure")
 
 def type = "java"
-def product = "pdm"
-def component = "public-display-manager"
+def product = "pdda"
+def component = "public-display-data-aggregator"
 
 withPipeline(type, product, component) {
 
