@@ -16,7 +16,7 @@ java:
           alias: DB_PORT
         - name: public-display-data-aggregator-POSTGRES-SCHEMA
           alias: DB_SCHEMA
-        - name: app-insights-connection-string
-          alias: app-insights-connection-string
+        - name: app-insights-connection-string-pdm
+          alias: app-insights-connection-string-pdm
   environment:
     RUN_DB_MIGRATION_ON_STARTUP: false
