@@ -1,5 +1,5 @@
 java:
-  applicationPort: 5432
+  applicationPort: 8080
   image: 'sdshmctspublic.azurecr.io/pdm/public-display-manager:latest'
   keyVaults:
     "pdda":
