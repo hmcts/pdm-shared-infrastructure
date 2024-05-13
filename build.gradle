@@ -189,7 +189,7 @@ dependencies {
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.11'
     implementation 'org.owasp.antisamy:antisamy:1.7.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.9'    
-    testImplementation 'org.easymock:easymock:5.0.0'
+    testImplementation 'org.easymock:easymock:5.2.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
