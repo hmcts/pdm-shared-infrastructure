@@ -4,7 +4,7 @@
 
 def type = "java"
 def product = "pdda"
-def component = "public-display-data-aggregator"
+def component = "public-display-manager"
 
 withPipeline(type, product, component) {
 
