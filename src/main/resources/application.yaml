@@ -24,4 +24,16 @@ spring:
       hibernate:
         default_schema: ${spring.datasource.schema}
         dialect: org.hibernate.dialect.PostgreSQLDialect
+management:
+  endpoint:
+    health:
+      show-details: "always"
+      # group:
+      #  readiness:
+      #   include: "db"
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health, info, prometheus
          

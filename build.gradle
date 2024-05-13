@@ -7,7 +7,7 @@
 plugins {
 	id 'application'
 	id 'io.spring.dependency-management' version '1.1.3'
-	id 'org.springframework.boot' version '3.1.9'
+	id 'org.springframework.boot' version '3.1.11'
 	id 'com.github.ben-manes.versions' version '0.47.0'
 	id 'org.owasp.dependencycheck' version '8.4.0'
 	id 'org.sonarqube' version '4.4.1.3373'
@@ -140,10 +140,11 @@ ext {
 ext['snakeyaml.version'] = '2.0'
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.9'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.9'
-    implementation 'org.springframework.data:spring-data-commons:3.1.9'
-    implementation 'org.springframework.data:spring-data-jpa:3.1.9'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.11'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.11'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.11'
+    implementation 'org.springframework.data:spring-data-commons:3.1.11'
+    implementation 'org.springframework.data:spring-data-jpa:3.1.11'
     // Comment out org.hibernate:hibernate-entitymanager to work in Eclipse
 //    implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
     implementation 'org.postgresql:postgresql:42.6.2'
@@ -183,7 +184,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-core:1.4.14'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
     implementation 'javax.validation:validation-api:2.0.1.Final'
-    implementation 'org.springframework.boot:spring-boot-starter-security:3.1.9'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.1.11'
 //    implementation 'org.springframework.ldap:spring-ldap-core:3.1.3'
 //    implementation 'org.springframework.security:spring-security-ldap:6.1.9'
 //    implementation 'com.unboundid:unboundid-ldapsdk:6.0.11'
@@ -192,12 +193,12 @@ dependencies {
     implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.11.0'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
 //  implementation group: 'com.azure.spring', name: 'spring-cloud-azure-starter-active-directory'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.9'    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.11'    
     testImplementation 'org.easymock:easymock:5.0.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    compileOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.9'
+    compileOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.11'
 }
 
 mainClassName = 'uk.gov.hmcts.PdmanagerSpringbootApplication'
