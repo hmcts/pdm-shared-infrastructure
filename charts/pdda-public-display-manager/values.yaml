@@ -1,6 +1,6 @@
 java:
   applicationPort: 8080
-  readinessPath: '/pmd/health'
+  readinessPath: '/pdm/health'
   livenessPath: '/pdm/health'
   startupPath: '/pdm/health'
   image: 'sdshmctspublic.azurecr.io/pdm/public-display-manager:latest'
