@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.core.env.Environment;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -54,6 +55,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class WebAppInitializerTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
+
+    @Mock
+    private Environment mockEnvironment;
 
     @Mock
     private EntityManagerFactory mockEntityManagerFactory;
@@ -86,6 +90,8 @@ class WebAppInitializerTest extends AbstractJUnit {
             // Expects
             Mockito.when(mockEntityManagerFactory.createEntityManager())
                 .thenReturn(mockEntityManager);
+            Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class)))
+                .thenReturn("testDbUser");
             // Run
             classUnderTest.onStartup(mockServletContext);
             // Checks
