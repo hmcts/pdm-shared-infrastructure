@@ -36,6 +36,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -59,13 +60,14 @@ class QuartzConfigTest extends AbstractJUnit {
 
 
     @InjectMocks
-    private QuartzConfig classUnderTest = new QuartzConfig(mockApplicationContext);
+    private QuartzConfig classUnderTest;
 
     /**
      * Setup.
      */
     @BeforeEach
     public void setup() {
+        classUnderTest = new QuartzConfig(mockApplicationContext);
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "env", mockEnvironment);
         ReflectionTestUtils.setField(classUnderTest, "ragStatusUpdateThreads", "2");
