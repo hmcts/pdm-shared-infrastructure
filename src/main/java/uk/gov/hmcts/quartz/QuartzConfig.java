@@ -46,12 +46,15 @@ public class QuartzConfig {
     private static final String QUARTZ_DATA_SOURCE = "xhibitDataSource";
     private static final String QUARTZ_DATA_SOURCE_DRIVER = "org.postgresql.Driver";
     private static final String DATA_SOURCE = "org.quartz.dataSource.";
-    private static final String DB_USER_NAME = "pdda.db_user_name";
-    private static final String DB_PASSWORD = "pdda.db_password";
+    protected static final String DB_USER_NAME = "pdda.db_user_name";
+    protected static final String DB_PASSWORD = "pdda.db_password";
+    protected static final String DB_HOST = "pdda.db_host";
+    protected static final String DB_PORT = "pdda.db_port";
+    protected static final String DB_NAME = "pdda.db_name";
 
     @Autowired
     private Environment env;
-    
+
     /** The rag status update threads. */
     @Value("#{applicationConfiguration.ragStatusUpdateThreads}")
     private String ragStatusUpdateThreads;
@@ -133,9 +136,9 @@ public class QuartzConfig {
     }
 
     private String getConnectionUrl() {
-        String host = env.getProperty("DB_HOST");
-        String port = env.getProperty("DB_PORT");
-        String dbName = env.getProperty("DB_NAME");
+        String host = env.getProperty(DB_HOST);
+        String port = env.getProperty(DB_PORT);
+        String dbName = env.getProperty(DB_NAME);
         StringBuilder sb = new StringBuilder(100);
         sb.append("jdbc:postgresql://").append(host).append(':').append(port).append('/')
             .append(dbName);
