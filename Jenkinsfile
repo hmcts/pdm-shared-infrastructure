@@ -17,7 +17,6 @@ def secrets = [
 ]
 
 withPipeline(type, product, component) {
-  enableDbMigration(product)
   loadVaultSecrets(secrets)
 
   afterAlways('smokeTest:stg') {
