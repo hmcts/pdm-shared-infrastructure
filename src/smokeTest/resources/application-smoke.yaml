@@ -1,0 +1,14 @@
+test-url: ${TEST_URL:http://localhost:8080/login}
+
+spring:
+  application:
+    name: pdm-public-display-data-aggregator
+  config:
+    import: "optional:configtree:/mnt/secrets/pdda/"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pdda}${DB_OPTIONS:}
+    username: ${DB_USER_NAME:postgres}
+    password: ${DB_PASSWORD:password}
+    schema: ${DB_SCHEMA:pdda}
+    type: com.zaxxer.hikari.HikariDataSource

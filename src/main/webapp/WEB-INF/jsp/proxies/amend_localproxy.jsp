@@ -45,7 +45,7 @@
 								   class="form-horizontal">
 
 						<%-- CSRF Guard token where uri equals form action --%>
-						<%-- <input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/pdm/proxies/amend_localproxy"/>"/> --%>
+						<%-- <input type="hidden" name="<csrf:tokenname/>" value="<csrf:tokenvalue uri="${context}/proxies/amend_localproxy"/>"/> --%>
 
 						<%--
 							This error block must be within the form:form tags , otherwise you won't get any errors back !!

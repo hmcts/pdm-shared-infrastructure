@@ -26,6 +26,21 @@ java {
   }
 }
 
+sourceSets {
+
+    smokeTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+        resources.srcDir file('src/smokeTest/resources')
+    }
+}
+
+processSmokeTestResources {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -100,7 +115,7 @@ checkstyle {
 
 pmd {
   toolVersion = "6.55.0"
-  sourceSets = [sourceSets.main, sourceSets.test]
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.smokeTest]
   reportsDir = file("$project.buildDir/reports/pmd")
   // https://github.com/pmd/pmd/issues/876
   ruleSets = []
@@ -197,6 +212,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     compileOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.11'
+    implementation group: 'io.rest-assured', name: 'rest-assured'
 }
 
 mainClassName = 'uk.gov.hmcts.PdmanagerSpringbootApplication'
@@ -207,4 +223,15 @@ bootJar {
   manifest {
     attributes('Implementation-Version': project.version.toString())
   }
+}
+
+configurations {
+   smokeTestImplementation.extendsFrom testImplementation
+   smokeTestRuntimeOnly.extendsFrom runtimeOnly
+ }
+
+tasks.register('smoke', Test) {
+  description = "Runs Smoke Tests"
+  testClassesDirs = sourceSets.smokeTest.output.classesDirs
+  classpath = sourceSets.smokeTest.runtimeClasspath
 }

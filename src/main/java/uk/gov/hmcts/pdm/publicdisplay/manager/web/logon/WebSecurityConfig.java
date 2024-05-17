@@ -58,7 +58,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     private static final String PORT = "spring.ldap.embedded.port";
     private static final String BASE_DN = "spring.ldap.embedded.base-dn";
     private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
-    private static final String HOME_URL = "/pdm/home";
+    private static final String HOME_URL = "/home";
     private static final String LOGIN_URL = "/login";
     private static final String LOGINERROR_URL = "/loginError";
     private static final String INVALIDSESSION_URL = "/invalidSession";

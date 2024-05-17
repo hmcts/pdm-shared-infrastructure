@@ -40,7 +40,7 @@ $(document).ready(function () {
 		console.log('loadHearingType starts...');
 		if ($('#selectHearingType').find(':selected').size() && $('#selectHearingType').find(':selected').val() != '') {
 			var id = $('#selectHearingType').find(':selected').val();
-			var url = "/pdm/hearing/amend_hearing/"+id;
+			var url = "/hearing/amend_hearing/"+id;
 			console.log(url);
 			$.getJSON(url)
 				.done(function(json)

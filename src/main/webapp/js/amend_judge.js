@@ -40,7 +40,7 @@ $(document).ready(function () {
 		console.log('loadJudge starts...');
 		if ($('#selectJudge').find(':selected').size() && $('#selectJudge').find(':selected').val() != '') {
 			var id = $('#selectJudge').find(':selected').val();
-			var url = "/pdm/judge/amend_judge/"+id;
+			var url = "/judge/amend_judge/"+id;
 			console.log(url);
 			$.getJSON(url)
 				.done(function(json)
