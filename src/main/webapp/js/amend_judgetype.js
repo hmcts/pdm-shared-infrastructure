@@ -40,7 +40,7 @@ $(document).ready(function () {
 		console.log('loadJudgeType starts...');
 		if ($('#selectCode').find(':selected').size() && $('#selectCode').find(':selected').val() != '') {
 			var id = $('#selectCode').find(':selected').val();
-			var url = "/pdm/judgetype/amend_judgetype/"+id;
+			var url = "/judgetype/amend_judgetype/"+id;
 			console.log(url);
 			$.getJSON(url)
 				.done(function(json)

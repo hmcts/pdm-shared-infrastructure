@@ -12,26 +12,26 @@
 
     <!-- Web application resources with no authentication -->
     <sec:http pattern="/index.jsp" security="none"/>
-    <sec:http pattern="/pdm/home" security="none"/>
-    <sec:http pattern="/pdm/login" security="none"/>
-    <sec:http pattern="/pdm/loginError" security="none"/>
-    <sec:http pattern="/pdm/j_security_check" security="none"/>
-    <sec:http pattern="/pdm/logoutSuccess" security="none"/>
-    <sec:http pattern="/pdm/invalidSession" security="none"/>
-    <sec:http pattern="/pdm/invalidToken" security="none"/>
-    <sec:http pattern="/pdm/help/login" security="none"/>
-    <sec:http pattern="/pdm/help/logout" security="none"/>
-    <sec:http pattern="/pdm/software/**" security="none"/>
+    <sec:http pattern="/home" security="none"/>
+    <sec:http pattern="/login" security="none"/>
+    <sec:http pattern="/loginError" security="none"/>
+    <sec:http pattern="/j_security_check" security="none"/>
+    <sec:http pattern="/logoutSuccess" security="none"/>
+    <sec:http pattern="/invalidSession" security="none"/>
+    <sec:http pattern="/invalidToken" security="none"/>
+    <sec:http pattern="/help/login" security="none"/>
+    <sec:http pattern="/help/logout" security="none"/>
+    <sec:http pattern="/software/**" security="none"/>
 
     <!-- Web application resources with authentication -->
-    <sec:http pattern="/pdm/**" use-expressions="true" entry-point-ref="authenticationEntryPoint">
+    <sec:http pattern="/**" use-expressions="true" entry-point-ref="authenticationEntryPoint">
     	<sec:custom-filter position="FIRST" ref="pollingSessionTimeoutFilter"/>
-        <sec:intercept-url pattern="/pdm/proxies/register_localproxy" access="hasRole('ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/pdm/users/**" access="hasRole('ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/pdm/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/proxies/register_localproxy" access="hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
         <sec:jee user-service-ref="userDetailsService" mappable-roles="AUTHENTICATED_USER"/>
-        <sec:logout logout-url="/pdm/logout" logout-success-url="/pdm/logoutSuccess" invalidate-session="true" delete-cookies="JSESSIONID"/>
-        <sec:session-management invalid-session-url="/pdm/invalidSession">
+        <sec:logout logout-url="/logout" logout-success-url="/logoutSuccess" invalidate-session="true" delete-cookies="JSESSIONID"/>
+        <sec:session-management invalid-session-url="/invalidSession">
         	<sec:concurrency-control max-sessions="1"/>
         </sec:session-management>
         <sec:headers/>
@@ -53,13 +53,13 @@
     <bean id="pollingSessionTimeoutFilter" class="uk.gov.hmcts.pdm.publicdisplay.manager.security.PollingSessionTimeoutFilter">
     	<property name="urls">
     		<list>
-    			<value>/pdm/dashboard/dashboard?reload=auto</value>
+    			<value>/dashboard/dashboard?reload=auto</value>
     		</list>
     	</property>
     </bean>
 
     <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-    	<property name="loginFormUrl" value="/pdm/home"/>
+    	<property name="loginFormUrl" value="/home"/>
     </bean>
 
     <bean id="forbiddenEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>

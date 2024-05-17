@@ -24,6 +24,6 @@ $(document).ready(function () {
  */
 $(document).ajaxError(function (event, jqXHR, settings, error) {
 	if (jqXHR.status == 401) {
-		location.replace('/pdm/' + jqXHR.getResponseHeader('X-Logout-URL'));
+		location.replace('/' + jqXHR.getResponseHeader('X-Logout-URL'));
 	}
 });
