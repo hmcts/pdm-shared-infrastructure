@@ -1,4 +1,4 @@
-test-url: ${TEST_URL:http://localhost:8080}
+test-url: ${TEST_URL:http://localhost:8080/login}
 
 spring:
   application:
