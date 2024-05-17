@@ -67,7 +67,6 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     @Autowired
     private Environment env;
 
-
     protected WebSecurityConfig() {
         super();
     }
@@ -77,23 +76,6 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
         this();
         this.env = env;
     }
-
-//    @Bean
-//    public SecurityFilterChain authProvider(HttpSecurity http){
-//        String azureEnabled = env.getProperty("spring.cloud.azure.active-directory.enabled");
-//
-//        if (azureEnabled.equals("false")) {
-//
-//            try {
-//                return getHttp(http).build();
-//            } catch (Exception exception) {
-//                LOG.error("securityFilterChain: {}", exception.getMessage());
-//                return null;
-//            }
-//
-//        }
-//            return null;
-//    }
 
     /**
      * Build the SecurityFilterChain from the http.
@@ -115,7 +97,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
      */
     protected HttpSecurity getHttp(HttpSecurity http) {
         try {
-            http.formLogin(formLogin -> formLogin.loginPage("/oauth2/authorization/azure")
+            http.formLogin(formLogin -> formLogin.loginPage(env.getProperty(CUSTOM_LOGINPAGE))
                 .loginProcessingUrl(LOGIN_URL).successHandler(getSuccessHandler())
                 .failureHandler(getFailureHandler()).failureUrl(LOGINERROR_URL))
                 .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
