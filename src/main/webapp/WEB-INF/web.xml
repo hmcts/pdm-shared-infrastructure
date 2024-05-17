@@ -101,7 +101,7 @@
 
     <servlet-mapping>
         <servlet-name>pdmanager</servlet-name>
-        <url-pattern>/pdm/*</url-pattern>
+        <url-pattern>/*</url-pattern>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
 
@@ -150,7 +150,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>PDManager Home Page</web-resource-name>
-            <url-pattern>/pdm/home</url-pattern>
+            <url-pattern>/home</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>AUTHENTICATED_USER</role-name>
