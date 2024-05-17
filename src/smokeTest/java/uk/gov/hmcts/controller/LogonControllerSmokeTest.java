@@ -18,7 +18,7 @@ class LogonControllerSmokeTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerSmokeTest.class);
     
-    @Value("${TEST_URL:http://localhost:8080/login?}")
+    @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
 
     @BeforeEach
@@ -30,7 +30,7 @@ class LogonControllerSmokeTest {
     @Test
     void smokeTest() {
         Response response = given()
-            .contentType(ContentType.HTML)
+            .contentType(ContentType.JSON)
             .when()
             .get()
             .then()
