@@ -270,7 +270,7 @@ abstract class JsonRequestErrorTest extends AbstractHttpClientTest {
     }
 
     /**
-     * Test http connection timeout.
+     * Test http connection timeout..
      *
      * @throws Exception the exception
      */
