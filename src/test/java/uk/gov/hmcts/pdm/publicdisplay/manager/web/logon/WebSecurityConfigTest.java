@@ -59,168 +59,168 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author harrism
  */
-//@ExtendWith(MockitoExtension.class)
-//@MockitoSettings(strictness = Strictness.LENIENT)
-//class WebSecurityConfigTest extends AbstractJUnit {
-//
-//    private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
-//    private static final String EQUALS = "Result are not Equal";
-//    private static final String NULL = "Result are not Null";
-//    private static final String TRUE = "Result is False";
-//
-//    @Mock
-//    private Environment mockEnvironment;
-//
-//    @Mock
-//    private ObjectPostProcessor<Object> mockObjectPostProcessor;
-//
-//    @Mock
-//    private AuthenticationManager mockAuthenticationManager;
-//
-//    @Mock
-//    private AuthenticationManagerBuilder mockAuthenticationManagerBuilder;
-//
-//    @Mock
-//    private HttpSecurity mockHttpSecurity;
-//
-//    @Mock
-//    private DefaultSecurityFilterChain mockDefaultSecurityFilterChain;
-//
-//    @Mock
-//    private HttpServletRequest mockHttpServletRequest;
-//
-//    @Mock
-//    private HttpServletResponse mockHttpServletResponse;
-//
-//    @Mock
-//    private Authentication mockAuthentication;
-//
-//    @Mock
-//    private AuthenticationException mockAuthenticationException;
-//
-//    @Test
-//    void testSecurityFilterChainSuccess() {
-//        try {
-//            // Setup
-//            HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
-//            WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment) {
-//                @Override
-//                protected HttpSecurity getHttp(HttpSecurity http) {
-//                    // Test the getHttp() using the dummy version
-//                    Mockito.when(mockEnvironment.getProperty(CUSTOM_LOGINPAGE))
-//                        .thenReturn("/logon/signin");
-//                    super.getHttp(dummyHttpSecurity);
-//                    // Return the mockHttp version for the build()
-//                    return http;
-//                }
-//            };
-//
-//            // Expects
-//            Mockito.when(mockHttpSecurity.build()).thenReturn(mockDefaultSecurityFilterChain);
-//
-//            // Run
-//            SecurityFilterChain result = classUnderTest.securityFilterChain(mockHttpSecurity);
-//
-//            // Checks
-//            assertEquals(result, mockDefaultSecurityFilterChain, EQUALS);
-//        } catch (Exception exception) {
-//            fail(exception.getMessage());
-//        }
-//    }
-//
-//    @Test
-//    void testSecurityFilterChainFailure() throws Exception {
-//        // Setup
-//        HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
-//        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment) {
-//            @Override
-//            protected HttpSecurity getHttp(HttpSecurity http) {
-//                return super.getHttp(dummyHttpSecurity);
-//            }
-//        };
-//        // Expects
-//        Mockito
-//            .when(mockHttpSecurity.formLogin(
-//                formLogin -> formLogin.loginPage(mockEnvironment.getProperty(CUSTOM_LOGINPAGE))))
-//            .thenThrow(new RuntimeException());
-//        // Run
-//        SecurityFilterChain result = classUnderTest.securityFilterChain(mockHttpSecurity);
-//        // Checks
-//        assertNull(result, NULL);
-//    }
-//
-//    @Test
-//    void testConfigureSuccess() {
-//        // Setup
-//        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
-//        // Run
-//        boolean result = false;
-//        try {
-//            classUnderTest.configure(new AuthenticationManagerBuilder(mockObjectPostProcessor));
-//            result = true;
-//        } catch (Exception exception) {
-//            fail(exception.getMessage());
-//        }
-//        assertTrue(result, TRUE);
-//    }
-//
-//    @Test
-//    void testConfigureFailure() {
-//        try {
-//            // Setup
-//            WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
-//            // Expect
-//            Mockito.when(mockAuthenticationManagerBuilder.ldapAuthentication())
-//                .thenThrow(new RuntimeException());
-//            // Run
-//            classUnderTest.configure(mockAuthenticationManagerBuilder);
-//        } catch (Exception exception) {
-//            fail(exception.getMessage());
-//        }
-//    }
-//
-//    @Test
-//    void testSuccessHandler() {
-//        // Setup
-//        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
-//        AuthenticationSuccessHandler handlerUnderTest = classUnderTest.getSuccessHandler();
-//        // Expects
-//        Mockito.when(mockAuthentication.getName()).thenReturn("username");
-//        // Run
-//        boolean result = false;
-//        try {
-//            handlerUnderTest.onAuthenticationSuccess(mockHttpServletRequest,
-//                mockHttpServletResponse, mockAuthentication);
-//            result = true;
-//        } catch (IOException | ServletException exception) {
-//            fail(exception.getMessage());
-//        }
-//        assertTrue(result, TRUE);
-//    }
-//
-//    @Test
-//    void testFailureHandler() {
-//        // Setup
-//        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
-//        AuthenticationFailureHandler handlerUnderTest = classUnderTest.getFailureHandler();
-//        // Expects
-//        Mockito.when(mockAuthentication.getName()).thenReturn("username");
-//        // Run
-//        boolean result = false;
-//        try {
-//            handlerUnderTest.onAuthenticationFailure(mockHttpServletRequest,
-//                mockHttpServletResponse, mockAuthenticationException);
-//            result = true;
-//        } catch (IOException | ServletException exception) {
-//            fail(exception.getMessage());
-//        }
-//        assertTrue(result, TRUE);
-//    }
-//
-//    private HttpSecurity getDummyHttpSecurity() {
-//        HttpSecurity dummyHttpSecurity = new HttpSecurity(mockObjectPostProcessor,
-//            mockAuthenticationManagerBuilder, new ConcurrentHashMap<>());
-//        dummyHttpSecurity.authenticationManager(mockAuthenticationManager);
-//        return dummyHttpSecurity;
-//    }
-//}
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class WebSecurityConfigTest extends AbstractJUnit {
+
+    private static final String CUSTOM_LOGINPAGE = "custom.loginPage";
+    private static final String EQUALS = "Result are not Equal";
+    private static final String NULL = "Result are not Null";
+    private static final String TRUE = "Result is False";
+
+    @Mock
+    private Environment mockEnvironment;
+
+    @Mock
+    private ObjectPostProcessor<Object> mockObjectPostProcessor;
+
+    @Mock
+    private AuthenticationManager mockAuthenticationManager;
+
+    @Mock
+    private AuthenticationManagerBuilder mockAuthenticationManagerBuilder;
+
+    @Mock
+    private HttpSecurity mockHttpSecurity;
+
+    @Mock
+    private DefaultSecurityFilterChain mockDefaultSecurityFilterChain;
+
+    @Mock
+    private HttpServletRequest mockHttpServletRequest;
+
+    @Mock
+    private HttpServletResponse mockHttpServletResponse;
+
+    @Mock
+    private Authentication mockAuthentication;
+
+    @Mock
+    private AuthenticationException mockAuthenticationException;
+
+    @Test
+    void testSecurityFilterChainSuccess() {
+        try {
+            // Setup
+            HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
+            WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment) {
+                @Override
+                protected HttpSecurity getHttp(HttpSecurity http) {
+                    // Test the getHttp() using the dummy version
+                    Mockito.when(mockEnvironment.getProperty(CUSTOM_LOGINPAGE))
+                        .thenReturn("/logon/signin");
+                    super.getHttp(dummyHttpSecurity);
+                    // Return the mockHttp version for the build()
+                    return http;
+                }
+            };
+
+            // Expects
+            Mockito.when(mockHttpSecurity.build()).thenReturn(mockDefaultSecurityFilterChain);
+
+            // Run
+            SecurityFilterChain result = classUnderTest.securityFilterChain(mockHttpSecurity);
+
+            // Checks
+            assertEquals(result, mockDefaultSecurityFilterChain, EQUALS);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    void testSecurityFilterChainFailure() throws Exception {
+        // Setup
+        HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
+        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment) {
+            @Override
+            protected HttpSecurity getHttp(HttpSecurity http) {
+                return super.getHttp(dummyHttpSecurity);
+            }
+        };
+        // Expects
+        Mockito
+            .when(mockHttpSecurity.formLogin(
+                formLogin -> formLogin.loginPage(mockEnvironment.getProperty(CUSTOM_LOGINPAGE))))
+            .thenThrow(new RuntimeException());
+        // Run
+        SecurityFilterChain result = classUnderTest.securityFilterChain(mockHttpSecurity);
+        // Checks
+        assertNull(result, NULL);
+    }
+
+    @Test
+    void testConfigureSuccess() {
+        // Setup
+        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
+        // Run
+        boolean result = false;
+        try {
+            classUnderTest.configure(new AuthenticationManagerBuilder(mockObjectPostProcessor));
+            result = true;
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+        assertTrue(result, TRUE);
+    }
+
+    @Test
+    void testConfigureFailure() {
+        try {
+            // Setup
+            WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
+            // Expect
+            Mockito.when(mockAuthenticationManagerBuilder.ldapAuthentication())
+                .thenThrow(new RuntimeException());
+            // Run
+            classUnderTest.configure(mockAuthenticationManagerBuilder);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    void testSuccessHandler() {
+        // Setup
+        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
+        AuthenticationSuccessHandler handlerUnderTest = classUnderTest.getSuccessHandler();
+        // Expects
+        Mockito.when(mockAuthentication.getName()).thenReturn("username");
+        // Run
+        boolean result = false;
+        try {
+            handlerUnderTest.onAuthenticationSuccess(mockHttpServletRequest,
+                mockHttpServletResponse, mockAuthentication);
+            result = true;
+        } catch (IOException | ServletException exception) {
+            fail(exception.getMessage());
+        }
+        assertTrue(result, TRUE);
+    }
+
+    @Test
+    void testFailureHandler() {
+        // Setup
+        WebSecurityConfig classUnderTest = new WebSecurityConfig(mockEnvironment);
+        AuthenticationFailureHandler handlerUnderTest = classUnderTest.getFailureHandler();
+        // Expects
+        Mockito.when(mockAuthentication.getName()).thenReturn("username");
+        // Run
+        boolean result = false;
+        try {
+            handlerUnderTest.onAuthenticationFailure(mockHttpServletRequest,
+                mockHttpServletResponse, mockAuthenticationException);
+            result = true;
+        } catch (IOException | ServletException exception) {
+            fail(exception.getMessage());
+        }
+        assertTrue(result, TRUE);
+    }
+
+    private HttpSecurity getDummyHttpSecurity() {
+        HttpSecurity dummyHttpSecurity = new HttpSecurity(mockObjectPostProcessor,
+            mockAuthenticationManagerBuilder, new ConcurrentHashMap<>());
+        dummyHttpSecurity.authenticationManager(mockAuthenticationManager);
+        return dummyHttpSecurity;
+    }
+}
