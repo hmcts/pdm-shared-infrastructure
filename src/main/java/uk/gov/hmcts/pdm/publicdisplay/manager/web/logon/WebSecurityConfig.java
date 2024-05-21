@@ -80,7 +80,6 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     /**
      * Build the SecurityFilterChain from the http.
      */
-
     @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled", havingValue = "false")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
