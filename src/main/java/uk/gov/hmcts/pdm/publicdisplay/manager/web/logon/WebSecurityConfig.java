@@ -67,11 +67,13 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     @Autowired
     private Environment env;
 
+
     protected WebSecurityConfig() {
         super();
     }
 
     // Junit constructor
+    @Autowired
     protected WebSecurityConfig(Environment env) {
         this();
         this.env = env;
