@@ -22,5 +22,11 @@ java:
           alias: DB_SCHEMA
         - name: app-insights-connection-string-pdm
           alias: app-insights-connection-string-pdm
+        - name: public-display-data-aggregator-authentication-clientID
+          alias: AZURE_CLIENT_ID
+        - name: public-display-data-aggregator-authentication-clientSecret
+          alias: AZURE_CLIENT_SECRET
+        - name: public-display-data-aggregator-authentication-tenantID
+          alias: AZURE_TENANT_ID
   environment:
     RUN_DB_MIGRATION_ON_STARTUP: false
