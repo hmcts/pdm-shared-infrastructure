@@ -7,10 +7,12 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
@@ -44,6 +46,14 @@ public class QuartzConfig {
     private static final String QUARTZ_DATA_SOURCE = "xhibitDataSource";
     private static final String QUARTZ_DATA_SOURCE_DRIVER = "org.postgresql.Driver";
     private static final String DATA_SOURCE = "org.quartz.dataSource.";
+    protected static final String DB_USER_NAME = "pdda.db_user_name";
+    protected static final String DB_PASSWORD = "pdda.db_password";
+    protected static final String DB_HOST = "pdda.db_host";
+    protected static final String DB_PORT = "pdda.db_port";
+    protected static final String DB_NAME = "pdda.db_name";
+
+    @Autowired
+    private Environment env;
 
     /** The rag status update threads. */
     @Value("#{applicationConfiguration.ragStatusUpdateThreads}")
@@ -118,17 +128,17 @@ public class QuartzConfig {
 
         String url = getConnectionUrl();
         properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".URL", url);
-        String username = System.getenv("DB_USER_NAME");
+        String username = env.getProperty(DB_USER_NAME);
         properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".user", username);
-        String password = System.getenv("DB_PASSWORD");
+        String password = env.getProperty(DB_PASSWORD);
         properties.setProperty(DATA_SOURCE + QUARTZ_DATA_SOURCE + ".password", password);
         return properties;
     }
 
     private String getConnectionUrl() {
-        String host = System.getenv("DB_HOST");
-        String port = System.getenv("DB_PORT");
-        String dbName = System.getenv("DB_NAME");
+        String host = env.getProperty(DB_HOST);
+        String port = env.getProperty(DB_PORT);
+        String dbName = env.getProperty(DB_NAME);
         StringBuilder sb = new StringBuilder(100);
         sb.append("jdbc:postgresql://").append(host).append(':').append(port).append('/')
             .append(dbName);

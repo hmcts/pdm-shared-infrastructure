@@ -45,7 +45,7 @@ $(document).ready(function () {
 		console.log('loadDisplay starts...');
 		if ($('#selectDisplay').find(':selected').size() && $('#selectDisplay').find(':selected').val() != '') {
 			var id = $('#selectDisplay').find(':selected').val();
-			var url = "/pdm/display/amend_display/"+id;
+			var url = "/display/amend_display/"+id;
 			console.log(url);
 			$.getJSON(url)
 				.done(function(json)

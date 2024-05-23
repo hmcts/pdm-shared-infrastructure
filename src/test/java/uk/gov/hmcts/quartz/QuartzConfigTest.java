@@ -21,13 +21,8 @@
  * the possibility of such damage.
  */
 
-package uk.gov.hmcts.config;
+package uk.gov.hmcts.quartz;
 
-import com.pdm.hb.jpa.EntityManagerUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,70 +32,64 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
-import static org.assertj.core.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Unit test for WebApplInitializer.
+ * Unit test for QuartzConfig.
  *
  * @author harrism
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class WebAppInitializerTest extends AbstractJUnit {
+class QuartzConfigTest extends AbstractJUnit {
 
-    private static final String EQUALS = "Result is not Equal";
+    private static final String NOTNULL = "Result is Null";
 
     @Mock
     private Environment mockEnvironment;
 
     @Mock
-    private EntityManagerFactory mockEntityManagerFactory;
+    private ApplicationContext mockApplicationContext;
 
-    @Mock
-    private EntityManager mockEntityManager;
-
-    @Mock
-    private ServletContext mockServletContext;
 
     @InjectMocks
-    private WebAppInitializer classUnderTest;
+    private QuartzConfig classUnderTest;
 
     /**
      * Setup.
      */
     @BeforeEach
     public void setup() {
+        classUnderTest = new QuartzConfig(mockApplicationContext);
         // Set the class variables
-        ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
-            mockEntityManagerFactory);
+        ReflectionTestUtils.setField(classUnderTest, "env", mockEnvironment);
+        ReflectionTestUtils.setField(classUnderTest, "ragStatusUpdateThreads", "2");
     }
 
     /**
-     * Test onStartup.
+     * Test quartzProperties.
      */
     @Test
-    void testOnStartup() {
-        try {
-            // Expects
-            Mockito.when(mockEntityManagerFactory.createEntityManager())
-                .thenReturn(mockEntityManager);
-            Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class)))
-                .thenReturn("testDbUser");
-            // Run
-            classUnderTest.onStartup(mockServletContext);
-            // Checks
-            assertEquals(InitializationService.getInstance().getEntityManagerFactory(),
-                mockEntityManagerFactory, EQUALS);
-            assertEquals(EntityManagerUtil.getEntityManager(), mockEntityManager, EQUALS);
-        } catch (ServletException exception) {
-            fail(exception.getMessage());
-        }
+    void testQuartzProperties() {
+        // Expects
+        Mockito.when(mockEnvironment.getProperty(QuartzConfig.DB_USER_NAME))
+            .thenReturn("dbusername");
+        Mockito.when(mockEnvironment.getProperty(QuartzConfig.DB_PASSWORD))
+            .thenReturn("dbpassword");
+        Mockito.when(mockEnvironment.getProperty(QuartzConfig.DB_HOST)).thenReturn("dbhost");
+        Mockito.when(mockEnvironment.getProperty(QuartzConfig.DB_PORT)).thenReturn("dbport");
+        Mockito.when(mockEnvironment.getProperty(QuartzConfig.DB_NAME)).thenReturn("dbname");
+        // Run
+        Properties properties = classUnderTest.quartzProperties();
+
+        assertNotNull(properties, NOTNULL);
     }
 
 

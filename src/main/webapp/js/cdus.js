@@ -68,7 +68,7 @@ $(document).ready(function () {
 		console.log(e.type + ' handler for element id : ' + elementId + " starts");	
 
 		var req = new XMLHttpRequest();
-		req.open("GET", "/pdm/cdus/screenshot", true);
+		req.open("GET", "/cdus/screenshot", true);
 		req.responseType = "blob";
 		req.onload = function(e) {
 			if (req.status == 201) {

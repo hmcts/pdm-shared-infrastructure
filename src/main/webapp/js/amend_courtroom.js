@@ -49,7 +49,7 @@ $(document).ready(function () {
 		console.log('loadCourtRooms starts...');
 		if ($('#selectSite').find(':selected').size() && $('#selectSite').find(':selected').val() != '') {
 			var id = $('#selectSite').find(':selected').val();
-			var url = "/pdm/courtroom/amend_courtroom/"+id;
+			var url = "/courtroom/amend_courtroom/"+id;
 			console.log(url);
 			$.getJSON(url)
 				.done(function(json)
@@ -90,7 +90,7 @@ $(document).ready(function () {
 		console.log('loadSelectedCourtRoom starts...');
 		if ($('#selectCourtRoom').find(':selected').size() && $('#selectCourtRoom').find(':selected').val() != '') {
 			var id = $('#selectCourtRoom').find(':selected').val();
-			var url = "/pdm/courtroom/amend_courtroom/courtRoom/"+id;
+			var url = "/courtroom/amend_courtroom/courtRoom/"+id;
 			console.log(url);
 			$.getJSON(url)
 				.done(function(json)

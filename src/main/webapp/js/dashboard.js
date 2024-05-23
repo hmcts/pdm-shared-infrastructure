@@ -19,8 +19,8 @@ $(document).ready(function () {
 	var errorsMessage = "ERRORS";
 
 	/* Page Url Variables */
-	var dashboardUrl = "/pdm/dashboard/dashboard";
-	var courtSiteUrl = "/pdm/dashboard/courtsite/";
+	var dashboardUrl = "/dashboard/dashboard";
+	var courtSiteUrl = "/dashboard/courtsite/";
 
 	/* Page Automatic Reload */
 	countdownTimer($('#countdown').text(), function(timeLeft) { $('#countdown').text(timeLeft); }, function() { reload(true); } );

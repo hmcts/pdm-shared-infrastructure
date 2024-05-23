@@ -1,8 +1,10 @@
 java:
-  applicationPort: 5432
+  applicationPort: 8080
+  readinessPath: '/health'
+  livenessPath: '/health'
+  startupPath: '/health'
   image: 'sdshmctspublic.azurecr.io/pdm/public-display-manager:latest'
-  environment:
-    A_KEY: 'a value'
+  ingressHost: pdm-public-display-manager.{{ .Values.global.environment }}.platform.hmcts.net
   keyVaults:
     "pdda":
       secrets:
@@ -16,3 +18,9 @@ java:
           alias: DB_HOST
         - name: public-display-data-aggregator-POSTGRES-PORT
           alias: DB_PORT
+        - name: public-display-data-aggregator-POSTGRES-SCHEMA
+          alias: DB_SCHEMA
+        - name: app-insights-connection-string-pdm
+          alias: app-insights-connection-string-pdm
+  environment:
+    RUN_DB_MIGRATION_ON_STARTUP: false
