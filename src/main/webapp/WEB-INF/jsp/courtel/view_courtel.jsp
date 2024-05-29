@@ -16,7 +16,7 @@
 
 </head>
 
-<body data-help-page="amend_courtroom">
+<body data-help-page="view_courtel">
 
 <div id="wrapper">
 
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <div class="col-md-12">
                                 <button id="btnUpdateConfirm" class="btn btn-primary" name="btnUpdateConfirm"><span
-                                        class="glyphicon glyphicon-edit"></span> Amend Courtel</button>
+                                        class="glyphicon glyphicon-edit"></span> Update Courtel</button>
                             </div>
                         </div>
                     <!-- /form-group -->

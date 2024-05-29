@@ -139,7 +139,8 @@
 
 						<div class="form-group">
 							<div class="col-md-12">																												
-							    <button id="btnUpdateConfirm" class="btn btn-primary" name="btnUpdateConfirm"><span class="glyphicon glyphicon-edit"></span> Amend Court Room</button>
+							    <button id="btnUpdateConfirm" class="btn btn-primary" name="btnUpdateConfirm"><span
+										class="glyphicon glyphicon-edit"></span> Update Court Room</button>
 								<a href="<c:url value="/courtroom/view_courtroom?reset=false"/>" class="btn btn-primary"><span class="glyphicon glyphicon-circle-arrow-left"></span> Return to Manage Court Room</a>																	
 							</div>
 						</div>

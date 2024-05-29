@@ -56,7 +56,7 @@ public class HelpController {
             "amend_judge", "create_judge", "view_hearing", "amend_hearing", "create_hearing",
             "view_court", "delete_judge", "view_judgetype", "amend_judgetype", "create_judgetype",
             "create_court", "amend_court", "view_courtroom", "create_courtroom", "amend_courtroom",
-            "delete_courtroom"};
+            "delete_courtroom", "view_courtel"};
 
     /**
      * Help.
