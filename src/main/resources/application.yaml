@@ -10,7 +10,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pdda}${DB_OPTIONS:}
     username: ${DB_USER_NAME:postgres}
-    password: ${DB_PASSWORD:password}
+    password: ${DB_PASSWORD:bakjab50}
     schema: ${DB_SCHEMA:pdda}
     type: com.zaxxer.hikari.HikariDataSource
   jpa:
