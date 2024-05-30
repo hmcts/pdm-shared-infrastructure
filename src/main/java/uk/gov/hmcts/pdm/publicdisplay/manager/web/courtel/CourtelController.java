@@ -91,7 +91,7 @@ public class CourtelController {
      * @return the model and view
      */
     @RequestMapping(value = MAPPING_AMEND_COURTEL, method = RequestMethod.POST, params = "btnUpdateConfirm")
-    public ModelAndView updateCourtRoom(@Valid final CourtelAmendCommand courtelAmendCommand,
+    public ModelAndView updateCourtel(@Valid final CourtelAmendCommand courtelAmendCommand,
             final BindingResult result, final ModelAndView model) {
         final String methodName = "updateCourtel";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
@@ -104,7 +104,7 @@ public class CourtelController {
             try {
                 LOGGER.debug("{}{} - updating Courtel", METHOD, methodName);
 
-                // Update the courtRoom
+                // Update the courtel
                 courtelService.updateCourtelListAmount(courtelAmendCommand);
                 courtelService.updateCourtelMaxRetry(courtelAmendCommand);
                 courtelService.updateMessageLookupDelay(courtelAmendCommand);
