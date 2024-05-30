@@ -24,16 +24,20 @@ public class CourtelController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CourtelController.class);
     private static final String COMMAND = "command";
     private static final String SUCCESS_MESSAGE = "successMessage";
-    protected static final String METHOD = "Method ";
-    protected static final String THREE_PARAMS = "{}{}{}";
-    protected static final String STARTS = " - starts";
-    protected static final String ENDS = " - ends";
+    private static final String METHOD = "Method ";
+    private static final String THREE_PARAMS = "{}{}{}";
+    private static final String STARTS = " - starts";
+    private static final String ENDS = " - ends";
 
     /**
      * Our CourtelService class.
      */
     @Autowired
-    protected ICourtelService courtelService;
+    private ICourtelService courtelService;
+    @Autowired
+    private CourtelAmendValidator courtelAmendValidator;
+
+
 
     /**
      * The Constant for the JSP Folder.
@@ -96,6 +100,7 @@ public class CourtelController {
         final String methodName = "updateCourtel";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
+        courtelAmendValidator.validate(courtelAmendCommand, result);
         if (result.hasErrors()) {
             // Default is to return to the view courtel page to display errors
             model.setViewName(VIEW_NAME_VIEW_COURTEL);
