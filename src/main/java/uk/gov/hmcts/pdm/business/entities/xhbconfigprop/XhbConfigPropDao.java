@@ -64,7 +64,7 @@ public class XhbConfigPropDao extends AbstractDao implements Serializable {
         return propertyName;
     }
 
-    private void setPropertyName(String propertyName) {
+    public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }
 

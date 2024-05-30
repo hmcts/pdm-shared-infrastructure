@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.XpdmException;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CourtelDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ICourtelService;
 
 @Controller
@@ -77,6 +78,11 @@ public class CourtelController {
         // Add the courtelAmendCommand to the model
         LOGGER.debug("{}{} adding courtelAmendCommand to model", METHOD, methodName);
         model.addObject(COMMAND, courtelAmendCommand);
+
+        CourtelDto courtelPropertyValues = courtelService.getCourtelPropertyValues();
+
+        // add the courtel data to the model
+        model.addObject("courtel", courtelPropertyValues);
 
         // Return the model
         LOGGER.debug("{}{} returning model", METHOD, methodName);

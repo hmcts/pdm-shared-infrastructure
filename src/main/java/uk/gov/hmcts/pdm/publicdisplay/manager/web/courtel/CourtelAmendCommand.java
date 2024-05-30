@@ -1,19 +1,29 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.courtel;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public class CourtelAmendCommand {
 
-    /** The courtelListAmount of the xhbConfigProp. */
-    @Pattern(regexp = "^\\d+$", message = "{courtelAmendCommand.courtelListAmount.notNumber}")
+    /**
+     * The courtelListAmount of the xhbConfigProp.
+     */
+    @NotBlank(message = "{courtelAmendCommand.courtelListAmount.notBlank}")
+    @Pattern(regexp = "^(\\s*|\\d+)$", message = "{courtelAmendCommand.courtelListAmount.notNumber}")
     private String courtelListAmount;
 
-    /** The courtelMaxRetry of the xhbConfigProp. */
-    @Pattern(regexp = "^\\d+$", message = "{courtelAmendCommand.courtelMaxRetry.notNumber}")
+    /**
+     * The courtelMaxRetry of the xhbConfigProp.
+     */
+    @NotBlank(message = "{courtelAmendCommand.courtelMaxRetry.notBlank}")
+    @Pattern(regexp = "^(\\s*|\\d+)$", message = "{courtelAmendCommand.courtelMaxRetry.notNumber}")
     private String courtelMaxRetry;
 
-    /** The courtelMaxRetry of the xhbConfigProp. */
-    @Pattern(regexp = "^\\d+$", message = "{courtelAmendCommand.messageLookupDelay.notNumber}")
+    /**
+     * The courtelMaxRetry of the xhbConfigProp.
+     */
+    @NotBlank(message = "{courtelAmendCommand.messageLookupDelay.notBlank}")
+    @Pattern(regexp = "^(\\s*|\\d+)$", message = "{courtelAmendCommand.messageLookupDelay.notNumber}")
     private String messageLookupDelay;
 
     public String getCourtelListAmount() {

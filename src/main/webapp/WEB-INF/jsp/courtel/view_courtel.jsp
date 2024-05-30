@@ -68,6 +68,7 @@
                                     <form:input placeholder=""
                                                 path="courtelListAmount"
                                                 id="courtelListAmount"
+                                                value="${courtel.courtelListAmount}"
                                                 maxlength="255"
                                                 cssClass="form-control"/>
                                     <spring:hasBindErrors name="courtelAmendCommand">
@@ -84,6 +85,7 @@
                                     <form:input placeholder=""
                                                 path="courtelMaxRetry"
                                                 id="courtelMaxRetry"
+                                                value="${courtel.courtelMaxRetry}"
                                                 maxlength="255"
                                                 cssClass="form-control"/>
                                     <spring:hasBindErrors name="courtelAmendCommand">
@@ -100,6 +102,7 @@
                                     <form:input placeholder=""
                                                 path="messageLookupDelay"
                                                 id="messageLookupDelay"
+                                                value="${courtel.courtelMessageLookupDelay}"
                                                 maxlength="255"
                                                 cssClass="form-control"/>
                                     <spring:hasBindErrors name="courtelAmendCommand">
