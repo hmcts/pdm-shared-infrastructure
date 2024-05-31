@@ -70,7 +70,7 @@ public class CourtelService implements ICourtelService {
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         List<XhbConfigPropDao> xhbConfigPropDaos =
-                getXhbConfigPropRepository().findByPropertyName(COURTEL_MESSAGE_LOOKUP_DELAY);
+                getXhbConfigPropRepository().findByPropertyName(propertyName);
 
         if (xhbConfigPropDaos.isEmpty()) {
             XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
