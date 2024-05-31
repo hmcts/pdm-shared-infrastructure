@@ -59,4 +59,20 @@ public class XhbConfigPropRepository extends AbstractRepository<XhbConfigPropDao
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;
     }
+
+    /**
+     * saveDao.
+     *
+     * @param dao XhbConfigPropDao
+     */
+    public void saveDao(XhbConfigPropDao dao) {
+        final String methodName = "save";
+        LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
+
+        super.save(dao);
+
+        clearEntityManager();
+
+        LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
+    }
 }
