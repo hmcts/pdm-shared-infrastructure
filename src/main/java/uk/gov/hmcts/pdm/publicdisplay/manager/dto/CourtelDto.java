@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class CourtelDto implements Serializable {
 
     /**
-     * SerialVersionUID of the CourtRoomDto class.
+     * SerialVersionUID of the CourtelDto class.
      */
     @Serial
     private static final long serialVersionUID = -3592709908530871747L;
