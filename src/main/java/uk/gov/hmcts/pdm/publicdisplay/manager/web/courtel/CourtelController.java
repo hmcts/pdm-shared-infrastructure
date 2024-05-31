@@ -116,9 +116,7 @@ public class CourtelController {
                 LOGGER.debug("{}{} - updating Courtel", METHOD, methodName);
 
                 // Update the courtel
-                courtelService.updateCourtelListAmount(courtelAmendCommand);
-                courtelService.updateCourtelMaxRetry(courtelAmendCommand);
-                courtelService.updateMessageLookupDelay(courtelAmendCommand);
+                courtelService.updateCourtelProperties(courtelAmendCommand);
 
                 // Add successMessage to model for display on page
                 model.addObject(SUCCESS_MESSAGE, "Courtel has been updated successfully.");

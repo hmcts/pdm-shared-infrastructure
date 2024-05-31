@@ -35,54 +35,38 @@ public class CourtelService implements ICourtelService {
     @Secured(UserRole.ROLE_ADMIN_VALUE)
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
-    public void updateCourtelListAmount(CourtelAmendCommand courtelAmendCommand) {
-
-        final String methodName = "updateCourtelListAmount";
+    public CourtelDto getCourtelPropertyValues() {
+        final String methodName = "getCourtelProperties";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
-        List<XhbConfigPropDao> xhbConfigPropDaos = getXhbConfigPropRepository().findByPropertyName(COURTEL_LIST_AMOUNT);
+        List<XhbConfigPropDao> courtelListAmountDao =
+                getXhbConfigPropRepository().findByPropertyName(COURTEL_LIST_AMOUNT);
+        List<XhbConfigPropDao> courtelMaxRetryDao =
+                getXhbConfigPropRepository().findByPropertyName(COURTEL_MAX_RETRY);
+        List<XhbConfigPropDao> courtelMessageLookupDelayDao =
+                getXhbConfigPropRepository().findByPropertyName(COURTEL_MESSAGE_LOOKUP_DELAY);
 
-        if (xhbConfigPropDaos.isEmpty()) {
-            XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
-            xhbConfigPropDao.setPropertyName(COURTEL_LIST_AMOUNT);
-            xhbConfigPropDao.setPropertyValue(courtelAmendCommand.getCourtelListAmount());
-            getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
-        } else {
-            XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
-            xhbConfigPropDao.setPropertyValue(courtelAmendCommand.getCourtelListAmount());
-            getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
-        }
+        final CourtelDto courtelDto = new CourtelDto();
+
+        courtelDto.setCourtelListAmount(courtelListAmountDao.get(0).getPropertyValue());
+        courtelDto.setCourtelMaxRetry(courtelMaxRetryDao.get(0).getPropertyValue());
+        courtelDto.setCourtelMessageLookupDelay(courtelMessageLookupDelayDao.get(0).getPropertyValue());
+
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
+        return courtelDto;
     }
 
     @Secured(UserRole.ROLE_ADMIN_VALUE)
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
-    public void updateCourtelMaxRetry(CourtelAmendCommand courtelAmendCommand) {
-        final String methodName = "updateCourtelMaxRetry";
-        LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
-
-        List<XhbConfigPropDao> xhbConfigPropDaos = getXhbConfigPropRepository().findByPropertyName(COURTEL_MAX_RETRY);
-
-        if (xhbConfigPropDaos.isEmpty()) {
-            XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
-            xhbConfigPropDao.setPropertyName(COURTEL_MAX_RETRY);
-            xhbConfigPropDao.setPropertyValue(courtelAmendCommand.getCourtelMaxRetry());
-            getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
-        } else {
-            XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
-            xhbConfigPropDao.setPropertyValue(courtelAmendCommand.getCourtelMaxRetry());
-            getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
-        }
-
-        LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
+    public void updateCourtelProperties(CourtelAmendCommand courtelAmendCommand) {
+        updateProperty(COURTEL_LIST_AMOUNT, courtelAmendCommand.getCourtelListAmount());
+        updateProperty(COURTEL_MAX_RETRY, courtelAmendCommand.getCourtelMaxRetry());
+        updateProperty(COURTEL_MESSAGE_LOOKUP_DELAY, courtelAmendCommand.getMessageLookupDelay());
     }
 
-    @Secured(UserRole.ROLE_ADMIN_VALUE)
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    @Override
-    public void updateMessageLookupDelay(CourtelAmendCommand courtelAmendCommand) {
-        final String methodName = "updateMessageLookupDelay";
+    private void updateProperty(String propertyName, String propertyValue) {
+        final String methodName = "updateProperty";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
         List<XhbConfigPropDao> xhbConfigPropDaos =
@@ -90,52 +74,26 @@ public class CourtelService implements ICourtelService {
 
         if (xhbConfigPropDaos.isEmpty()) {
             XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
-            xhbConfigPropDao.setPropertyName(COURTEL_MESSAGE_LOOKUP_DELAY);
-            xhbConfigPropDao.setPropertyValue(courtelAmendCommand.getMessageLookupDelay());
+            xhbConfigPropDao.setPropertyName(propertyName);
+            xhbConfigPropDao.setPropertyValue(propertyValue);
             getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
         } else {
             XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
-            xhbConfigPropDao.setPropertyValue(courtelAmendCommand.getMessageLookupDelay());
+            xhbConfigPropDao.setPropertyValue(propertyValue);
             getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
         }
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
+
     }
 
-    
-
-    @Secured(UserRole.ROLE_ADMIN_VALUE)
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    @Override
-    public CourtelDto getCourtelPropertyValues() {
-        final String methodName = "getCourtelProperties";
-        LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
-
-        List<XhbConfigPropDao> courtelListAmountDao =
-                getXhbConfigPropRepository().findByPropertyName(COURTEL_LIST_AMOUNT);
-        List<XhbConfigPropDao> courtelMaxRetryDao=
-                getXhbConfigPropRepository().findByPropertyName(COURTEL_MAX_RETRY);
-        List<XhbConfigPropDao> courtelMessageLookupDelayDao =
-                getXhbConfigPropRepository().findByPropertyName(COURTEL_MESSAGE_LOOKUP_DELAY);
-
-        final CourtelDto courtelDto = new CourtelDto();
-
-            courtelDto.setCourtelListAmount(courtelListAmountDao.get(0).getPropertyValue());
-            courtelDto.setCourtelMaxRetry(courtelMaxRetryDao.get(0).getPropertyValue());
-            courtelDto.setCourtelMessageLookupDelay(courtelMessageLookupDelayDao.get(0).getPropertyValue());
-
-        LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
-
-        return courtelDto;
-    }
-
-    protected EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         if (entityManager == null) {
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;
     }
 
-    protected XhbConfigPropRepository getXhbConfigPropRepository() {
+    private XhbConfigPropRepository getXhbConfigPropRepository() {
         if (xhbConfigPropRepository == null) {
             xhbConfigPropRepository = new XhbConfigPropRepository(getEntityManager());
         }
