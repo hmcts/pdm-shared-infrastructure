@@ -11,8 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CourtelDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.CourtelService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ICourtelService;
 
@@ -20,6 +22,7 @@ import java.util.Map;
 
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
@@ -34,6 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class CourtelControllerTest extends AbstractJUnit {
 
     protected ICourtelService mockCourtelService;
+    protected CourtelAmendValidator mockCourtelValidator;
     protected MockMvc mockMvc;
     protected String viewNameViewCourtel;
     protected String mappingNameViewCourtelUrl;
@@ -56,8 +60,11 @@ class CourtelControllerTest extends AbstractJUnit {
         CourtelController classUnderTest = new CourtelController();
         // Setup the mock version of the called classes
         mockCourtelService = createMock(CourtelService.class);
+        mockCourtelValidator = createMock(CourtelAmendValidator.class);
+
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "courtelService", mockCourtelService);
+        ReflectionTestUtils.setField(classUnderTest, "courtelAmendValidator", mockCourtelValidator);
 
         // Get the static variables from the class under test
         viewNameViewCourtel =
@@ -80,6 +87,11 @@ class CourtelControllerTest extends AbstractJUnit {
     @Test
     void viewCourtelTest() throws Exception {
 
+        final CourtelDto courtelDto = new CourtelDto();
+
+        expect(mockCourtelService.getCourtelPropertyValues()).andReturn(courtelDto);
+        replay(mockCourtelService);
+
         // Perform the test
         final MvcResult results = mockMvc.perform(get(mappingNameViewCourtelUrl)).andReturn();
         String returnedViewName = results.getModelAndView().getViewName();
@@ -89,17 +101,18 @@ class CourtelControllerTest extends AbstractJUnit {
                 NOT_AN_INSTANCE);
         assertEquals(viewNameViewCourtel, returnedViewName, NOT_EQUAL);
 
+        verify(mockCourtelService);
+
     }
 
     @Test
     void updateCourtelTest() throws Exception {
-        final Capture<CourtelAmendCommand> capturedCourtelAmendCommand = newCapture();
 
-        mockCourtelService.updateCourtelListAmount(capture(capturedCourtelAmendCommand));
-        expectLastCall();
-        mockCourtelService.updateCourtelMaxRetry(capture(capturedCourtelAmendCommand));
-        expectLastCall();
-        mockCourtelService.updateMessageLookupDelay(capture(capturedCourtelAmendCommand));
+        final Capture<CourtelAmendCommand> capturedCourtelAmendCommand = newCapture();
+        final CourtelDto courtelDto = new CourtelDto();
+
+        mockCourtelService.updateCourtelProperties(capture(capturedCourtelAmendCommand));
+        expect(mockCourtelService.getCourtelPropertyValues()).andReturn(courtelDto);
         expectLastCall();
 
         replay(mockCourtelService);
@@ -128,7 +141,12 @@ class CourtelControllerTest extends AbstractJUnit {
 
     @Test
     void updateCourtelErrorTest() throws Exception {
+        final Capture<CourtelAmendCommand> capturedCourtelAmendCommand = newCapture();
+        final Capture<BindingResult> capturedErrors = newCapture();
 
+        mockCourtelValidator.validate(capture(capturedCourtelAmendCommand), capture(capturedErrors));
+        expectLastCall();
+        replay(mockCourtelValidator);
         // Perform the test
         final MvcResult results = mockMvc.perform(post(mappingNameAmendCourtelUrl)
                                                  .param(COURTEL_LIST_AMOUNT, "a")
@@ -144,6 +162,7 @@ class CourtelControllerTest extends AbstractJUnit {
         assertNotNull(results.getModelAndView().getViewName(), NOT_NULL);
         assertEquals(viewNameViewCourtel, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertEquals(3, bindingResult.getErrorCount(), NOT_EQUAL);
+        assertEquals(3, capturedErrors.getValue().getAllErrors().size(), NOT_EQUAL);
         assertEquals("{courtelAmendCommand.courtelListAmount.notNumber}",
                 bindingResult.getFieldError(COURTEL_LIST_AMOUNT).getDefaultMessage(), NOT_EQUAL);
         assertEquals("{courtelAmendCommand.courtelMaxRetry.notNumber}",
@@ -159,7 +178,7 @@ class CourtelControllerTest extends AbstractJUnit {
 
         final Capture<CourtelAmendCommand> capturedCourtelAmendCommand = newCapture();
 
-        mockCourtelService.updateCourtelListAmount(capture(capturedCourtelAmendCommand));
+        mockCourtelService.updateCourtelProperties(capture(capturedCourtelAmendCommand));
         expectLastCall().andThrow(new DataAccessException("Courtel Update Error") {});
 
         replay(mockCourtelService);

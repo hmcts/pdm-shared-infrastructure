@@ -38,8 +38,6 @@ public class CourtelController {
     @Autowired
     private CourtelAmendValidator courtelAmendValidator;
 
-
-
     /**
      * The Constant for the JSP Folder.
      */
