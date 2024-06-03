@@ -65,7 +65,7 @@ public class CourtelService implements ICourtelService {
         updateProperty(COURTEL_MESSAGE_LOOKUP_DELAY, courtelAmendCommand.getMessageLookupDelay());
     }
 
-    private void updateProperty(String propertyName, String propertyValue) {
+    public void updateProperty(String propertyName, String propertyValue) {
         final String methodName = "updateProperty";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
 
