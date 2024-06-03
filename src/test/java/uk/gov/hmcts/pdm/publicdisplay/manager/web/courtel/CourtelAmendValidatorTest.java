@@ -59,7 +59,7 @@ class CourtelAmendValidatorTest extends AbstractJUnit {
 
     @Test
     void validateCourtelListAmountNullTest() {
-        courtelAmendCommand.setCourtelListAmount(null);
+        courtelAmendCommand.setCourtelListAmount("");
         final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
 
         classUnderTest.validate(courtelAmendCommand, errors);
@@ -72,7 +72,7 @@ class CourtelAmendValidatorTest extends AbstractJUnit {
     void validateCourtelMaxRetryNullTest() {
 
         courtelAmendCommand.setCourtelListAmount("5");
-        courtelAmendCommand.setCourtelMaxRetry(null);
+        courtelAmendCommand.setCourtelMaxRetry("");
         final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
 
         classUnderTest.validate(courtelAmendCommand, errors);
@@ -98,7 +98,7 @@ class CourtelAmendValidatorTest extends AbstractJUnit {
     void validateMessageLookupDelayNullTest() {
         courtelAmendCommand.setCourtelListAmount("5");
         courtelAmendCommand.setCourtelMaxRetry("10");
-        courtelAmendCommand.setMessageLookupDelay(null);
+        courtelAmendCommand.setMessageLookupDelay("");
         final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
 
         classUnderTest.validate(courtelAmendCommand, errors);
