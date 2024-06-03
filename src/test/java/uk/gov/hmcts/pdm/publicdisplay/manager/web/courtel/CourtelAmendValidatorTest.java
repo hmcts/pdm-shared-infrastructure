@@ -58,7 +58,18 @@ class CourtelAmendValidatorTest extends AbstractJUnit {
     }
 
     @Test
-    void validateCourtelMaxRetryTest() {
+    void validateCourtelListAmountNullTest() {
+        courtelAmendCommand.setCourtelListAmount(null);
+        final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
+
+        classUnderTest.validate(courtelAmendCommand, errors);
+
+        assertEquals("courtelAmendCommand.courtelListAmount.notNumber", errors.getGlobalErrors().get(0).getCode(),
+                NOT_EQUAL);
+    }
+
+    @Test
+    void validateCourtelMaxRetryNullTest() {
 
         courtelAmendCommand.setCourtelListAmount("5");
         courtelAmendCommand.setCourtelMaxRetry(null);
@@ -71,10 +82,36 @@ class CourtelAmendValidatorTest extends AbstractJUnit {
     }
 
     @Test
-    void validateMessageLookupDelayTest() {
+    void validateCourtelMaxRetryTest() {
+
+        courtelAmendCommand.setCourtelListAmount("5");
+        courtelAmendCommand.setCourtelMaxRetry("s");
+        final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
+
+        classUnderTest.validate(courtelAmendCommand, errors);
+
+        assertEquals("courtelAmendCommand.courtelMaxRetry.notNumber", errors.getGlobalErrors().get(0).getCode(),
+                NOT_EQUAL);
+    }
+
+    @Test
+    void validateMessageLookupDelayNullTest() {
         courtelAmendCommand.setCourtelListAmount("5");
         courtelAmendCommand.setCourtelMaxRetry("10");
         courtelAmendCommand.setMessageLookupDelay(null);
+        final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
+
+        classUnderTest.validate(courtelAmendCommand, errors);
+
+        assertEquals("courtelAmendCommand.messageLookupDelay.notNumber",
+                errors.getGlobalErrors().get(0).getCode(), NOT_EQUAL);
+    }
+
+    @Test
+    void validateMessageLookupDelayTest() {
+        courtelAmendCommand.setCourtelListAmount("5");
+        courtelAmendCommand.setCourtelMaxRetry("10");
+        courtelAmendCommand.setMessageLookupDelay("k");
         final BindingResult errors = new BeanPropertyBindingResult(courtelAmendCommand, COURTEL_AMEND_VALIDATOR);
 
         classUnderTest.validate(courtelAmendCommand, errors);
