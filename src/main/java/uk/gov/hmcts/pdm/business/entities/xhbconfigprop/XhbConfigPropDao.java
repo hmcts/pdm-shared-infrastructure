@@ -11,10 +11,12 @@ import uk.gov.hmcts.pdm.business.entities.AbstractDao;
 
 import java.io.Serializable;
 
+@SuppressWarnings({"PMD.ConstructorCallsOverridableMethod"})
 @Entity(name = "XHB_CONFIG_PROP")
 @NamedQuery(name = "XHB_CONFIG_PROP.findByPropertyName",
         query = "SELECT o from XHB_CONFIG_PROP o WHERE o.propertyName = :propertyName")
 public class XhbConfigPropDao extends AbstractDao implements Serializable {
+
     private static final long serialVersionUID = 8037260805843296872L;
 
     @Id
