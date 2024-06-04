@@ -33,7 +33,7 @@
             <h3>Amend Courtel</h3>
 
             <security:authorize access="hasRole('ROLE_ADMIN')">
-                <p>The &quot;Update Courtel&quot; updates the data stored for courtel.</p>
+                <p>The &quot;Update Courtel&quot; option updates the data stored for courtel.</p>
             </security:authorize>
         </div>
         <!-- /col-md-12 -->

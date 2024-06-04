@@ -56,11 +56,12 @@ class CourtelControllerTest extends AbstractJUnit {
 
     @BeforeEach
     public void setup() {
-        // Create a new version of the class under test
-        CourtelController classUnderTest = new CourtelController();
         // Setup the mock version of the called classes
         mockCourtelService = createMock(CourtelService.class);
         mockCourtelValidator = createMock(CourtelAmendValidator.class);
+
+        // Create a new version of the class under test
+        CourtelController classUnderTest = new CourtelController(mockCourtelService, mockCourtelValidator);
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "courtelService", mockCourtelService);

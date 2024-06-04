@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 @Component
 public class CourtelAmendValidator implements Validator {
     /** The logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(CourtelAmendCommand.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourtelAmendValidator.class);
 
     /*
      * (non-Javadoc)

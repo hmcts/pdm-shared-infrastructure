@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.XpdmException;
@@ -33,10 +34,8 @@ public class CourtelController {
     /**
      * Our CourtelService class.
      */
-    @Autowired
-    private ICourtelService courtelService;
-    @Autowired
-    private CourtelAmendValidator courtelAmendValidator;
+    private final ICourtelService courtelService;
+    private final CourtelAmendValidator courtelAmendValidator;
 
     /**
      * The Constant for the JSP Folder.
@@ -58,6 +57,12 @@ public class CourtelController {
      */
     private static final String VIEW_NAME_VIEW_COURTEL = FOLDER_COURTEL + MAPPING_VIEW_COURTEL;
 
+    @Autowired
+    public CourtelController(ICourtelService courtelService, CourtelAmendValidator courtelAmendValidator) {
+        this.courtelService = courtelService;
+        this.courtelAmendValidator = courtelAmendValidator;
+    }
+
     /**
      * View Courtel.
      *
@@ -65,7 +70,7 @@ public class CourtelController {
      * @param reset the reset
      * @return the model and view
      */
-    @RequestMapping(value = MAPPING_VIEW_COURTEL, method = RequestMethod.GET)
+    @GetMapping(MAPPING_VIEW_COURTEL)
     public ModelAndView viewCourtel(final ModelAndView model,
             @RequestParam(value = "reset", defaultValue = "true") final boolean reset) {
         final String methodName = "viewCourt";
@@ -80,7 +85,7 @@ public class CourtelController {
         CourtelDto courtelPropertyValues = courtelService.getCourtelPropertyValues();
 
         // add the courtel data to the model
-        model.addObject("courtel", courtelPropertyValues);
+        model.addObject(FOLDER_COURTEL, courtelPropertyValues);
 
         // Return the model
         LOGGER.debug("{}{} returning model", METHOD, methodName);
@@ -98,7 +103,7 @@ public class CourtelController {
      * @param model               the model
      * @return the model and view
      */
-    @RequestMapping(value = MAPPING_AMEND_COURTEL, method = RequestMethod.POST, params = "btnUpdateConfirm")
+    @PostMapping(value = MAPPING_AMEND_COURTEL, params = "btnUpdateConfirm")
     public ModelAndView updateCourtel(@Valid final CourtelAmendCommand courtelAmendCommand,
             final BindingResult result, final ModelAndView model) {
         final String methodName = "updateCourtel";

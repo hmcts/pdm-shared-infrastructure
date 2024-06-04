@@ -7,13 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.pdm.business.entities.AbstractRepository;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class XhbConfigPropRepository extends AbstractRepository<XhbConfigPropDao> implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class XhbConfigPropRepository extends AbstractRepository<XhbConfigPropDao> {
+
     private static final Logger LOG = LoggerFactory.getLogger(XhbConfigPropRepository.class);
     private static final String METHOD = "Method ";
     private static final String THREE_PARAMS = "{}{}{}";
