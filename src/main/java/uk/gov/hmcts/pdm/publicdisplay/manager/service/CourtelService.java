@@ -92,10 +92,17 @@ public class CourtelService implements ICourtelService {
         List<XhbConfigPropDao> xhbConfigPropDaos =
                 getXhbConfigPropRepository().findByPropertyName(propertyName);
 
-        XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
-        xhbConfigPropDao.setPropertyValue(propertyValue);
-        getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
+        if (xhbConfigPropDaos.isEmpty()) {
+            XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
+            xhbConfigPropDao.setPropertyName(propertyName);
+            xhbConfigPropDao.setPropertyValue(propertyValue);
+            getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
+        } else {
+            XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
+            xhbConfigPropDao.setPropertyValue(propertyValue);
+            getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
 
+        }
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
 
     }
