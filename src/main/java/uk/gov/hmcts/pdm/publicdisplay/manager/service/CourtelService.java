@@ -52,21 +52,21 @@ public class CourtelService implements ICourtelService {
         final CourtelDto courtelDto = new CourtelDto();
 
         if (courtelListAmountDao.isEmpty()) {
-            writeDefaultXhbConfigPropValues(COURTEL_LIST_AMOUNT, FIVE);
+            createXhbConfigProp(COURTEL_LIST_AMOUNT, FIVE);
             courtelDto.setCourtelListAmount(FIVE);
         } else {
             courtelDto.setCourtelListAmount(courtelListAmountDao.get(0).getPropertyValue());
         }
 
         if (courtelMaxRetryDao.isEmpty()) {
-            writeDefaultXhbConfigPropValues(COURTEL_MAX_RETRY, FIVE);
+            createXhbConfigProp(COURTEL_MAX_RETRY, FIVE);
             courtelDto.setCourtelMaxRetry(FIVE);
         } else {
             courtelDto.setCourtelMaxRetry(courtelMaxRetryDao.get(0).getPropertyValue());
         }
 
         if (courtelMessageLookupDelayDao.isEmpty()) {
-            writeDefaultXhbConfigPropValues(COURTEL_MESSAGE_LOOKUP_DELAY, SIXTY);
+            createXhbConfigProp(COURTEL_MESSAGE_LOOKUP_DELAY, SIXTY);
             courtelDto.setCourtelMessageLookupDelay(SIXTY);
         } else {
             courtelDto.setCourtelMessageLookupDelay(courtelMessageLookupDelayDao.get(0).getPropertyValue());
@@ -93,10 +93,7 @@ public class CourtelService implements ICourtelService {
                 getXhbConfigPropRepository().findByPropertyName(propertyName);
 
         if (xhbConfigPropDaos.isEmpty()) {
-            XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
-            xhbConfigPropDao.setPropertyName(propertyName);
-            xhbConfigPropDao.setPropertyValue(propertyValue);
-            getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
+            createXhbConfigProp(propertyName, propertyValue);
         } else {
             XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
             xhbConfigPropDao.setPropertyValue(propertyValue);
@@ -107,11 +104,11 @@ public class CourtelService implements ICourtelService {
 
     }
 
-    public void writeDefaultXhbConfigPropValues(String propName, String defaultValue) {
-        XhbConfigPropDao xhbConfigPropDaoListAmount = new XhbConfigPropDao();
-        xhbConfigPropDaoListAmount.setPropertyName(propName);
-        xhbConfigPropDaoListAmount.setPropertyValue(defaultValue);
-        xhbConfigPropRepository.saveDao(xhbConfigPropDaoListAmount);
+    public void createXhbConfigProp(String propertyName, String propertyValue) {
+        XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
+        xhbConfigPropDao.setPropertyName(propertyName);
+        xhbConfigPropDao.setPropertyValue(propertyValue);
+        getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
     }
 
     private EntityManager getEntityManager() {
