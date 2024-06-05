@@ -1,0 +1,142 @@
+package uk.gov.hmcts.pdm.publicdisplay.manager.web.courtel;
+
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import uk.gov.hmcts.pdm.publicdisplay.common.exception.XpdmException;
+import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CourtelDto;
+import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ICourtelService;
+
+@Controller
+@RequestMapping("/courtel")
+public class CourtelController {
+
+    /**
+     * The Constant LOGGER.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourtelController.class);
+    private static final String COMMAND = "command";
+    private static final String SUCCESS_MESSAGE = "successMessage";
+    private static final String METHOD = "Method ";
+    private static final String THREE_PARAMS = "{}{}{}";
+    private static final String STARTS = " - starts";
+    private static final String ENDS = " - ends";
+
+    /**
+     * Our CourtelService class.
+     */
+    private final ICourtelService courtelService;
+    private final CourtelAmendValidator courtelAmendValidator;
+
+    /**
+     * The Constant for the JSP Folder.
+     */
+    protected static final String FOLDER_COURTEL = "courtel";
+
+    /**
+     * Courtel Courtel.
+     */
+    private static final String MAPPING_VIEW_COURTEL = "/view_courtel";
+
+    /**
+     * Amend Courtel.
+     */
+    private static final String MAPPING_AMEND_COURTEL = "/amend_courtel";
+
+    /**
+     * View Courtel View.
+     */
+    private static final String VIEW_NAME_VIEW_COURTEL = FOLDER_COURTEL + MAPPING_VIEW_COURTEL;
+
+    @Autowired
+    public CourtelController(ICourtelService courtelService, CourtelAmendValidator courtelAmendValidator) {
+        this.courtelService = courtelService;
+        this.courtelAmendValidator = courtelAmendValidator;
+    }
+
+    /**
+     * View Courtel.
+     *
+     * @param model the model
+     * @param reset the reset
+     * @return the model and view
+     */
+    @GetMapping(MAPPING_VIEW_COURTEL)
+    public ModelAndView viewCourtel(final ModelAndView model,
+            @RequestParam(value = "reset", defaultValue = "true") final boolean reset) {
+        final String methodName = "viewCourt";
+        LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
+
+        CourtelAmendCommand courtelAmendCommand = new CourtelAmendCommand();
+
+        // Add the courtelAmendCommand to the model
+        LOGGER.debug("{}{} adding courtelAmendCommand to model", METHOD, methodName);
+        model.addObject(COMMAND, courtelAmendCommand);
+
+        CourtelDto courtelPropertyValues = courtelService.getCourtelPropertyValues();
+
+        // add the courtel data to the model
+        model.addObject(FOLDER_COURTEL, courtelPropertyValues);
+
+        // Return the model
+        LOGGER.debug("{}{} returning model", METHOD, methodName);
+        model.setViewName(VIEW_NAME_VIEW_COURTEL);
+
+        LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
+        return model;
+    }
+
+    /**
+     * Update courtel.
+     *
+     * @param courtelAmendCommand the courtel amend command
+     * @param result              the result
+     * @param model               the model
+     * @return the model and view
+     */
+    @PostMapping(value = MAPPING_AMEND_COURTEL, params = "btnUpdateConfirm")
+    public ModelAndView updateCourtel(@Valid final CourtelAmendCommand courtelAmendCommand,
+            final BindingResult result, final ModelAndView model) {
+        final String methodName = "updateCourtel";
+        LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
+
+        courtelAmendValidator.validate(courtelAmendCommand, result);
+        if (result.hasErrors()) {
+            // Default is to return to the view courtel page to display errors
+            model.setViewName(VIEW_NAME_VIEW_COURTEL);
+
+        } else {
+            try {
+                LOGGER.debug("{}{} - updating Courtel", METHOD, methodName);
+
+                // Update the courtel
+                courtelService.updateCourtelProperties(courtelAmendCommand);
+
+                // Add successMessage to model for display on page
+                model.addObject(SUCCESS_MESSAGE, "Courtel has been updated successfully.");
+
+                LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
+
+                return viewCourtel(model, true);
+            } catch (final DataAccessException | XpdmException ex) {
+                // Log the error
+                LOGGER.error("{}{} Unable to update Courtel ", METHOD, methodName, ex);
+                // Reject
+                result.reject("courtelErrors", "Unable to update Courtel: " + ex.getMessage());
+            }
+        }
+        model.addObject(COMMAND, courtelAmendCommand);
+
+        LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
+        return model;
+    }
+}
