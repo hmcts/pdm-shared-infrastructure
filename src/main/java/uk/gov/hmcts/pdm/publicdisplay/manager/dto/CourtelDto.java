@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Simple transfer object used to move courtel details around.
  *
- * @author harrism
+ * @author ghafouria
  *
  */
 public class CourtelDto implements Serializable {

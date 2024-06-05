@@ -133,22 +133,9 @@ class CourtelServiceTest extends AbstractJUnit {
     }
 
     @Test
-    void testUpdateCourtelEmpty() {
-        final CourtelAmendCommand courtelAmendCommand = new CourtelAmendCommand();
-        courtelAmendCommand.setCourtelMaxRetry("34");
-        courtelAmendCommand.setCourtelListAmount("54");
-        courtelAmendCommand.setMessageLookupDelay("32");
-
-        XhbConfigPropDao xhbConfigPropLookupDao = new XhbConfigPropDao();
-        xhbConfigPropLookupDao.setPropertyValue("10");
+    void testGetCourtelPropertiesEmpty() {
         final List<XhbConfigPropDao> xhbConfigPropLookupDaoList = List.of();
-
-        XhbConfigPropDao xhbConfigPropMaxRetryDao = new XhbConfigPropDao();
-        xhbConfigPropMaxRetryDao.setPropertyValue("20");
         final List<XhbConfigPropDao> xhbConfigPropMaxRetryDaoList = List.of();
-
-        XhbConfigPropDao xhbConfigPropListAmountDao = new XhbConfigPropDao();
-        xhbConfigPropListAmountDao.setPropertyValue("30");
         final List<XhbConfigPropDao> xhbConfigPropListAmountDaoList = List.of();
 
         expect(mockXhbConfigPropRepo.findByPropertyName(COURTEL_LIST_AMOUNT))
@@ -158,11 +145,16 @@ class CourtelServiceTest extends AbstractJUnit {
         expect(mockXhbConfigPropRepo.findByPropertyName(COURTEL_MESSAGE_LOOKUP_DELAY))
                 .andReturn(xhbConfigPropLookupDaoList);
 
+
         mockXhbConfigPropRepo.saveDao(isA(XhbConfigPropDao.class));
         expectLastCall().times(3);
         replay(mockXhbConfigPropRepo);
 
-        classUnderTest.updateCourtelProperties(courtelAmendCommand);
+        CourtelDto courtelDto = classUnderTest.getCourtelPropertyValues();
+
+        Assertions.assertEquals("5", courtelDto.getCourtelListAmount(), NOT_EQUAL);
+        Assertions.assertEquals("5", courtelDto.getCourtelMaxRetry(), NOT_EQUAL);
+        Assertions.assertEquals("60", courtelDto.getCourtelMessageLookupDelay(), NOT_EQUAL);
 
         verify(mockXhbConfigPropRepo);
     }

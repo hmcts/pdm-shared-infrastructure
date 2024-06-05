@@ -31,6 +31,9 @@ public class CourtelService implements ICourtelService {
     private static final String COURTEL_LIST_AMOUNT = "COURTEL_LIST_AMOUNT";
     private static final String COURTEL_MAX_RETRY = "COURTEL_MAX_RETRY";
     private static final String COURTEL_MESSAGE_LOOKUP_DELAY = "MESSAGE_LOOKUP_DELAY";
+    private static final String FIVE = "5";
+    private static final String SIXTY = "60";
+
 
     @Secured(UserRole.ROLE_ADMIN_VALUE)
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -48,9 +51,26 @@ public class CourtelService implements ICourtelService {
 
         final CourtelDto courtelDto = new CourtelDto();
 
-        courtelDto.setCourtelListAmount(courtelListAmountDao.get(0).getPropertyValue());
-        courtelDto.setCourtelMaxRetry(courtelMaxRetryDao.get(0).getPropertyValue());
-        courtelDto.setCourtelMessageLookupDelay(courtelMessageLookupDelayDao.get(0).getPropertyValue());
+        if (courtelListAmountDao.isEmpty()) {
+            writeDefaultXhbConfigPropValues(COURTEL_LIST_AMOUNT, FIVE);
+            courtelDto.setCourtelListAmount(FIVE);
+        } else {
+            courtelDto.setCourtelListAmount(courtelListAmountDao.get(0).getPropertyValue());
+        }
+
+        if (courtelMaxRetryDao.isEmpty()) {
+            writeDefaultXhbConfigPropValues(COURTEL_MAX_RETRY, FIVE);
+            courtelDto.setCourtelMaxRetry(FIVE);
+        } else {
+            courtelDto.setCourtelMaxRetry(courtelMaxRetryDao.get(0).getPropertyValue());
+        }
+
+        if (courtelMessageLookupDelayDao.isEmpty()) {
+            writeDefaultXhbConfigPropValues(COURTEL_MESSAGE_LOOKUP_DELAY, SIXTY);
+            courtelDto.setCourtelMessageLookupDelay(SIXTY);
+        } else {
+            courtelDto.setCourtelMessageLookupDelay(courtelMessageLookupDelayDao.get(0).getPropertyValue());
+        }
 
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
         return courtelDto;
@@ -72,18 +92,19 @@ public class CourtelService implements ICourtelService {
         List<XhbConfigPropDao> xhbConfigPropDaos =
                 getXhbConfigPropRepository().findByPropertyName(propertyName);
 
-        if (xhbConfigPropDaos.isEmpty()) {
-            XhbConfigPropDao xhbConfigPropDao = new XhbConfigPropDao();
-            xhbConfigPropDao.setPropertyName(propertyName);
-            xhbConfigPropDao.setPropertyValue(propertyValue);
-            getXhbConfigPropRepository().saveDao(xhbConfigPropDao);
-        } else {
-            XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
-            xhbConfigPropDao.setPropertyValue(propertyValue);
-            getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
-        }
+        XhbConfigPropDao xhbConfigPropDao = xhbConfigPropDaos.get(0);
+        xhbConfigPropDao.setPropertyValue(propertyValue);
+        getXhbConfigPropRepository().updateDao(xhbConfigPropDao);
+
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
 
+    }
+
+    public void writeDefaultXhbConfigPropValues(String propName, String defaultValue) {
+        XhbConfigPropDao xhbConfigPropDaoListAmount = new XhbConfigPropDao();
+        xhbConfigPropDaoListAmount.setPropertyName(propName);
+        xhbConfigPropDaoListAmount.setPropertyValue(defaultValue);
+        xhbConfigPropRepository.saveDao(xhbConfigPropDaoListAmount);
     }
 
     private EntityManager getEntityManager() {
