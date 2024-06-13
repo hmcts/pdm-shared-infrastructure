@@ -14,9 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class LogonControllerSmokeTest {
+class LogonControllerFunctionalTest {
     
-    private static final Logger LOG = LoggerFactory.getLogger(LogonControllerSmokeTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LogonControllerFunctionalTest.class);
     private static final String HEALTHPAGE = "/health";
 
     
@@ -39,7 +39,7 @@ class LogonControllerSmokeTest {
             .then()
             .extract().response();
         
-        LOG.info("Smoketest.status={}",response.statusCode());
+        LOG.info("Functionaltest.status={}",response.statusCode());
         Assertions.assertEquals(200, response.statusCode());
     } 
     

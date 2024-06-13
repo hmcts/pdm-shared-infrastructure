@@ -36,6 +36,15 @@ sourceSets {
         }
         resources.srcDir file('src/smokeTest/resources')
     }
+
+    functionalTest {
+        java {
+          compileClasspath += main.output
+          runtimeClasspath += main.output
+          srcDir file('src/functionalTest/java')
+        }
+        resources.srcDir file('src/functionalTest/resources')
+    }
 }
 
 processSmokeTestResources {
@@ -103,6 +112,8 @@ dependencyCheck {
   skipConfigurations = [
     "checkstyle",
     "compileOnly",
+    "functionalTest",
+    "smokeTest",
     "pmd"
   ]
 }
@@ -115,7 +126,7 @@ checkstyle {
 
 pmd {
   toolVersion = "6.55.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.smokeTest]
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.smokeTest, sourceSets.functionalTest]
   reportsDir = file("$project.buildDir/reports/pmd")
   // https://github.com/pmd/pmd/issues/876
   ruleSets = []
@@ -228,10 +239,19 @@ bootJar {
 configurations {
    smokeTestImplementation.extendsFrom testImplementation
    smokeTestRuntimeOnly.extendsFrom runtimeOnly
+   functionalTestImplementation.extendsFrom testImplementation
+   functionalTestRuntimeOnly.extendsFrom runtimeOnly
  }
 
 tasks.register('smoke', Test) {
   description = "Runs Smoke Tests"
   testClassesDirs = sourceSets.smokeTest.output.classesDirs
   classpath = sourceSets.smokeTest.runtimeClasspath
+}
+
+tasks.register('functional', Test) {
+  description = "Runs functional tests"
+  group = "Verification"
+  testClassesDirs = sourceSets.functionalTest.output.classesDirs
+  classpath = sourceSets.functionalTest.runtimeClasspath
 }
