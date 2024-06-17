@@ -36,6 +36,15 @@ sourceSets {
         }
         resources.srcDir file('src/smokeTest/resources')
     }
+
+    functionalTest {
+        java {
+          compileClasspath += main.output
+          runtimeClasspath += main.output
+          srcDir file('src/functionalTest/java')
+        }
+        resources.srcDir file('src/functionalTest/resources')
+    }
 }
 
 processSmokeTestResources {
@@ -103,6 +112,8 @@ dependencyCheck {
   skipConfigurations = [
     "checkstyle",
     "compileOnly",
+    "functionalTest",
+    "smokeTest",
     "pmd"
   ]
 }
@@ -115,7 +126,7 @@ checkstyle {
 
 pmd {
   toolVersion = "6.55.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.smokeTest]
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.smokeTest, sourceSets.functionalTest]
   reportsDir = file("$project.buildDir/reports/pmd")
   // https://github.com/pmd/pmd/issues/876
   ruleSets = []
@@ -169,7 +180,7 @@ dependencies {
     exclude group: 'commons-logging', module: 'commons-logging'
   }
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'org.springframework:spring-tx:6.0.14'
+    implementation 'org.springframework:spring-tx:6.0.19'
     implementation 'org.dbunit:dbunit:2.7.3'
     implementation 'joda-time:joda-time:2.12.7'
     implementation 'org.owasp:csrfguard:4.3.0'
@@ -185,7 +196,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jersey:3.2.1'
     implementation 'org.owasp.esapi:esapi:2.5.3.1'
     implementation 'org.jasypt:jasypt:1.9.3'
-    implementation 'org.springframework:spring-context-support:6.0.14'
+    implementation 'org.springframework:spring-context:6.0.19'
+    implementation 'org.springframework:spring-context-support:6.0.19'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.18'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
@@ -228,10 +240,19 @@ bootJar {
 configurations {
    smokeTestImplementation.extendsFrom testImplementation
    smokeTestRuntimeOnly.extendsFrom runtimeOnly
+   functionalTestImplementation.extendsFrom testImplementation
+   functionalTestRuntimeOnly.extendsFrom runtimeOnly
  }
 
 tasks.register('smoke', Test) {
   description = "Runs Smoke Tests"
   testClassesDirs = sourceSets.smokeTest.output.classesDirs
   classpath = sourceSets.smokeTest.runtimeClasspath
+}
+
+tasks.register('functional', Test) {
+  description = "Runs functional tests"
+  group = "Verification"
+  testClassesDirs = sourceSets.functionalTest.output.classesDirs
+  classpath = sourceSets.functionalTest.runtimeClasspath
 }
