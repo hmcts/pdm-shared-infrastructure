@@ -6,7 +6,7 @@ java:
   image: 'sdshmctspublic.azurecr.io/pdm/public-display-manager:latest'
   ingressHost: pdm-public-display-manager.{{ .Values.global.environment }}.platform.hmcts.net
   keyVaults:
-    "pdda":
+    pdda:
       secrets:
         - name: public-display-data-aggregator-POSTGRES-USER
           alias: DB_USER_NAME
