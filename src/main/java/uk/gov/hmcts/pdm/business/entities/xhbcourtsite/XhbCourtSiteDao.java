@@ -3,7 +3,6 @@ package uk.gov.hmcts.pdm.business.entities.xhbcourtsite;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -116,13 +115,13 @@ public class XhbCourtSiteDao extends AbstractDao implements Serializable {
     @JoinColumn(name = COURT_SITE_ID)
     private Set<XhbDispMgrUrlDao> xhbDispMgrUrlDao;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "XHIBIT_COURT_SITE_ID")
     private Set<XhbDispMgrCourtSiteDao> xhbDispMgrCourtSiteDao;
 
     // Comment the 3 lines below out and the getter/setter if you don't have XHB_COURT_SITE_WELSH in
     // your database
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = COURT_SITE_ID, referencedColumnName = COURT_SITE_ID, insertable = false,
         updatable = false)
     private XhbCourtSiteWelshDao xhbCourtSiteWelshDao;
