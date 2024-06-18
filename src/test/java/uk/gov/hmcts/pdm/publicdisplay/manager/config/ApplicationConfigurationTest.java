@@ -23,11 +23,11 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -51,18 +51,26 @@ class ApplicationConfigurationTest extends AbstractJUnit {
     private static final String EQUALS = "Result is not equal";
     private static final String NOTNULL = "Result is null";
 
-    @Mock
+    private EntityManagerFactory mockEntityManagerFactory;
+    
+    private EntityManager mockEntityManager;
+
     private PropertyService mockPropertyService;
 
-    @InjectMocks
-    private final ApplicationConfiguration classUnderTest = new ApplicationConfiguration();
+    private ApplicationConfiguration classUnderTest;
 
     /**
      * Setup.
      */
     @BeforeEach
     public void setup() {
+        mockEntityManagerFactory = Mockito.mock(EntityManagerFactory.class);
+        mockEntityManager = Mockito.mock(EntityManager.class);
+        mockPropertyService = Mockito.mock(PropertyService.class);
+        classUnderTest = new ApplicationConfiguration();
         // Set the class variables
+        ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
+            mockEntityManagerFactory);
         ReflectionTestUtils.setField(classUnderTest, "propertyService", mockPropertyService);
     }
 
@@ -76,6 +84,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         String dummyTimeout = "30";
 
         // Expects
+        Mockito.when(mockEntityManagerFactory.createEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockPropertyService.getPropertyValueByName("rest.client.timeout"))
             .thenReturn(dummyTimeout);
 
