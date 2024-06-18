@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +62,7 @@ class PropertyServiceTest extends AbstractJUnit {
     private static final String NOT_EQUAL = "Not equal";
 
     private static final String NULL = "Null";
-
+    
     /** The class under test. */
     private IPropertyService classUnderTest;
 
@@ -75,9 +76,9 @@ class PropertyServiceTest extends AbstractJUnit {
      * Setup.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() {        
         // Create a new version of the class under test
-        classUnderTest = new PropertyService();
+        classUnderTest = new PropertyService(createMock(EntityManager.class));
 
         // Setup the mock version of the called classes
         mockPropertyRepo = createMock(XhbDispMgrPropertyRepository.class);

@@ -23,7 +23,6 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
-import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +46,14 @@ public class PropertyService implements IPropertyService {
     /** The LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyService.class);
     
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     private XhbDispMgrPropertyRepository xhbDispMgrPropertyRepository;
 
+    public PropertyService(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -76,16 +79,9 @@ public class PropertyService implements IPropertyService {
         return getXhbDispMgrPropertyRepository().findAllProperties();
     }
 
-    private EntityManager getEntityManager() {
-        if (entityManager == null) {
-            entityManager = EntityManagerUtil.getEntityManager();
-        }
-        return entityManager;
-    }
-
     private XhbDispMgrPropertyRepository getXhbDispMgrPropertyRepository() {
         if (xhbDispMgrPropertyRepository == null) {
-            xhbDispMgrPropertyRepository = new XhbDispMgrPropertyRepository(getEntityManager());
+            xhbDispMgrPropertyRepository = new XhbDispMgrPropertyRepository(entityManager);
         }
         return xhbDispMgrPropertyRepository;
     }

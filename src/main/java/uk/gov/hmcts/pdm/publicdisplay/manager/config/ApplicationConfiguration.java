@@ -23,8 +23,9 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pdm.hb.jpa.EntityManagerUtil;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
 import java.util.Arrays;
@@ -41,8 +42,11 @@ public class ApplicationConfiguration {
     private static final String EMPTY_STRING = "";
 
     /** The property service. */
-    @Autowired
-    private IPropertyService propertyService;
+    private final IPropertyService propertyService;
+
+    public ApplicationConfiguration() {
+        this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
+    }
 
     /**
      * Get the software update directory.
