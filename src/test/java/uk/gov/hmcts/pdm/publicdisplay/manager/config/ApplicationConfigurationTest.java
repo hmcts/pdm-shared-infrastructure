@@ -25,6 +25,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import com.pdm.hb.jpa.EntityManagerUtil;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +36,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,6 +67,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
+        Mockito.mockStatic(EntityManagerUtil.class);
         mockEntityManagerFactory = Mockito.mock(EntityManagerFactory.class);
         mockEntityManager = Mockito.mock(EntityManager.class);
         mockPropertyService = Mockito.mock(PropertyService.class);
@@ -73,7 +77,14 @@ class ApplicationConfigurationTest extends AbstractJUnit {
             mockEntityManagerFactory);
         ReflectionTestUtils.setField(classUnderTest, "propertyService", mockPropertyService);
     }
-
+    
+    /**
+     * Teardown.
+     */
+    @AfterEach
+    public void teardown() {
+        Mockito.clearAllCaches();
+    }
 
     /**
      * Test getRestClientTimeout.
@@ -84,7 +95,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         String dummyTimeout = "30";
 
         // Expects
-        Mockito.when(mockEntityManagerFactory.createEntityManager()).thenReturn(mockEntityManager);
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockPropertyService.getPropertyValueByName("rest.client.timeout"))
             .thenReturn(dummyTimeout);
 
