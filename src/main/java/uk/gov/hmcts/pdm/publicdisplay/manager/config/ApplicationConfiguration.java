@@ -38,6 +38,8 @@ import java.util.List;
 @Component
 public class ApplicationConfiguration {
 
+    private static final String EMPTY_STRING = "";
+
     /** The property service. */
     @Autowired
     private IPropertyService propertyService;
@@ -86,7 +88,8 @@ public class ApplicationConfiguration {
      * @return the rest client timeout
      */
     public Integer getRestClientTimeout() {
-        return Integer.valueOf(propertyService.getPropertyValueByName("rest.client.timeout"));
+        String value = propertyService.getPropertyValueByName("rest.client.timeout");
+        return EMPTY_STRING.equals(value) ? 0 : Integer.valueOf(value);
     }
 
     /**
@@ -95,7 +98,8 @@ public class ApplicationConfiguration {
      * @return the rest token expiry
      */
     public Integer getRestTokenExpiry() {
-        return Integer.valueOf(propertyService.getPropertyValueByName("rest.token.expiry"));
+        String value = propertyService.getPropertyValueByName("rest.token.expiry");
+        return EMPTY_STRING.equals(value) ? 0 : Integer.valueOf(value);
     }
 
     /**
