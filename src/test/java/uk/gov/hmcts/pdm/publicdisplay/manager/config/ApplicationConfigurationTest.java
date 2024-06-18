@@ -52,7 +52,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not equal";
     private static final String NOTNULL = "Result is null";
-    
+
     private EntityManager mockEntityManager;
 
     private PropertyService mockPropertyService;
@@ -65,16 +65,15 @@ class ApplicationConfigurationTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         Mockito.mockStatic(EntityManagerUtil.class);
-        EntityManagerFactory mockEntityManagerFactory = Mockito.mock(EntityManagerFactory.class);
         mockEntityManager = Mockito.mock(EntityManager.class);
         mockPropertyService = Mockito.mock(PropertyService.class);
         classUnderTest = new ApplicationConfiguration();
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
-            mockEntityManagerFactory);
+            Mockito.mock(EntityManagerFactory.class));
         ReflectionTestUtils.setField(classUnderTest, "propertyService", mockPropertyService);
     }
-    
+
     /**
      * Teardown.
      */
