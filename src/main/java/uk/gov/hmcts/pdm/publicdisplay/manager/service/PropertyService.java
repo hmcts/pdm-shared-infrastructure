@@ -64,6 +64,7 @@ public class PropertyService implements IPropertyService {
      */
     @Override
     public String getPropertyValueByName(final String name) {
+        LOGGER.info("{}", name);
         final String value = getXhbDispMgrPropertyRepository().findPropertyValueByName(name);
         LOGGER.info("{}={}", name, value);
         return value;
