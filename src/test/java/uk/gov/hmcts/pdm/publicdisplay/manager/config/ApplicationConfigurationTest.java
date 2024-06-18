@@ -23,9 +23,9 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import com.pdm.hb.jpa.EntityManagerUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
