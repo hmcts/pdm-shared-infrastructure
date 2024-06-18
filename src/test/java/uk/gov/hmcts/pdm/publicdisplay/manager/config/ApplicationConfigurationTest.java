@@ -52,8 +52,6 @@ class ApplicationConfigurationTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not equal";
     private static final String NOTNULL = "Result is null";
-
-    private EntityManagerFactory mockEntityManagerFactory;
     
     private EntityManager mockEntityManager;
 
@@ -67,7 +65,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         Mockito.mockStatic(EntityManagerUtil.class);
-        mockEntityManagerFactory = Mockito.mock(EntityManagerFactory.class);
+        EntityManagerFactory mockEntityManagerFactory = Mockito.mock(EntityManagerFactory.class);
         mockEntityManager = Mockito.mock(EntityManager.class);
         mockPropertyService = Mockito.mock(PropertyService.class);
         classUnderTest = new ApplicationConfiguration();
