@@ -36,6 +36,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,6 +68,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         Mockito.mockStatic(EntityManagerUtil.class);
         mockEntityManager = Mockito.mock(EntityManager.class);
         mockPropertyService = Mockito.mock(PropertyService.class);
+        InitializationService.getInstance().setEntityManagerFactory(null);
         classUnderTest = new ApplicationConfiguration();
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
