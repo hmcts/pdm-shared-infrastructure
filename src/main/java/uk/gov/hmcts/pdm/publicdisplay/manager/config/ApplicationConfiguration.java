@@ -24,7 +24,10 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
+import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
@@ -41,10 +44,16 @@ public class ApplicationConfiguration {
 
     private static final String EMPTY_STRING = "";
 
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
     /** The property service. */
     private final IPropertyService propertyService;
 
     public ApplicationConfiguration() {
+        if (InitializationService.getInstance().getEntityManagerFactory() == null) {
+            InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
+        }
         this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
     }
 
