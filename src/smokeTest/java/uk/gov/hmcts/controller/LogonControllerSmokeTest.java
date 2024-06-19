@@ -18,7 +18,7 @@ class LogonControllerSmokeTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerSmokeTest.class);
     private static final String HEALTHPAGE = "/health";
-
+    
     
     @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;

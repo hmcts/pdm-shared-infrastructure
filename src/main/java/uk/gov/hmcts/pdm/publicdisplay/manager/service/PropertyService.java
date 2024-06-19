@@ -23,12 +23,9 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
-import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,14 +45,15 @@ import java.util.List;
 public class PropertyService implements IPropertyService {
     /** The LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyService.class);
-
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
     
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     private XhbDispMgrPropertyRepository xhbDispMgrPropertyRepository;
 
+    public PropertyService(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -64,6 +62,7 @@ public class PropertyService implements IPropertyService {
      */
     @Override
     public String getPropertyValueByName(final String name) {
+        LOGGER.info("{}", name);
         final String value = getXhbDispMgrPropertyRepository().findPropertyValueByName(name);
         LOGGER.info("{}={}", name, value);
         return value;
@@ -80,16 +79,9 @@ public class PropertyService implements IPropertyService {
         return getXhbDispMgrPropertyRepository().findAllProperties();
     }
 
-    private EntityManager getEntityManager() {
-        if (entityManager == null) {
-            entityManager = EntityManagerUtil.getEntityManager();
-        }
-        return entityManager;
-    }
-
     private XhbDispMgrPropertyRepository getXhbDispMgrPropertyRepository() {
         if (xhbDispMgrPropertyRepository == null) {
-            xhbDispMgrPropertyRepository = new XhbDispMgrPropertyRepository(getEntityManager());
+            xhbDispMgrPropertyRepository = new XhbDispMgrPropertyRepository(entityManager);
         }
         return xhbDispMgrPropertyRepository;
     }

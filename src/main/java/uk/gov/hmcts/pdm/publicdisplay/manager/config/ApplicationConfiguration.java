@@ -23,8 +23,15 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
 import java.util.Arrays;
@@ -38,9 +45,25 @@ import java.util.List;
 @Component
 public class ApplicationConfiguration {
 
-    /** The property service. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
+    
+    private static final String EMPTY_STRING = "";
+
     @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+    /** The property service. */
     private IPropertyService propertyService;
+
+    @PostConstruct
+    public void init() {
+        LOGGER.info("ApplicationConfiguration()");
+        if (InitializationService.getInstance().getEntityManagerFactory() == null) {
+            LOGGER.info("Setting entitymanager = {}", entityManagerFactory);
+            InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
+        }
+        this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
+    }
 
     /**
      * Get the software update directory.
@@ -86,7 +109,8 @@ public class ApplicationConfiguration {
      * @return the rest client timeout
      */
     public Integer getRestClientTimeout() {
-        return Integer.valueOf(propertyService.getPropertyValueByName("rest.client.timeout"));
+        String value = propertyService.getPropertyValueByName("rest.client.timeout");
+        return EMPTY_STRING.equals(value) ? 0 : Integer.valueOf(value);
     }
 
     /**
@@ -95,7 +119,8 @@ public class ApplicationConfiguration {
      * @return the rest token expiry
      */
     public Integer getRestTokenExpiry() {
-        return Integer.valueOf(propertyService.getPropertyValueByName("rest.token.expiry"));
+        String value = propertyService.getPropertyValueByName("rest.token.expiry");
+        return EMPTY_STRING.equals(value) ? 0 : Integer.valueOf(value);
     }
 
     /**
