@@ -12,10 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import static io.restassured.RestAssured.given;
 
+@Configuration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class LogonControllerSmokeTest {
     
