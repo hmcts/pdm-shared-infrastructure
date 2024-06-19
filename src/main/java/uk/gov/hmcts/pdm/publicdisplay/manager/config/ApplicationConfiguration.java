@@ -25,6 +25,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -42,6 +44,8 @@ import java.util.List;
 @Component
 public class ApplicationConfiguration {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
+    
     private static final String EMPTY_STRING = "";
 
     @Autowired
@@ -51,7 +55,9 @@ public class ApplicationConfiguration {
     private final IPropertyService propertyService;
 
     public ApplicationConfiguration() {
+        LOGGER.info("ApplicationConfiguration()");
         if (InitializationService.getInstance().getEntityManagerFactory() == null) {
+            LOGGER.info("Setting entitymanager = {}", entityManagerFactory);
             InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
         }
         this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
