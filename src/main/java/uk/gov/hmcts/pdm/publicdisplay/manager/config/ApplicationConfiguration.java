@@ -24,6 +24,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +53,10 @@ public class ApplicationConfiguration {
     private EntityManagerFactory entityManagerFactory;
 
     /** The property service. */
-    private final IPropertyService propertyService;
+    private IPropertyService propertyService;
 
-    public ApplicationConfiguration() {
+    @PostConstruct
+    public void init() {
         LOGGER.info("ApplicationConfiguration()");
         if (InitializationService.getInstance().getEntityManagerFactory() == null) {
             LOGGER.info("Setting entitymanager = {}", entityManagerFactory);
