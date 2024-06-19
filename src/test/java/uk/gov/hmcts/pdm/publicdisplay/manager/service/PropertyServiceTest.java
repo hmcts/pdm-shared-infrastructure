@@ -44,6 +44,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The Class PropertyServiceTest.
@@ -62,7 +63,7 @@ class PropertyServiceTest extends AbstractJUnit {
     private static final String NOT_EQUAL = "Not equal";
 
     private static final String NULL = "Null";
-    
+
     /** The class under test. */
     private IPropertyService classUnderTest;
 
@@ -76,7 +77,7 @@ class PropertyServiceTest extends AbstractJUnit {
      * Setup.
      */
     @BeforeEach
-    public void setup() {        
+    public void setup() {
         // Create a new version of the class under test
         classUnderTest = new PropertyService(createMock(EntityManager.class));
 
@@ -107,6 +108,13 @@ class PropertyServiceTest extends AbstractJUnit {
 
         // Verify the expected mocks were called
         verify(mockPropertyRepo);
+    }
+
+    @Test
+    void testRepository() {
+        IPropertyService localClassUnderTest = new PropertyService(null);
+        assertThrows(RuntimeException.class,
+            () -> localClassUnderTest.getAllProperties(), "Exception not Thrown");
     }
 
     /**
