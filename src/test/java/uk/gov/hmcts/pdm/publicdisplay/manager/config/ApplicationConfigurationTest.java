@@ -70,6 +70,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         mockPropertyService = Mockito.mock(PropertyService.class);
         InitializationService.getInstance().setEntityManagerFactory(null);
         classUnderTest = new ApplicationConfiguration();
+        classUnderTest.init();
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
             Mockito.mock(EntityManagerFactory.class));
