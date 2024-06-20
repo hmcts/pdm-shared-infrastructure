@@ -198,7 +198,7 @@ dependencies {
     implementation 'org.jasypt:jasypt:1.9.3'
     implementation 'org.springframework:spring-context:6.0.19'
     implementation 'org.springframework:spring-context-support:6.0.19'
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.18'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.25'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
     implementation 'org.yaml:snakeyaml:2.2'
