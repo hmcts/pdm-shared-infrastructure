@@ -70,7 +70,7 @@ public class DisplayDto implements Serializable {
         return displayId;
     }
 
-    public final void setDisplayId(Integer displayId) {
+    public void setDisplayId(Integer displayId) {
         this.displayId = displayId;
     }
 
@@ -78,7 +78,7 @@ public class DisplayDto implements Serializable {
         return displayTypeId;
     }
 
-    public final void setDisplayTypeId(Integer displayTypeId) {
+    public void setDisplayTypeId(Integer displayTypeId) {
         this.displayTypeId = displayTypeId;
     }
 
@@ -86,7 +86,7 @@ public class DisplayDto implements Serializable {
         return displayLocationId;
     }
 
-    public final void setDisplayLocationId(Integer displayLocationId) {
+    public void setDisplayLocationId(Integer displayLocationId) {
         this.displayLocationId = displayLocationId;
     }
 
@@ -94,7 +94,7 @@ public class DisplayDto implements Serializable {
         return rotationSetId;
     }
 
-    public final void setRotationSetId(Integer rotationSetId) {
+    public void setRotationSetId(Integer rotationSetId) {
         this.rotationSetId = rotationSetId;
     }
 
@@ -102,7 +102,7 @@ public class DisplayDto implements Serializable {
         return descriptionCode;
     }
 
-    public final void setDescriptionCode(String descriptionCode) {
+    public void setDescriptionCode(String descriptionCode) {
         this.descriptionCode = descriptionCode;
     }
 
@@ -110,7 +110,7 @@ public class DisplayDto implements Serializable {
         return locale;
     }
 
-    public final void setLocale(String locale) {
+    public void setLocale(String locale) {
         this.locale = locale;
     }
 
@@ -118,7 +118,7 @@ public class DisplayDto implements Serializable {
         return showUnassignedYn;
     }
 
-    public final void setShowUnassignedYn(String showUnassignedYn) {
+    public void setShowUnassignedYn(String showUnassignedYn) {
         this.showUnassignedYn = showUnassignedYn;
     }
 

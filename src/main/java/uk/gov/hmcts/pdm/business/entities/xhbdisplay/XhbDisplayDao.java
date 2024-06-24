@@ -62,7 +62,7 @@ public class XhbDisplayDao extends AbstractDao {
         return displayId;
     }
 
-    public final void setDisplayId(Integer displayId) {
+    public void setDisplayId(Integer displayId) {
         this.displayId = displayId;
     }
 
@@ -70,7 +70,7 @@ public class XhbDisplayDao extends AbstractDao {
         return displayTypeId;
     }
 
-    public final void setDisplayTypeId(Integer displayTypeId) {
+    public void setDisplayTypeId(Integer displayTypeId) {
         this.displayTypeId = displayTypeId;
     }
 
@@ -86,7 +86,7 @@ public class XhbDisplayDao extends AbstractDao {
         return rotationSetId;
     }
 
-    public final void setRotationSetId(Integer rotationSetId) {
+    public void setRotationSetId(Integer rotationSetId) {
         this.rotationSetId = rotationSetId;
     }
 
@@ -102,7 +102,7 @@ public class XhbDisplayDao extends AbstractDao {
         return locale;
     }
 
-    public final void setLocale(String locale) {
+    public void setLocale(String locale) {
         this.locale = locale;
     }
 
@@ -110,7 +110,7 @@ public class XhbDisplayDao extends AbstractDao {
         return showUnassignedYn;
     }
 
-    public final void setShowUnassignedYn(String showUnassignedYn) {
+    public void setShowUnassignedYn(String showUnassignedYn) {
         this.showUnassignedYn = showUnassignedYn;
     }
 

@@ -52,7 +52,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return rotationSetId;
     }
 
-    public final void setRotationSetId(Integer rotationSetsId) {
+    public void setRotationSetId(Integer rotationSetsId) {
         this.rotationSetId = rotationSetsId;
     }
 
@@ -68,7 +68,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return description;
     }
 
-    public final void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

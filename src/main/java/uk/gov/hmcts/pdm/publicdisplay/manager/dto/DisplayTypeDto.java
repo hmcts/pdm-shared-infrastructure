@@ -49,7 +49,7 @@ public class DisplayTypeDto implements Serializable {
         return displayTypeId;
     }
 
-    public final void setDisplayTypeId(Integer displayLocationId) {
+    public void setDisplayTypeId(Integer displayLocationId) {
         this.displayTypeId = displayLocationId;
     }
 
@@ -57,7 +57,7 @@ public class DisplayTypeDto implements Serializable {
         return descriptionCode;
     }
 
-    public final void setDescriptionCode(String descriptionCode) {
+    public void setDescriptionCode(String descriptionCode) {
         this.descriptionCode = descriptionCode;
     }
 }
