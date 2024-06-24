@@ -78,7 +78,7 @@ public class XhbDisplayDao extends AbstractDao {
         return displayLocationId;
     }
 
-    public final void setDisplayLocationId(Integer displayLocationId) {
+    public void setDisplayLocationId(Integer displayLocationId) {
         this.displayLocationId = displayLocationId;
     }
 

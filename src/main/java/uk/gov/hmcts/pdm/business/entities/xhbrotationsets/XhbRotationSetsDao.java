@@ -76,7 +76,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return defaultYn;
     }
 
-    public final void setDefaultYn(String defaultYn) {
+    public void setDefaultYn(String defaultYn) {
         this.defaultYn = defaultYn;
     }
 
