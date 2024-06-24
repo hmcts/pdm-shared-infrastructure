@@ -65,7 +65,7 @@ public class XhbCourtDao extends AbstractDao {
         return addressId;
     }
 
-    public final void setAddressId(Integer addressId) {
+    public void setAddressId(Integer addressId) {
         this.addressId = addressId;
     }
 

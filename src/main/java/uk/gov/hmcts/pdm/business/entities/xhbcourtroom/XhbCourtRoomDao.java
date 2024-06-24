@@ -78,7 +78,7 @@ public class XhbCourtRoomDao extends AbstractDao {
         return description;
     }
 
-    public final void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

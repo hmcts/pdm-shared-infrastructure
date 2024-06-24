@@ -94,7 +94,7 @@ public class XhbDisplayDao extends AbstractDao {
         return descriptionCode;
     }
 
-    public final void setDescriptionCode(String descriptionCode) {
+    public void setDescriptionCode(String descriptionCode) {
         this.descriptionCode = descriptionCode;
     }
 

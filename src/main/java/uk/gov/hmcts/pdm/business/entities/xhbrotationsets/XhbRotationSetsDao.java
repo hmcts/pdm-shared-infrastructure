@@ -60,7 +60,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return courtId;
     }
 
-    public final void setCourtId(Integer courtId) {
+    public void setCourtId(Integer courtId) {
         this.courtId = courtId;
     }
 
