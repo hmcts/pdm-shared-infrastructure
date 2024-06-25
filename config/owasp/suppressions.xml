@@ -31,5 +31,18 @@
     <cve>CVE-2023-36415</cve>
   </suppress>
 
+  <suppress>
+    <notes>False positive
+      project does not contain json-java
+    </notes>
+    <cve>CVE-2024-35255</cve>
+  </suppress>
+
+  <suppress>
+    <notes>False positive
+      project does not contain json-java
+    </notes>
+    <cve>CVE-2024-35255</cve>
+  </suppress>
   <!--End of false positives section -->
 </suppressions>
