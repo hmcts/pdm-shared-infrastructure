@@ -33,16 +33,11 @@
 
   <suppress>
     <notes>False positive
-      project does not contain json-java
+      according to microsoft docs, this affects the MSAL library which isn't used in this project:
+      https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-35255
     </notes>
     <cve>CVE-2024-35255</cve>
   </suppress>
 
-  <suppress>
-    <notes>False positive
-      project does not contain json-java
-    </notes>
-    <cve>CVE-2024-35255</cve>
-  </suppress>
   <!--End of false positives section -->
 </suppressions>
