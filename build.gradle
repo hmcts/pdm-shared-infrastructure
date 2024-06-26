@@ -144,7 +144,7 @@ jacocoTestReport {
 
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 
-def exclusions = "src/main/java/uk/gov/hmcts/pdm/publicdisplay/manager/dto, src/main/java/uk/gov/hmcts/pdm/business/entities"
+def exclusions = "**/src/main/java/uk/gov/hmcts/pdm/publicdisplay/manager/dto/**, **/src/main/java/uk/gov/hmcts/pdm/business/entities/**"
 sonarqube {
   properties {
     property "sonar.projectName", "pdm"
