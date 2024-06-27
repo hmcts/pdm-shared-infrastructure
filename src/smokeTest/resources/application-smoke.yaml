@@ -1,8 +1,8 @@
-test-url: ${TEST_URL:http://localhost:8080/login}
+test-url: ${TEST_URL:http://localhost:8080}
 
 spring:
   application:
-    name: pdm-public-display-data-aggregator
+    name: pdm-public-display-manager
   config:
     import: "optional:configtree:/mnt/secrets/pdda/"
   datasource:

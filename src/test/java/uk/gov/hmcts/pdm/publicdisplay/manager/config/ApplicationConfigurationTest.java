@@ -23,17 +23,20 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.config;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,21 +54,36 @@ class ApplicationConfigurationTest extends AbstractJUnit {
     private static final String EQUALS = "Result is not equal";
     private static final String NOTNULL = "Result is null";
 
-    @Mock
+    private EntityManager mockEntityManager;
+
     private PropertyService mockPropertyService;
 
-    @InjectMocks
-    private final ApplicationConfiguration classUnderTest = new ApplicationConfiguration();
+    private ApplicationConfiguration classUnderTest;
 
     /**
      * Setup.
      */
     @BeforeEach
     public void setup() {
+        Mockito.mockStatic(EntityManagerUtil.class);
+        mockEntityManager = Mockito.mock(EntityManager.class);
+        mockPropertyService = Mockito.mock(PropertyService.class);
+        InitializationService.getInstance().setEntityManagerFactory(null);
+        classUnderTest = new ApplicationConfiguration();
+        classUnderTest.init();
         // Set the class variables
+        ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
+            Mockito.mock(EntityManagerFactory.class));
         ReflectionTestUtils.setField(classUnderTest, "propertyService", mockPropertyService);
     }
 
+    /**
+     * Teardown.
+     */
+    @AfterEach
+    public void teardown() {
+        Mockito.clearAllCaches();
+    }
 
     /**
      * Test getRestClientTimeout.
@@ -76,6 +94,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         String dummyTimeout = "30";
 
         // Expects
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockPropertyService.getPropertyValueByName("rest.client.timeout"))
             .thenReturn(dummyTimeout);
 

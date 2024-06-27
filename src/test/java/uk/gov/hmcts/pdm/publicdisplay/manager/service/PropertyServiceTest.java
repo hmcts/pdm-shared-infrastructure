@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The Class PropertyServiceTest.
@@ -77,7 +79,7 @@ class PropertyServiceTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         // Create a new version of the class under test
-        classUnderTest = new PropertyService();
+        classUnderTest = new PropertyService(createMock(EntityManager.class));
 
         // Setup the mock version of the called classes
         mockPropertyRepo = createMock(XhbDispMgrPropertyRepository.class);
@@ -106,6 +108,13 @@ class PropertyServiceTest extends AbstractJUnit {
 
         // Verify the expected mocks were called
         verify(mockPropertyRepo);
+    }
+
+    @Test
+    void testRepository() {
+        IPropertyService localClassUnderTest = new PropertyService(null);
+        assertThrows(RuntimeException.class,
+            () -> localClassUnderTest.getAllProperties(), "Exception not Thrown");
     }
 
     /**

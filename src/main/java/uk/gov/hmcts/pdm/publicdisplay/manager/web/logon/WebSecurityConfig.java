@@ -23,12 +23,14 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadWebApplicationHttpSecurityConfigurer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -49,7 +51,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String HOST = "spring.ldap.host";
@@ -65,11 +67,13 @@ public class WebSecurityConfig {
     @Autowired
     private Environment env;
 
+
     protected WebSecurityConfig() {
         super();
     }
 
     // Junit constructor
+    @Autowired
     protected WebSecurityConfig(Environment env) {
         this();
         this.env = env;
@@ -78,6 +82,7 @@ public class WebSecurityConfig {
     /**
      * Build the SecurityFilterChain from the http.
      */
+    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled", havingValue = "false")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
@@ -123,7 +128,7 @@ public class WebSecurityConfig {
 
     /**
      * Build the ldap url from the application.properties entries.
-     * 
+     *
      * @return url
      */
     private String getLdapUrl() {
@@ -135,7 +140,7 @@ public class WebSecurityConfig {
 
     /**
      * Handle the login success. Redirect the page to /home.
-     * 
+     *
      * @return AuthenticationSuccessHandler
      */
     @Bean
@@ -144,7 +149,7 @@ public class WebSecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request,
                 HttpServletResponse response, Authentication authentication)
-                throws IOException, ServletException {                
+                throws IOException, ServletException {
                 LOG.debug("The user {} has logged in.", authentication.getName());
                 for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
                     LOG.debug("Role = {}", grantedAuthority.getAuthority());
@@ -157,7 +162,7 @@ public class WebSecurityConfig {
     /**
      * Handle the login failure. No redirection required as this is handled by the http.failureUrl()
      * off the custom loginPage().
-     * 
+     *
      * @return AuthenticationFailureHandler
      */
     @Bean
