@@ -43,7 +43,7 @@ public class DynamicDropdownList implements Serializable {
         return options;
     }
 
-    public final void setOptions(List<DynamicDropdownOption> options) {
+    public void setOptions(List<DynamicDropdownOption> options) {
         this.options = options;
     }
 }
