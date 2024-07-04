@@ -17,8 +17,6 @@ import static io.restassured.RestAssured.given;
 class LogonControllerSmokeTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerSmokeTest.class);
-    private static final String HEALTHPAGE = "/health";
-    
     
     @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
@@ -44,8 +42,6 @@ class LogonControllerSmokeTest {
     } 
     
     private String getTestUrl() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(testUrl).append(HEALTHPAGE);
-        return sb.toString();
+        return testUrl;
     }
 }
