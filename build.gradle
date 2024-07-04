@@ -246,6 +246,8 @@ configurations {
    smokeTestRuntimeOnly.extendsFrom runtimeOnly
    functionalTestImplementation.extendsFrom testImplementation
    functionalTestRuntimeOnly.extendsFrom runtimeOnly
+   all*.exclude group: 'org.glassfish.hk2', module: 'hk2'
+   all*.exclude group: 'commons-logging', module: 'commons-logging'
  }
 
 tasks.register('smoke', Test) {
