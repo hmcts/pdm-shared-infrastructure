@@ -52,7 +52,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return rotationSetId;
     }
 
-    public final void setRotationSetId(Integer rotationSetsId) {
+    public void setRotationSetId(Integer rotationSetsId) {
         this.rotationSetId = rotationSetsId;
     }
 
@@ -60,7 +60,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return courtId;
     }
 
-    public final void setCourtId(Integer courtId) {
+    public void setCourtId(Integer courtId) {
         this.courtId = courtId;
     }
 
@@ -68,7 +68,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return description;
     }
 
-    public final void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -76,7 +76,7 @@ public class XhbRotationSetsDao extends AbstractDao {
         return defaultYn;
     }
 
-    public final void setDefaultYn(String defaultYn) {
+    public void setDefaultYn(String defaultYn) {
         this.defaultYn = defaultYn;
     }
 

@@ -45,7 +45,7 @@ public class DisplayLocationDto {
         return displayLocationId;
     }
 
-    public final void setDisplayLocationId(Integer displayLocationId) {
+    public void setDisplayLocationId(Integer displayLocationId) {
         this.displayLocationId = displayLocationId;
     }
 
@@ -53,7 +53,7 @@ public class DisplayLocationDto {
         return descriptionCode;
     }
 
-    public final void setDescriptionCode(String descriptionCode) {
+    public void setDescriptionCode(String descriptionCode) {
         this.descriptionCode = descriptionCode;
     }
     

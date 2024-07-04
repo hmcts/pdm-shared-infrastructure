@@ -144,10 +144,13 @@ jacocoTestReport {
 
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 
+def exclusions = "**/src/main/java/uk/gov/hmcts/pdm/publicdisplay/manager/dto/**, **/src/main/java/uk/gov/hmcts/pdm/business/entities/**"
 sonarqube {
   properties {
     property "sonar.projectName", "pdm"
     property "sonar.projectKey", "pdm-sonarqube"
+    property "sonar.cpd.exclusions", exclusions
+
   }
 }
 
@@ -185,7 +188,7 @@ dependencies {
   }
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework:spring-tx:6.0.19'
-    implementation 'org.dbunit:dbunit:2.7.3'
+    implementation 'org.dbunit:dbunit:2.8.0'
     implementation 'joda-time:joda-time:2.12.7'
     implementation 'org.owasp:csrfguard:4.3.0'
     implementation 'org.springframework.security:spring-security-taglibs:6.1.9'
@@ -220,12 +223,12 @@ dependencies {
     implementation 'org.springframework.security:spring-security-ldap:6.1.9'
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.11'
     implementation 'org.owasp.antisamy:antisamy:1.7.5'
-    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.11.0'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.13.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.11'    
-    testImplementation 'org.easymock:easymock:5.0.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.11'
+    testImplementation 'org.easymock:easymock:5.3.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     compileOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.11'
     implementation group: 'io.rest-assured', name: 'rest-assured'
