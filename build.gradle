@@ -169,6 +169,10 @@ ext {
 
 ext['snakeyaml.version'] = '2.0'
 
+configurations {
+    all*.exclude group: 'org.glassfish.hk2', module: 'hk2'
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.11'
     implementation 'org.springframework.boot:spring-boot-starter-web:3.1.11'
@@ -246,6 +250,8 @@ configurations {
    smokeTestRuntimeOnly.extendsFrom runtimeOnly
    functionalTestImplementation.extendsFrom testImplementation
    functionalTestRuntimeOnly.extendsFrom runtimeOnly
+   all*.exclude group: 'org.glassfish.hk2', module: 'hk2'
+   all*.exclude group: 'commons-logging', module: 'commons-logging'
  }
 
 tasks.register('smoke', Test) {
