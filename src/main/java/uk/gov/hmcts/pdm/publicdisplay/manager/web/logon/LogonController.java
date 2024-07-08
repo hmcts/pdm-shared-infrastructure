@@ -63,6 +63,9 @@ public class LogonController {
     /** The Constant INVALID_TOKEN. */
     private static final String INVALID_TOKEN = "invalidToken";
 
+    /** The Constant MAPPING_DEFAULT. */
+    private static final String MAPPING_DEFAULT = "/";
+
     /** The Constant MAPPING_HOME. */
     private static final String MAPPING_HOME = "/home";
 
@@ -106,7 +109,7 @@ public class LogonController {
      * 
      * @return the string
      */
-    @RequestMapping(value = MAPPING_HOME, method = RequestMethod.GET)
+    @RequestMapping(value = {MAPPING_HOME, MAPPING_DEFAULT}, method = RequestMethod.GET)
     public String home() {
         LOGGER.debug("home()");
         final Authentication authentication =
