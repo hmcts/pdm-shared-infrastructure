@@ -177,7 +177,7 @@ repositories {
 }
 
 ext {
-  jakartaVersion = "3.1.0"
+  jakartaVersion = "4.0.0"
   log4JVersion = "2.23.1"
 }
 
