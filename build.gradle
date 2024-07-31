@@ -224,7 +224,7 @@ dependencies {
     implementation 'org.springframework.security:spring-security-ldap:6.3.1'
     implementation 'com.unboundid:unboundid-ldapsdk:7.0.1'
     implementation 'org.owasp.antisamy:antisamy:1.7.6'
-    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.13.0'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.14.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.11'
     testImplementation 'org.easymock:easymock:5.3.0'
