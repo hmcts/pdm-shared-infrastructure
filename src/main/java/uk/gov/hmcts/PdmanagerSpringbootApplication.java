@@ -16,13 +16,20 @@ import uk.gov.hmcts.config.WebAppInitializer;
 @ApplicationPath("/pdm")
 public class PdmanagerSpringbootApplication {
 
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(PdmanagerSpringbootApplication.class);
     @Value("${spring.cloud.azure.active-directory.credential.client-id}")
     private static String clientID;
     @Value("${spring.cloud.azure.active-directory.profile.tenant-id}")
     private static String tenantID;
     @Value("${spring.cloud.azure.active-directory.credential.client-secret}")
     private static String clientSecret;
-    private static final Logger LOGGER = LoggerFactory.getLogger(PdmanagerSpringbootApplication.class);
+
+    protected PdmanagerSpringbootApplication() {
+        /*
+         * empty constructor
+         */
+    }
 
     public static void main(String[] args) {
 
@@ -30,12 +37,7 @@ public class PdmanagerSpringbootApplication {
         LOGGER.info("{} - the tenantID retrieved from key vault", tenantID);
         LOGGER.info("{} - the clientSecret retrieved from key vault", clientSecret);
 
-        SpringApplication.run(new Class[] {PdmanagerSpringbootApplication.class, WebAppInitializer.class}, args);
-    }
-
-    protected PdmanagerSpringbootApplication() {
-        /*
-         * empty constructor
-         */
+        SpringApplication.run(
+            new Class[] {PdmanagerSpringbootApplication.class, WebAppInitializer.class}, args);
     }
 }
