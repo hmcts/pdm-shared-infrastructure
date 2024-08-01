@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import uk.gov.hmcts.config.WebAppInitializer;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,5 +43,12 @@ class PdmanagerSpringbootApplicationTest {
             }
         }
         assertTrue(result, NOT_TRUE);
+    }
+
+    @Test
+    void testEmptyConstructor() {
+        PdmanagerSpringbootApplication pdmanagerSpringbootApplication =
+            new PdmanagerSpringbootApplication();
+        assertNotNull(pdmanagerSpringbootApplication, "The instance should not be null");
     }
 }
