@@ -51,4 +51,12 @@ class PdmanagerSpringbootApplicationTest {
             new PdmanagerSpringbootApplication();
         assertNotNull(pdmanagerSpringbootApplication, "The instance should not be null");
     }
+
+    @Test
+    void testLog() {
+        PdmanagerSpringbootApplication pdmanagerSpringbootApplication =
+            new PdmanagerSpringbootApplication();
+        pdmanagerSpringbootApplication.logValues();
+        assertNotNull(pdmanagerSpringbootApplication, "The instance should not be null");
+    }
 }
