@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import uk.gov.hmcts.PdmanagerSpringbootApplication;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.HousekeepingJob;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.RagStatusSetupJob;
 
