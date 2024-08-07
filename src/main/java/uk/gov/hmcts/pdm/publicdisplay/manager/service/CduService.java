@@ -43,7 +43,6 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus.CduAmendCommand;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus.CduRegisterCommand;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus.MappingCommand;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,15 +108,11 @@ public class CduService extends CduServHelperSave implements ICduService {
             // CDU is not registered - create CDU
             cdu = new CduModel();
 
-
-            final BigDecimal nextIpHostBD;
             Integer nextIpHost;
             // retrieve the next available ip host.
-            nextIpHostBD = getXhbDispMgrCduRepository()
+            nextIpHost = getXhbDispMgrCduRepository()
                 .getNextIpHost(cduDto.getCourtSiteId().intValue(), cduIpHostMin, cduIpHostMax);
-            if (nextIpHostBD != null) {
-                nextIpHost = nextIpHostBD.intValue();
-            } else {
+            if (nextIpHost == null) {
                 if (getXhbDispMgrCduRepository().hostExists(cduDto.getCourtSiteId().intValue())) {
                     // There are no available ip addresses in the registered range
                     throw new ServiceException(
