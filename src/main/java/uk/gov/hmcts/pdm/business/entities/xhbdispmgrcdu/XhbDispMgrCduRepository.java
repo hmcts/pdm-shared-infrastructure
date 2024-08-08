@@ -77,7 +77,8 @@ public class XhbDispMgrCduRepository extends CduFinder {
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         Object result = query.getResultList().isEmpty() ? null : query.getResultList().get(0);
         if (result != null) {
-            return Integer.valueOf((int) (result instanceof Long ? (Long) result : (Double) result));
+            return result instanceof Long ? ((Long) result).intValue()
+                : ((Double) result).intValue();
         }
         return null;
 
