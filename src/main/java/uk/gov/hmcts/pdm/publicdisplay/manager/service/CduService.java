@@ -108,9 +108,8 @@ public class CduService extends CduServHelperSave implements ICduService {
             // CDU is not registered - create CDU
             cdu = new CduModel();
 
-            Integer nextIpHost;
             // retrieve the next available ip host.
-            nextIpHost = getXhbDispMgrCduRepository()
+            Integer nextIpHost = getXhbDispMgrCduRepository()
                 .getNextIpHost(cduDto.getCourtSiteId().intValue(), cduIpHostMin, cduIpHostMax);
             if (nextIpHost == null) {
                 if (getXhbDispMgrCduRepository().hostExists(cduDto.getCourtSiteId().intValue())) {
