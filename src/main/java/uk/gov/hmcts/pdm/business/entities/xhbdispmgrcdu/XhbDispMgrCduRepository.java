@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICduModel;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -65,18 +64,24 @@ public class XhbDispMgrCduRepository extends CduFinder {
      * @param maxHost Integer
      * @return Integer
      */
-    public BigDecimal getNextIpHost(final Integer courtSiteId, final Integer minHost,
+    public Integer getNextIpHost(final Integer courtSiteId, final Integer minHost,
         final Integer maxHost) {
         final String methodName = "getNextIpHost";
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         Query query = getEntityManager().createNamedQuery("XHB_DISP_MGR_CDU.getNextIpHost");
         query.setParameter("courtSiteId", courtSiteId);
-        query.setParameter("minHost", BigDecimal.valueOf(minHost));
-        query.setParameter("maxHost", BigDecimal.valueOf(maxHost));
+        query.setParameter("minHost", minHost.toString());
+        query.setParameter("maxHost", maxHost.toString());
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
-        return query.getResultList().isEmpty() ? null : (BigDecimal) query.getResultList().get(0);
+        Object result = query.getResultList().isEmpty() ? null : query.getResultList().get(0);
+        if (result != null) {
+            return result instanceof Long ? ((Long) result).intValue()
+                : ((Double) result).intValue();
+        }
+        return null;
+
     }
 
     public Boolean hostExists(final Integer courtSiteId) {

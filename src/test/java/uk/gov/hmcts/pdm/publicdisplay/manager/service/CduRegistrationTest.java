@@ -11,8 +11,6 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CduDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus.CduRegisterCommand;
 
-import java.math.BigDecimal;
-
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -129,7 +127,7 @@ abstract class CduRegistrationTest extends CduServiceTestBase {
         // Add the mock calls to child classes
         expect(mockCduRepo.findByMacAddress(cduDto.getMacAddress())).andReturn(null);
         expect(mockCduRepo.getNextIpHost(cduDto.getCourtSiteId().intValue(), CDU_IP_HOST_MIN,
-            CDU_IP_HOST_MAX)).andReturn(BigDecimal.valueOf(1));
+            CDU_IP_HOST_MAX)).andReturn(Integer.valueOf(1));
         mockCduRepo.saveDaoFromBasicValue(capture(capturedCdu));
         expectLastCall();
         replay(mockCduRepo);
