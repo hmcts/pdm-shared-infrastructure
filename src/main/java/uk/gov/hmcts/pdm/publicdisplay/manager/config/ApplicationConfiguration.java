@@ -29,8 +29,10 @@ import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.service.OAuth2Helper;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
@@ -46,8 +48,11 @@ import java.util.List;
 public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
-    
+
     private static final String EMPTY_STRING = "";
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;
@@ -61,8 +66,17 @@ public class ApplicationConfiguration {
         if (InitializationService.getInstance().getEntityManagerFactory() == null) {
             LOGGER.info("Setting entitymanager = {}", entityManagerFactory);
             InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
+            InitializationService.getInstance().setEnvironment(env);
         }
         this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
+        // --- Remove me ----
+        if (env != null) {
+            OAuth2Helper oauth2Helper = new OAuth2Helper();
+            LOGGER.info("TenantId ={}", oauth2Helper.getTenantId());
+            LOGGER.info("ClientId ={}", oauth2Helper.getClientId());
+            LOGGER.info("ClientSecret ={}", oauth2Helper.getClientSecret());
+        }
+        // -------------------
     }
 
     /**

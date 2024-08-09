@@ -1,10 +1,6 @@
 package uk.gov.hmcts;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.ApplicationPath;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,18 +13,6 @@ import uk.gov.hmcts.config.WebAppInitializer;
 @ApplicationPath("/pdm")
 public class PdmanagerSpringbootApplication {
 
-    /**
-     * remove once authentication is successful.
-     */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(PdmanagerSpringbootApplication.class);
-    @Value("${spring.cloud.azure.active-directory.credential.client-id}")
-    private  String clientID;
-    @Value("${spring.cloud.azure.active-directory.profile.tenant-id}")
-    private  String tenantID;
-    @Value("${spring.cloud.azure.active-directory.credential.client-secret}")
-    private  String clientSecret;
-
     protected PdmanagerSpringbootApplication() {
         /*
          * empty constructor
@@ -36,15 +20,7 @@ public class PdmanagerSpringbootApplication {
     }
 
     public static void main(String[] args) {
-
         SpringApplication.run(
             new Class[] {PdmanagerSpringbootApplication.class, WebAppInitializer.class}, args);
-    }
-
-    @PostConstruct
-    public void logValues() {
-        LOGGER.info("{} - the clientID retrieved from key vault", clientID);
-        LOGGER.info("{} - the tenantID retrieved from key vault", tenantID);
-        LOGGER.info("{} - the clientSecret retrieved from key vault", clientSecret);
     }
 }
