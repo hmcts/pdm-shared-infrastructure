@@ -74,6 +74,15 @@ public class ApplicationConfiguration {
             OAuth2Helper oauth2Helper = new OAuth2Helper();
             LOGGER.info("TenantId ={}", oauth2Helper.getTenantId());
             LOGGER.info("ClientId ={}", oauth2Helper.getClientId());
+            String value;
+            if ("ee71b40f-90bf-49af-936d-04fbde2023fc".equals(oauth2Helper.getClientId())) {
+                value = "STAGING";
+            } else if ("76981322-2cf0-44ea-a49c-bda08c7878c5".equals(oauth2Helper.getClientId())) {
+                value = "DEV";
+            } else {
+                value = "Something else - " + oauth2Helper.getClientId().substring(5);
+            }
+            LOGGER.info("ClientId is = {}", value);
             LOGGER.info("ClientSecret ={}", oauth2Helper.getClientSecret());
         }
         // -------------------
