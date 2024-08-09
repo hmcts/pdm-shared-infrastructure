@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.core.env.Environment;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,6 +45,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class InitializationServiceTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
+
+    @Mock
+    private Environment mockEnvironment;
 
     @Mock
     private EntityManagerFactory mockEntityManagerFactory;
@@ -63,5 +67,16 @@ class InitializationServiceTest extends AbstractJUnit {
         }
     }
 
+    /**
+     * Test setter and getter for Environment.
+     */
+    @Test
+    void testEnvironment() {
+        // Run
+        InitializationService.getInstance().setEnvironment(mockEnvironment);
+        Environment result = InitializationService.getInstance().getEnvironment();
+        // Checks
+        assertEquals(result, mockEnvironment, EQUALS);
+    }
 
 }
