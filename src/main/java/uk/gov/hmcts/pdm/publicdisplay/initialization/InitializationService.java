@@ -1,10 +1,13 @@
 package uk.gov.hmcts.pdm.publicdisplay.initialization;
 
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.core.env.Environment;
 
 public final class InitializationService {
 
     private EntityManagerFactory entityManagerFactory;
+    
+    private Environment env;
     
     /**
      * Singleton instance.
@@ -34,5 +37,13 @@ public final class InitializationService {
 
     public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
+    }
+    
+    public Environment getEnvironment() {
+        return env;
+    }
+    
+    public void setEnvironment(Environment env) {
+        this.env = env;
     }
 }

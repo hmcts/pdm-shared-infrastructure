@@ -34,6 +34,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.core.env.Environment;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -54,6 +55,8 @@ class ApplicationConfigurationTest extends AbstractJUnit {
     private static final String EQUALS = "Result is not equal";
     private static final String NOTNULL = "Result is null";
 
+    private Environment mockEnvironment;
+    
     private EntityManager mockEntityManager;
 
     private PropertyService mockPropertyService;
@@ -74,6 +77,7 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
             Mockito.mock(EntityManagerFactory.class));
+        ReflectionTestUtils.setField(classUnderTest, "env", mockEnvironment);
         ReflectionTestUtils.setField(classUnderTest, "propertyService", mockPropertyService);
     }
 

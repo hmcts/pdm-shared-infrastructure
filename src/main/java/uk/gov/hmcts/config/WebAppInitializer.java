@@ -28,6 +28,7 @@ public class WebAppInitializer implements ServletContextInitializer {
         String dbUsername = env.getProperty(DB_USER_NAME);
         LOG.info("Database username: {}", dbUsername);
         InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
+        InitializationService.getInstance().setEnvironment(env);
     }
 
 }
