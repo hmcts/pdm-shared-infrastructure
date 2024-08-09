@@ -104,7 +104,6 @@ class XhbDispMgrCduRepositoryTest extends AbstractJUnit {
             .thenReturn(mockQuery);
         Mockito.when(mockQuery.getResultList()).thenReturn(expectedResults);
         // Run
-        Integer result = classUnderTest.getNextIpHost(courtSiteId, minHost, maxHost);
-        return result;
+        return classUnderTest.getNextIpHost(courtSiteId, minHost, maxHost);
     }
 }
