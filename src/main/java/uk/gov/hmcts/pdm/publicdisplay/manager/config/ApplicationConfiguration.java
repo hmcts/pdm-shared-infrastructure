@@ -59,6 +59,8 @@ public class ApplicationConfiguration {
 
     /** The property service. */
     private IPropertyService propertyService;
+    
+    private OAuth2Helper oauth2Helper;
 
     @PostConstruct
     public void init() {
@@ -71,7 +73,9 @@ public class ApplicationConfiguration {
         this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
         // --- Remove me ----
         if (env != null) {
-            OAuth2Helper oauth2Helper = new OAuth2Helper();
+            if (oauth2Helper == null) {
+                oauth2Helper = new OAuth2Helper();
+            }
             LOGGER.info("TenantId ={}", oauth2Helper.getTenantId());
             LOGGER.info("ClientId ={}", oauth2Helper.getClientId());
             String value;
