@@ -38,6 +38,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.service.OAuth2Helper;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,8 +55,6 @@ class ApplicationConfigurationTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not equal";
     private static final String NOTNULL = "Result is null";
-
-    private Environment mockEnvironment;
     
     private EntityManager mockEntityManager;
 
@@ -73,11 +72,15 @@ class ApplicationConfigurationTest extends AbstractJUnit {
         mockPropertyService = Mockito.mock(PropertyService.class);
         InitializationService.getInstance().setEntityManagerFactory(null);
         classUnderTest = new ApplicationConfiguration();
+        Environment mockEnvironment = Mockito.mock(Environment.class);
+        OAuth2Helper mockOauth2Helper = Mockito.mock(OAuth2Helper.class);
+        ReflectionTestUtils.setField(classUnderTest, "env", mockEnvironment);
+        ReflectionTestUtils.setField(classUnderTest, "oauth2Helper", mockOauth2Helper);
+        Mockito.when(mockOauth2Helper.getClientId()).thenReturn("ClientId");
         classUnderTest.init();
         // Set the class variables
         ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
             Mockito.mock(EntityManagerFactory.class));
-        ReflectionTestUtils.setField(classUnderTest, "env", mockEnvironment);
         ReflectionTestUtils.setField(classUnderTest, "propertyService", mockPropertyService);
     }
 
