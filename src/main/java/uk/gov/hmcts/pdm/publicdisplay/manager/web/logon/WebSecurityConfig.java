@@ -82,7 +82,8 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     /**
      * Build the SecurityFilterChain from the http.
      */
-    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled", havingValue = "false")
+    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
+        havingValue = "false")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         try {
@@ -143,6 +144,8 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
      *
      * @return AuthenticationSuccessHandler
      */
+    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
+        havingValue = "false")
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
         return new AuthenticationSuccessHandler() {
@@ -150,7 +153,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             public void onAuthenticationSuccess(HttpServletRequest request,
                 HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
-                LOG.debug("The user {} has logged in.", authentication.getName());
+                LOG.info("The user {} has logged in.", authentication.getName());
                 for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
                     LOG.debug("Role = {}", grantedAuthority.getAuthority());
                 }
@@ -165,6 +168,8 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
      *
      * @return AuthenticationFailureHandler
      */
+    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
+        havingValue = "false")
     @Bean
     public AuthenticationFailureHandler getFailureHandler() {
         return new AuthenticationFailureHandler() {
@@ -173,7 +178,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             public void onAuthenticationFailure(HttpServletRequest request,
                 HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
-                LOG.debug("Login Failure");
+                LOG.info("Login Failure {}", exception.getMessage());
             }
         };
     }
