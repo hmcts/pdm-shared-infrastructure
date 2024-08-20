@@ -7,7 +7,7 @@
 plugins {
 	id 'application'
 	id 'io.spring.dependency-management' version '1.1.6'
-	id 'org.springframework.boot' version '3.1.11'
+	id 'org.springframework.boot' version '3.1.12'
 	id 'com.github.ben-manes.versions' version '0.51.0'
 	id 'org.owasp.dependencycheck' version '10.0.3'
 	id 'org.sonarqube' version '5.1.0.4882'
@@ -174,11 +174,11 @@ configurations {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.11'
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.11'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.11'
-    implementation 'org.springframework.data:spring-data-commons:3.1.11'
-    implementation 'org.springframework.data:spring-data-jpa:3.1.11'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.12'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.12'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.12'
+    implementation 'org.springframework.data:spring-data-commons:3.1.12'
+    implementation 'org.springframework.data:spring-data-jpa:3.1.12'
     // Comment out org.hibernate:hibernate-entitymanager to work in Eclipse
     implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
     implementation 'org.postgresql:postgresql:42.7.3'
@@ -188,7 +188,7 @@ dependencies {
     exclude group: 'commons-logging', module: 'commons-logging'
   }
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'org.springframework:spring-tx:6.0.19'
+    implementation 'org.springframework:spring-tx:6.0.23'
     implementation 'org.dbunit:dbunit:2.8.0'
     implementation 'joda-time:joda-time:2.12.7'
     implementation 'org.owasp:csrfguard:4.3.0'
@@ -204,8 +204,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jersey:3.2.1'
     implementation 'org.owasp.esapi:esapi:2.5.4.0'
     implementation 'org.jasypt:jasypt:1.9.3'
-    implementation 'org.springframework:spring-context:6.0.19'
-    implementation 'org.springframework:spring-context-support:6.0.19'
+    implementation 'org.springframework:spring-context:6.0.23'
+    implementation 'org.springframework:spring-context-support:6.0.23'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.28'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
@@ -219,19 +219,19 @@ dependencies {
     implementation 'ch.qos.logback:logback-core:1.4.14'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
     implementation 'javax.validation:validation-api:2.0.1.Final'
-    implementation 'org.springframework.boot:spring-boot-starter-security:3.1.11'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.1.12'
     implementation 'org.springframework.ldap:spring-ldap-core:3.2.6'
     implementation 'org.springframework.security:spring-security-ldap:6.3.1'
     implementation 'com.unboundid:unboundid-ldapsdk:7.0.1'
     implementation 'org.owasp.antisamy:antisamy:1.7.6'
     implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.15.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.11'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.12'
     testImplementation 'org.easymock:easymock:5.4.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    compileOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.11'
+    compileOnly 'org.springframework.boot:spring-boot-starter-tomcat:3.1.12'
     implementation group: 'io.rest-assured', name: 'rest-assured'
 }
 
