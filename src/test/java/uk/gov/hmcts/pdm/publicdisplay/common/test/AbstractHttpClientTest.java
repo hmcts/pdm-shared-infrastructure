@@ -27,6 +27,8 @@ import org.apache.http.config.SocketConfig;
 import org.apache.http.impl.bootstrap.HttpServer;
 import org.apache.http.impl.bootstrap.ServerBootstrap;
 import org.apache.http.protocol.HttpRequestHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -39,14 +41,16 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("PMD.AvoidUsingHardCodedIP")
 public abstract class AbstractHttpClientTest extends AbstractJUnit {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractHttpClientTest.class);
+    
     /** The Constant ORIGIN. */
     public static final String ORIGIN = "TEST/1.1";
 
     /** The Constant TIMEOUT. */
     public static final int TIMEOUT = 15_000;
 
-    /** The Constant PORT. */
-    public static final int PORT = 8080;
+    /** A random port used for the unit testing between 8020 and 8079. */
+    public static final int PORT = (int) Math.floor(Math.random() * (8079 - 8020 + 1) + 8020);
 
     /** The Constant IP_ADDRESS. */
     public static final String IP_ADDRESS = "127.0.0.1";
@@ -68,6 +72,7 @@ public abstract class AbstractHttpClientTest extends AbstractJUnit {
     protected void startServer(final String pattern, final HttpRequestHandler handler)
         throws IOException {
         // Setup server configuration
+        LOG.info("Port generated for testing: {}", PORT);
         final SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(TIMEOUT).build();
         ServerBootstrap serverBootstrap = ServerBootstrap.bootstrap().setSocketConfig(socketConfig)
             .setServerInfo(ORIGIN).setListenerPort(PORT).registerHandler(pattern, handler);
