@@ -183,7 +183,7 @@ dependencies {
     // Comment out org.hibernate:hibernate-entitymanager to work in Eclipse
     implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
     implementation 'org.postgresql:postgresql:42.7.3'
-    implementation 'org.springframework.security:spring-security-core:6.3.1'
+    implementation 'org.springframework.security:spring-security-core:6.3.2'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.2.RELEASE'
     implementation ('org.apache.httpcomponents:httpclient:4.5.14') {
     exclude group: 'commons-logging', module: 'commons-logging'
