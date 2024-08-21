@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: pdm-public-display-manager
+    name: pdda-public-display-manager
   config:
     import: "optional:configtree:/mnt/secrets/pdda/"
   datasource:
