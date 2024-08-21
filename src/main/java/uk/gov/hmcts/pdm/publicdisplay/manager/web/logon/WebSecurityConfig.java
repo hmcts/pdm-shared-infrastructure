@@ -126,12 +126,6 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             LOG.error("configure: {}", exception.getMessage());
         }
     }
-
-    @Override
-    public void configure(HttpSecurity builder) throws Exception {
-        LOG.info("configure()");
-        super.configure(builder);
-    }
     
     /**
      * Build the ldap url from the application.properties entries.
