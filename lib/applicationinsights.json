@@ -1,7 +1,7 @@
 {
   "connectionString": "${file:/mnt/secrets/pdda/app-insights-connection-string-pdm}",
   "role": {
-    "name": "pdm-public-display-manager"
+    "name": "pdda-public-display-manager"
   },
   "preview": {
     "sampling": {
