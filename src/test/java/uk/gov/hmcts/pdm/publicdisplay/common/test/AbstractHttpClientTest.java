@@ -49,8 +49,8 @@ public abstract class AbstractHttpClientTest extends AbstractJUnit {
     /** The Constant TIMEOUT. */
     public static final int TIMEOUT = 15_000;
 
-    /** A random port used for the unit testing between 8020 and 8079. */
-    public static final int PORT = (int) Math.floor(Math.random() * (8079 - 8020 + 1) + 8020);
+    /** A random port used for the unit testing between 8020 and 8078. */
+    public static final int PORT = (int) Math.floor(Math.random() * (8078 - 8020 + 1) + 8020);
 
     /** The Constant IP_ADDRESS. */
     public static final String IP_ADDRESS = "127.0.0.1";
