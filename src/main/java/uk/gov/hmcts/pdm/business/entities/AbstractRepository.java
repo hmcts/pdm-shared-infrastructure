@@ -61,7 +61,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao T
      */
     public void save(T dao) {
-        try (EntityManager localEntityManager = createEntityManager()) {
+        try (EntityManager localEntityManager = getEntityManager()) {
             try {
                 LOG.debug("Save()");
                 localEntityManager.getTransaction().begin();
@@ -84,7 +84,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> update(T dao) {
-        try (EntityManager localEntityManager = createEntityManager()) {
+        try (EntityManager localEntityManager = getEntityManager()) {
             try {
                 LOG.debug("Update()");
                 localEntityManager.getTransaction().begin();
@@ -109,7 +109,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao Optional
      */
     public void delete(Optional<T> dao) {
-        try (EntityManager localEntityManager = createEntityManager()) {
+        try (EntityManager localEntityManager = getEntityManager()) {
             try {
                 LOG.debug("delete()");
                 if (dao.isPresent()) {
@@ -132,13 +132,6 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      */
     protected EntityManager getEntityManager() {
         return entityManager;
-    }
-
-    /*
-     * Create local one off EntityManager for save, update, delete
-     */
-    private EntityManager createEntityManager() {
-        return getEntityManager();
     }
 
     public void clearEntityManager() {
