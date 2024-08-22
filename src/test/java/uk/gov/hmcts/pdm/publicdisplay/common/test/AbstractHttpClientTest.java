@@ -49,9 +49,9 @@ public abstract class AbstractHttpClientTest extends AbstractJUnit {
     /** The Constant TIMEOUT. */
     public static final int TIMEOUT = 15_000;
 
-    public static final int MIN_PORT = 8020;
+    public static final int MIN_PORT = 8080;
     
-    public static final int MAX_PORT = 8079;
+    public static final int MAX_PORT = 8080;
     
     /** The Constant IP_ADDRESS. */
     public static final String IP_ADDRESS = "127.0.0.1";
