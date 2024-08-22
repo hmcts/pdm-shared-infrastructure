@@ -49,14 +49,12 @@ public abstract class AbstractHttpClientTest extends AbstractJUnit {
     /** The Constant TIMEOUT. */
     public static final int TIMEOUT = 15_000;
 
-    /** A random port used for the unit testing between 8020 and 8079. */
-    public static final int PORT = (int) Math.floor(Math.random() * (8079 - 8020 + 1) + 8020);
-
+    public static final int MIN_PORT = 8020;
+    
+    public static final int MAX_PORT = 8079;
+    
     /** The Constant IP_ADDRESS. */
     public static final String IP_ADDRESS = "127.0.0.1";
-
-    /** The Constant BASE_URL. */
-    public static final String BASE_URL = "http://" + IP_ADDRESS + ":" + PORT;
 
     /** The server. */
     private HttpServer server;
@@ -64,18 +62,19 @@ public abstract class AbstractHttpClientTest extends AbstractJUnit {
     /**
      * Start server.
      *
+     * @param port the port
      * @param pattern the pattern
      * @param handler the handler
      * @throws IOException ioException
      * @throws Exception the exception
      */
-    protected void startServer(final String pattern, final HttpRequestHandler handler)
+    protected void startServer(final int port, final String pattern, final HttpRequestHandler handler)
         throws IOException {
         // Setup server configuration
-        LOG.info("Port generated for testing: {}", PORT);
+        LOG.info("Port generated for testing: {}", port);
         final SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(TIMEOUT).build();
         ServerBootstrap serverBootstrap = ServerBootstrap.bootstrap().setSocketConfig(socketConfig)
-            .setServerInfo(ORIGIN).setListenerPort(PORT).registerHandler(pattern, handler);
+            .setServerInfo(ORIGIN).setListenerPort(port).registerHandler(pattern, handler);
 
         // Start server
         this.server = serverBootstrap.create();
@@ -101,5 +100,14 @@ public abstract class AbstractHttpClientTest extends AbstractJUnit {
      */
     protected HttpServer getServer() {
         return this.server;
+    }
+    
+    /**
+     * Gets random port.
+     *
+     * @return the port
+     */
+    protected int getPort() {
+        return (int) Math.floor(Math.random() * (MAX_PORT - MIN_PORT + 1) + MIN_PORT);
     }
 }
