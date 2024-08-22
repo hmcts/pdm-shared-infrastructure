@@ -1,6 +1,5 @@
 package uk.gov.hmcts.pdm.business.entities;
 
-import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -9,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-
-
 
 public abstract class AbstractRepository<T extends AbstractDao> {
 
@@ -64,7 +61,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao T
      */
     public void save(T dao) {
-        try (EntityManager localEntityManager = createEntityManager()) {
+        try (EntityManager localEntityManager = getEntityManager()) {
             try {
                 LOG.debug("Save()");
                 localEntityManager.getTransaction().begin();
@@ -87,7 +84,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> update(T dao) {
-        try (EntityManager localEntityManager = createEntityManager()) {
+        try (EntityManager localEntityManager = getEntityManager()) {
             try {
                 LOG.debug("Update()");
                 localEntityManager.getTransaction().begin();
@@ -112,7 +109,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao Optional
      */
     public void delete(Optional<T> dao) {
-        try (EntityManager localEntityManager = createEntityManager()) {
+        try (EntityManager localEntityManager = getEntityManager()) {
             try {
                 LOG.debug("delete()");
                 if (dao.isPresent()) {
@@ -135,13 +132,6 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      */
     protected EntityManager getEntityManager() {
         return entityManager;
-    }
-
-    /*
-     * Create local one off EntityManager for save, update, delete
-     */
-    private EntityManager createEntityManager() {
-        return EntityManagerUtil.getEntityManager();
     }
 
     public void clearEntityManager() {
