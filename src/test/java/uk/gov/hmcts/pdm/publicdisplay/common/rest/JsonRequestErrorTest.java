@@ -90,18 +90,15 @@ abstract class JsonRequestErrorTest extends AbstractHttpClientTest {
      */
     @BeforeEach
     public void setup() throws Exception {
-        // Get the port for the test
-        int port = getPort();
-        String baseUrl = "http://" + IP_ADDRESS + ":" + port;
         // Create a new version of the class under test
         classUnderTest = new JsonRequest(new ObjectMapperUtil());
         classUnderTest.setTokenType(JsonWebTokenType.DISPLAY_MANAGER);
-        classUnderTest.setUrl(baseUrl + ENDPOINT_URL);
+        classUnderTest.setUrl(BASE_URL + ENDPOINT_URL);
 
         // Start test http server which will receive test
         // requests and return back the test responses
         mockJsonEndpoint = new MockJsonEndpoint();
-        startServer(port, ENDPOINT_URL, mockJsonEndpoint);
+        startServer(ENDPOINT_URL, mockJsonEndpoint);
     }
 
     /**

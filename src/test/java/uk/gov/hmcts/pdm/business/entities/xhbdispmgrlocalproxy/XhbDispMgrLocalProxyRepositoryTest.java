@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -36,10 +37,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.CourtSite;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.LocalProxy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.XhibitCourtSite;
@@ -84,8 +85,8 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
-        ReflectionTestUtils.setField(classUnderTest, "entityManager",
-            mockEntityManager);
+        Mockito.mockStatic(EntityManagerUtil.class);
+        InitializationService.getInstance().setEntityManagerFactory(mockEntityManagerFactory);
     }
 
     /**
@@ -100,9 +101,11 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
      * Test saveDaoFromBasicValue.
      */
     @Test
-    void testSaveDaoFromBasicValue() {
-        // Setup
+    void testsaveDaoFromBasicValue() {
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
         Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+        // Setup
         ILocalProxy localProxy = getDummyLocalProxy();
         XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
         xhbDispMgrCourtSiteDao.setId(Integer.valueOf(2));

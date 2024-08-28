@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.business.entities;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -61,7 +62,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao T
      */
     public void save(T dao) {
-        try (EntityManager localEntityManager = getEntityManager()) {
+        try (EntityManager localEntityManager = createEntityManager()) {
             try {
                 LOG.debug("Save()");
                 localEntityManager.getTransaction().begin();
@@ -84,7 +85,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> update(T dao) {
-        try (EntityManager localEntityManager = getEntityManager()) {
+        try (EntityManager localEntityManager = createEntityManager()) {
             try {
                 LOG.debug("Update()");
                 localEntityManager.getTransaction().begin();
@@ -109,7 +110,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @param dao Optional
      */
     public void delete(Optional<T> dao) {
-        try (EntityManager localEntityManager = getEntityManager()) {
+        try (EntityManager localEntityManager = createEntityManager()) {
             try {
                 LOG.debug("delete()");
                 if (dao.isPresent()) {
@@ -126,6 +127,14 @@ public abstract class AbstractRepository<T extends AbstractDao> {
             }
         }
     }
+    
+    /*
+     * Create local one off EntityManager for save, update, delete
+     */
+    private EntityManager createEntityManager() {
+        return EntityManagerUtil.getEntityManager();
+    }
+
 
     /*
      * Main EntityManager for reads, etc
