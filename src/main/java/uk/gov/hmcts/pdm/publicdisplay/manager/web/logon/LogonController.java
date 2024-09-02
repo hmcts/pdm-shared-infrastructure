@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -125,6 +126,8 @@ public class LogonController {
      *
      * @return the string
      */
+    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
+        havingValue = "false")
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
     public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
         LOGGER.debug("login()");
