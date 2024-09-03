@@ -38,6 +38,8 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -55,6 +57,8 @@ class XhbDispMgrCduRepositoryTest extends AbstractJUnit {
     private static final String EQUAL = "Result is not equal";
     private static final String NOT_NULL = "Result is Null";
     private static final String NULL = "Result is not Null";
+    private static final String IPADDRESS = "192.168.1.";
+
 
     @Mock
     private EntityManager mockEntityManager;
@@ -79,8 +83,8 @@ class XhbDispMgrCduRepositoryTest extends AbstractJUnit {
      */
     @Test
     void testGetNextIpHost() {
-        final Number[] expectedResults = {Long.valueOf(101), Double.valueOf(102), null};
-        for (Number expectedResult : expectedResults) {
+        final Integer[] expectedResults = {Integer.valueOf(101), Integer.valueOf(102), null};
+        for (Integer expectedResult : expectedResults) {
             // Run
             Number result = testGetNextIpHost(expectedResult);
             // Check
@@ -88,22 +92,41 @@ class XhbDispMgrCduRepositoryTest extends AbstractJUnit {
                 assertNotNull(result, NOT_NULL);
                 assertEquals(result.getClass(), Integer.class, EQUAL);
             } else {
-                assertNull(result, NULL); 
+                assertNull(result, NULL);
             }
         }
     }
 
-    private Number testGetNextIpHost(Number expectedResult) {
+    private Number testGetNextIpHost(Integer expectedResult) {
         final Integer courtSiteId = 1;
         final Integer minHost = 100;
         final Integer maxHost = 199;
-        final List<Number> expectedResults = new ArrayList<>();
-        expectedResults.add(expectedResult);
+        final List<String> expectedResults = new ArrayList<>();
+        expectedResults.add(IPADDRESS + "10");
+        if (expectedResult != null) {
+            expectedResults.add(IPADDRESS + expectedResult);
+        }
+        expectedResults.add(IPADDRESS + "200");
         // Expects
         Mockito.when(mockEntityManager.createNamedQuery("XHB_DISP_MGR_CDU.getNextIpHost"))
             .thenReturn(mockQuery);
         Mockito.when(mockQuery.getResultList()).thenReturn(expectedResults);
         // Run
         return classUnderTest.getNextIpHost(courtSiteId, minHost, maxHost);
+    }
+
+    @Test
+    void testGetIpSuffix() {
+        final Map<String, Integer> map = new ConcurrentHashMap<>();
+        map.put(IPADDRESS + "100", 100);
+        map.put(IPADDRESS + "20", 20);
+        map.put(IPADDRESS + "3", 3);
+        map.put("Invalid", -1);
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            // Run
+            Integer result = classUnderTest.getIpSuffix(entry.getKey());
+            // Check
+            assertEquals(result, entry.getValue() == -1 ? null : entry.getValue(), EQUAL);
+        }
     }
 }
