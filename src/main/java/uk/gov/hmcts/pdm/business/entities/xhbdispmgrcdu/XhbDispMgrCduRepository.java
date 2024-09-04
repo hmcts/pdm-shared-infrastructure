@@ -7,9 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ICduModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-
+@SuppressWarnings("PMD.TooManyMethods")
 public class XhbDispMgrCduRepository extends CduFinder {
 
     private static final Logger LOG = LoggerFactory.getLogger(XhbDispMgrCduRepository.class);
@@ -64,22 +66,35 @@ public class XhbDispMgrCduRepository extends CduFinder {
      * @param maxHost Integer
      * @return Integer
      */
+    @SuppressWarnings("unchecked")
     public Integer getNextIpHost(final Integer courtSiteId, final Integer minHost,
         final Integer maxHost) {
         final String methodName = "getNextIpHost";
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
+        // Get all the ipadresses for the courtSiteId
         Query query = getEntityManager().createNamedQuery("XHB_DISP_MGR_CDU.getNextIpHost");
         query.setParameter("courtSiteId", courtSiteId);
-        query.setParameter("minHost", minHost.toString());
-        query.setParameter("maxHost", maxHost.toString());
 
-        LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
-        Object result = query.getResultList().isEmpty() ? null : query.getResultList().get(0);
-        if (result != null) {
-            return result instanceof Long ? ((Long) result).intValue()
-                : ((Double) result).intValue();
+        // Get all the ipSuffixes
+        List<Integer> ipSuffixes = new ArrayList<>();
+        for (String ipAddress : (List<String>) query.getResultList()) {
+            Integer ipSuffix = Math.max(0, getIpSuffix(ipAddress));
+            if (ipSuffix > 0 && ipSuffix + 1 > minHost && ipSuffix + 1 < maxHost) {
+                ipSuffixes.add(ipSuffix);
+            }
         }
+
+        // Sort the highest first
+        Collections.sort(ipSuffixes, Collections.reverseOrder());
+
+        // Loop through making sure the next sequence doesn't already exist
+        for (Integer ipSuffix : ipSuffixes) {
+            if (!ipSuffixes.contains(ipSuffix + 1)) {
+                return ipSuffix + 1;
+            }
+        }
+
         return null;
 
     }
@@ -214,5 +229,11 @@ public class XhbDispMgrCduRepository extends CduFinder {
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return dao;
+    }
+
+    protected Integer getIpSuffix(final String ipAddress) {
+        int position = Math.max(0, ipAddress.lastIndexOf('.') + 1);
+        return position > 0 ? Integer.valueOf(ipAddress.substring(position, ipAddress.length()))
+            : null;
     }
 }

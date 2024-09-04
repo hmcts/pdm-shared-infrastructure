@@ -30,17 +30,7 @@ import java.time.LocalDateTime;
 @NamedQuery(name = "XHB_DISP_MGR_CDU.getCduWeightingOperational",
     query = "SELECT SUM(weighting) FROM XHB_DISP_MGR_CDU o WHERE o.offlineInd = 'N' AND o.ragStatus = 'G'")
 @NamedQuery(name = "XHB_DISP_MGR_CDU.getNextIpHost",
-    query = "SELECT TO_NUMBER(SUBSTRING(cdu.ipAddress,(LENGTH(cdu.ipAddress) - "
-        + "(STRPOS(REVERSE(cdu.ipAddress), '.')-1))+1),'999')+1 "
-        + "FROM XHB_DISP_MGR_CDU cdu WHERE cdu.courtSiteId = :courtSiteId " + "AND NOT EXISTS "
-        + "(SELECT 1 FROM XHB_DISP_MGR_CDU nxt_cdu WHERE nxt_cdu.courtSiteId = cdu.courtSiteId AND "
-        + "TO_NUMBER(SUBSTRING(nxt_cdu.ipAddress,(LENGTH(nxt_cdu.ipAddress) - "
-        + "(STRPOS(REVERSE(nxt_cdu.ipAddress), '.')-1))+1),'999') = "
-        + "TO_NUMBER(SUBSTRING(cdu.ipAddress,(LENGTH(cdu.ipAddress) - "
-        + "(STRPOS(REVERSE(cdu.ipAddress), '.')-1))+1),'999')+1) AND "
-        + "TO_NUMBER(SUBSTRING(cdu.ipAddress,(LENGTH(cdu.ipAddress) - "
-        + "(STRPOS(REVERSE(cdu.ipAddress), '.')-1))+1),'999')+1 "
-        + "BETWEEN :minHost AND :maxHost ORDER BY 1")
+    query = "SELECT ipAddress FROM XHB_DISP_MGR_CDU WHERE courtSiteId = :courtSiteId ORDER BY 1")
 @NamedQuery(name = "XHB_DISP_MGR_CDU.hostExists",
     query = "SELECT 'Y' FROM XHB_DISP_MGR_CDU cdu WHERE cdu.courtSiteId = :courtSiteId")
 @SuppressWarnings("PMD.TooManyFields")
