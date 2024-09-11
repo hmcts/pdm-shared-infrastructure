@@ -83,7 +83,7 @@ class XhbDispMgrCduRepositoryTest extends AbstractJUnit {
      */
     @Test
     void testGetNextIpHost() {
-        final Integer[] expectedResults = {Integer.valueOf(101), Integer.valueOf(102), null};
+        final Integer[] expectedResults = {101, 102, null};
         for (Integer expectedResult : expectedResults) {
             // Run
             Number result = testGetNextIpHost(expectedResult);

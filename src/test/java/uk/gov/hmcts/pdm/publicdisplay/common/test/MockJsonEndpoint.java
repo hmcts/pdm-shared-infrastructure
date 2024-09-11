@@ -40,6 +40,7 @@ import org.apache.http.protocol.HttpRequestHandler;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -64,7 +65,7 @@ public class MockJsonEndpoint implements HttpRequestHandler {
     }
 
     /** The request headers. */
-    private final ConcurrentHashMap<String, String> requestHeaders = new ConcurrentHashMap<>();
+    private final Map<String, String> requestHeaders = new ConcurrentHashMap<>();
 
     /** The request body. */
     private String requestBody = "";
