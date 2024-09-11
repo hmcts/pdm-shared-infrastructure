@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 public abstract class AbstractRepository<T extends AbstractDao> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRepository.class);
@@ -32,7 +33,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
     public Optional<T> findById(Integer id) {
         LOG.debug("findById({})", id);
         T dao = getEntityManager().find(getDaoClass(), id);
-        return dao != null ? (Optional<T>) Optional.of(dao) : Optional.empty();
+        return dao != null ? Optional.of(dao) : Optional.empty();
     }
 
 
