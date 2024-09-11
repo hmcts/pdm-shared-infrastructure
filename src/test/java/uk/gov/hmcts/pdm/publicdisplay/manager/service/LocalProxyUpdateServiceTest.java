@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  * The Class LocalProxyUpdateServiceTest.
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class LocalProxyUpdateServiceTest extends LocalProxyRegistrationServiceTest {
 
     /**

@@ -60,6 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author harrism
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class UserControllerTestBase extends AbstractJUnit {
 
     protected static final String NOT_EQUAL = "Not equal";

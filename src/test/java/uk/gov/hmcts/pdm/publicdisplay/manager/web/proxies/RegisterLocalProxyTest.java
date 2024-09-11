@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author harrism
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class RegisterLocalProxyTest extends UnregisterLocalProxyTest {
 
     /**

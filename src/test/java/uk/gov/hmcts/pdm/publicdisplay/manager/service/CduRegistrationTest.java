@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The Class CduRegistrationTest.
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class CduRegistrationTest extends CduServiceTestBase {
 
     /**

@@ -53,6 +53,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  *
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class PollingSessionTimeoutFilterTest extends AbstractJUnit {
 
     /** The base url for the test. */

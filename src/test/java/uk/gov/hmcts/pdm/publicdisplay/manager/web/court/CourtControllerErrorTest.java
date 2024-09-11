@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class CourtControllerErrorTest extends CourtControllerTest {
     @Test
     void showCreateCourtWithErrorsTest() throws Exception {
