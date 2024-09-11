@@ -41,6 +41,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IRagStatusService;
  *
  */
 @DisallowConcurrentExecution
+@SuppressWarnings("PMD.LawOfDemeter")
 public class RagStatusJob implements Job {
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(RagStatusJob.class);

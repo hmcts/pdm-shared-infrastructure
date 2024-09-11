@@ -53,6 +53,7 @@ import java.util.List;
  */
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.LawOfDemeter")
 public class UserDetailsService extends UserDetailsServiceRepository
     implements IUserDetailsService {
     /**

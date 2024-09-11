@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ISoftwareUpdateService;
 
+@SuppressWarnings("PMD.DoNotUseThreads")
 public class SoftwareUpdateTask implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(SoftwareUpdateTask.class);
 

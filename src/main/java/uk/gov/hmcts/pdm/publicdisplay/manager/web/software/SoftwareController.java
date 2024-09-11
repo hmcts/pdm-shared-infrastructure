@@ -50,6 +50,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/software")
+@SuppressWarnings("PMD.LooseCoupling")
 public class SoftwareController {
 
     /** The Constant LOGGER. */

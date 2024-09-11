@@ -29,6 +29,7 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.judge;
  * @author toftn
  *
  */
+@SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
 public class JudgeDeleteCommand extends JudgeAmendCommand {
     
     /**
