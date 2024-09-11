@@ -52,6 +52,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IRagStatusService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -320,7 +321,7 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
                 dummyCdu.setGeneratedBy("XHIBIT");
                 dummyCdu.setMacAddress("00:00:00:00:00:01");
                 dummyCdu.setRagStatus(GREENCHAR);
-                ArrayList<CduStatusJson> dummyCdus = new ArrayList<>();
+                List<CduStatusJson> dummyCdus = new ArrayList<>();
                 dummyCdus.add(dummyCdu);
                 courtSiteStatus.setCdus(dummyCdus);
                 courtSiteStatus.setGeneratedBy("XHIBIT");
