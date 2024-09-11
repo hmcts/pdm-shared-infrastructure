@@ -26,7 +26,7 @@ import java.util.Properties;
 @Configuration
 public class QuartzConfig {
     private static final Logger LOG = LoggerFactory.getLogger(QuartzConfig.class);
-    /** Quartz Scheduler settings, taken from applicationContext-task.xml **/
+    /** Quartz Scheduler settings, taken from applicationContext-task.xml. **/
     private static final Integer CORE_POOL_SIZE = 10;
     private static final Integer AWAIT_TERMINATION_SECONDS = 30;
     private static final String QUARTZ_JOBSTORE_CLASS = "org.quartz.impl.jdbcjobstore.JobStoreTX";

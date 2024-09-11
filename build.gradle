@@ -122,7 +122,7 @@ dependencyCheck {
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.17.0'
+  toolVersion = '10.18.1'
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
@@ -217,15 +217,15 @@ dependencies {
     implementation 'com.mchange:c3p0:0.10.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2'
     implementation 'org.htmlunit:neko-htmlunit:4.4.0'
-    implementation 'ch.qos.logback:logback-core:1.5.7'
-    implementation 'ch.qos.logback:logback-classic:1.5.7'
+    implementation 'ch.qos.logback:logback-core:1.5.8'
+    implementation 'ch.qos.logback:logback-classic:1.5.8'
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.springframework.boot:spring-boot-starter-security:3.3.3'
     implementation 'org.springframework.ldap:spring-ldap-core:3.2.6'
     implementation 'org.springframework.security:spring-security-ldap:6.3.3'
     implementation 'com.unboundid:unboundid-ldapsdk:7.0.1'
     implementation 'org.owasp.antisamy:antisamy:1.7.6'
-    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.15.0'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.16.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.3.3'
     testImplementation 'org.easymock:easymock:5.4.0'
