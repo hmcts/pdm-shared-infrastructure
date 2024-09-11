@@ -82,11 +82,11 @@ public class JsonRequest {
     /** The object mapper util. */
     private final IObjectMapperUtil objectMapperUtil;
 
-    private final JsonWebTokenUtility jswtuInstance = JsonWebTokenUtility.INSTANCE;
+    private static final JsonWebTokenUtility JSWTUINSTANCE = JsonWebTokenUtility.INSTANCE;
 
-    private final String bearerHeader = jswtuInstance.REQUEST_HEADER_BEARER;
+    private static final String bearerHeader = JSWTUINSTANCE.REQUEST_HEADER_BEARER;
 
-    private final TimeUnit seconds = TimeUnit.SECONDS;
+    private static final TimeUnit SECONDS = TimeUnit.SECONDS;
 
     /** The timeout in seconds for socket, connect & request. */
     private Integer timeout = DEFAULT_TIMEOUT;
@@ -318,13 +318,13 @@ public class JsonRequest {
         messageId = UUID.randomUUID().toString();
 
         // Create request configuration with each timeout set in milliseconds
-        final int timeoutMillis = (int) seconds.toMillis(timeout);
+        final int timeoutMillis = (int) SECONDS.toMillis(timeout);
         final RequestConfig config = RequestConfig.custom().setSocketTimeout(timeoutMillis)
             .setConnectTimeout(timeoutMillis).setConnectionRequestTimeout(timeoutMillis).build();
 
         // Create json web token with the expiration set to current date plus expiry
         final String token =
-            bearerHeader + " " + jswtuInstance.generateToken(tokenType, messageId, expiry);
+            bearerHeader + " " + JSWTUINSTANCE.generateToken(tokenType, messageId, expiry);
         request.addHeader(JsonWebTokenUtility.REQUEST_HEADER_AUTHORIZATION, token);
 
         // Create http client using the above request configuration

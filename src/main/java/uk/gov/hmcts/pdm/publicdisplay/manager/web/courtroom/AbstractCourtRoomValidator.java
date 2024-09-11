@@ -18,7 +18,7 @@ public abstract class AbstractCourtRoomValidator implements Validator {
     /** The courtroom page state holder. */
     @Autowired
     private CourtRoomPageStateHolder courtRoomPageStateHolder;
-    private final Character yesChar = AppConstants.YES_CHAR;
+    private static final Character YESCHAR = AppConstants.YES_CHAR;
 
     /**
      * Gets the courtroom page state holder.
@@ -61,7 +61,7 @@ public abstract class AbstractCourtRoomValidator implements Validator {
      */
     protected boolean isRegisteredCourtSite(final XhibitCourtSiteDto selectedCourtSite) {
         return selectedCourtSite != null
-            && yesChar.equals(selectedCourtSite.getRegisteredIndicator());
+            && YESCHAR.equals(selectedCourtSite.getRegisteredIndicator());
     }
 
     /**

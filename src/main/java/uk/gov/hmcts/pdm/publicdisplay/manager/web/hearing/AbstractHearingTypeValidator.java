@@ -42,7 +42,7 @@ public abstract class AbstractHearingTypeValidator implements Validator {
     /** The hearing page state holder. */
     @Autowired
     private HearingTypePageStateHolder hearingTypePageStateHolder;
-    private final Character yesChar = AppConstants.YES_CHAR;
+    private static final Character YESCHAR = AppConstants.YES_CHAR;
 
     /**
      * Gets the hearing type page state holder.
@@ -85,7 +85,7 @@ public abstract class AbstractHearingTypeValidator implements Validator {
      */
     protected boolean isRegisteredCourtSite(final XhibitCourtSiteDto selectedCourtSite) {
         return selectedCourtSite != null
-            && yesChar.equals(selectedCourtSite.getRegisteredIndicator());
+            && YESCHAR.equals(selectedCourtSite.getRegisteredIndicator());
     }
 
     /**
