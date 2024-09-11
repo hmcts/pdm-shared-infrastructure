@@ -138,7 +138,7 @@ public class CduServHelperCrud extends CduServHelperRepos {
          */
 
         @SuppressWarnings("unchecked")
-        Map<String, CduJson> cdusFromLocalProxyMap = new ConcurrentHashMap();
+        Map<String, CduJson> cdusFromLocalProxyMap = new ConcurrentHashMap<>();
         for (CduJson localProxyJsonCdu : localProxyCduList) {
             if (cdusMap.containsKey(localProxyJsonCdu.getMacAddress())) {
                 handleLocalProxyCduExistingInCentral(cdusMap, localProxyJsonCdu, methodName);

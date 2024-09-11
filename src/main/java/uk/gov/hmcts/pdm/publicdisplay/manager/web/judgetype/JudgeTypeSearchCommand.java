@@ -41,6 +41,9 @@ public class JudgeTypeSearchCommand implements Serializable {
      * SerialVersionUID of the JudgeTypeSearchCommand class.
      */
     private static final long serialVersionUID = 4190665048067513874L;
+    private static final String XHIBITCOURTSITEID = "XhibitCourtSiteId :";
+    private static final String NOVALUEPRESENT = "no value at present";
+    
     /**
      * The ID of the CourtSite.
      */
@@ -76,8 +79,8 @@ public class JudgeTypeSearchCommand implements Serializable {
         final StringBuilder sb = new StringBuilder(30);
 
         // Use spring StringUtils to check strings have values
-        sb.append("XhibitCourtSiteId :")
-            .append((this.getXhibitCourtSiteId() == null) ? "no value at present"
+        sb.append(XHIBITCOURTSITEID)
+            .append((this.getXhibitCourtSiteId() == null) ? NOVALUEPRESENT
                 : this.getXhibitCourtSiteId());
         return sb.toString();
     }

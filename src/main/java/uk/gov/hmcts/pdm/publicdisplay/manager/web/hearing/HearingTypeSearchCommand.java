@@ -41,6 +41,8 @@ public class HearingTypeSearchCommand implements Serializable {
      * SerialVersionUID of the HearingSearchCommand class.
      */
     private static final long serialVersionUID = 1629864058308547224L;
+    private static final String XHIBITCOURTSITEID = "XhibitCourtSiteId :";
+    private static final String NOVALUEPRESENT = "no value at present";
     
     /**
      * The ID of the CourtSite.
@@ -77,8 +79,8 @@ public class HearingTypeSearchCommand implements Serializable {
         final StringBuilder sb = new StringBuilder(30);
 
         // Use spring StringUtils to check strings have values
-        sb.append("XhibitCourtSiteId :")
-            .append((this.getXhibitCourtSiteId() == null) ? "no value at present"
+        sb.append(XHIBITCOURTSITEID)
+            .append((this.getXhibitCourtSiteId() == null) ? NOVALUEPRESENT
                 : this.getXhibitCourtSiteId());
         return sb.toString();
     }

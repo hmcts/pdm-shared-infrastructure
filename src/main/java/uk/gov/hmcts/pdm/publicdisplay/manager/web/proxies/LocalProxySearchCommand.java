@@ -41,6 +41,9 @@ public class LocalProxySearchCommand implements Serializable {
      * SerialVersionUID of the LocalProxySearchCommand class.
      */
     private static final long serialVersionUID = 7519083759201767559L;
+    private static final String XHIBITCOURTSITEID = "XhibitCourtSiteId :";
+    private static final String NOVALUEPRESENT = "no value at present";
+    
     /**
      * The ID of the CourtSite.
      */
@@ -76,8 +79,8 @@ public class LocalProxySearchCommand implements Serializable {
         final StringBuilder sb = new StringBuilder(30);
 
         // Use spring StringUtils to check strings have values
-        sb.append("XhibitCourtSiteId :")
-            .append((this.getXhibitCourtSiteId() == null) ? "no value at present"
+        sb.append(XHIBITCOURTSITEID)
+            .append((this.getXhibitCourtSiteId() == null) ? NOVALUEPRESENT
                 : this.getXhibitCourtSiteId());
         return sb.toString();
     }

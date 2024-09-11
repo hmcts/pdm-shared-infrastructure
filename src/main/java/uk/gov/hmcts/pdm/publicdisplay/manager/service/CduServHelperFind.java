@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-
+@SuppressWarnings("PMD.LawOfDemeter")
 public class CduServHelperFind extends CduServHelperCrud {
 
     /**
@@ -102,7 +102,7 @@ public class CduServHelperFind extends CduServHelperCrud {
         // display on the jsp
 
         @SuppressWarnings("unchecked")
-        Map<String, CduDto> cdusMap = new ConcurrentHashMap();
+        Map<String, CduDto> cdusMap = new ConcurrentHashMap<>();
 
         // start by adding registered cdus from the central database. Assume correct and update
         // later if

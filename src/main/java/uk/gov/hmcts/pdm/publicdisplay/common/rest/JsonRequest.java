@@ -229,6 +229,10 @@ public class JsonRequest {
     public String getStatus() {
         return status;
     }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     /**
      * Send get request and return no response.
@@ -313,10 +317,10 @@ public class JsonRequest {
         LOGGER.info("Sending request {}", request.getRequestLine());
 
         // Initial status is failure until proven otherwise with no response
-        status = STATUS_FAILED;
+        setStatus(STATUS_FAILED);
 
         // Create unique id for message
-        messageId = UUID.randomUUID().toString();
+        this.messageId = UUID.randomUUID().toString();
 
         // Create request configuration with each timeout set in milliseconds
         final int timeoutMillis = (int) SECONDS.toMillis(timeout);
@@ -333,10 +337,10 @@ public class JsonRequest {
             HttpClients.custom().setDefaultRequestConfig(config).build();) {
             // Send http request and process response via handler
             final T response =
-                httpClient.execute(request, new JsonResponseHandler<T>(responseType));
+                httpClient.execute(request, new JsonResponseHandler<>(responseType));
 
             // Request was successful if reached here as no exception thrown
-            status = STATUS_SUCCESS;
+            setStatus(STATUS_SUCCESS);
 
             // Return response in required type
             return response;
