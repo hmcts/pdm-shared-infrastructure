@@ -37,7 +37,7 @@ import java.util.Locale;
  */
 public class EncryptedLongFormatter implements Formatter<Long> {
 
-    private final EncryptDecryptUtility encryptDecryptUtilityinstance =
+    private static final EncryptDecryptUtility INSTANCE =
         EncryptDecryptUtility.INSTANCE;
 
     /*
@@ -47,7 +47,7 @@ public class EncryptedLongFormatter implements Formatter<Long> {
      */
     @Override
     public String print(final Long object, final Locale locale) {
-        return encryptDecryptUtilityinstance.encryptData(object.toString());
+        return INSTANCE.encryptData(object.toString());
     }
 
     /*
@@ -57,7 +57,7 @@ public class EncryptedLongFormatter implements Formatter<Long> {
      */
     @Override
     public Long parse(final String text, final Locale locale) throws ParseException {
-        return Long.parseLong(encryptDecryptUtilityinstance.decryptData(text));
+        return Long.parseLong(INSTANCE.decryptData(text));
     }
 
 }

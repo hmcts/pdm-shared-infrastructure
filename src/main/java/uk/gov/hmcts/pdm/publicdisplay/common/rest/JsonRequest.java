@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author boparaij
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public class JsonRequest {
 
     /** The status value for success. */
@@ -84,7 +85,7 @@ public class JsonRequest {
 
     private static final JsonWebTokenUtility JSWTUINSTANCE = JsonWebTokenUtility.INSTANCE;
 
-    private static final String bearerHeader = JSWTUINSTANCE.REQUEST_HEADER_BEARER;
+    private static final String BEARERHEADER = JSWTUINSTANCE.REQUEST_HEADER_BEARER;
 
     private static final TimeUnit SECONDS = TimeUnit.SECONDS;
 
@@ -324,7 +325,7 @@ public class JsonRequest {
 
         // Create json web token with the expiration set to current date plus expiry
         final String token =
-            bearerHeader + " " + JSWTUINSTANCE.generateToken(tokenType, messageId, expiry);
+            BEARERHEADER + " " + JSWTUINSTANCE.generateToken(tokenType, messageId, expiry);
         request.addHeader(JsonWebTokenUtility.REQUEST_HEADER_AUTHORIZATION, token);
 
         // Create http client using the above request configuration

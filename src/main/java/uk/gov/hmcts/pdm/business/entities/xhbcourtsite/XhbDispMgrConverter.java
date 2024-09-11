@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public abstract class XhbDispMgrConverter extends AbstractRepository<XhbCourtSiteDao> {
 
     private XhbDispMgrLocalProxyRepository xhbDispMgrLocalProxyRepository;
@@ -46,11 +46,11 @@ public abstract class XhbDispMgrConverter extends AbstractRepository<XhbCourtSit
 
 
     protected Set<ICduModel> createICduSet() {
-        return new HashSet<ICduModel>();
+        return new HashSet<>();
     }
 
     protected List<IUrlModel> createIUrlList() {
-        return new ArrayList<IUrlModel>();
+        return new ArrayList<>();
     }
 
     protected void convertXhbDispMgrUrls(XhbCourtSiteDao dao, Set<IUrlModel> urls) {
