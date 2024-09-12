@@ -315,8 +315,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
 
         if (courtSite == null) {
             // Not found so we need to add one
-            LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site not found for id "
-                + localProxyRegisterCommand.getXhibitCourtSiteId() + "  - creating new court site");
+            LOGGER.debug(THREE_PARAMS, METHOD, methodName, "creating new court site");
             courtSite = new CourtSite();
 
             // Need to link it back to Xhibit Court Site

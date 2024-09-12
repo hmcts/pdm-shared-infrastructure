@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
-import uk.gov.hmcts.pdm.publicdisplay.manager.service.OAuth2Helper;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
@@ -59,8 +58,6 @@ public class ApplicationConfiguration {
 
     /** The property service. */
     private IPropertyService propertyService;
-    
-    private OAuth2Helper oauth2Helper;
 
     @PostConstruct
     public void init() {

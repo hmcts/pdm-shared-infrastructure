@@ -31,7 +31,7 @@ public abstract class AbstractRepository<T extends AbstractDao> {
      * @return dao
      */
     public Optional<T> findById(Integer id) {
-        LOG.debug("findById({})", id);
+        LOG.debug("findById()");
         T dao = getEntityManager().find(getDaoClass(), id);
         return dao != null ? Optional.of(dao) : Optional.empty();
     }

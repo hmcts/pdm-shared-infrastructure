@@ -130,7 +130,7 @@ public class LogonController {
     @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
         havingValue = "false")
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
-    public String login(HttpSession session, HttpServletRequest req, Map model) {
+    public String login(HttpSession session, HttpServletRequest req, Map<String, Object> model) {
         LOGGER.debug("login()");
         return VIEW_LOGIN;
     }
