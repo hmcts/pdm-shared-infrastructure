@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class CourtSearchCommand implements Serializable {
 
     private static final long serialVersionUID = 5441702968664948169L;
-    private static final String COURTID = "CourtId :";
+    private static final String COURT_ID = "CourtId :";
     private static final String NOVALUEPRESENT = "no value at present";
 
     /**
@@ -46,7 +46,7 @@ public class CourtSearchCommand implements Serializable {
         final StringBuilder sb = new StringBuilder(30);
 
         // Use spring StringUtils to check strings have values
-        sb.append(COURTID)
+        sb.append(COURT_ID)
             .append((this.getCourtId() == null) ? NOVALUEPRESENT
                 : this.getCourtId());
         return sb.toString();

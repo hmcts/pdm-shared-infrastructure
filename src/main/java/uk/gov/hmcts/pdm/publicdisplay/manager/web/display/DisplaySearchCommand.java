@@ -41,7 +41,7 @@ public class DisplaySearchCommand implements Serializable {
      * SerialVersionUID of the LocalProxySearchCommand class.
      */
     private static final long serialVersionUID = 7519083759201767559L;
-    private static final String XHIBITCOURTSITEID = "XhibitCourtSiteId :";
+    private static final String XHIBIT_COURTSITE_ID = "XhibitCourtSiteId :";
     private static final String NOVALUEPRESENT = "no value at present";
     
     /**
@@ -79,7 +79,7 @@ public class DisplaySearchCommand implements Serializable {
         final StringBuilder sb = new StringBuilder(40);
 
         // Use spring StringUtils to check strings have values
-        sb.append(XHIBITCOURTSITEID)
+        sb.append(XHIBIT_COURTSITE_ID)
             .append((this.getXhibitCourtSiteId() == null) ? NOVALUEPRESENT
                 : this.getXhibitCourtSiteId());
         return sb.toString();
