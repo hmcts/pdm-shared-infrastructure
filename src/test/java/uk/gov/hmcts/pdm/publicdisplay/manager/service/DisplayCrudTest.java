@@ -38,7 +38,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.CouplingBetweenObjects"})
 abstract class DisplayCrudTest extends AbstractJUnit {
 
     /** The class under test. */

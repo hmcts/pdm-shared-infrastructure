@@ -36,6 +36,9 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractHttpClientTest;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.MockJsonEndpoint;
 import uk.gov.hmcts.pdm.publicdisplay.common.util.ObjectMapperUtil;
 
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -89,7 +92,7 @@ abstract class JsonRequestErrorTest extends AbstractHttpClientTest {
      * @throws Exception the exception
      */
     @BeforeEach
-    public void setup() throws Exception {
+    public void setup() {
         // Get the port for the test
         int port = getPort();
         String baseUrl = "http://" + IP_ADDRESS + ":" + port;
@@ -101,7 +104,11 @@ abstract class JsonRequestErrorTest extends AbstractHttpClientTest {
         // Start test http server which will receive test
         // requests and return back the test responses
         mockJsonEndpoint = new MockJsonEndpoint();
-        startServer(port, ENDPOINT_URL, mockJsonEndpoint);
+        try {
+            startServer(port, ENDPOINT_URL, mockJsonEndpoint);
+        } catch (IOException ex) {
+            fail(ex.getMessage());
+        }
     }
 
     /**
@@ -110,8 +117,12 @@ abstract class JsonRequestErrorTest extends AbstractHttpClientTest {
      * @throws Exception the exception
      */
     @AfterEach
-    public void teardown() throws Exception {
-        stopServer();
+    public void teardown() {
+        try {
+            stopServer();
+        } catch (InterruptedException | IOException ex) {
+            fail(ex.getMessage());
+        }
     }
 
     /**

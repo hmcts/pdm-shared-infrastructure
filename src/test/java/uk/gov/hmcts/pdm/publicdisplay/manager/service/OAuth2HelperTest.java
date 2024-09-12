@@ -51,7 +51,7 @@ class OAuth2HelperTest {
     private OAuth2Helper classUnderTest;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         classUnderTest = new OAuth2Helper(mockEnvironment);
 
         ReflectionTestUtils.setField(classUnderTest, "tenantId", DUMMY_TENANTID);
@@ -60,7 +60,7 @@ class OAuth2HelperTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    public void tearDown() {
         // Clear down statics
         Mockito.clearAllCaches();
     }

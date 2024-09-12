@@ -18,7 +18,7 @@ class LogonControllerFunctionalTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerFunctionalTest.class);
     private static final String HEALTHPAGE = "/home";
-
+    private static final String INVALID_STATUS_RESPONSE = "Invalid status response";
     
     @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
@@ -40,7 +40,7 @@ class LogonControllerFunctionalTest {
             .extract().response();
         
         LOG.info("Functionaltest.status={}",response.statusCode());
-        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(200, response.statusCode(), INVALID_STATUS_RESPONSE);
     } 
     
     private String getTestUrl() {

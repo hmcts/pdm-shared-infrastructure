@@ -18,6 +18,7 @@ class LogonControllerSmokeTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerSmokeTest.class);
     private static final String HOMEPAGE = "/home";
+    private static final String INVALID_STATUS_RESPONSE = "Invalid status response";
     
     @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
@@ -39,7 +40,7 @@ class LogonControllerSmokeTest {
             .extract().response();
         
         LOG.info("Smoketest.status={}",response.statusCode());
-        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(200, response.statusCode(), INVALID_STATUS_RESPONSE);
     } 
     
     private String getTestUrl() {
