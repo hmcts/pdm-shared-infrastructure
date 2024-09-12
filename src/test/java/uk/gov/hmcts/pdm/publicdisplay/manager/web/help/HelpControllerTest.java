@@ -44,6 +44,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author boparaij
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class HelpControllerTest extends AbstractJUnit {
 
     private static final String NOT_EQUAL = "Not equal";

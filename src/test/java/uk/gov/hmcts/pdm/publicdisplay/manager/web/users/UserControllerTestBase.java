@@ -32,7 +32,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
@@ -44,6 +43,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUserDetailsService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.createMock;
@@ -163,7 +163,7 @@ abstract class UserControllerTestBase extends AbstractJUnit {
      *
      * @param modelMap the model map
      */
-    protected void assertManageUsersModel(final ModelMap modelMap) {
+    protected void assertManageUsersModel(final Map modelMap) {
         assertTrue(modelMap.get("command") instanceof UserAddCommand, FALSE);
         assertTrue(modelMap.get("userRemoveCommand") instanceof UserRemoveCommand, FALSE);
         assertTrue(Arrays.equals(UserRole.values(), (UserRole[]) modelMap.get("roleList")), FALSE);

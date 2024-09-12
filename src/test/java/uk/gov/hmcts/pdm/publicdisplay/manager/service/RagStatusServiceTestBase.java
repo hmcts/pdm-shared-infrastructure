@@ -131,7 +131,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
 
     /** The court site status json. */
     protected final CourtSiteStatusJson courtSiteStatusJson =
-        getTestCourtSiteStatusJson(new ArrayList<ICduModel>(cdus));
+        getTestCourtSiteStatusJson(new ArrayList<>(cdus));
 
     /**
      * Setup.

@@ -2,7 +2,6 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus;
 
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.ui.ModelMap;
 import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.CduDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.UrlDto;
@@ -10,6 +9,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.easymock.EasyMock.expect;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,7 +65,7 @@ abstract class TestCdus extends CduExpectValidators {
      * @param modelMap the model map
      * @param isCduRequired the is cdu required
      */
-    protected void assertCduSearchModel(final ModelMap modelMap, final boolean isCduRequired) {
+    protected void assertCduSearchModel(final Map modelMap, final boolean isCduRequired) {
         final Object cduCommand = modelMap.get(COMMAND);
         assertTrue(cduCommand instanceof CduSearchCommand, FALSE);
         assertEquals(cdus, modelMap.get("cduList"), NOT_EQUAL);
@@ -80,7 +80,7 @@ abstract class TestCdus extends CduExpectValidators {
      *
      * @param modelMap the model map
      */
-    protected void assertCduRegisterModel(final ModelMap modelMap) {
+    protected void assertCduRegisterModel(final Map modelMap) {
         final CduRegisterCommand cduCommand =
             (CduRegisterCommand) modelMap.get("cduRegisterCommand");
         assertTrue(cduCommand instanceof CduRegisterCommand, FALSE);
@@ -95,7 +95,7 @@ abstract class TestCdus extends CduExpectValidators {
      *
      * @param modelMap the model map
      */
-    protected void assertCduAmendModel(final ModelMap modelMap) {
+    protected void assertCduAmendModel(final Map modelMap) {
         final Object cduCommand = modelMap.get(COMMAND);
         assertTrue(cduCommand instanceof CduAmendCommand, FALSE);
         assertEquals(cdu.getLocation(), ((CduAmendCommand) cduCommand).getLocation(), NOT_EQUAL);

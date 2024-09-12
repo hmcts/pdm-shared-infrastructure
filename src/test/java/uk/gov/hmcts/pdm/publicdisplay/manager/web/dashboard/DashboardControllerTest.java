@@ -31,7 +31,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DashboardCduDto;
@@ -43,6 +42,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus.CduSearchCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -60,6 +60,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author boparaij
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class DashboardControllerTest extends AbstractJUnit {
     /** The Constant XHIBIT_COURT_SITE_ID. */
     protected static final Long XHIBIT_COURT_SITE_ID = 1L;
@@ -271,7 +272,7 @@ abstract class DashboardControllerTest extends AbstractJUnit {
      * @param xhibitCourtSiteId the xhibit court site id
      * @param macAddress the mac address
      */
-    protected void assertCduSearchCommand(final FlashMap flashMap, final Long xhibitCourtSiteId,
+    protected void assertCduSearchCommand(final Map flashMap, final Long xhibitCourtSiteId,
         final String macAddress) {
         final Object searchCommand = flashMap.get("cduSearchCommand");
         assertTrue(searchCommand instanceof CduSearchCommand, FALSE);

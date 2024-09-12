@@ -67,7 +67,7 @@ abstract class RefJudgeServiceUtility extends AbstractJUnit {
         xhbRefSystemCodeDao.setRefCodeOrder(3.0);
         xhbRefSystemCodeDao.setRefSystemCodeId(4);
         xhbRefSystemCodeDao.setVersion(5);
-        ArrayList<XhbRefSystemCodeDao> xhbRefSystemCodeDaos = new ArrayList<>();
+        List<XhbRefSystemCodeDao> xhbRefSystemCodeDaos = new ArrayList<>();
         xhbRefSystemCodeDaos.add(xhbRefSystemCodeDao);
         return xhbRefSystemCodeDaos;
     }

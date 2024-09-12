@@ -97,12 +97,12 @@ abstract class PollingSessionTimeoutFilterTest extends AbstractJUnit {
         classUnderTest.setUrls(urls);
 
         // Create mock objects required for web app context setup
-        final ServletContext servletContext = (ServletContext) new MockServletContext();
+        final ServletContext servletContext = new MockServletContext();
         mockSession = new MockHttpSession();
         mockSession.setMaxInactiveInterval(1800);
 
         // Create a web application context from mock servlet context
-        webContext = new GenericWebApplicationContext((ServletContext) servletContext);
+        webContext = new GenericWebApplicationContext(servletContext);
         webContext.refresh();
 
         // Setup the mock version of the modelMvc with the filter
@@ -173,7 +173,7 @@ abstract class PollingSessionTimeoutFilterTest extends AbstractJUnit {
         DateTime dateTime = null;
 
         // Retrieve date time millis from session
-        final HttpSession session = (HttpSession) results.getRequest().getSession();
+        final HttpSession session = results.getRequest().getSession();
         final Long lastAccessMillis = (Long) session.getAttribute(POLLING_LAST_ACCESSED_TIME);
 
         // If date time millis is in session, create date time object

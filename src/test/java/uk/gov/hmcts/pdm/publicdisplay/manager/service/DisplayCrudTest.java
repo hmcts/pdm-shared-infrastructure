@@ -281,7 +281,7 @@ abstract class DisplayCrudTest extends AbstractJUnit {
     }
 
     protected List<DisplayTypeDto> createDisplayTypeDtoList() {
-        ArrayList<DisplayTypeDto> displayTypeDtos = new ArrayList<>();
+        List<DisplayTypeDto> displayTypeDtos = new ArrayList<>();
         DisplayTypeDto displayTypeDto = new DisplayTypeDto();
         displayTypeDto.setDisplayTypeId(6);
         displayTypeDtos.add(displayTypeDto);
@@ -289,7 +289,7 @@ abstract class DisplayCrudTest extends AbstractJUnit {
     }
 
     protected List<XhibitCourtSiteDto> createCourtSiteDtoList() {
-        ArrayList<XhibitCourtSiteDto> xhibitCourtSiteDtos = new ArrayList<>();
+        List<XhibitCourtSiteDto> xhibitCourtSiteDtos = new ArrayList<>();
         XhibitCourtSiteDto courtsiteDto = new XhibitCourtSiteDto();
         courtsiteDto.setId(8L);
         xhibitCourtSiteDtos.add(courtsiteDto);
@@ -297,7 +297,7 @@ abstract class DisplayCrudTest extends AbstractJUnit {
     }
 
     protected List<RotationSetsDto> createRotationSetsDtoList() {
-        ArrayList<RotationSetsDto> rotationSetsDtos = new ArrayList<>();
+        List<RotationSetsDto> rotationSetsDtos = new ArrayList<>();
         RotationSetsDto rotationSetsDto = new RotationSetsDto();
         rotationSetsDto.setRotationSetId(7);
         rotationSetsDtos.add(rotationSetsDto);

@@ -128,7 +128,7 @@ abstract class CduRegistrationTest extends CduServiceTestBase {
         // Add the mock calls to child classes
         expect(mockCduRepo.findByMacAddress(cduDto.getMacAddress())).andReturn(null);
         expect(mockCduRepo.getNextIpHost(cduDto.getCourtSiteId().intValue(), CDU_IP_HOST_MIN,
-            CDU_IP_HOST_MAX)).andReturn(Integer.valueOf(1));
+            CDU_IP_HOST_MAX)).andReturn(1);
         mockCduRepo.saveDaoFromBasicValue(capture(capturedCdu));
         expectLastCall();
         replay(mockCduRepo);

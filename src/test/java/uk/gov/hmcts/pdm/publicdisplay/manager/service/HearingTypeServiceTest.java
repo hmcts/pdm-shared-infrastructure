@@ -153,7 +153,7 @@ class HearingTypeServiceTest {
     @Test
     void allCategoriesTest() {
 
-        ArrayList<String> categoriesList = new ArrayList<>();
+        List<String> categoriesList = new ArrayList<>();
         categoriesList.add("Category A");
         categoriesList.add("Category B");
 

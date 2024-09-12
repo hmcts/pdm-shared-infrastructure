@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
     protected CourtRoomSelectedValidator mockCourtRoomSelectedValidator;
     protected CourtRoomCreateValidator mockCourtRoomCreateValidator;
@@ -134,7 +135,7 @@ abstract class LoadCourtRoomsControllerTest extends AbstractJUnit {
         courtDto.setCourtName("court_name");
         courtDto.setAddressId(1);
         courtDto.setId(3);
-        ArrayList<CourtDto> courtDtos = new ArrayList<>();
+        List<CourtDto> courtDtos = new ArrayList<>();
         courtDtos.add(courtDto);
         return courtDtos;
     }

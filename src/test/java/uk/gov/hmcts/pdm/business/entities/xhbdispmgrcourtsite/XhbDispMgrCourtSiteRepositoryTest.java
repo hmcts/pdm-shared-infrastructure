@@ -203,7 +203,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         List<XhbDispMgrCourtSiteDao> xhbDispMgrCourtSiteDaoArray = new ArrayList<>();
         xhbDispMgrCourtSiteDaoArray.add(getDummyXhbDispMgrCourtSiteDao());
         XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
-        xhbDispMgrCourtSiteDao.setId(Integer.valueOf(2));
+        xhbDispMgrCourtSiteDao.setId(2);
 
         // Expects
         Mockito
@@ -274,7 +274,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         xhbDispMgrScheduleDao.setDetail("Detail");
         
         XhbDispMgrCourtSiteDao result = new XhbDispMgrCourtSiteDao();
-        result.setId(Integer.valueOf(1));
+        result.setId(1);
         result.setTitle("Title");
         result.setNotification("Notification");
         result.setPageUrl("PageUrl");

@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
 
     @Test
@@ -174,7 +175,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
                 model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertEquals(courtDtos.get(0), model.get(COURT), NOT_EQUAL);
-        assertEquals(new ArrayList<CourtRoomDto>(), model.get("courtRoomList"), NOT_EQUAL);
+        assertEquals(new ArrayList<>(), model.get("courtRoomList"), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);
         assertEquals(xhibitCourtSiteDtos.get(0).getCourtId(),
                 capturedCourtSites.getValue().get(0).getCourtId(), NOT_EQUAL);
@@ -218,7 +219,7 @@ class CourtRoomControllerTest extends CourtRoomControllerErrorsTest {
                 model.get(COMMAND), NOT_AN_INSTANCE);
         assertEquals(xhibitCourtSiteDtos, model.get(COURTSITE_LIST), NOT_EQUAL);
         assertEquals(courtDtos.get(0), model.get(COURT), NOT_EQUAL);
-        assertEquals(new ArrayList<CourtRoomDto>(), model.get("courtRoomList"), NOT_EQUAL);
+        assertEquals(new ArrayList<>(), model.get("courtRoomList"), NOT_EQUAL);
         assertNotNull(results.getModelAndView().getViewName(), NULL);
         assertEquals(viewNameDeleteCourtRoom, results.getModelAndView().getViewName(), NOT_EQUAL);
         assertFalse(capturedErrors.getValue().hasErrors(), NOT_FALSE);

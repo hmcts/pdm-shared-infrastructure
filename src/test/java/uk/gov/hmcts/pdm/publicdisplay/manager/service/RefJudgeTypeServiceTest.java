@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class RefJudgeTypeServiceTest {
 
     /**
@@ -233,7 +234,7 @@ class RefJudgeTypeServiceTest {
         xhbRefSystemCodeDao.setRefCodeOrder(3.0);
         xhbRefSystemCodeDao.setRefSystemCodeId(4);
         xhbRefSystemCodeDao.setVersion(5);
-        ArrayList<XhbRefSystemCodeDao> xhbRefSystemCodeDaos = new ArrayList<>();
+        List<XhbRefSystemCodeDao> xhbRefSystemCodeDaos = new ArrayList<>();
         xhbRefSystemCodeDaos.add(xhbRefSystemCodeDao);
         return xhbRefSystemCodeDaos;
     }
