@@ -25,6 +25,7 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.display;
 
 import jakarta.validation.constraints.NotNull;
 import uk.gov.hmcts.pdm.publicdisplay.manager.security.EncryptedFormat;
+import uk.gov.hmcts.pdm.publicdisplay.manager.util.CommandUtil;
 
 import java.io.Serializable;
 
@@ -41,8 +42,6 @@ public class DisplaySearchCommand implements Serializable {
      * SerialVersionUID of the LocalProxySearchCommand class.
      */
     private static final long serialVersionUID = 7519083759201767559L;
-    private static final String XHIBIT_COURTSITE_ID = "XhibitCourtSiteId :";
-    private static final String NOVALUEPRESENT = "no value at present";
     
     /**
      * The ID of the CourtSite.
@@ -76,13 +75,7 @@ public class DisplaySearchCommand implements Serializable {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(40);
-
-        // Use spring StringUtils to check strings have values
-        sb.append(XHIBIT_COURTSITE_ID)
-            .append((this.getXhibitCourtSiteId() == null) ? NOVALUEPRESENT
-                : this.getXhibitCourtSiteId());
-        return sb.toString();
+        return CommandUtil.courtSiteCommandToString(this.getXhibitCourtSiteId());
     }
 
 }

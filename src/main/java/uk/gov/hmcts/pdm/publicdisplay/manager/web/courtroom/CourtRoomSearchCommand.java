@@ -2,14 +2,13 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.courtroom;
 
 import jakarta.validation.constraints.NotNull;
 import uk.gov.hmcts.pdm.publicdisplay.manager.security.EncryptedFormat;
+import uk.gov.hmcts.pdm.publicdisplay.manager.util.CommandUtil;
 
 import java.io.Serializable;
 
 public class CourtRoomSearchCommand implements Serializable {
 
     private static final long serialVersionUID = 807524632879168774L;
-    private static final String COURT_ID = "CourtId :";
-    private static final String NOVALUEPRESENT = "no value at present";
 
     /**
      * The ID of the Court.
@@ -45,13 +44,7 @@ public class CourtRoomSearchCommand implements Serializable {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(30);
-
-        // Use spring StringUtils to check strings have values
-        sb.append(COURT_ID)
-            .append((this.getCourtId() == null) ? NOVALUEPRESENT
-                : this.getCourtId());
-        return sb.toString();
+        return CommandUtil.courtCommandToString(this.getCourtId());
     }
 
 }

@@ -27,6 +27,7 @@ import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.manager.util.CommandUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,8 +40,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LocalProxySearchCommandTest extends AbstractJUnit {
 
     private static final String NOT_EQUAL = "Not equal";
-    private static final String XHIBIT_COURTSITE_ID = "XhibitCourtSiteId :";
-    private static final String NOVALUEPRESENT = "no value at present";
 
     /** The class under test. */
     private final LocalProxySearchCommand classUnderTest = new LocalProxySearchCommand();
@@ -67,7 +66,7 @@ class LocalProxySearchCommandTest extends AbstractJUnit {
     void testToString() {
         // Run empty
         String result = classUnderTest.toString();
-        assertEquals(XHIBIT_COURTSITE_ID + NOVALUEPRESENT, result, NOT_EQUAL);
+        assertEquals(CommandUtil.XHIBIT_COURTSITE_ID + CommandUtil.NOVALUEPRESENT, result, NOT_EQUAL);
 
         // Setup
         Long xhibitCourtSiteId = Long.valueOf(1);
@@ -75,6 +74,6 @@ class LocalProxySearchCommandTest extends AbstractJUnit {
         classUnderTest.setXhibitCourtSiteId(xhibitCourtSiteId);
         result = classUnderTest.toString();
         // Check
-        assertEquals(XHIBIT_COURTSITE_ID + xhibitCourtSiteId.toString(), result, NOT_EQUAL);
+        assertEquals(CommandUtil.XHIBIT_COURTSITE_ID + xhibitCourtSiteId.toString(), result, NOT_EQUAL);
     }
 }
