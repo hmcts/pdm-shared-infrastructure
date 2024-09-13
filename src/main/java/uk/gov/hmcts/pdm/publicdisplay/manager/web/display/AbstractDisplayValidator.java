@@ -25,8 +25,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.display;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Validator;
-import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.court.CourtSiteValidator;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * @author harrism
  *
  */
-public abstract class AbstractDisplayValidator implements Validator {
+public abstract class AbstractDisplayValidator extends CourtSiteValidator implements Validator {
 
     /** The display page state holder. */
     @Autowired
@@ -74,17 +74,6 @@ public abstract class AbstractDisplayValidator implements Validator {
         final XhibitCourtSiteDto selectedCourtSite =
             getCourtSiteFromSearchResults(xhibitCourtSiteId);
         return isRegisteredCourtSite(selectedCourtSite);
-    }
-
-    /**
-     * Checks if is registered court site.
-     *
-     * @param selectedCourtSite the selected court site
-     * @return true, if is registered court site
-     */
-    protected boolean isRegisteredCourtSite(final XhibitCourtSiteDto selectedCourtSite) {
-        return selectedCourtSite != null
-            && AppConstants.YES_CHAR.equals(selectedCourtSite.getRegisteredIndicator());
     }
 
     /**
