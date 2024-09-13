@@ -88,10 +88,6 @@ public class JsonRequest {
     private static final String BEARERHEADER = JsonWebTokenUtility.INSTANCE.REQUEST_HEADER_BEARER;
 
     private static final TimeUnit SECONDS = TimeUnit.SECONDS;
-    
-    private static final String REPLACE_CHARS = "[\n\r]";
-    
-    private static final String UNDERSCORE = "_";
 
     /** The timeout in seconds for socket, connect & request. */
     private Integer timeout = DEFAULT_TIMEOUT;
@@ -244,7 +240,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest() {
-        LOGGER.info(REQUEST_URL, url.replaceAll(REPLACE_CHARS, UNDERSCORE));
+        LOGGER.info("sendRequest()");
 
         // Create get object from url
         final HttpGet httpGet = createHttpGet();
@@ -262,7 +258,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public <T> T sendRequest(final Class<T> responseType) {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info("sendRequest(Class)");
 
         // Create get object from url
         final HttpGet httpGet = createHttpGet();
@@ -279,7 +275,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest(final Object request) {
-        LOGGER.info(REQUEST_URL, url.replaceAll(REPLACE_CHARS, UNDERSCORE));
+        LOGGER.info("sendRequest(Object)");
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -299,7 +295,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public <T> T sendRequest(final Object request, final Class<T> responseType) {
-        LOGGER.info(REQUEST_URL, url.replaceAll(REPLACE_CHARS, UNDERSCORE));
+        LOGGER.info("sendRequest(Object, Class)");
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -383,10 +379,6 @@ public class JsonRequest {
             requestText = (String) request;
         } else if (request != null) {
             requestText = objectMapperUtil.getJsonString(request);
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Request body {}", requestText.replaceAll(REPLACE_CHARS, UNDERSCORE));
         }
 
         // Create post object from request body
