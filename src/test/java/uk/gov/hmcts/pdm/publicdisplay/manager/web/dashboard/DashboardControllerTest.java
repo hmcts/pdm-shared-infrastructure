@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DashboardCduDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DashboardCourtSiteDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
@@ -207,11 +208,13 @@ abstract class DashboardControllerTest extends AbstractJUnit {
      * Gets the test xhibit court sites.
      *
      * @param id the id
+     * 
      * @return the test xhibit court sites
      */
-    protected XhibitCourtSiteDto getTestXhibitCourtSite(final Long id) {
+    protected XhibitCourtSiteDto getTestXhibitCourtSite(final Long id, Character ragStatus) {
         final XhibitCourtSiteDto courtSite = new XhibitCourtSiteDto();
         courtSite.setId(id);
+        courtSite.setRagStatus(ragStatus.toString());
         return courtSite;
     }
 
@@ -233,8 +236,9 @@ abstract class DashboardControllerTest extends AbstractJUnit {
      */
     protected List<XhibitCourtSiteDto> getTestXhibitCourtSites() {
         final List<XhibitCourtSiteDto> courtSites = new ArrayList<>();
-        courtSites.add(getTestXhibitCourtSite(1L));
-        courtSites.add(getTestXhibitCourtSite(2L));
+        courtSites.add(getTestXhibitCourtSite(1L, AppConstants.RED_CHAR));
+        courtSites.add(getTestXhibitCourtSite(2L, AppConstants.AMBER_CHAR));
+        courtSites.add(getTestXhibitCourtSite(3L, AppConstants.GREEN_CHAR));
         return courtSites;
     }
 
