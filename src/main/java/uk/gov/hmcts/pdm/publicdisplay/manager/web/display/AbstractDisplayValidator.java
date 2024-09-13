@@ -42,7 +42,6 @@ public abstract class AbstractDisplayValidator implements Validator {
     /** The display page state holder. */
     @Autowired
     private DisplayPageStateHolder displayPageStateHolder;
-    private static final Character YESCHAR = AppConstants.YES_CHAR;
 
     /**
      * Gets the display page state holder.
@@ -85,7 +84,7 @@ public abstract class AbstractDisplayValidator implements Validator {
      */
     protected boolean isRegisteredCourtSite(final XhibitCourtSiteDto selectedCourtSite) {
         return selectedCourtSite != null
-            && YESCHAR.equals(selectedCourtSite.getRegisteredIndicator());
+            && AppConstants.YES_CHAR.equals(selectedCourtSite.getRegisteredIndicator());
     }
 
     /**

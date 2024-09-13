@@ -42,7 +42,6 @@ public abstract class AbstractJudgeValidator implements Validator {
     /** The judge page state holder. */
     @Autowired
     private JudgePageStateHolder judgePageStateHolder;
-    private static final Character YESCHAR = AppConstants.YES_CHAR;
 
     /**
      * Gets the judge page state holder.
@@ -85,7 +84,7 @@ public abstract class AbstractJudgeValidator implements Validator {
      */
     protected boolean isRegisteredCourtSite(final XhibitCourtSiteDto selectedCourtSite) {
         return selectedCourtSite != null
-            && YESCHAR.equals(selectedCourtSite.getRegisteredIndicator());
+            && AppConstants.YES_CHAR.equals(selectedCourtSite.getRegisteredIndicator());
     }
 
     /**

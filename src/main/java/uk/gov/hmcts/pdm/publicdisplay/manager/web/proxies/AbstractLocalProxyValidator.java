@@ -42,7 +42,6 @@ public abstract class AbstractLocalProxyValidator implements Validator {
     /** The local proxy page state holder. */
     @Autowired
     private LocalProxyPageStateHolder localProxyPageStateHolder;
-    private static final Character YESCHAR = AppConstants.YES_CHAR;
 
     /**
      * Gets the local proxy page state holder.
@@ -85,7 +84,7 @@ public abstract class AbstractLocalProxyValidator implements Validator {
      */
     protected boolean isRegisteredCourtSite(final XhibitCourtSiteDto selectedCourtSite) {
         return selectedCourtSite != null
-            && YESCHAR.equals(selectedCourtSite.getRegisteredIndicator());
+            && AppConstants.YES_CHAR.equals(selectedCourtSite.getRegisteredIndicator());
     }
 
     /**
