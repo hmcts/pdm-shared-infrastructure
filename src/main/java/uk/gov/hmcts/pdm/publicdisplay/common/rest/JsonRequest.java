@@ -88,6 +88,8 @@ public class JsonRequest {
     private static final String BEARERHEADER = JsonWebTokenUtility.INSTANCE.REQUEST_HEADER_BEARER;
 
     private static final TimeUnit SECONDS = TimeUnit.SECONDS;
+    
+    private static final String REPLACE_CHARS = "[\n\r]";
 
     /** The timeout in seconds for socket, connect & request. */
     private Integer timeout = DEFAULT_TIMEOUT;
@@ -240,7 +242,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest() {
-        LOGGER.info(REQUEST_URL, url.replaceAll("[\n\r]", "_"));
+        LOGGER.info(REQUEST_URL, url.replaceAll(REPLACE_CHARS, "_"));
 
         // Create get object from url
         final HttpGet httpGet = createHttpGet();
@@ -275,7 +277,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest(final Object request) {
-        LOGGER.info(REQUEST_URL, url.replaceAll("[\n\r]", "_"));
+        LOGGER.info(REQUEST_URL, url.replaceAll(REPLACE_CHARS, "_"));
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -295,7 +297,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public <T> T sendRequest(final Object request, final Class<T> responseType) {
-        LOGGER.info(REQUEST_URL, url.replaceAll("[\n\r]", "_"));
+        LOGGER.info(REQUEST_URL, url.replaceAll(REPLACE_CHARS, "_"));
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -382,7 +384,7 @@ public class JsonRequest {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Request body {}", requestText.replaceAll("[\n\r]", "_"));
+            LOGGER.debug("Request body {}", requestText.replaceAll(REPLACE_CHARS, "_"));
         }
 
         // Create post object from request body
