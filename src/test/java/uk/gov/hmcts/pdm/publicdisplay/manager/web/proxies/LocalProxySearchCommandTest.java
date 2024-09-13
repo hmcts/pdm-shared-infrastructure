@@ -43,7 +43,7 @@ class LocalProxySearchCommandTest extends AbstractJUnit {
     private static final String NOVALUEPRESENT = "no value at present";
 
     /** The class under test. */
-    private LocalProxySearchCommand classUnderTest = new LocalProxySearchCommand();
+    private final LocalProxySearchCommand classUnderTest = new LocalProxySearchCommand();
 
     /**
      * Test setXhibitCourtSiteId.
