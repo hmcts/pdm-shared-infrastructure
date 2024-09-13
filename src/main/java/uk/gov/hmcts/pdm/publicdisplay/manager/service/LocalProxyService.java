@@ -324,8 +324,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
             courtSite.setXhibitCourtSite(xhibitCourtSite);
             LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site created ");
         } else {
-            LOGGER.debug(THREE_PARAMS, METHOD, methodName,
-                " court site found for id " + localProxyRegisterCommand.getXhibitCourtSiteId());
+            LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site found");
             updatedMessage = " updated ";
         }
 
