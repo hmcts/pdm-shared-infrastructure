@@ -10,6 +10,7 @@ class JudgeSearchCommandTest extends AbstractJUnit {
     @Test
     void testToString() {
         JudgeSearchCommand judgeSearchCommand = new JudgeSearchCommand();
+        assertEquals("XhibitCourtSiteId :no value at present", judgeSearchCommand.toString(), "Not equal");
         judgeSearchCommand.setXhibitCourtSiteId(4L);
         assertEquals("XhibitCourtSiteId :4", judgeSearchCommand.toString(), "Not equal");
     }
