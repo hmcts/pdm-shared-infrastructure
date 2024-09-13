@@ -59,7 +59,7 @@ public class PollingSessionTimeoutFilter extends GenericFilterBean {
     /** The list of polling urls. */
     private List<String> urls = new ArrayList<>();
 
-    private final TimeUnit seconds = TimeUnit.SECONDS;
+    private static final TimeUnit SECONDS = TimeUnit.SECONDS;
 
     /**
      * getUrls.
@@ -110,7 +110,7 @@ public class PollingSessionTimeoutFilter extends GenericFilterBean {
 
                 // If the session timeout has passed since the last normal request,
                 // must manually trigger a session expiration to timeout session
-                if ((seconds.toMillis(session.getMaxInactiveInterval())
+                if ((SECONDS.toMillis(session.getMaxInactiveInterval())
                     - (System.currentTimeMillis() - lastAccess)) < 0) {
                     session.invalidate();
                     LOG.info("expired session");
@@ -139,8 +139,7 @@ public class PollingSessionTimeoutFilter extends GenericFilterBean {
         // Create url from application path and query string if present
         final StringBuilder url = new StringBuilder(applicationPath);
         if (queryString != null) {
-            url.append('?');
-            url.append(queryString);
+            url.append('?').append(queryString);
         }
         return url.toString();
     }

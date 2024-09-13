@@ -34,9 +34,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Map;
 
 /**
  * The Class LogonController.
@@ -129,7 +130,7 @@ public class LogonController {
     @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
         havingValue = "false")
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
-    public String login(HttpSession session, HttpServletRequest req, ModelMap model) {
+    public String login(HttpSession session, HttpServletRequest req, Map<String, Object> model) {
         LOGGER.debug("login()");
         return VIEW_LOGIN;
     }

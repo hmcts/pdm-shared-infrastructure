@@ -38,6 +38,7 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
  * @author uphillj
  *
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public enum EncryptDecryptUtility {
     /**
      * Indicating that this is a singleton.

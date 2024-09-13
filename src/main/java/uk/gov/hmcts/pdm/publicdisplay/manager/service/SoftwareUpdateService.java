@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ISoftwareUpdateService;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +62,7 @@ public class SoftwareUpdateService implements ISoftwareUpdateService {
 
     /** The files. */
     @SuppressWarnings("unchecked")
-    private final Map<String, FileDigest> fileDigests = new ConcurrentHashMap();
+    private final Map<String, FileDigest> fileDigests = new ConcurrentHashMap<>();
 
     /**
      * Initialise the digests for the list of files.
@@ -82,8 +81,8 @@ public class SoftwareUpdateService implements ISoftwareUpdateService {
     /*
      * (non-Javadoc)
      * 
-     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ISoftwareUpdateService#
-     * getChecksum (java.lang.String)
+     * @see uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ISoftwareUpdateService# getChecksum
+     * (java.lang.String)
      */
     @Override
     public String getChecksum(final String filename) {
@@ -149,22 +148,19 @@ public class SoftwareUpdateService implements ISoftwareUpdateService {
                 // If the file has never been hashed (digest last modified is null)
                 // or modified date has changed since the last time it was hashed,
                 // then re-generate the sha1 hash of the file
-                final Long lastModified = Long.valueOf(file.lastModified());
+                final Long lastModified = file.lastModified();
                 if (!lastModified.equals(fileDigest.getLastModified())) {
-                    InputStream inputStream = null;
-                    try {
+                    try (
+                        InputStream inputStream = Files.newInputStream(Paths.get(file.getPath()))) {
                         // Hash using an input stream so the whole file is not loaded into
                         // memory in one go but instead the hash is generated in chunks
                         // which is why a buffered input stream is NOT used here
-                        inputStream = Files.newInputStream(Paths.get(file.getPath()));
                         final String sha1 = DigestUtils.sha1Hex(inputStream); // NOSONAR
                         LOGGER.info("New checksum for file {} is {}", filename, sha1);
 
                         // Hash generated successfully so okay to update the file digest
                         fileDigest.setSha1(sha1);
                         fileDigest.setLastModified(lastModified);
-                    } finally {
-                        close(filename, inputStream);
                     }
                 }
 
@@ -177,22 +173,6 @@ public class SoftwareUpdateService implements ISoftwareUpdateService {
         } catch (final IOException ex) {
             LOGGER.error("Exception occurred generating checksum for {}", fileDigest.getFilename(),
                 ex);
-        }
-    }
-
-    /**
-     * Close the file stream and log a warning if an exception occurs.
-     *
-     * @param filename the filename
-     * @param stream the stream
-     */
-    private void close(final String filename, final Closeable stream) {
-        try {
-            if (stream != null) {
-                stream.close();
-            }
-        } catch (final IOException ex) {
-            LOGGER.warn("Exception occurred closing file " + filename, ex);
         }
     }
 

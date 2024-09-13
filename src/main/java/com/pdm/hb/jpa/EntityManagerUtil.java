@@ -6,7 +6,7 @@ import jakarta.persistence.FlushModeType;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 
-
+@SuppressWarnings("PMD.LawOfDemeter")
 public class EntityManagerUtil {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;
     

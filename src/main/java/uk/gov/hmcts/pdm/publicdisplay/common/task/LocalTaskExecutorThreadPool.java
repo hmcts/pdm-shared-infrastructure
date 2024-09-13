@@ -47,6 +47,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author uphillj
  *
  */
+@SuppressWarnings("PMD.DoNotUseThreads")
 public class LocalTaskExecutorThreadPool implements ThreadPool {
 
     /** The Constant LOGGER. */
@@ -189,6 +190,7 @@ public class LocalTaskExecutorThreadPool implements ThreadPool {
                     boolean await = runPermitAvailable.await(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
                     LOGGER.debug("await = {}", await ? "TRUE" : "FALSE");
                 } catch (final InterruptedException ex) { // NOSONAR
+                    LOGGER.debug("Ending wait");
                     // Okay to ignore exception as outer loop ensures this
                     // thread will wait until there is a permit available
                 }

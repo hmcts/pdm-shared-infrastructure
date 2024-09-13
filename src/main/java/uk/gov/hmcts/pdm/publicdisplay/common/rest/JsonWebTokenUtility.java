@@ -39,6 +39,7 @@ import java.util.Date;
  *
  * @author uphillj
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public enum JsonWebTokenUtility {
     /**
      * Indicating that this is a singleton.

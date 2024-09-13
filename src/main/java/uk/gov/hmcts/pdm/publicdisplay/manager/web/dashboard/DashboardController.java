@@ -89,9 +89,9 @@ public class DashboardController {
     /** The Constant MAPPING_VIEW_SEARCH. */
     private static final String MAPPING_VIEW_SEARCH = "/search";
 
-    private final Character amberChar = AppConstants.AMBER_CHAR;
+    private static final Character AMBERCHAR = AppConstants.AMBER_CHAR;
 
-    private final Character redChar = AppConstants.RED_CHAR;
+    private static final Character REDCHAR = AppConstants.RED_CHAR;
 
 
     /** The rag status reload interval. */
@@ -207,10 +207,10 @@ public class DashboardController {
         // Build the xhibit court sites arrays by RAG status
         for (XhibitCourtSiteDto xhibitCourtSite : xhibitCourtSites) {
             if (xhibitCourtSite.getRagStatus() != null
-                && xhibitCourtSite.getRagStatus().equals(redChar.toString())) {
+                && xhibitCourtSite.getRagStatus().equals(REDCHAR.toString())) {
                 xhibitCourtSitesRedStatus.add(xhibitCourtSite);
             } else if (xhibitCourtSite.getRagStatus() != null
-                && xhibitCourtSite.getRagStatus().equals(amberChar.toString())) {
+                && xhibitCourtSite.getRagStatus().equals(AMBERCHAR.toString())) {
                 xhibitCourtSitesAmberStatus.add(xhibitCourtSite);
             } else {
                 xhibitCourtSitesGreenStatus.add(xhibitCourtSite);

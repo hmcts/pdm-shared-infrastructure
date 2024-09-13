@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class HearingTypeServiceTest {
 
     protected IHearingTypeService classUnderTest;
@@ -152,7 +153,7 @@ class HearingTypeServiceTest {
     @Test
     void allCategoriesTest() {
 
-        ArrayList<String> categoriesList = new ArrayList<>();
+        List<String> categoriesList = new ArrayList<>();
         categoriesList.add("Category A");
         categoriesList.add("Category B");
 

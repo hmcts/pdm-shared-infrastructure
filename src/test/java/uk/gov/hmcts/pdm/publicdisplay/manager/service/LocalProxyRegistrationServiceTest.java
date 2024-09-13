@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The Class LocalProxyRegistrationServiceTest.
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class LocalProxyRegistrationServiceTest extends LocalProxyCourtSiteServiceTest {
     /**
      * Test unregister local proxy.

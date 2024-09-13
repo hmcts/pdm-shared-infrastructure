@@ -57,6 +57,7 @@ import java.util.Optional;
  */
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public class DisplayService extends DisplayServiceFinder implements IDisplayService {
 
     /**

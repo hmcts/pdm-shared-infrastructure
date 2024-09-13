@@ -21,61 +21,47 @@
  * the possibility of such damage.
  */
 
-package uk.gov.hmcts.pdm.publicdisplay.manager.web.proxies;
+package uk.gov.hmcts.pdm.publicdisplay.manager.util;
 
-import jakarta.validation.constraints.NotNull;
-import uk.gov.hmcts.pdm.publicdisplay.manager.security.EncryptedFormat;
-import uk.gov.hmcts.pdm.publicdisplay.manager.util.CommandUtil;
 
-import java.io.Serializable;
+
 
 /**
- * LocalProxySearchCommand.
- * 
- * @author scullionm
+ * The Class CommandUtil.
+ *
+ * @author harrism
  *
  */
-
-public class LocalProxySearchCommand implements Serializable {
-
-    /**
-     * SerialVersionUID of the LocalProxySearchCommand class.
-     */
-    private static final long serialVersionUID = 7519083759201767559L;
+public final class CommandUtil {
+    
+    public static final String COURT_ID = "CourtId :";
+    public static final String XHIBIT_COURTSITE_ID = "XhibitCourtSiteId :";
+    public static final String NOVALUEPRESENT = "no value at present";
     
     /**
-     * The ID of the CourtSite.
+     * Private constructor to prevent instantiation.
      */
-    @EncryptedFormat
-    @NotNull(message = "{localProxySearchCommand.xhibitCourtSiteId.notNull}")
-    private Long xhibitCourtSiteId;
+    private CommandUtil() {
 
-    /**
-     * getXhibitCourtSiteId.
-     * 
-     * @return the xhibitCourtSiteId
-     */
-    public Long getXhibitCourtSiteId() {
-        return xhibitCourtSiteId;
     }
 
-    /**
-     * setXhibitCourtSiteId.
-     * 
-     * @param xhibitCourtSiteId the xhibitCourtSiteId to set.
-     */
-    public void setXhibitCourtSiteId(final Long xhibitCourtSiteId) {
-        this.xhibitCourtSiteId = xhibitCourtSiteId;
-    }
+    public static String courtCommandToString(Integer courtId) {
+        final StringBuilder sb = new StringBuilder(30);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return CommandUtil.courtSiteCommandToString(this.getXhibitCourtSiteId());
+        // Use spring StringUtils to check strings have values
+        sb.append(COURT_ID)
+            .append((courtId == null) ? NOVALUEPRESENT
+                : courtId);
+        return sb.toString();
     }
+    
+    public static String courtSiteCommandToString(Long xhibitCourtSiteId) {
+        final StringBuilder sb = new StringBuilder(30);
 
+        // Use spring StringUtils to check strings have values
+        sb.append(XHIBIT_COURTSITE_ID)
+            .append((xhibitCourtSiteId == null) ? NOVALUEPRESENT
+                : xhibitCourtSiteId);
+        return sb.toString();
+    }
 }

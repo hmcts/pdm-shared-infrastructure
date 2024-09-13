@@ -136,7 +136,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
 
         // Setup
         XhbDispMgrLocalProxyDao xhbDispMgrLocalProxyDao = new XhbDispMgrLocalProxyDao();
-        xhbDispMgrLocalProxyDao.setId(Integer.valueOf(1));
+        xhbDispMgrLocalProxyDao.setId(1);
         xhbDispMgrLocalProxyDao.setIpAddress("IpAddress");
         xhbDispMgrLocalProxyDao.setHostName("HostName");
         xhbDispMgrLocalProxyDao.setRagStatus("A");
@@ -203,7 +203,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         List<XhbDispMgrCourtSiteDao> xhbDispMgrCourtSiteDaoArray = new ArrayList<>();
         xhbDispMgrCourtSiteDaoArray.add(getDummyXhbDispMgrCourtSiteDao());
         XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
-        xhbDispMgrCourtSiteDao.setId(Integer.valueOf(2));
+        xhbDispMgrCourtSiteDao.setId(2);
 
         // Expects
         Mockito
@@ -244,13 +244,13 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
 
     private XhbDispMgrCourtSiteDao getDummyXhbDispMgrCourtSiteDao() {
         XhbCourtSiteDao xhbCourtSiteDao = new XhbCourtSiteDao();
-        xhbCourtSiteDao.setId(Integer.valueOf(1));
+        xhbCourtSiteDao.setId(1);
         xhbCourtSiteDao.setCourtSiteName("CourtSiteName");
         xhbCourtSiteDao.setDisplayName("DisplayName");
         xhbCourtSiteDao.setShortName("ShortName");
 
         XhbDispMgrCduDao xhbDispMgrCduDao = new XhbDispMgrCduDao();
-        xhbDispMgrCduDao.setId(Integer.valueOf(1));
+        xhbDispMgrCduDao.setId(1);
         xhbDispMgrCduDao.setCduNumber("CduNumber");
         xhbDispMgrCduDao.setMacAddress("MacAddress");
         xhbDispMgrCduDao.setIpAddress("IpAddress");
@@ -268,13 +268,13 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         xhbDispMgrCduDaoArray.add(xhbDispMgrCduDao);
         
         XhbDispMgrScheduleDao xhbDispMgrScheduleDao = new XhbDispMgrScheduleDao();
-        xhbDispMgrScheduleDao.setId(Integer.valueOf(1));
+        xhbDispMgrScheduleDao.setId(1);
         xhbDispMgrScheduleDao.setScheduleType("Type");
         xhbDispMgrScheduleDao.setTitle("Title");
         xhbDispMgrScheduleDao.setDetail("Detail");
         
         XhbDispMgrCourtSiteDao result = new XhbDispMgrCourtSiteDao();
-        result.setId(Integer.valueOf(1));
+        result.setId(1);
         result.setTitle("Title");
         result.setNotification("Notification");
         result.setPageUrl("PageUrl");
@@ -285,7 +285,7 @@ class XhbDispMgrCourtSiteRepositoryTest extends AbstractJUnit {
         result.setLastUpdateDate(result.getCreationDate());
         result.setRagStatusDate(result.getLastUpdateDate());
         result.setXhbCourtSiteDao(xhbCourtSiteDao);
-        result.setXhbDispMgrCduDao(new HashSet<XhbDispMgrCduDao>(xhbDispMgrCduDaoArray));
+        result.setXhbDispMgrCduDao(new HashSet<>(xhbDispMgrCduDaoArray));
         result.setXhbDispMgrScheduleDao(xhbDispMgrScheduleDao);
         return result;
     }

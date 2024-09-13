@@ -40,7 +40,6 @@ public abstract class AbstractCduValidator implements Validator {
     /** The cdu page state holder. */
     @Autowired
     private CduPageStateHolder cduPageStateHolder;
-    private final Character yesChar = AppConstants.YES_CHAR;
 
     /**
      * Gets the cdu page state holder.
@@ -80,7 +79,8 @@ public abstract class AbstractCduValidator implements Validator {
      * @return true, if is registered cdu
      */
     protected boolean isRegisteredCdu(final CduDto selectedCdu) {
-        return selectedCdu != null && yesChar.equals(selectedCdu.getRegisteredIndicator());
+        return selectedCdu != null
+            && AppConstants.YES_CHAR.equals(selectedCdu.getRegisteredIndicator());
     }
 
     /**

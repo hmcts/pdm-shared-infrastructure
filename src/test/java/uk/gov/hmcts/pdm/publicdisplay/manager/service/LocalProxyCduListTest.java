@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The Class LocalProxyCduListTest.
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class LocalProxyCduListTest extends LocalProxyMappingCrudTest {
 
     /**

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.LawOfDemeter"})
 public class XhbDispMgrCduRepository extends CduFinder {
 
     private static final Logger LOG = LoggerFactory.getLogger(XhbDispMgrCduRepository.class);

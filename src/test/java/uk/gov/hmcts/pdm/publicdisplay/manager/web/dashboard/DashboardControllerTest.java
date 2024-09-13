@@ -31,9 +31,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.common.util.AppConstants;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DashboardCduDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.DashboardCourtSiteDto;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.XhibitCourtSiteDto;
@@ -43,6 +43,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.web.cdus.CduSearchCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -60,6 +61,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author boparaij
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class DashboardControllerTest extends AbstractJUnit {
     /** The Constant XHIBIT_COURT_SITE_ID. */
     protected static final Long XHIBIT_COURT_SITE_ID = 1L;
@@ -206,11 +208,13 @@ abstract class DashboardControllerTest extends AbstractJUnit {
      * Gets the test xhibit court sites.
      *
      * @param id the id
+     * 
      * @return the test xhibit court sites
      */
-    protected XhibitCourtSiteDto getTestXhibitCourtSite(final Long id) {
+    protected XhibitCourtSiteDto getTestXhibitCourtSite(final Long id, Character ragStatus) {
         final XhibitCourtSiteDto courtSite = new XhibitCourtSiteDto();
         courtSite.setId(id);
+        courtSite.setRagStatus(ragStatus.toString());
         return courtSite;
     }
 
@@ -232,8 +236,9 @@ abstract class DashboardControllerTest extends AbstractJUnit {
      */
     protected List<XhibitCourtSiteDto> getTestXhibitCourtSites() {
         final List<XhibitCourtSiteDto> courtSites = new ArrayList<>();
-        courtSites.add(getTestXhibitCourtSite(1L));
-        courtSites.add(getTestXhibitCourtSite(2L));
+        courtSites.add(getTestXhibitCourtSite(1L, AppConstants.RED_CHAR));
+        courtSites.add(getTestXhibitCourtSite(2L, AppConstants.AMBER_CHAR));
+        courtSites.add(getTestXhibitCourtSite(3L, AppConstants.GREEN_CHAR));
         return courtSites;
     }
 
@@ -271,7 +276,7 @@ abstract class DashboardControllerTest extends AbstractJUnit {
      * @param xhibitCourtSiteId the xhibit court site id
      * @param macAddress the mac address
      */
-    protected void assertCduSearchCommand(final FlashMap flashMap, final Long xhibitCourtSiteId,
+    protected void assertCduSearchCommand(final Map flashMap, final Long xhibitCourtSiteId,
         final String macAddress) {
         final Object searchCommand = flashMap.get("cduSearchCommand");
         assertTrue(searchCommand instanceof CduSearchCommand, FALSE);

@@ -122,7 +122,7 @@ class XhbDispMgrPropertyRepositoryTest extends AbstractJUnit {
 
     private XhbDispMgrPropertyDao getDummyXhbDispMgrPropertyDao() {
         XhbDispMgrPropertyDao property = new XhbDispMgrPropertyDao();
-        property.setId(Integer.valueOf(1));
+        property.setId(1);
         property.setPropertyName("Name");
         property.setPropertyValue("Value");
         return property;

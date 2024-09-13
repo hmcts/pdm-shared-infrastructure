@@ -127,8 +127,8 @@ class CourtServiceTest extends AbstractJUnit {
         List<CourtDto> courtDtoList = classUnderTest.getCourts();
 
         // Assert that the objects are as expected
-        assertEquals(courtDao.getAddressId(), courtDtoList.get(0).getAddressId().intValue(), NOT_EQUAL);
-        assertEquals(courtDao.getCourtId(), courtDtoList.get(0).getId().intValue(), NOT_EQUAL);
+        assertEquals(courtDao.getAddressId(), courtDtoList.get(0).getAddressId(), NOT_EQUAL);
+        assertEquals(courtDao.getCourtId(), courtDtoList.get(0).getId(), NOT_EQUAL);
         assertEquals(courtDao.getCourtName(), courtDtoList.get(0).getCourtName(), NOT_EQUAL);
 
         // Verify the expected mocks were called

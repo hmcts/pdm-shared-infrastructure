@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class RefJudgeServiceTest extends RefJudgeServiceUtility {
 
     /**
@@ -121,7 +122,7 @@ class RefJudgeServiceTest extends RefJudgeServiceUtility {
         List<RefJudgeDto> refJudgeDtoList = classUnderTest.getJudges(1L);
 
         // Assert that the objects are as expected
-        assertEquals(refJudgeDao.getCourtId(), refJudgeDtoList.get(0).getCourtId().intValue(), NOT_EQUAL);
+        assertEquals(refJudgeDao.getCourtId(), refJudgeDtoList.get(0).getCourtId(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockRefJudgeRepo);
@@ -164,7 +165,7 @@ class RefJudgeServiceTest extends RefJudgeServiceUtility {
 
         // Assert that the objects are as expected
         assertEquals(refSystemCodeDaos.get(0).getCourtId(),
-                refSystemCodeDtoList.get(0).getCourtId().intValue(), NOT_EQUAL);
+                refSystemCodeDtoList.get(0).getCourtId(), NOT_EQUAL);
 
         // Verify the expected mocks were called
         verify(mockRefSystemCodeRepository);

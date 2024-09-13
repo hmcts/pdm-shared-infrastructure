@@ -22,6 +22,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUrlService;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.LooseCoupling"})
 public class CdusControllerUtility {
 
     /** The Constant LOGGER. */

@@ -34,6 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class HearingErrorController extends AbstractJUnit {
     protected HearingTypeSelectedValidator mockHearingTypeSelectedValidator;
     protected HearingTypeCreateValidator mockHearingTypeCreateValidator;

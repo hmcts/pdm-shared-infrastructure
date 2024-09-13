@@ -50,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author harrism
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class SoftwareControllerTest extends AbstractJUnit {
 
     /** The Constant FILENAME. */

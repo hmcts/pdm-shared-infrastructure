@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.business.entities.AbstractRepository;
 
 
-
+@SuppressWarnings("PMD.LawOfDemeter")
 public class XhbDispMgrHousekeepingRepository extends AbstractRepository<XhbDispMgrHousekeepingDao> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XhbDispMgrHousekeepingRepository.class);

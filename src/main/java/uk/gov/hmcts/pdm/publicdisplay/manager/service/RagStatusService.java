@@ -52,6 +52,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IRagStatusService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -67,10 +68,10 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
     private static final String THREE_PARAMS = "{}{}{}";
     private static final String STARTS = " - starts";
     private static final String ENDS = " - ends";
-    private final Character greenChar = AppConstants.GREEN_CHAR;
-    private final Character amberChar = AppConstants.AMBER_CHAR;
-    private final Character redChar = AppConstants.RED_CHAR;
-    private final Character noChar = AppConstants.NO_CHAR;
+    private static final Character GREENCHAR = AppConstants.GREEN_CHAR;
+    private static final Character AMBERCHAR = AppConstants.AMBER_CHAR;
+    private static final Character REDCHAR = AppConstants.RED_CHAR;
+    private static final Character NOCHAR = AppConstants.NO_CHAR;
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(RagStatusService.class);
@@ -208,12 +209,12 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
         final double operationalPercent = ONE_HUNDRED_PERCENT * noOfOperational / total;
 
         // Calculate the rag status from the weighting percentage of operational cdus
-        String ragStatus = greenChar.toString();
+        String ragStatus = GREENCHAR.toString();
         if (operationalPercent < ragStatusAmberPercent) {
-            ragStatus = amberChar.toString();
+            ragStatus = AMBERCHAR.toString();
         }
         if (operationalPercent < ragStatusRedPercent) {
-            ragStatus = redChar.toString();
+            ragStatus = REDCHAR.toString();
         }
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
         return ragStatus;
@@ -319,12 +320,12 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
                 CduStatusJson dummyCdu = new CduStatusJson();
                 dummyCdu.setGeneratedBy("XHIBIT");
                 dummyCdu.setMacAddress("00:00:00:00:00:01");
-                dummyCdu.setRagStatus(greenChar);
-                ArrayList<CduStatusJson> dummyCdus = new ArrayList<>();
+                dummyCdu.setRagStatus(GREENCHAR);
+                List<CduStatusJson> dummyCdus = new ArrayList<>();
                 dummyCdus.add(dummyCdu);
                 courtSiteStatus.setCdus(dummyCdus);
                 courtSiteStatus.setGeneratedBy("XHIBIT");
-                courtSiteStatus.setRagStatus(greenChar);
+                courtSiteStatus.setRagStatus(GREENCHAR);
             }
 
             // Update the local proxy rag status
@@ -343,13 +344,13 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
                     updateCduStatus(cdu, cduStatus.getRagStatus(), LocalDateTime.now());
 
                     // Increment the number of Cdus
-                    if (noChar.equals(cdu.getOfflineIndicator())) {
+                    if (NOCHAR.equals(cdu.getOfflineIndicator())) {
                         noOfOnlineCdus += 1;
                     }
 
                     // Increment the number of operational cdus
-                    if (noChar.equals(cdu.getOfflineIndicator())
-                        && greenChar.equals(cduStatus.getRagStatus())) {
+                    if (NOCHAR.equals(cdu.getOfflineIndicator())
+                        && GREENCHAR.equals(cduStatus.getRagStatus())) {
                         noOfOperationalCdus += 1;
                     }
                 } else {
@@ -371,9 +372,9 @@ public class RagStatusService extends RagStatusRepository implements IRagStatusS
             // to identify when the rag status was last successfully updated
             // from a successful response from the local proxy
             if (newRagStatus == null) {
-                updateCduStatus(localProxy, redChar, null);
-                updateLocalProxyStatus(localProxy, redChar.toString(), null);
-                updateCourtSiteStatus(courtSite, redChar.toString(), null);
+                updateCduStatus(localProxy, REDCHAR, null);
+                updateLocalProxyStatus(localProxy, REDCHAR.toString(), null);
+                updateCourtSiteStatus(courtSite, REDCHAR.toString(), null);
             }
         }
 

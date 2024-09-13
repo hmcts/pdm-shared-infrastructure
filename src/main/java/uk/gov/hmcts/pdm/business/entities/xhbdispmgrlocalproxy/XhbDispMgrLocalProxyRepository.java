@@ -15,6 +15,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.ILocalProxy;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 public class XhbDispMgrLocalProxyRepository extends AbstractRepository<XhbDispMgrLocalProxyDao> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XhbDispMgrLocalProxyRepository.class);

@@ -48,6 +48,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -103,7 +104,7 @@ class LocalTaskExecutorThreadPoolTest extends AbstractJUnit {
      * @throws Exception if error in setup
      */
     @BeforeEach
-    public void setup() throws Exception {
+    public void setup() {
         // Create a new version of the class under test
         classUnderTest = new LocalTaskExecutorThreadPool();
         classUnderTest.setThreadCount(NUMBER_THREADS);
@@ -114,7 +115,11 @@ class LocalTaskExecutorThreadPoolTest extends AbstractJUnit {
         Mockito.when(SchedulerFactoryBean.getConfigTimeTaskExecutor()).thenReturn(taskExecutor);
 
         // Initialise the class under test
-        classUnderTest.initialize();
+        try {
+            classUnderTest.initialize();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     /**
@@ -243,7 +248,7 @@ class LocalTaskExecutorThreadPoolTest extends AbstractJUnit {
                 for (Runnable job : jobs) {
                     final int availableThreads = classUnderTest.blockForAvailableThreads();
                     if (availableThreads > 0 && classUnderTest.runInThread(job)) {
-                            jobsScheduledCount++;
+                        jobsScheduledCount++;
                     }
                 }
             }

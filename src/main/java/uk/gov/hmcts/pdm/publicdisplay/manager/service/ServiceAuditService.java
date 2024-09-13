@@ -53,8 +53,8 @@ public class ServiceAuditService implements IServiceAuditService {
 
     private XhbDispMgrServiceAuditRepository xhbDispMgrServiceAuditRepository;
 
-    private final JsonWebTokenType displayManager = JsonWebTokenType.DISPLAY_MANAGER;
-    private final JsonWebTokenType jsonWebTokenType = JsonWebTokenType.LOCAL_PROXY;
+    private static final JsonWebTokenType DISPLAYMANAGER = JsonWebTokenType.DISPLAY_MANAGER;
+    private static final JsonWebTokenType JSONWEBTOKENTYPE = JsonWebTokenType.LOCAL_PROXY;
 
 
     /*
@@ -72,8 +72,8 @@ public class ServiceAuditService implements IServiceAuditService {
 
         // Create service audit record
         final IServiceAudit serviceAudit = new ServiceAudit();
-        serviceAudit.setFromEndpoint(displayManager.toString());
-        serviceAudit.setToEndpoint(jsonWebTokenType.toString());
+        serviceAudit.setFromEndpoint(DISPLAYMANAGER.toString());
+        serviceAudit.setToEndpoint(JSONWEBTOKENTYPE.toString());
         serviceAudit.setService(service);
         serviceAudit.setUrl(jsonRequest.getUrl());
         serviceAudit.setMessageId(jsonRequest.getMessageId());

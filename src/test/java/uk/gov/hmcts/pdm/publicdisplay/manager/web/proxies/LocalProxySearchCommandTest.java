@@ -23,59 +23,57 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.proxies;
 
-import jakarta.validation.constraints.NotNull;
-import uk.gov.hmcts.pdm.publicdisplay.manager.security.EncryptedFormat;
+import org.easymock.EasyMockExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.util.CommandUtil;
 
-import java.io.Serializable;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * LocalProxySearchCommand.
- * 
- * @author scullionm
+ * The Class LocalProxySearchCommandTest.
  *
+ * @author harrism
  */
+@ExtendWith(EasyMockExtension.class)
+class LocalProxySearchCommandTest extends AbstractJUnit {
 
-public class LocalProxySearchCommand implements Serializable {
+    private static final String NOT_EQUAL = "Not equal";
 
-    /**
-     * SerialVersionUID of the LocalProxySearchCommand class.
-     */
-    private static final long serialVersionUID = 7519083759201767559L;
-    
-    /**
-     * The ID of the CourtSite.
-     */
-    @EncryptedFormat
-    @NotNull(message = "{localProxySearchCommand.xhibitCourtSiteId.notNull}")
-    private Long xhibitCourtSiteId;
+    /** The class under test. */
+    private final LocalProxySearchCommand classUnderTest = new LocalProxySearchCommand();
 
     /**
-     * getXhibitCourtSiteId.
-     * 
-     * @return the xhibitCourtSiteId
+     * Test setXhibitCourtSiteId.
      */
-    public Long getXhibitCourtSiteId() {
-        return xhibitCourtSiteId;
+    @Test
+    void testSetXhibitCourtSiteId() {
+        // Setup
+        Long xhibitCourtSiteId = Long.valueOf(1);
+        // Run
+        classUnderTest.setXhibitCourtSiteId(xhibitCourtSiteId);
+        Long result = classUnderTest.getXhibitCourtSiteId();
+        // Check
+        assertEquals(xhibitCourtSiteId, result, NOT_EQUAL);
     }
 
+
     /**
-     * setXhibitCourtSiteId.
-     * 
-     * @param xhibitCourtSiteId the xhibitCourtSiteId to set.
+     * Test toString.
      */
-    public void setXhibitCourtSiteId(final Long xhibitCourtSiteId) {
-        this.xhibitCourtSiteId = xhibitCourtSiteId;
-    }
+    @Test
+    void testToString() {
+        // Run empty
+        String result = classUnderTest.toString();
+        assertEquals(CommandUtil.XHIBIT_COURTSITE_ID + CommandUtil.NOVALUEPRESENT, result, NOT_EQUAL);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return CommandUtil.courtSiteCommandToString(this.getXhibitCourtSiteId());
+        // Setup
+        Long xhibitCourtSiteId = Long.valueOf(1);
+        // Run
+        classUnderTest.setXhibitCourtSiteId(xhibitCourtSiteId);
+        result = classUnderTest.toString();
+        // Check
+        assertEquals(CommandUtil.XHIBIT_COURTSITE_ID + xhibitCourtSiteId.toString(), result, NOT_EQUAL);
     }
-
 }

@@ -59,6 +59,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class UserDetailsServiceTest extends AbstractJUnit {
 
     /** The Constant USER_NAME. */

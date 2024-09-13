@@ -105,7 +105,7 @@ class XhbDispMgrLocalProxyRepositoryTest extends AbstractJUnit {
         Mockito.when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
         ILocalProxy localProxy = getDummyLocalProxy();
         XhbDispMgrCourtSiteDao xhbDispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
-        xhbDispMgrCourtSiteDao.setId(Integer.valueOf(2));
+        xhbDispMgrCourtSiteDao.setId(2);
 
         // Expects
         Mockito

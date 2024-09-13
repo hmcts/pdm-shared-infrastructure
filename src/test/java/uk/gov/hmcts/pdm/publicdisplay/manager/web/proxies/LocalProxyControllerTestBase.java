@@ -46,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author harrism
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class LocalProxyControllerTestBase extends AbstractJUnit {
     /** The Constant COURT_SITE_NAME. */
     protected static final String COURT_SITE_NAME = "COURTSITE";

@@ -98,7 +98,7 @@ class XhbCourtSiteRepositoryTest extends AbstractJUnit {
 
         // Verify
         assertNotNull(result, NOT_NULL);
-        assertEquals(result.getId(), xhbCourtSiteDao.getId().longValue(), EQUAL);
+        assertEquals(result.getId().intValue(), xhbCourtSiteDao.getId(), EQUAL);
         assertEquals(result.getCourtSiteName(), xhbCourtSiteDao.getCourtSiteName(), EQUAL);
     }
 
@@ -116,7 +116,7 @@ class XhbCourtSiteRepositoryTest extends AbstractJUnit {
         courtSite.setXhibitCourtSite(xhibitCourtSite);
 
         XhbDispMgrCourtSiteDao dispMgrCourtSiteDao = new XhbDispMgrCourtSiteDao();
-        dispMgrCourtSiteDao.setId(Integer.valueOf(1));
+        dispMgrCourtSiteDao.setId(1);
 
         XhbDispMgrLocalProxyDao dispMgrLocalProxyDao = getDummyXhbDispMgrLocalProxyDao();
 
@@ -142,7 +142,7 @@ class XhbCourtSiteRepositoryTest extends AbstractJUnit {
 
     private XhbCourtSiteDao getDummyXhbCourtSiteDao() {
         XhbCourtSiteDao xhbCourtSiteDao = new XhbCourtSiteDao();
-        xhbCourtSiteDao.setId(Integer.valueOf(1));
+        xhbCourtSiteDao.setId(1);
         xhbCourtSiteDao.setCourtSiteName("CourtSiteName");
         xhbCourtSiteDao.setDisplayName("DisplayName");
         xhbCourtSiteDao.setShortName("ShortName");
@@ -151,7 +151,7 @@ class XhbCourtSiteRepositoryTest extends AbstractJUnit {
     
     private XhbDispMgrLocalProxyDao getDummyXhbDispMgrLocalProxyDao() {
         XhbDispMgrLocalProxyDao localProxy = new XhbDispMgrLocalProxyDao();
-        localProxy.setId(Integer.valueOf(1));
+        localProxy.setId(1);
         localProxy.setIpAddress("IpAddress");
         localProxy.setHostName("HostName");
         localProxy.setRagStatus("G");

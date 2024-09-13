@@ -58,7 +58,7 @@ public class DashboardCduDto {
     /** The offline indicator (Y or N). */
     private Character offlineIndicator;
 
-    private final EncryptDecryptUtility encryptDecryptUtility = EncryptDecryptUtility.INSTANCE;
+    private static final EncryptDecryptUtility INSTANCE = EncryptDecryptUtility.INSTANCE;
 
     /**
      * getCduNumber.
@@ -112,7 +112,7 @@ public class DashboardCduDto {
      * @return unique encrypted identifier
      */
     public String getIdentifier() {
-        return encryptDecryptUtility.encryptData(macAddress);
+        return INSTANCE.encryptData(macAddress);
     }
 
     /**

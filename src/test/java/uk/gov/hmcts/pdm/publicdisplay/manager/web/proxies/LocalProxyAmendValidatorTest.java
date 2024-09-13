@@ -128,7 +128,7 @@ class LocalProxyAmendValidatorTest extends AbstractLocalProxyValidatorTest {
         final List<XhibitCourtSiteDto> sites = getTestSites(AppConstants.YES_CHAR);
         final CourtSiteDto courtSite = getTestCourtSite(COURT_SITE_ID);
         final LocalProxySearchCommand localProxySearchCommand =
-            getLocalProxySearchCommand(Long.valueOf(sites.size() + 1));
+            getLocalProxySearchCommand(sites.size() + 1);
         final BindingResult errors =
             new BeanPropertyBindingResult(localProxySearchCommand, LOCAL_PROXY_SEARCH_COMMAND);
 

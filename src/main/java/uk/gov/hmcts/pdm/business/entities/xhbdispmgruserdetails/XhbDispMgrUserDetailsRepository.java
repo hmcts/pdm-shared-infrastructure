@@ -11,6 +11,7 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IUserDetails;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 public class XhbDispMgrUserDetailsRepository extends AbstractRepository<XhbDispMgrUserDetailsDao> {
 
     private static final Logger LOG =

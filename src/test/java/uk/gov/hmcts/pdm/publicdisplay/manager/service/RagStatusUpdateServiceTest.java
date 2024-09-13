@@ -36,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author boparaij
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class RagStatusUpdateServiceTest extends RagStatusOverallTest {
 
     /**

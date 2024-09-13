@@ -53,7 +53,7 @@ abstract class LocalProxyCourtSiteServiceTest extends LocalProxyServiceTestBase 
      */
     @Test
     void testGetXhibitCourtSitesWithLocalProxyEmpty() {
-        final ArrayList<IXhibitCourtSite> emptyCourtSiteList = new ArrayList<>();
+        final List<IXhibitCourtSite> emptyCourtSiteList = new ArrayList<>();
 
         // Add the mock calls to child classes
         expect(mockCourtSiteRepo.findCourtSitesWithLocalProxy()).andReturn(emptyCourtSiteList);
@@ -98,7 +98,7 @@ abstract class LocalProxyCourtSiteServiceTest extends LocalProxyServiceTestBase 
      */
     @Test
     void testGetXhibitCourtSitesWithoutLocalProxyEmpty() {
-        final ArrayList<IXhibitCourtSite> emptyCourtSiteList = new ArrayList<>();
+        final List<IXhibitCourtSite> emptyCourtSiteList = new ArrayList<>();
 
         // Add the mock calls to child classes
         expect(mockCourtSiteRepo.findCourtSitesWithoutLocalProxy()).andReturn(emptyCourtSiteList);

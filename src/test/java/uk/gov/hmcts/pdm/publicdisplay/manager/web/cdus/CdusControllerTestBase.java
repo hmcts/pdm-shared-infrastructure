@@ -49,6 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author harrism
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 abstract class CdusControllerTestBase extends AbstractJUnit {
 
     /** The mock cdu search validator. */

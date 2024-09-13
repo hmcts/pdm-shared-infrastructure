@@ -42,7 +42,7 @@ public enum UserRole {
     public static final String ROLE_USER_VALUE = "ROLE_USER";
 
     /** The description. */
-    private String description;
+    private final String description;
 
     /**
      * Instantiates a new user role.

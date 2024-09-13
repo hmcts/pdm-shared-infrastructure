@@ -39,7 +39,7 @@ public class CourtRoomService extends CourtRoomServiceFinder implements ICourtRo
     private static final String YES = "Y";
     private static final String EMPTY_STRING = "";
     private static final String REGEXP_NUMBERS = "[^0-9]";
-    private static final Integer ROOM_NO_LIMIT = Integer.valueOf(99);
+    private static final Integer ROOM_NO_LIMIT = 99;
 
     /**
      * Gets the court.
@@ -221,7 +221,7 @@ public class CourtRoomService extends CourtRoomServiceFinder implements ICourtRo
     private Integer getCourtRoomNo(final String courtRoomName,
         final List<CourtRoomDto> courtRoomDtos) {
         String numbers = courtRoomName.replaceAll(REGEXP_NUMBERS, EMPTY_STRING);
-        if (EMPTY_STRING.equals(numbers) || ROOM_NO_LIMIT < Integer.valueOf(numbers)) {
+        if (EMPTY_STRING.equals(numbers) || ROOM_NO_LIMIT < Integer.parseInt(numbers)) {
             return getNextAvailableCourtRoomNo(courtRoomDtos);
         } else {
             return Integer.valueOf(numbers);

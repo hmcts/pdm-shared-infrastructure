@@ -113,8 +113,8 @@ class PropertyServiceTest extends AbstractJUnit {
     @Test
     void testRepository() {
         IPropertyService localClassUnderTest = new PropertyService(null);
-        assertThrows(RuntimeException.class,
-            () -> localClassUnderTest.getAllProperties(), "Exception not Thrown");
+        assertThrows(RuntimeException.class, localClassUnderTest::getAllProperties,
+            "Exception not Thrown");
     }
 
     /**

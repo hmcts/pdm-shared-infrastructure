@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author boparaij
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public class JsonRequest {
 
     /** The status value for success. */
@@ -82,11 +83,11 @@ public class JsonRequest {
     /** The object mapper util. */
     private final IObjectMapperUtil objectMapperUtil;
 
-    private final JsonWebTokenUtility jswtuInstance = JsonWebTokenUtility.INSTANCE;
+    private static final JsonWebTokenUtility JSWTUINSTANCE = JsonWebTokenUtility.INSTANCE;
 
-    private final String bearerHeader = jswtuInstance.REQUEST_HEADER_BEARER;
+    private static final String BEARERHEADER = JsonWebTokenUtility.REQUEST_HEADER_BEARER;
 
-    private final TimeUnit seconds = TimeUnit.SECONDS;
+    private static final TimeUnit SECONDS = TimeUnit.SECONDS;
 
     /** The timeout in seconds for socket, connect & request. */
     private Integer timeout = DEFAULT_TIMEOUT;
@@ -229,13 +230,17 @@ public class JsonRequest {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     /**
      * Send get request and return no response.
      *
      * @throws RestException the rest exception
      */
     public void sendRequest() {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info("sendRequest()");
 
         // Create get object from url
         final HttpGet httpGet = createHttpGet();
@@ -253,7 +258,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public <T> T sendRequest(final Class<T> responseType) {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info("sendRequest(Class)");
 
         // Create get object from url
         final HttpGet httpGet = createHttpGet();
@@ -270,7 +275,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest(final Object request) {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info("sendRequest(Object)");
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -290,7 +295,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public <T> T sendRequest(final Object request, final Class<T> responseType) {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info("sendRequest(Object, Class)");
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -312,30 +317,29 @@ public class JsonRequest {
         LOGGER.info("Sending request {}", request.getRequestLine());
 
         // Initial status is failure until proven otherwise with no response
-        status = STATUS_FAILED;
+        setStatus(STATUS_FAILED);
 
         // Create unique id for message
-        messageId = UUID.randomUUID().toString();
+        this.messageId = UUID.randomUUID().toString();
 
         // Create request configuration with each timeout set in milliseconds
-        final int timeoutMillis = (int) seconds.toMillis(timeout);
+        final int timeoutMillis = (int) SECONDS.toMillis(timeout);
         final RequestConfig config = RequestConfig.custom().setSocketTimeout(timeoutMillis)
             .setConnectTimeout(timeoutMillis).setConnectionRequestTimeout(timeoutMillis).build();
 
         // Create json web token with the expiration set to current date plus expiry
         final String token =
-            bearerHeader + " " + jswtuInstance.generateToken(tokenType, messageId, expiry);
+            BEARERHEADER + " " + JSWTUINSTANCE.generateToken(tokenType, messageId, expiry);
         request.addHeader(JsonWebTokenUtility.REQUEST_HEADER_AUTHORIZATION, token);
 
         // Create http client using the above request configuration
         try (CloseableHttpClient httpClient =
             HttpClients.custom().setDefaultRequestConfig(config).build();) {
             // Send http request and process response via handler
-            final T response =
-                httpClient.execute(request, new JsonResponseHandler<T>(responseType));
+            final T response = httpClient.execute(request, new JsonResponseHandler<>(responseType));
 
             // Request was successful if reached here as no exception thrown
-            status = STATUS_SUCCESS;
+            setStatus(STATUS_SUCCESS);
 
             // Return response in required type
             return response;
@@ -375,10 +379,6 @@ public class JsonRequest {
             requestText = (String) request;
         } else if (request != null) {
             requestText = objectMapperUtil.getJsonString(request);
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Request body {}", requestText);
         }
 
         // Create post object from request body

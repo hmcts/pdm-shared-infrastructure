@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
-import uk.gov.hmcts.pdm.publicdisplay.manager.service.OAuth2Helper;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.PropertyService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IPropertyService;
 
@@ -59,8 +58,6 @@ public class ApplicationConfiguration {
 
     /** The property service. */
     private IPropertyService propertyService;
-    
-    private OAuth2Helper oauth2Helper;
 
     @PostConstruct
     public void init() {
@@ -71,25 +68,6 @@ public class ApplicationConfiguration {
             InitializationService.getInstance().setEnvironment(env);
         }
         this.propertyService = new PropertyService(EntityManagerUtil.getEntityManager());
-        // --- Remove me ----
-        if (env != null) {
-            if (oauth2Helper == null) {
-                oauth2Helper = new OAuth2Helper();
-            }
-            LOGGER.info("TenantId ={}", oauth2Helper.getTenantId());
-            LOGGER.info("ClientId ={}", oauth2Helper.getClientId());
-            String value;
-            if ("ee71b40f-90bf-49af-936d-04fbde2023fc".equals(oauth2Helper.getClientId())) {
-                value = "STAGING";
-            } else if ("76981322-2cf0-44ea-a49c-bda08c7878c5".equals(oauth2Helper.getClientId())) {
-                value = "DEV";
-            } else {
-                value = "Something else - " + oauth2Helper.getClientId().substring(5);
-            }
-            LOGGER.info("ClientId is = {}", value);
-            LOGGER.info("ClientSecret ={}", oauth2Helper.getClientSecret());
-        }
-        // -------------------
     }
 
     /**
@@ -137,7 +115,7 @@ public class ApplicationConfiguration {
      */
     public Integer getRestClientTimeout() {
         String value = propertyService.getPropertyValueByName("rest.client.timeout");
-        return EMPTY_STRING.equals(value) ? 0 : Integer.valueOf(value);
+        return EMPTY_STRING.equals(value) ? 0 : Integer.parseInt(value);
     }
 
     /**
@@ -147,7 +125,7 @@ public class ApplicationConfiguration {
      */
     public Integer getRestTokenExpiry() {
         String value = propertyService.getPropertyValueByName("rest.token.expiry");
-        return EMPTY_STRING.equals(value) ? 0 : Integer.valueOf(value);
+        return EMPTY_STRING.equals(value) ? 0 : Integer.parseInt(value);
     }
 
     /**

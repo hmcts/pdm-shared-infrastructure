@@ -61,6 +61,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+@SuppressWarnings("PMD.LawOfDemeter")
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String CUSTOM_LOGINPAGE = "custom.loginPage";

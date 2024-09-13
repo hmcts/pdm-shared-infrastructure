@@ -19,7 +19,8 @@ public class CduUrlManagementController extends CduAmendController {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(CduUrlManagementController.class);
-
+    private static final String ADD = "add";
+    
     /**
      * Redirect to one of amend_url or remove_url depending on contents of url method.
      * 
@@ -52,7 +53,7 @@ public class CduUrlManagementController extends CduAmendController {
                 final CduDto cdu =
                     populateSelectedCduInPageStateHolder(cduSearchCommand.getSelectedMacAddress());
 
-                if ("add".equalsIgnoreCase(urlMethod)) {
+                if (ADD.equalsIgnoreCase(urlMethod)) {
                     LOGGER.debug("{}{} - redirect to add url mapping page", METHOD, methodName);
 
                     /*

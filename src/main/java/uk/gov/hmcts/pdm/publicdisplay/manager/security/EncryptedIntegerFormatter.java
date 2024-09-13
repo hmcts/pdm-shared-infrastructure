@@ -37,7 +37,7 @@ import java.util.Locale;
  */
 public class EncryptedIntegerFormatter implements Formatter<Integer> {
 
-    private final EncryptDecryptUtility encryptDecryptUtilityinstance =
+    private static final EncryptDecryptUtility INSTANCE =
         EncryptDecryptUtility.INSTANCE;
 
     /*
@@ -47,7 +47,7 @@ public class EncryptedIntegerFormatter implements Formatter<Integer> {
      */
     @Override
     public String print(final Integer object, final Locale locale) {
-        return encryptDecryptUtilityinstance.encryptData(object.toString());
+        return INSTANCE.encryptData(object.toString());
     }
 
     /*
@@ -57,7 +57,7 @@ public class EncryptedIntegerFormatter implements Formatter<Integer> {
      */
     @Override
     public Integer parse(final String text, final Locale locale) throws ParseException {
-        return Integer.parseInt(encryptDecryptUtilityinstance.decryptData(text));
+        return Integer.parseInt(INSTANCE.decryptData(text));
     }
 
 }

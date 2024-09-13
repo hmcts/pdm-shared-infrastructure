@@ -244,10 +244,11 @@ public class CourtRoomController extends CourtRoomPageStateSetter {
 
             // Populate the relevant fields
             final CourtRoomAmendCommand courtRoomAmendCommand = new CourtRoomAmendCommand();
+            final List<CourtRoomDto> courtRoomList = new ArrayList<>();
 
             // Populate the model objects
             model.addObject(COURTSITE_LIST, courtRoomPageStateHolder.getSites());
-            model.addObject(COURTROOM_LIST, new ArrayList<CourtRoomDto>());
+            model.addObject(COURTROOM_LIST, courtRoomList);
             model.addObject(COURT, court);
             model.addObject(COMMAND, courtRoomAmendCommand);
             LOGGER.debug("{}{} - Added command object to model", METHOD, methodName);
@@ -372,7 +373,7 @@ public class CourtRoomController extends CourtRoomPageStateSetter {
 
         // Ensure the search command is the latest
         courtRoomPageStateHolder.setCourtRoomSearchCommand(courtRoomSearchCommand);
-        courtRoomPageStateHolder.setCourtRoomsList(new ArrayList<CourtRoomDto>());
+        courtRoomPageStateHolder.setCourtRoomsList(new ArrayList<>());
 
         courtRoomSelectedValidator.validate(courtRoomSearchCommand, result);
         if (result.hasErrors()) {

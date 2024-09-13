@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.courtroom;
 
+@SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
 public class CourtRoomDeleteCommand extends CourtRoomAmendCommand {
 
     private static final String NOT_APPLICABLE = "N/A";

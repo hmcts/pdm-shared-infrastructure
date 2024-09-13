@@ -106,7 +106,7 @@ abstract class CourtControllerBase extends AbstractJUnit {
         courtDto.setCourtName("court_name");
         courtDto.setAddressId(1);
         courtDto.setId(3);
-        ArrayList<CourtDto> courtDtos = new ArrayList<>();
+        List<CourtDto> courtDtos = new ArrayList<>();
         courtDtos.add(courtDto);
         return courtDtos;
     }

@@ -79,7 +79,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
     private static final String FIVE_PARAMS = "{}{}{}{}{}";
     private static final String STARTS = " - starts";
     private static final String ENDS = " - ends";
-    private final Character greenChar = AppConstants.GREEN_CHAR;
+    private static final Character GREENCHAR = AppConstants.GREEN_CHAR;
     private static final String TEST_HOSTNAME = "TEST_HOSTNAME_";
 
     /** The page url. */
@@ -315,8 +315,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
 
         if (courtSite == null) {
             // Not found so we need to add one
-            LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site not found for id "
-                + localProxyRegisterCommand.getXhibitCourtSiteId() + "  - creating new court site");
+            LOGGER.debug(THREE_PARAMS, METHOD, methodName, "creating new court site");
             courtSite = new CourtSite();
 
             // Need to link it back to Xhibit Court Site
@@ -325,8 +324,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
             courtSite.setXhibitCourtSite(xhibitCourtSite);
             LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site created ");
         } else {
-            LOGGER.debug(THREE_PARAMS, METHOD, methodName,
-                " court site found for id " + localProxyRegisterCommand.getXhibitCourtSiteId());
+            LOGGER.debug(THREE_PARAMS, METHOD, methodName, " court site found");
             updatedMessage = " updated ";
         }
 
@@ -339,7 +337,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
         courtSite.setPageUrl(pageUrl);
         courtSite.setTitle(localProxyRegisterCommand.getTitle());
         courtSite.setNotification(localProxyRegisterCommand.getNotification());
-        courtSite.setRagStatus(greenChar.toString());
+        courtSite.setRagStatus(GREENCHAR.toString());
         courtSite.setRagStatusDate(LocalDateTime.now());
 
         LOGGER.debug(FIVE_PARAMS, METHOD, methodName, " saving ", updatedMessage, " court site");
@@ -349,7 +347,7 @@ public class LocalProxyService extends LocalProxyServiceFinder implements ILocal
         final LocalProxy localProxy = new LocalProxy();
         localProxy.setIpAddress(localProxyRegisterCommand.getIpAddress());
         localProxy.setCourtSite(courtSite);
-        localProxy.setRagStatus(greenChar.toString());
+        localProxy.setRagStatus(GREENCHAR.toString());
         localProxy.setRagStatusDate(LocalDateTime.now());
 
         // set the flag to determine if the notification value has changed

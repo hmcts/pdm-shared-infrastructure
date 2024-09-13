@@ -37,13 +37,13 @@ public enum JsonWebTokenType {
     LOCAL_PROXY("KU4mS1UedMnn6NE1MeXyK8MLdawabdCiOVAcFjd", "local_proxy", "ROLE_LOCAL_PROXY");
 
     /** The key. */
-    private String key;
+    private final String key;
 
     /** The subject. */
-    private String subject;
+    private final String subject;
 
     /** The role. */
-    private String role;
+    private final String role;
 
     /**
      * Instantiates a new json web token.
