@@ -85,7 +85,7 @@ public class JsonRequest {
 
     private static final JsonWebTokenUtility JSWTUINSTANCE = JsonWebTokenUtility.INSTANCE;
 
-    private static final String BEARERHEADER = JSWTUINSTANCE.REQUEST_HEADER_BEARER;
+    private static final String BEARERHEADER = JsonWebTokenUtility.INSTANCE.REQUEST_HEADER_BEARER;
 
     private static final TimeUnit SECONDS = TimeUnit.SECONDS;
 
@@ -229,7 +229,7 @@ public class JsonRequest {
     public String getStatus() {
         return status;
     }
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
@@ -240,7 +240,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest() {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info(REQUEST_URL, url.replaceAll("[\n\r]", "_"));
 
         // Create get object from url
         final HttpGet httpGet = createHttpGet();
@@ -275,7 +275,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public void sendRequest(final Object request) {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info(REQUEST_URL, url.replaceAll("[\n\r]", "_"));
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -295,7 +295,7 @@ public class JsonRequest {
      * @throws RestException the rest exception
      */
     public <T> T sendRequest(final Object request, final Class<T> responseType) {
-        LOGGER.info(REQUEST_URL, url);
+        LOGGER.info(REQUEST_URL, url.replaceAll("[\n\r]", "_"));
 
         // Create post object from request and url
         final HttpPost httpPost = createHttpPost(request);
@@ -336,8 +336,7 @@ public class JsonRequest {
         try (CloseableHttpClient httpClient =
             HttpClients.custom().setDefaultRequestConfig(config).build();) {
             // Send http request and process response via handler
-            final T response =
-                httpClient.execute(request, new JsonResponseHandler<>(responseType));
+            final T response = httpClient.execute(request, new JsonResponseHandler<>(responseType));
 
             // Request was successful if reached here as no exception thrown
             setStatus(STATUS_SUCCESS);
@@ -383,7 +382,7 @@ public class JsonRequest {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Request body {}", requestText);
+            LOGGER.debug("Request body {}", requestText.replaceAll("[\n\r]", "_"));
         }
 
         // Create post object from request body
