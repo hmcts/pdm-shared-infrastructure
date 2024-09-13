@@ -85,7 +85,7 @@ public class JsonRequest {
 
     private static final JsonWebTokenUtility JSWTUINSTANCE = JsonWebTokenUtility.INSTANCE;
 
-    private static final String BEARERHEADER = JsonWebTokenUtility.INSTANCE.REQUEST_HEADER_BEARER;
+    private static final String BEARERHEADER = JsonWebTokenUtility.REQUEST_HEADER_BEARER;
 
     private static final TimeUnit SECONDS = TimeUnit.SECONDS;
 
