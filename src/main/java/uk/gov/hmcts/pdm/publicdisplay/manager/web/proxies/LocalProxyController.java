@@ -321,8 +321,7 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
         localProxyUnregisterValidator.validate(localProxySearchCommand, result);
         if (!result.hasErrors()) {
             // Perform unregister - get the courtSite
-            LOGGER.debug("{}{} unregistering proxy for site id : {}", METHOD, methodName,
-                localProxySearchCommand.getXhibitCourtSiteId());
+            LOGGER.debug("{}{} unregistering proxy for site", METHOD, methodName);
 
             try {
                 LOGGER.debug("{}{} obtaining translated court site id via courtsite object", METHOD,
@@ -330,8 +329,7 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
                 final CourtSiteDto courtSite = localProxyService.getCourtSiteByXhibitCourtSiteId(
                     localProxySearchCommand.getXhibitCourtSiteId());
 
-                LOGGER.debug("{}{} Xhibit court site {} Other Court site ID {}", METHOD, methodName,
-                    localProxySearchCommand.getXhibitCourtSiteId(), courtSite.getId());
+                LOGGER.debug("{}{} Xhibit court site vs Other Court site ID", METHOD, methodName);
 
                 localProxyService.unregisterLocalProxy(courtSite.getId());
 
@@ -496,8 +494,8 @@ public class LocalProxyController extends LocalProxyPageStateSetter {
         if (!result.hasErrors()) {
             // Get the details for the selected court site
             LOGGER.debug(
-                "{}{} Grab the Court Site & associated local Proxy using  xhibitCourtSIteId {}",
-                METHOD, methodName, localProxySearchCommand.getXhibitCourtSiteId());
+                "{}{} Grab the Court Site & associated local Proxy using xhibitCourtSIteId",
+                METHOD, methodName);
 
             final CourtSiteDto courtSite = localProxyService
                 .getCourtSiteByXhibitCourtSiteId(localProxySearchCommand.getXhibitCourtSiteId());

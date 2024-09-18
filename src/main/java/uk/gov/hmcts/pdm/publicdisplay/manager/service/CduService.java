@@ -99,8 +99,7 @@ public class CduService extends CduServHelperSave implements ICduService {
     public void registerCdu(final CduDto cduDto, final CduRegisterCommand cduCommand) {
         final String methodName = "registerCdu";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, STARTS);
-        LOGGER.debug("{}{}{}{}", METHOD, methodName, " cduCommand Object Contents ", cduCommand);
-
+        
         // get the CDU. it may or may not exist
         ICduModel cdu = getXhbDispMgrCduRepository().findByMacAddress(cduDto.getMacAddress());
 
