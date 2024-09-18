@@ -83,7 +83,7 @@ public class LocalProxyRestClientRequest {
      */
     protected <T> T sendRequest(final ILocalProxy localProxy, final String service,
         final String path, final Object request, final Class<T> responseType) {
-        LOGGER.debug("sendRequest({},{},{})", localProxy.getIpAddress(), service, responseType.getName());
+        LOGGER.debug("sendRequest()");
         final JsonRequest jsonRequest = createJsonRequest(localProxy, path);
         try {
             return jsonRequest.sendRequest(request, responseType);
