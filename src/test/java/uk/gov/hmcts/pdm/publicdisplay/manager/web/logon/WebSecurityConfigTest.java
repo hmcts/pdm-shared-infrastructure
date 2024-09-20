@@ -44,7 +44,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
     
-    private WebSecurityConfig classUnderTest = new WebSecurityConfig();
+    private final WebSecurityConfig classUnderTest = new WebSecurityConfig();
     
     @Test
     void testWebSecurityCustomizer() {
