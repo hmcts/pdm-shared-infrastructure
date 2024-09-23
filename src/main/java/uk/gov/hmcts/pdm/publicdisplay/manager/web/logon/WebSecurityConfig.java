@@ -16,7 +16,6 @@ public class WebSecurityConfig {
         "/health",
         "/loggers/**",
         "/",
-        "/home",
         "/login**",
         "/error**",
         "/callback/",
