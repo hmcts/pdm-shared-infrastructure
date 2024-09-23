@@ -17,6 +17,8 @@ public class WebSecurityConfig {
         "/loggers/**",
         "/",
         "/login",
+        "/login?error",
+        "/error",
         "/status/health",
         "/swagger-resources/**",
         "/swagger-ui/**",
