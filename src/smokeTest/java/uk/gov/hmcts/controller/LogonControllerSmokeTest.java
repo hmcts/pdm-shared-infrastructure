@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
 class LogonControllerSmokeTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerSmokeTest.class);
-    private static final String HOMEPAGE = "/home";
+    private static final String HEALTHPAGE = "/health";
     private static final String INVALID_STATUS_RESPONSE = "Invalid status response";
     
     @Value("${TEST_URL:http://localhost:8080}")
@@ -45,7 +45,7 @@ class LogonControllerSmokeTest {
     
     private String getTestUrl() {
         StringBuilder sb = new StringBuilder();
-        sb.append(testUrl).append(HOMEPAGE);
+        sb.append(testUrl).append(HEALTHPAGE);
         return sb.toString();
     }
 }
