@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
 class LogonControllerFunctionalTest {
     
     private static final Logger LOG = LoggerFactory.getLogger(LogonControllerFunctionalTest.class);
-    private static final String HEALTHPAGE = "/home";
+    private static final String HEALTHPAGE = "/health";
     private static final String INVALID_STATUS_RESPONSE = "Invalid status response";
     
     @Value("${TEST_URL:http://localhost:8080}")
