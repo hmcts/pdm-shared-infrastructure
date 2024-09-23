@@ -13,6 +13,7 @@ public class WebSecurityConfig {
         "/health",
         "/loggers/**",
         "/",
+        "/Login",
         "/status/health",
         "/swagger-resources/**",
         "/swagger-ui/**",
