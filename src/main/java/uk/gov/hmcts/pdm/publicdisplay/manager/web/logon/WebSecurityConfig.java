@@ -19,6 +19,7 @@ public class WebSecurityConfig {
         "/login**",
         "/error**",
         "/callback/",
+        "/WEB-INF/jsp/error**",
         "/oauth2/authorization/**", 
         "/login/oauth2/code**",
         "/status/health",
