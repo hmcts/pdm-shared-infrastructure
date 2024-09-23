@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -36,6 +36,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import java.util.Map;
 
@@ -46,6 +47,7 @@ import java.util.Map;
  */
 
 @Controller
+@SuppressWarnings("PMD.LawOfDemeter")
 public class LogonController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogonController.class);
@@ -102,6 +104,8 @@ public class LogonController {
     private static final String MODEL_ERROR = "error";
 
     private static final String ANONYMOUS_USER = "anonymousUser";
+    
+    private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
@@ -127,11 +131,11 @@ public class LogonController {
      *
      * @return the string
      */
-    @ConditionalOnProperty(name = "spring.cloud.azure.active-directory.enabled",
-        havingValue = "false")
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
     public String login(HttpSession session, HttpServletRequest req, Map<String, Object> model) {
         LOGGER.debug("login()");
+        Environment env = InitializationService.getInstance().getEnvironment();
+        LOGGER.debug("Azure enabled={}", env.getProperty(AZURE_ENABLED));
         return VIEW_LOGIN;
     }
 
