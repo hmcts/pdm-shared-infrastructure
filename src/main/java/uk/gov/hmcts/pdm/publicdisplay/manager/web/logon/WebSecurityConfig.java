@@ -38,6 +38,15 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
         LOG.info("filterChain()");
         try {
+            return getHttp(http).build();
+        } catch (Exception exception) {
+            LOG.error("Failure in filterChain", exception);
+            return null;
+        }
+    }
+
+    protected HttpSecurity getHttp(HttpSecurity http) {
+        try {
             http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
                 .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
                 .oauth2Login(oauth2Login -> oauth2Login
@@ -45,13 +54,13 @@ public class WebSecurityConfig {
                         authorizationEndpoint -> authorizationEndpoint.baseUri("/oauth2/authorize"))
                     .redirectionEndpoint(
                         redirectionEndpoint -> redirectionEndpoint.baseUri("/oauth2/callback/*")));
-            return http.build();
+            return http;
         } catch (Exception exception) {
-            LOG.error("Failure in filterChain", exception);
+            LOG.error("Failure in getHttp", exception);
             return null;
         }
     }
-
+    
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         LOG.info("webSecurityCustomizer()");
