@@ -13,13 +13,13 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 public class WebSecurityConfig {
 
     private static final Log LOG = LogFactory.getLog(WebSecurityConfig.class);
+    private static final String INVALIDSESSION_URL = "/invalidSession";
     private static final String[] AUTH_WHITELIST = {
         "/health/liveness",
         "/health/readiness",
         "/health",
         "/loggers/**",
         "/",
-        "/login**",
         "/error**",
         "/callback/",
         "/css/xhibit.css",
@@ -33,12 +33,23 @@ public class WebSecurityConfig {
         "/swagger-ui/**",
         "/webjars/**"
     };
-    
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         LOG.info("filterChain()");
-        http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-        return http.build();
+        try {
+            http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+                .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
+                .oauth2Login(oauth2Login -> oauth2Login
+                    .authorizationEndpoint(
+                        authorizationEndpoint -> authorizationEndpoint.baseUri("/oauth2/authorize"))
+                    .redirectionEndpoint(
+                        redirectionEndpoint -> redirectionEndpoint.baseUri("/oauth2/callback/*")));
+            return http.build();
+        } catch (Exception exception) {
+            LOG.error("Failure in filterChain", exception);
+            return null;
+        }
     }
 
     @Bean
