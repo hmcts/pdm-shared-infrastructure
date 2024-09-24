@@ -25,13 +25,25 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
+import java.util.concurrent.ConcurrentHashMap;
+
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * The Class WebSecurityConfig.
@@ -43,13 +55,82 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
-    
+    private static final String NULL = "Result is not Null";
+
+    @Mock
+    private HttpSecurity mockHttpSecurity;
+
+    @Mock
+    private DefaultSecurityFilterChain mockSecurityFilterChain;
+
+    @Mock
+    private ObjectPostProcessor<Object> mockObjectPostProcessor;
+
+    @Mock
+    private AuthenticationManager mockAuthenticationManager;
+
+    @Mock
+    private AuthenticationManagerBuilder mockAuthenticationManagerBuilder;
+
     private final WebSecurityConfig classUnderTest = new WebSecurityConfig();
+
+    @Test
+    void testFilterChain() {
+        try {
+            // Setup
+            WebSecurityConfig localClassUnderTest = new WebSecurityConfig() {
+                @Override
+                protected HttpSecurity getHttp(HttpSecurity http) {
+                    return mockHttpSecurity;
+                }
+            };
+            // Expects
+            Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
+            // Run
+            SecurityFilterChain result = localClassUnderTest.filterChain(mockHttpSecurity);
+            assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
     
+    @Test
+    void testFilterChainFailure() {
+        try {
+            // Setup
+            WebSecurityConfig localClassUnderTest = new WebSecurityConfig();
+            // Run
+            SecurityFilterChain result = localClassUnderTest.filterChain(mockHttpSecurity);
+            assertNull(result, NULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void testGetHttp() {
+        try {
+            // Setup 
+            HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
+            // Run
+            HttpSecurity result = classUnderTest.getHttp(dummyHttpSecurity);
+            assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
     @Test
     void testWebSecurityCustomizer() {
         WebSecurityCustomizer result = classUnderTest.webSecurityCustomizer();
         assertNotNull(result, NOTNULL);
+    }
+
+    private HttpSecurity getDummyHttpSecurity() {
+        HttpSecurity dummyHttpSecurity = new HttpSecurity(mockObjectPostProcessor,
+            mockAuthenticationManagerBuilder, new ConcurrentHashMap<>());
+        dummyHttpSecurity.authenticationManager(mockAuthenticationManager);
+        return dummyHttpSecurity;
     }
 
 }
