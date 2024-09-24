@@ -35,10 +35,15 @@ public class WebSecurityConfig {
     };
     
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         LOG.info("filterChain()");
-        http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-        return http.build();
+        try {
+            http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+            return http.build();
+        } catch (Exception exception) {
+            LOG.error("Failure in filterChain", exception);
+            return null;
+        }
     }
 
     @Bean
