@@ -27,6 +27,7 @@ public class WebSecurityConfig {
         "/js/bootstrap.min.js",
         "/WEB-INF/jsp/error**",
         "/oauth2/authorization/**", 
+        "/oauth2/authorize/azure/**",
         "/login/oauth2/code**",
         "/status/health",
         "/swagger-resources/**",
