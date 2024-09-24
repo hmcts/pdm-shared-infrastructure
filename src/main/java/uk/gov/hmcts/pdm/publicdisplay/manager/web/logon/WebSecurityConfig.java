@@ -13,7 +13,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 public class WebSecurityConfig {
 
     private static final Log LOG = LogFactory.getLog(WebSecurityConfig.class);
-    private static final String INVALIDSESSION_URL = "/invalidSession";
+    private static final String INVALIDSESSION_URL = "/invalidSession"; 
     private static final String[] AUTH_WHITELIST = {
         "/health/liveness",
         "/health/readiness",
