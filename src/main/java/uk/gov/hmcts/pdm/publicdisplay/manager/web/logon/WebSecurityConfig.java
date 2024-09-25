@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
@@ -43,7 +44,7 @@ public class WebSecurityConfig {
 
     @Autowired
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
-    
+
     @Autowired
     private final InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
@@ -68,8 +69,8 @@ public class WebSecurityConfig {
                 OAuth2LoginAuthenticationFilter.class)
             .authorizeHttpRequests().anyRequest().authenticated().and().oauth2ResourceServer()
             .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver()).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf()
-            .disable().formLogin().disable().logout().disable();
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
     }
 
     @Bean
