@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,13 +41,11 @@ public class WebSecurityConfig {
         "/oauth2/authorization/**", "/oauth2/authorize/azure/**", "/login/oauth2/code**",
         "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**"};
 
+    @Autowired
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
+    
+    @Autowired
     private final InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
-
-    public WebSecurityConfig() {
-        this(new InternalAuthConfigurationProperties(),
-            new InternalAuthProviderConfigurationProperties());
-    }
 
     public WebSecurityConfig(
         InternalAuthConfigurationProperties internalAuthConfigurationProperties,

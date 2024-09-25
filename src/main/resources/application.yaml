@@ -1,11 +1,45 @@
 server:
   port: 8081
 
+pdda:
+  portal:
+    url: ${PDDA_PORTAL_URL:https://pdda-public-display-manager.staging.platform.hmcts.net}
+  azure:
+    active-directory-justice-auth-uri: https://login.microsoftonline.com
+  db_user_name: ${DB_USER_NAME}
+  db_password: ${DB_PASSWORD}
+  db_host: ${DB_HOST}
+  db_port: ${DB_PORT}
+  db_name: ${DB_NAME}
+
 spring:
   application:
     name: pdda-public-display-manager
   config:
     import: "optional:configtree:/mnt/secrets/pdda/"
+  security:
+    oauth2:
+      client:
+        registration:
+          internal-azure-ad:
+            client-id: ${PDDA_AZURE_CLIENT_ID:00000000-0000-0000-0000-000000000000}
+            client-secret: ${PDDA_AZURE_CLIENT_SECRET:}
+            scope: openid
+            redirect-uri: ${pdda.portal.url}/auth/internal/callback
+            logout-redirect-uri: ${pdda.portal.url}/auth/internal/logout-callback
+            authorization-grant-type: authorization_code
+            response-type: code
+            response-mode: form_post
+            prompt:
+            issuer-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/v2.0
+            claims: preferred_username
+            provider: internal-azure-ad-provider
+        provider:
+          internal-azure-ad-provider:
+            authorization-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/authorize
+            token-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/token
+            jwk-set-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/discovery/v2.0/keys
+            logout-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/logout
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pdda}${DB_OPTIONS:}
