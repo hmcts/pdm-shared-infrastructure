@@ -23,6 +23,10 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +56,7 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.fail;
@@ -64,6 +69,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields"})
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
@@ -107,12 +113,21 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private HandlerMappingIntrospector mockHandlerMappingIntrospector;
 
     @Mock
+    private HttpServletRequest mockHttpServletRequest;
+
+    @Mock
+    private HttpServletResponse mockHttpServletResponse;
+
+    @Mock
+    private FilterChain mockFilterChain;
+
+    @Mock
     private InternalAuthProviderConfigurationProperties mockInternalAuthProviderConfigurationProperties;
 
     @InjectMocks
     private WebSecurityConfig classUnderTest;
 
-    private WebSecurityConfig classUnderTestNoHttp;
+    private LocalWebSecurityConfig classUnderTestNoHttp;
 
     /**
      * Setup.
@@ -131,20 +146,11 @@ class WebSecurityConfigTest extends AbstractJUnit {
         ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
 
-        classUnderTestNoHttp = new WebSecurityConfig() {
-            @Override
-            protected HttpSecurity getAuthHttp(HttpSecurity http) {
-                return mockHttpSecurity;
-            }
-
-            @Override
-            protected HttpSecurity getSecurityHttp(HttpSecurity http) {
-                return mockHttpSecurity;
-            }
-        };
+        classUnderTestNoHttp = new LocalWebSecurityConfig();
         ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
             mockInternalAuthConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthProviderConfigurationProperties",
+        ReflectionTestUtils.setField(classUnderTestNoHttp,
+            "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
     }
 
@@ -204,7 +210,18 @@ class WebSecurityConfigTest extends AbstractJUnit {
         } catch (Exception exception) {
             fail(exception.getMessage());
         }
+    }
 
+    @Test
+    void testAuthorisationTokenExistenceFilter() {
+        try {
+            classUnderTestNoHttp.testFilter();
+            Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class)))
+                .thenReturn("Bearer");
+            classUnderTestNoHttp.testFilter();
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
     }
 
     private HttpSecurity getDummyHttpSecurity() {
@@ -249,4 +266,26 @@ class WebSecurityConfigTest extends AbstractJUnit {
         Mockito.when(mockJwkSetUriJwtDecoderBuilder.build()).thenReturn(mockNimbusJwtDecoder);
     }
 
+    class LocalWebSecurityConfig extends WebSecurityConfig {
+        @Override
+
+        protected HttpSecurity getAuthHttp(HttpSecurity http) {
+            return mockHttpSecurity;
+        }
+
+        @Override
+        protected HttpSecurity getSecurityHttp(HttpSecurity http) {
+            return mockHttpSecurity;
+        }
+
+        public void testFilter() {
+            AuthorisationTokenExistenceFilter filter = new AuthorisationTokenExistenceFilter();
+            try {
+                filter.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse,
+                    mockFilterChain);
+            } catch (ServletException | IOException ex) {
+                fail(ex.getMessage());
+            }
+        }
+    }
 }

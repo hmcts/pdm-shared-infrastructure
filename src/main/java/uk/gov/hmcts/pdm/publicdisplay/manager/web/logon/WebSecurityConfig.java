@@ -101,7 +101,7 @@ public class WebSecurityConfig {
         return Map.entry(issuer, authenticationProvider::authenticate);
     }
 
-    private final class AuthorisationTokenExistenceFilter extends OncePerRequestFilter {
+    protected final class AuthorisationTokenExistenceFilter extends OncePerRequestFilter {
 
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
