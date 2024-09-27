@@ -1,71 +1,122 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtValidators;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
+import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.web.filter.OncePerRequestFilter;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
+
+import java.io.IOException;
+import java.util.Map;
 
 @Configuration
+@EnableWebSecurity
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
 public class WebSecurityConfig {
 
-    private static final Log LOG = LogFactory.getLog(WebSecurityConfig.class);
-    private static final String INVALIDSESSION_URL = "/invalidSession"; 
-    private static final String[] AUTH_WHITELIST = {
-        "/health/liveness",
-        "/health/readiness",
-        "/health",
-        "/loggers/**",
-        "/",
-        "/error**",
-        "/callback/",
-        "/css/xhibit.css",
-        "/css/bootstrap.min.css",
-        "/js/bootstrap.min.js",
-        "/WEB-INF/jsp/error**",
-        "/oauth2/authorization/**", 
-        "/oauth2/authorize/azure/**",
-        "/login/oauth2/code**",
-        "/status/health",
-        "/swagger-resources/**",
-        "/swagger-ui/**",
-        "/webjars/**"
-    };
+    private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
+    private static final String[] AUTH_WHITELIST =
+        {"/health/liveness", "/health/readiness", "/health", "/loggers/**", "/", "/error**",
+            "/callback/", "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
+            "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
+            "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
+
+    @Autowired
+    private InternalAuthConfigurationProperties internalAuthConfigurationProperties;
+
+    @Autowired
+    private InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         LOG.info("filterChain()");
-        try {
-            return getHttp(http).build();
-        } catch (Exception exception) {
-            LOG.error("Failure in filterChain", exception);
-            return null;
-        }
+        return getAuthHttp(http).build();
     }
 
-    protected HttpSecurity getHttp(HttpSecurity http) {
-        try {
-            http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
-                .sessionManagement(session -> session.invalidSessionUrl(INVALIDSESSION_URL))
-                .oauth2Login(oauth2Login -> oauth2Login
-                    .authorizationEndpoint(
-                        authorizationEndpoint -> authorizationEndpoint.baseUri("/oauth2/authorize"))
-                    .redirectionEndpoint(
-                        redirectionEndpoint -> redirectionEndpoint.baseUri("/oauth2/callback/*")));
-            return http;
-        } catch (Exception exception) {
-            LOG.error("Failure in getHttp", exception);
-            return null;
-        }
+    protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
+        return getCommonHttp(http).authorizeHttpRequests().anyRequest().authenticated().and()
+            .oauth2ResourceServer(server -> server
+                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver()))
+            .addFilterBefore(new AuthorisationTokenExistenceFilter(),
+                OAuth2LoginAuthenticationFilter.class);
     }
-    
+
+    private HttpSecurity getCommonHttp(HttpSecurity http) throws Exception {
+        return http
+            .sessionManagement(
+                management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+    }
+
+    protected HttpSecurity getSecurityHttp(HttpSecurity http) throws Exception {
+        return getCommonHttp(http).authorizeHttpRequests().anyRequest().permitAll().and()
+            .securityMatcher(AUTH_WHITELIST);
+    }
+
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        LOG.info("webSecurityCustomizer()");
-        return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
+    public SecurityFilterChain patternFilterChain(HttpSecurity http) throws Exception {
+        LOG.info("patternFilterChain()");
+        return getSecurityHttp(http).build();
     }
 
+    private JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver() {
+        Map<String, AuthenticationManager> authenticationManagers = Map
+            .ofEntries(createAuthenticationEntry(internalAuthConfigurationProperties.getIssuerUri(),
+                internalAuthProviderConfigurationProperties.getJwkSetUri()));
+        return new JwtIssuerAuthenticationManagerResolver(authenticationManagers::get);
+    }
+
+    private Map.Entry<String, AuthenticationManager> createAuthenticationEntry(String issuer,
+        String jwkSetUri) {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(jwkSetUri)
+            .jwsAlgorithm(SignatureAlgorithm.RS256).build();
+
+        OAuth2TokenValidator<Jwt> jwtValidator = JwtValidators.createDefaultWithIssuer(issuer);
+        jwtDecoder.setJwtValidator(jwtValidator);
+
+        JwtAuthenticationProvider authenticationProvider =
+            new JwtAuthenticationProvider(jwtDecoder);
+
+        return Map.entry(issuer, authenticationProvider::authenticate);
+    }
+
+    protected final class AuthorisationTokenExistenceFilter extends OncePerRequestFilter {
+
+        @Override
+        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
+            LOG.info("doFilterInternal()");
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer")) {
+                LOG.info("authHeader={}", authHeader);
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            String redirectUri = internalAuthConfigurationProperties.getRedirectUri();
+            LOG.info("redirect to login {}", redirectUri);
+            response.sendRedirect(redirectUri);
+        }
+    }
 }
