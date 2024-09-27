@@ -4,15 +4,14 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -33,14 +32,15 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
 public class WebSecurityConfig {
 
-    private static final Log LOG = LogFactory.getLog(WebSecurityConfig.class);
-    private static final String[] AUTH_WHITELIST = {"/health/liveness", "/health/readiness",
-        "/health", "/loggers/**", "/", "/error**", "/callback/", "/css/xhibit.css",
-        "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
-        "/oauth2/authorization/**", "/oauth2/authorize/azure/**", "/login/oauth2/code**",
-        "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**"};
+    private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
+    private static final String[] AUTH_WHITELIST =
+        {"/health/liveness", "/health/readiness", "/health", "/loggers/**", "/", "/error**",
+            "/callback/", "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
+            "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
+            "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**"};
 
     @Autowired
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
@@ -57,26 +57,35 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "squid:S4502"})
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return getHttp(http).build();
+        LOG.info("filterChain()");
+        return getAuthHttp(http).build();
     }
 
-    @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
-    protected HttpSecurity getHttp(HttpSecurity http) throws Exception {
-        return http
+    protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
+        return getCommonHttp(http).authorizeHttpRequests().anyRequest().authenticated().and()
+            .oauth2ResourceServer(server -> server
+                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver()))
             .addFilterBefore(new AuthorisationTokenExistenceFilter(),
-                OAuth2LoginAuthenticationFilter.class)
-            .authorizeHttpRequests().anyRequest().authenticated().and().oauth2ResourceServer()
-            .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver()).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                OAuth2LoginAuthenticationFilter.class);
+    }
+
+    private HttpSecurity getCommonHttp(HttpSecurity http) throws Exception {
+        return http
+            .sessionManagement(
+                management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
     }
 
+    protected HttpSecurity getSecurityHttp(HttpSecurity http) throws Exception {
+        return getCommonHttp(http).authorizeHttpRequests().anyRequest().permitAll().and()
+            .securityMatcher(AUTH_WHITELIST);
+    }
+
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        LOG.info("webSecurityCustomizer()");
-        return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
+    public SecurityFilterChain patternFilterChain(HttpSecurity http) throws Exception {
+        LOG.info("patternFilterChain()");
+        return getSecurityHttp(http).build();
     }
 
     private JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver() {
@@ -105,11 +114,17 @@ public class WebSecurityConfig {
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-
+            LOG.info("doFilterInternal()");
             String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer")) {
+                LOG.info("authHeader={}", authHeader);
                 filterChain.doFilter(request, response);
+                return;
             }
+
+            String redirectUri = internalAuthConfigurationProperties.getRedirectUri();
+            LOG.info("redirect to login");
+            response.sendRedirect(redirectUri);
         }
     }
 }
