@@ -43,18 +43,10 @@ public class WebSecurityConfig {
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
 
     @Autowired
-    private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
+    private InternalAuthConfigurationProperties internalAuthConfigurationProperties;
 
     @Autowired
-    private final InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
-
-    public WebSecurityConfig(
-        InternalAuthConfigurationProperties internalAuthConfigurationProperties,
-        InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties) {
-        this.internalAuthConfigurationProperties = internalAuthConfigurationProperties;
-        this.internalAuthProviderConfigurationProperties =
-            internalAuthProviderConfigurationProperties;
-    }
+    private InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

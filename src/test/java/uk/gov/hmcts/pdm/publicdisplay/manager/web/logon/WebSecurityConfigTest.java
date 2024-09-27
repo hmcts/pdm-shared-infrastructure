@@ -46,6 +46,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder.JwkSetUriJwtDeco
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
@@ -124,11 +125,13 @@ class WebSecurityConfigTest extends AbstractJUnit {
         mockInternalAuthProviderConfigurationProperties =
             Mockito.mock(InternalAuthProviderConfigurationProperties.class);
 
-        classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationProperties,
+        classUnderTest = new WebSecurityConfig();
+        ReflectionTestUtils.setField(classUnderTest, "internalAuthConfigurationProperties",
+            mockInternalAuthConfigurationProperties);
+        ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
 
-        classUnderTestNoHttp = new WebSecurityConfig(mockInternalAuthConfigurationProperties,
-            mockInternalAuthProviderConfigurationProperties) {
+        classUnderTestNoHttp = new WebSecurityConfig() {
             @Override
             protected HttpSecurity getAuthHttp(HttpSecurity http) {
                 return mockHttpSecurity;
@@ -139,6 +142,10 @@ class WebSecurityConfigTest extends AbstractJUnit {
                 return mockHttpSecurity;
             }
         };
+        ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
+            mockInternalAuthConfigurationProperties);
+        ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthProviderConfigurationProperties",
+            mockInternalAuthProviderConfigurationProperties);
     }
 
     /**
