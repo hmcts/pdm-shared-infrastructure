@@ -53,10 +53,12 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.AuthenticationConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.fail;
@@ -69,7 +71,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields"})
+@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.CouplingBetweenObjects"})
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
@@ -120,9 +122,15 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private FilterChain mockFilterChain;
+    
+    @Mock
+    private URI mockUri;
 
     @Mock
     private InternalAuthProviderConfigurationProperties mockInternalAuthProviderConfigurationProperties;
+
+    @Mock
+    private AuthenticationConfigurationPropertiesStrategy mockAuthenticationConfigurationPropertiesStrategy;
 
     @InjectMocks
     private WebSecurityConfig classUnderTest;
@@ -145,6 +153,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
             mockInternalAuthConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
+        ReflectionTestUtils.setField(classUnderTest, "uriProvider",
+            mockAuthenticationConfigurationPropertiesStrategy);
 
         classUnderTestNoHttp = new LocalWebSecurityConfig();
         ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
@@ -152,6 +162,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
         ReflectionTestUtils.setField(classUnderTestNoHttp,
             "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
+        ReflectionTestUtils.setField(classUnderTestNoHttp, "uriProvider",
+            mockAuthenticationConfigurationPropertiesStrategy);
     }
 
     /**
@@ -215,6 +227,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testAuthorisationTokenExistenceFilter() {
         try {
+            Mockito.when(mockAuthenticationConfigurationPropertiesStrategy.getLoginUri(null)).thenReturn(mockUri);
             classUnderTestNoHttp.testFilter();
             Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class)))
                 .thenReturn("Bearer");

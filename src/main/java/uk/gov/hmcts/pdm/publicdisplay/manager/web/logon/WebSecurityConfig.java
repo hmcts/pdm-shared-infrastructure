@@ -4,9 +4,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtIss
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.AuthenticationConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
@@ -32,6 +33,7 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
 public class WebSecurityConfig {
 
@@ -42,10 +44,8 @@ public class WebSecurityConfig {
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
 
-    @Autowired
+    private AuthenticationConfigurationPropertiesStrategy uriProvider;
     private InternalAuthConfigurationProperties internalAuthConfigurationProperties;
-
-    @Autowired
     private InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
     @Bean
@@ -116,7 +116,7 @@ public class WebSecurityConfig {
 
             String redirectUri = internalAuthConfigurationProperties.getRedirectUri();
             LOG.info("redirect to login {}", redirectUri);
-            response.sendRedirect(redirectUri);
+            response.sendRedirect(uriProvider.getLoginUri(null).toString());
         }
     }
 }
