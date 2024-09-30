@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,19 +35,20 @@ import java.util.Map;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Profile("!intTest")
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String[] AUTH_WHITELIST =
-        {"/health/liveness", "/health/readiness", "/health", "/loggers/**", "/", "/error**",
+        {"/health/liveness", "/health/**", "/loggers/**", "/", "/error**",
             "/callback/", "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
 
-    private AuthenticationConfigurationPropertiesStrategy uriProvider;
-    private InternalAuthConfigurationProperties internalAuthConfigurationProperties;
-    private InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
+    private final AuthenticationConfigurationPropertiesStrategy uriProvider;
+    private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
+    private final InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

@@ -122,7 +122,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private FilterChain mockFilterChain;
-    
+
     @Mock
     private URI mockUri;
 
@@ -148,7 +148,9 @@ class WebSecurityConfigTest extends AbstractJUnit {
         mockInternalAuthProviderConfigurationProperties =
             Mockito.mock(InternalAuthProviderConfigurationProperties.class);
 
-        classUnderTest = new WebSecurityConfig();
+        classUnderTest = new WebSecurityConfig(mockAuthenticationConfigurationPropertiesStrategy,
+            mockInternalAuthConfigurationProperties,
+            mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "internalAuthConfigurationProperties",
             mockInternalAuthConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
@@ -156,7 +158,10 @@ class WebSecurityConfigTest extends AbstractJUnit {
         ReflectionTestUtils.setField(classUnderTest, "uriProvider",
             mockAuthenticationConfigurationPropertiesStrategy);
 
-        classUnderTestNoHttp = new LocalWebSecurityConfig();
+        classUnderTestNoHttp =
+            new LocalWebSecurityConfig(mockAuthenticationConfigurationPropertiesStrategy,
+                mockInternalAuthConfigurationProperties,
+                mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
             mockInternalAuthConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTestNoHttp,
@@ -227,7 +232,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testAuthorisationTokenExistenceFilter() {
         try {
-            Mockito.when(mockAuthenticationConfigurationPropertiesStrategy.getLoginUri(null)).thenReturn(mockUri);
+            Mockito.when(mockAuthenticationConfigurationPropertiesStrategy.getLoginUri(null))
+                .thenReturn(mockUri);
             classUnderTestNoHttp.testFilter();
             Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class)))
                 .thenReturn("Bearer");
@@ -280,8 +286,15 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     class LocalWebSecurityConfig extends WebSecurityConfig {
-        @Override
 
+        public LocalWebSecurityConfig(AuthenticationConfigurationPropertiesStrategy uriProvider,
+            InternalAuthConfigurationProperties internalAuthConfigurationProperties,
+            InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties) {
+            super(uriProvider, internalAuthConfigurationProperties,
+                internalAuthProviderConfigurationProperties);
+        }
+
+        @Override
         protected HttpSecurity getAuthHttp(HttpSecurity http) {
             return mockHttpSecurity;
         }
