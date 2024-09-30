@@ -44,7 +44,7 @@ public class WebSecurityConfig {
         {"/health/liveness", "/health/**", "/loggers/**", "/", "/error**",
             "/callback/", "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
-            "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
+            "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/login**"};
 
     private final InternalAuthConfigurationPropertiesStrategy uriProvider;
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
@@ -116,8 +116,9 @@ public class WebSecurityConfig {
                 return;
             }
 
-            LOG.info("redirect to login");
-            response.sendRedirect(uriProvider.getLoginUri(null).toString());
+            String redirectUri = uriProvider.getLoginUri(null).toString();
+            LOG.info("redirect to login: {}", redirectUri);
+            response.sendRedirect(redirectUri);
         }
     }
 }
