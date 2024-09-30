@@ -16,6 +16,7 @@ plugins {
   // Comment out id 'war' to work in Eclipse
   id 'war'
   id 'jacoco'
+  id "io.freefair.lombok" version "8.7.1"
 }
 
 group = 'uk.gov.hmcts'

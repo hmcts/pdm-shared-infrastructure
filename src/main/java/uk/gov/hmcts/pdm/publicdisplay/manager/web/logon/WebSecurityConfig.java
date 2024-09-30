@@ -4,11 +4,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
 import java.io.IOException;
@@ -32,21 +34,21 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
+@Profile("!intTest")
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String[] AUTH_WHITELIST =
-        {"/health/liveness", "/health/readiness", "/health", "/loggers/**", "/", "/error**",
+        {"/health/liveness", "/health/**", "/loggers/**", "/", "/error**",
             "/callback/", "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
 
-    @Autowired
-    private InternalAuthConfigurationProperties internalAuthConfigurationProperties;
-
-    @Autowired
-    private InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
+    private final InternalAuthConfigurationPropertiesStrategy uriProvider;
+    private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
+    private final InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -114,9 +116,8 @@ public class WebSecurityConfig {
                 return;
             }
 
-            String redirectUri = internalAuthConfigurationProperties.getRedirectUri();
-            LOG.info("redirect to login {}", redirectUri);
-            response.sendRedirect(redirectUri);
+            LOG.info("redirect to login");
+            response.sendRedirect(uriProvider.getLoginUri(null).toString());
         }
     }
 }

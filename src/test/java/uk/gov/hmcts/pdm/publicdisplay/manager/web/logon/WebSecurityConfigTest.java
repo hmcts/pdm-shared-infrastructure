@@ -54,9 +54,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.fail;
@@ -69,7 +71,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields"})
+@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.CouplingBetweenObjects"})
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
@@ -122,7 +124,13 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private FilterChain mockFilterChain;
 
     @Mock
+    private URI mockUri;
+
+    @Mock
     private InternalAuthProviderConfigurationProperties mockInternalAuthProviderConfigurationProperties;
+
+    @Mock
+    private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
 
     @InjectMocks
     private WebSecurityConfig classUnderTest;
@@ -140,18 +148,27 @@ class WebSecurityConfigTest extends AbstractJUnit {
         mockInternalAuthProviderConfigurationProperties =
             Mockito.mock(InternalAuthProviderConfigurationProperties.class);
 
-        classUnderTest = new WebSecurityConfig();
+        classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy,
+            mockInternalAuthConfigurationProperties,
+            mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "internalAuthConfigurationProperties",
             mockInternalAuthConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
+        ReflectionTestUtils.setField(classUnderTest, "uriProvider",
+            mockInternalAuthConfigurationPropertiesStrategy);
 
-        classUnderTestNoHttp = new LocalWebSecurityConfig();
+        classUnderTestNoHttp =
+            new LocalWebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy,
+                mockInternalAuthConfigurationProperties,
+                mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
             mockInternalAuthConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTestNoHttp,
             "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
+        ReflectionTestUtils.setField(classUnderTestNoHttp, "uriProvider",
+            mockInternalAuthConfigurationPropertiesStrategy);
     }
 
     /**
@@ -215,6 +232,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testAuthorisationTokenExistenceFilter() {
         try {
+            Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(null))
+                .thenReturn(mockUri);
             classUnderTestNoHttp.testFilter();
             Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class)))
                 .thenReturn("Bearer");
@@ -267,8 +286,15 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     class LocalWebSecurityConfig extends WebSecurityConfig {
-        @Override
 
+        public LocalWebSecurityConfig(InternalAuthConfigurationPropertiesStrategy uriProvider,
+            InternalAuthConfigurationProperties internalAuthConfigurationProperties,
+            InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties) {
+            super(uriProvider, internalAuthConfigurationProperties,
+                internalAuthProviderConfigurationProperties);
+        }
+
+        @Override
         protected HttpSecurity getAuthHttp(HttpSecurity http) {
             return mockHttpSecurity;
         }
