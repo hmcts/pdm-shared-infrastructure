@@ -25,8 +25,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtIss
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.AuthenticationConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class WebSecurityConfig {
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "login**"};
 
-    private final AuthenticationConfigurationPropertiesStrategy uriProvider;
+    private final InternalAuthConfigurationPropertiesStrategy uriProvider;
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
     private final InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties;
 
@@ -116,8 +116,7 @@ public class WebSecurityConfig {
                 return;
             }
 
-            String redirectUri = internalAuthConfigurationProperties.getRedirectUri();
-            LOG.info("redirect to login {}", redirectUri);
+            LOG.info("redirect to login");
             response.sendRedirect(uriProvider.getLoginUri(null).toString());
         }
     }

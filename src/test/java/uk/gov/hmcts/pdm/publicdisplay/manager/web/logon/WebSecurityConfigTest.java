@@ -53,8 +53,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.AuthenticationConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
 import java.io.IOException;
@@ -130,7 +130,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private InternalAuthProviderConfigurationProperties mockInternalAuthProviderConfigurationProperties;
 
     @Mock
-    private AuthenticationConfigurationPropertiesStrategy mockAuthenticationConfigurationPropertiesStrategy;
+    private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
 
     @InjectMocks
     private WebSecurityConfig classUnderTest;
@@ -148,7 +148,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
         mockInternalAuthProviderConfigurationProperties =
             Mockito.mock(InternalAuthProviderConfigurationProperties.class);
 
-        classUnderTest = new WebSecurityConfig(mockAuthenticationConfigurationPropertiesStrategy,
+        classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy,
             mockInternalAuthConfigurationProperties,
             mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "internalAuthConfigurationProperties",
@@ -156,10 +156,10 @@ class WebSecurityConfigTest extends AbstractJUnit {
         ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTest, "uriProvider",
-            mockAuthenticationConfigurationPropertiesStrategy);
+            mockInternalAuthConfigurationPropertiesStrategy);
 
         classUnderTestNoHttp =
-            new LocalWebSecurityConfig(mockAuthenticationConfigurationPropertiesStrategy,
+            new LocalWebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy,
                 mockInternalAuthConfigurationProperties,
                 mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
@@ -168,7 +168,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
             "internalAuthProviderConfigurationProperties",
             mockInternalAuthProviderConfigurationProperties);
         ReflectionTestUtils.setField(classUnderTestNoHttp, "uriProvider",
-            mockAuthenticationConfigurationPropertiesStrategy);
+            mockInternalAuthConfigurationPropertiesStrategy);
     }
 
     /**
@@ -232,7 +232,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testAuthorisationTokenExistenceFilter() {
         try {
-            Mockito.when(mockAuthenticationConfigurationPropertiesStrategy.getLoginUri(null))
+            Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(null))
                 .thenReturn(mockUri);
             classUnderTestNoHttp.testFilter();
             Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class)))
@@ -287,7 +287,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     class LocalWebSecurityConfig extends WebSecurityConfig {
 
-        public LocalWebSecurityConfig(AuthenticationConfigurationPropertiesStrategy uriProvider,
+        public LocalWebSecurityConfig(InternalAuthConfigurationPropertiesStrategy uriProvider,
             InternalAuthConfigurationProperties internalAuthConfigurationProperties,
             InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties) {
             super(uriProvider, internalAuthConfigurationProperties,
