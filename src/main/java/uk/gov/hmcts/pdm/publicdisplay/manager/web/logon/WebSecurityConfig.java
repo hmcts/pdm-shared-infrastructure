@@ -41,8 +41,8 @@ public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String[] AUTH_WHITELIST =
-        {"/health/liveness", "/health/**", "/loggers/**", "/", "/error**",
-            "/callback/", "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
+        {"/health/liveness", "/health/**", "/loggers/**", "/", "/error**", "/callback/",
+            "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/login**"};
 
@@ -57,7 +57,8 @@ public class WebSecurityConfig {
     }
 
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
-        return getCommonHttp(http).authorizeHttpRequests().anyRequest().authenticated().and()
+        return getCommonHttp(http).authorizeHttpRequests().requestMatchers(AUTH_WHITELIST)
+            .permitAll().anyRequest().authenticated().and()
             .oauth2ResourceServer(server -> server
                 .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver()))
             .addFilterBefore(new AuthorisationTokenExistenceFilter(),
