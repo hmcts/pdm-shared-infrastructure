@@ -55,7 +55,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.TooManyMethods"})
 class LogonControllerTest extends AbstractJUnit {
 
     private static final String NOT_EQUAL = "Not equal";
@@ -147,6 +147,25 @@ class LogonControllerTest extends AbstractJUnit {
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
+        Mockito.clearAllCaches();
+    }
+    
+    /**
+     * Test logon azure valid.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    void testLogonAzureValid() throws Exception {
+        Mockito.mockStatic(InitializationService.class);
+        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
+        Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
+        Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("true");
+        // Perform the test
+        final MvcResult results = mockMvc.perform(get("/login")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, VIEW_NAME_DASHBOARD);
         Mockito.clearAllCaches();
     }
 
