@@ -104,6 +104,7 @@ public class WebSecurityConfig {
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
             LOG.info("doFilterInternal()");
+            LOG.info("requestUrl = {}", request.getRequestURL());
             String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer")) {
                 LOG.info("authHeader={}", authHeader);

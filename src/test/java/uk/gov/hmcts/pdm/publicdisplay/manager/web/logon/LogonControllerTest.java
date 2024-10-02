@@ -32,6 +32,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +41,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -81,6 +83,12 @@ class LogonControllerTest extends AbstractJUnit {
     /** The mock authentication. */
     @Mock
     private Authentication mockAuthentication;
+    
+    @Mock
+    private InitializationService mockInitializationService;
+    
+    @Mock
+    private Environment mockEnvironment;
 
     /** The mock mvc. */
     private MockMvc mockMvc;
@@ -130,11 +138,16 @@ class LogonControllerTest extends AbstractJUnit {
      */
     @Test
     void testLogonValid() throws Exception {
+        Mockito.mockStatic(InitializationService.class);
+        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
+        Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
+        Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("false");
         // Perform the test
         final MvcResult results = mockMvc.perform(get("/login")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
+        Mockito.clearAllCaches();
     }
 
     /**

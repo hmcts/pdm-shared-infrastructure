@@ -104,8 +104,10 @@ public class LogonController {
     private static final String MODEL_ERROR = "error";
 
     private static final String ANONYMOUS_USER = "anonymousUser";
-    
+
     private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
+
+    private static final String TRUE = "true";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
@@ -136,6 +138,9 @@ public class LogonController {
         LOGGER.info("login()");
         Environment env = InitializationService.getInstance().getEnvironment();
         LOGGER.debug("Azure enabled={}", env.getProperty(AZURE_ENABLED));
+        if (TRUE.equalsIgnoreCase(env.getProperty(AZURE_ENABLED))) {
+            return "redirect:dashboard/dashboard";
+        }
         return VIEW_LOGIN;
     }
 
