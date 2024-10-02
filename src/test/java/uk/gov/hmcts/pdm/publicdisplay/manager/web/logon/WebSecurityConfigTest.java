@@ -43,6 +43,7 @@ import org.springframework.security.authorization.AuthorizationEventPublisher;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -205,24 +206,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     @Test
-    void testGetSecurityHttp() {
-        try {
-            HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
-            // Run
-            HttpSecurity result = classUnderTest.getSecurityHttp(dummyHttpSecurity);
-            assertNotNull(result, NOTNULL);
-        } catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-    }
-
-    @Test
-    void testPatternFilterChain() {
+    void testWebSecurityCustomizer() {
         try {
             // Expects
             Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
             // Run
-            SecurityFilterChain result = classUnderTestNoHttp.patternFilterChain(mockHttpSecurity);
+            WebSecurityCustomizer result = classUnderTestNoHttp.webSecurityCustomizer();
             assertNotNull(result, NOTNULL);
         } catch (Exception exception) {
             fail(exception.getMessage());
@@ -296,11 +285,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
         @Override
         protected HttpSecurity getAuthHttp(HttpSecurity http) {
-            return mockHttpSecurity;
-        }
-
-        @Override
-        protected HttpSecurity getSecurityHttp(HttpSecurity http) {
             return mockHttpSecurity;
         }
 
