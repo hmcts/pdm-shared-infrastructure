@@ -151,6 +151,20 @@ class LogonControllerTest extends AbstractJUnit {
     }
     
     /**
+     * Test logon callback.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    void testLogonCallback() throws Exception {
+        // Perform the test
+        final MvcResult results = mockMvc.perform(get("/auth/internal/callback")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, VIEW_NAME_DASHBOARD);
+    }
+    
+    /**
      * Test logon azure valid.
      *
      * @throws Exception the exception
