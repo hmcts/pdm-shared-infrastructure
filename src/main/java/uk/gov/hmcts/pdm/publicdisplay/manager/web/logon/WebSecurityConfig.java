@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -57,8 +58,7 @@ public class WebSecurityConfig {
     }
 
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
-        return getCommonHttp(http).authorizeHttpRequests().requestMatchers(AUTH_WHITELIST)
-            .permitAll().anyRequest().authenticated().and()
+        return getCommonHttp(http).authorizeHttpRequests().anyRequest().authenticated().and()
             .oauth2ResourceServer(server -> server
                 .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver()))
             .addFilterBefore(new AuthorisationTokenExistenceFilter(),
@@ -71,16 +71,10 @@ public class WebSecurityConfig {
                 management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
     }
-
-    protected HttpSecurity getSecurityHttp(HttpSecurity http) throws Exception {
-        return getCommonHttp(http).authorizeHttpRequests().anyRequest().permitAll().and()
-            .securityMatcher(AUTH_WHITELIST);
-    }
-
+    
     @Bean
-    public SecurityFilterChain patternFilterChain(HttpSecurity http) throws Exception {
-        LOG.info("patternFilterChain()");
-        return getSecurityHttp(http).build();
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
 
     private JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver() {
@@ -110,6 +104,7 @@ public class WebSecurityConfig {
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
             LOG.info("doFilterInternal()");
+            LOG.info("requestUrl = {}", request.getRequestURL());
             String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer")) {
                 LOG.info("authHeader={}", authHeader);
