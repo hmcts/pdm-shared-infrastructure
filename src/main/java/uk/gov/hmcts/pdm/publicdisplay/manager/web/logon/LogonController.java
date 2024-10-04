@@ -111,7 +111,21 @@ public class LogonController {
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+    
+    private static final String AUTH_CALLBACK = "/auth/internal/callback";
 
+    
+    /**
+     * Authorisation callback.
+     *
+     * @return the string
+     */
+    @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
+    public String callback(HttpSession session, HttpServletRequest req, Map<String, Object> model) {
+        LOGGER.info("callback()");
+        return "redirect:dashboard/dashboard";
+    }
+    
     /**
      * Home.
      * 

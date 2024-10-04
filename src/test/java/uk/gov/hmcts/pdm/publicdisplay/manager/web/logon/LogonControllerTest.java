@@ -47,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * The Class LogonControllerTest.
@@ -148,6 +149,20 @@ class LogonControllerTest extends AbstractJUnit {
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
+    }
+    
+    /**
+     * Test logon callback.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    void testLogonCallback() throws Exception {
+        // Perform the test
+        final MvcResult results = mockMvc.perform(post("/auth/internal/callback")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, VIEW_NAME_DASHBOARD);
     }
     
     /**
