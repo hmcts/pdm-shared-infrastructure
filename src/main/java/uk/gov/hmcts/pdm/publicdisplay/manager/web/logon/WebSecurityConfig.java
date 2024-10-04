@@ -42,7 +42,7 @@ public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String[] AUTH_WHITELIST =
-        {"/health/**", "/loggers/**", "/", "/error**", "/auth/internal/callback/",
+        {"/health/**", "/loggers/**", "/", "/error**", "/auth/internal/callback",
             "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
             "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
             "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/login**"};
