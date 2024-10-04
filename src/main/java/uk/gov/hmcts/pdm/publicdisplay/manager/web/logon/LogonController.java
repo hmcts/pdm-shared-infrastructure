@@ -120,7 +120,7 @@ public class LogonController {
      *
      * @return the string
      */
-    @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.GET)
+    @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
     public String callback(HttpSession session, HttpServletRequest req, Map<String, Object> model) {
         LOGGER.info("callback()");
         return "redirect:dashboard/dashboard";
