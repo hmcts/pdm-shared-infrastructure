@@ -8,6 +8,5 @@ import lombok.Value;
 public class SecurityToken {
 
     private String accessToken;
-    private UserState userState;
 
 }
