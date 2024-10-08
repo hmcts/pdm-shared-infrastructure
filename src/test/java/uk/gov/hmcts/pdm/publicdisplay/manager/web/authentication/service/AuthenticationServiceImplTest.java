@@ -124,8 +124,6 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     private boolean testhHandleOauthCode(String code, String idToken, boolean isValid) {
         try {
-            // Setup
-            String accessToken = "accessToken";
             // Expects
             Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getProviderConfiguration())
                 .thenReturn(mockAuthProviderConfigurationProperties);
@@ -134,6 +132,7 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
             Mockito.when(mockAzureDao.fetchAccessToken(code,
                 mockAuthProviderConfigurationProperties, mockAuthConfigurationProperties))
                 .thenReturn(mockOAuthProviderRawResponse);
+            String accessToken = "accessToken";
             if (idToken == null) {
                 Mockito.when(mockOAuthProviderRawResponse.getIdToken()).thenReturn(null);
                 Mockito.when(mockOAuthProviderRawResponse.getAccessToken()).thenReturn(accessToken);
