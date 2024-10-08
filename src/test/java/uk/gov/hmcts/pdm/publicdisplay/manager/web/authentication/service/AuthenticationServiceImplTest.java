@@ -70,7 +70,7 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     @Test
     void testloginOrRefresh() {
-        boolean result = testloginOrRefresh("accessCode", true);
+        boolean result = testloginOrRefresh(ACCESSCODE, true);
         assertTrue(result, TRUE);
     }
 
@@ -105,7 +105,7 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     @Test
     void testloginOrRefreshInvalid() {
-        boolean result = testloginOrRefresh("accessCode", false);
+        boolean result = testloginOrRefresh(ACCESSCODE, false);
         assertTrue(result, TRUE);
     }
 
@@ -117,7 +117,7 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     @Test
     void testhHandleOauthCode() {
-        boolean result = testhHandleOauthCode("accessCode", "idToken", true);
+        boolean result = testhHandleOauthCode(ACCESSCODE, "idToken", true);
         assertTrue(result, TRUE);
     }
 
@@ -157,14 +157,14 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     @Test
     void testhHandleOauthCodeNull() {
-        boolean result = testhHandleOauthCode("accessCode", null, true);
+        boolean result = testhHandleOauthCode(ACCESSCODE, null, true);
         assertTrue(result, TRUE);
     }
 
     @Test
     void testhHandleOauthCodeInvalid() {
         assertThrows(PddaApiException.class,
-            () -> testhHandleOauthCode("accessCode", "idToken", false));
+            () -> testhHandleOauthCode(ACCESSCODE, "idToken", false));
     }
 
     @Test
