@@ -30,7 +30,7 @@ public class TokenValidatorImpl implements TokenValidator {
     public JwtValidationResult validate(String accessToken,
         AuthProviderConfigurationProperties providerConfig,
         AuthConfigurationProperties configuration) {
-        log.debug("Validating JWT: {}", accessToken);
+        log.info("Validating JWT: {}", accessToken);
 
         JWSVerificationKeySelector<SecurityContext> keySelector =
             new JWSVerificationKeySelector<>(JWSAlgorithm.RS256, providerConfig.getJwkSource());
@@ -48,9 +48,9 @@ public class TokenValidatorImpl implements TokenValidator {
 
         try {
             jwtProcessor.process(accessToken, null);
-            log.debug("JWT Token Validation successful");
+            log.info("JWT Token Validation successful");
         } catch (ParseException | JOSEException | BadJOSEException e) {
-            log.debug("JWT Token Validation failed", e);
+            log.info("JWT Token Validation failed", e);
             return new JwtValidationResult(false, e.getMessage());
         }
 

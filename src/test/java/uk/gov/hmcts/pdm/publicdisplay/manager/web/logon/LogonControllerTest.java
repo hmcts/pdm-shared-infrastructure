@@ -42,6 +42,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -90,6 +91,9 @@ class LogonControllerTest extends AbstractJUnit {
     
     @Mock
     private Environment mockEnvironment;
+    
+    @Mock
+    private AuthenticationService mockAuthenticationService;
 
     /** The mock mvc. */
     private MockMvc mockMvc;
@@ -100,7 +104,7 @@ class LogonControllerTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         // Create a new version of the class under test
-        LogonController classUnderTest = new LogonController();
+        LogonController classUnderTest = new LogonController(mockAuthenticationService);
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

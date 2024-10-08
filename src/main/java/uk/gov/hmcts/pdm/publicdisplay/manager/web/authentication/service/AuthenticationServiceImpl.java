@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public URI loginOrRefresh(String accessToken, String redirectUri) {
-        log.debug("Initiated login or refresh flow with access token {}", accessToken);
+        log.info("Initiated login or refresh flow with access token {}", accessToken);
 
         if (accessToken == null) {
             return uriProvider.getLoginUri(redirectUri);
@@ -36,6 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             uriProvider.getProviderConfiguration(), uriProvider.getConfiguration());
 
         if (!validationResult.valid()) {
+            log.info("Access token is invalid");
             return uriProvider.getLoginUri(redirectUri);
         }
 
