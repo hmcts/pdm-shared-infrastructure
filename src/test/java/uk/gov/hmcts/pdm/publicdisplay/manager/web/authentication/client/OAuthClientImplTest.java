@@ -52,29 +52,30 @@ class OAuthClientImplTest extends AbstractJUnit {
     @Test
     void testFetchAccessToken() {
         try {
-        // Setup
-        String redirectType = "redirectType";
-        String authCode = "authCode";
-        String clientId = "clientId";
-        String authClientSecret = "authClientSecret";
-        String scope = "scope";
-        String tokenUri = "localhost";
-        // Expects
-        Mockito.when(mockAuthProviderConfigurationProperties.getTokenUri()).thenReturn(tokenUri);
-        Mockito.when(mockTokenRequest.toHTTPRequest()).thenReturn(mockHttpRequest);
-        Mockito.when(mockHttpRequest.send()).thenReturn(mockHttpResponse);
-        // Run
-        OAuthClientImpl localClassUnderTest = new OAuthClientImpl() {
-            @Override
-            protected TokenRequest getTokenRequest(URI tokenEndpoint,
-                ClientAuthentication clientAuth, AuthorizationGrant codeGrant, Scope authScope) {
-                return mockTokenRequest;
-            }
-        };
-        HTTPResponse result =
-            localClassUnderTest.fetchAccessToken(mockAuthProviderConfigurationProperties,
-                redirectType, authCode, clientId, authClientSecret, scope);
-        assertNotNull(result, NOTNULL);
+            // Setup
+            String redirectType = "redirectType";
+            String authCode = "authCode";
+            String clientId = "clientId";
+            String authClientSecret = "authClientSecret";
+            String scope = "scope";
+            String tokenUri = "localhost";
+            // Expects
+            Mockito.when(mockAuthProviderConfigurationProperties.getTokenUri())
+                .thenReturn(tokenUri);
+            Mockito.when(mockTokenRequest.toHTTPRequest()).thenReturn(mockHttpRequest);
+            Mockito.when(mockHttpRequest.send()).thenReturn(mockHttpResponse);
+            // Run
+            OAuthClientImpl localClassUnderTest = new OAuthClientImpl() {
+                @Override
+                protected TokenRequest getTokenRequest(URI tokenEndpoint,
+                    ClientAuthentication clientAuth, AuthorizationGrant codeGrant, Scope scope) {
+                    return mockTokenRequest;
+                }
+            };
+            HTTPResponse result =
+                localClassUnderTest.fetchAccessToken(mockAuthProviderConfigurationProperties,
+                    redirectType, authCode, clientId, authClientSecret, scope);
+            assertNotNull(result, NOTNULL);
         } catch (IOException ex) {
             fail(ex.getMessage());
         }

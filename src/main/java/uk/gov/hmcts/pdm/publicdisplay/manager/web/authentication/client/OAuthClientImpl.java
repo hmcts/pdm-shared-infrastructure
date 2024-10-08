@@ -21,9 +21,9 @@ import java.net.URISyntaxException;
 
 
 @Component
+@SuppressWarnings({"PMD.LooseCoupling", "PMD.UseObjectForClearerAPI"})
 public class OAuthClientImpl implements OAuthClient {
     @SneakyThrows({URISyntaxException.class, IOException.class})
-    @SuppressWarnings({"PMD.LooseCoupling", "PMD.UseObjectForClearerAPI"})
     @Override
     public HTTPResponse fetchAccessToken(
         AuthProviderConfigurationProperties providerConfigurationProperties, String redirectType,
