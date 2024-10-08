@@ -36,6 +36,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import java.util.Map;
@@ -116,14 +117,11 @@ public class LogonController {
 
     
     /**
-     * Authorisation callback.
-     *
-     * @return the string
+     * Authorisation callback with the authentication code.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
-    public String callback(HttpSession session, HttpServletRequest req, Map<String, Object> model) {
+    public void callback(@RequestParam("code") String code) {
         LOGGER.info("callback()");
-        return "redirect:dashboard/dashboard";
     }
     
     /**
