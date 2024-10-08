@@ -25,11 +25,9 @@ public class OAuthClientImpl implements OAuthClient {
     @SneakyThrows({URISyntaxException.class, IOException.class})
     @SuppressWarnings({"PMD.LooseCoupling", "PMD.UseObjectForClearerAPI"})
     @Override
-    public HTTPResponse fetchAccessToken(AuthProviderConfigurationProperties providerConfigurationProperties,
-                                         String redirectType, String authCode,
-                                         String clientId,
-                                         String authClientSecret,
-                                         String scope) {
+    public HTTPResponse fetchAccessToken(
+        AuthProviderConfigurationProperties providerConfigurationProperties, String redirectType,
+        String authCode, String clientId, String authClientSecret, String scope) {
         AuthorizationCode code = new AuthorizationCode(authCode);
         URI callback = new URI(redirectType);
         AuthorizationGrant codeGrant = new AuthorizationCodeGrant(code, callback);
@@ -45,7 +43,12 @@ public class OAuthClientImpl implements OAuthClient {
 
         URI tokenEndpoint = new URI(providerConfigurationProperties.getTokenUri());
 
-        TokenRequest request = new TokenRequest(tokenEndpoint, clientAuth, codeGrant, authScope);
+        TokenRequest request = getTokenRequest(tokenEndpoint, clientAuth, codeGrant, authScope);
         return request.toHTTPRequest().send();
+    }
+
+    protected TokenRequest getTokenRequest(URI tokenEndpoint, ClientAuthentication clientAuth,
+        AuthorizationGrant codeGrant, Scope authScope) {
+        return new TokenRequest(tokenEndpoint, clientAuth, codeGrant, authScope);
     }
 }
