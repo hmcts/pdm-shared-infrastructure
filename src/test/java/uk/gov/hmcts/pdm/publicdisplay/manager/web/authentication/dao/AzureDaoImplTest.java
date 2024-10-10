@@ -72,11 +72,10 @@ class AzureDaoImplTest extends AbstractJUnit {
         Mockito.when(mockAuthConfigurationProperties.getRedirectUri()).thenReturn("redirectUri");
         Mockito.when(mockAuthConfigurationProperties.getClientId()).thenReturn("clientId");
         Mockito.when(mockAuthConfigurationProperties.getClientSecret()).thenReturn("clientSecret");
-        Mockito.when(mockAuthConfigurationProperties.getScope()).thenReturn("scope");
         Mockito.when(
             mockOAuthClient.fetchAccessToken(Mockito.isA(AuthProviderConfigurationProperties.class),
                 Mockito.isA(String.class), Mockito.isA(String.class), Mockito.isA(String.class),
-                Mockito.isA(String.class), Mockito.isA(String.class)))
+                Mockito.isA(String.class)))
             .thenReturn(mockHttpResponse);
         Mockito.when(mockHttpResponse.getContent()).thenReturn(jsonObject);
         Mockito.when(mockHttpResponse.getStatusCode()).thenReturn(httpStatus);

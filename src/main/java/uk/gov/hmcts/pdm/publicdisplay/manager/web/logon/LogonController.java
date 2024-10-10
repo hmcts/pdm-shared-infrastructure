@@ -26,6 +26,7 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
 import java.util.Map;
 
@@ -48,6 +50,7 @@ import java.util.Map;
  */
 
 @Controller
+@RequiredArgsConstructor
 @SuppressWarnings("PMD.LawOfDemeter")
 public class LogonController {
 
@@ -115,6 +118,7 @@ public class LogonController {
     
     private static final String AUTH_CALLBACK = "/auth/internal/callback";
 
+    private final AuthenticationService authenticationService;
     
     /**
      * Authorisation callback with the authentication code.
@@ -122,6 +126,7 @@ public class LogonController {
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
     public void callback(@RequestParam("code") String code) {
         LOGGER.info("callback()");
+        authenticationService.handleOauthCode(code);
     }
     
     /**

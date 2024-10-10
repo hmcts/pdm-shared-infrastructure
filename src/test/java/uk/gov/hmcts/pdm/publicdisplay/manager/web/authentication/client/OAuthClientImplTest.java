@@ -1,7 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.client;
 
 import com.nimbusds.oauth2.sdk.AuthorizationGrant;
-import com.nimbusds.oauth2.sdk.Scope;
 import com.nimbusds.oauth2.sdk.TokenRequest;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthentication;
 import com.nimbusds.oauth2.sdk.http.HTTPRequest;
@@ -57,7 +56,6 @@ class OAuthClientImplTest extends AbstractJUnit {
             String authCode = "authCode";
             String clientId = "clientId";
             String authClientSecret = "authClientSecret";
-            String scope = "scope";
             String tokenUri = "localhost";
             // Expects
             Mockito.when(mockAuthProviderConfigurationProperties.getTokenUri())
@@ -68,13 +66,13 @@ class OAuthClientImplTest extends AbstractJUnit {
             OAuthClientImpl localClassUnderTest = new OAuthClientImpl() {
                 @Override
                 protected TokenRequest getTokenRequest(URI tokenEndpoint,
-                    ClientAuthentication clientAuth, AuthorizationGrant codeGrant, Scope scope) {
+                    ClientAuthentication clientAuth, AuthorizationGrant codeGrant) {
                     return mockTokenRequest;
                 }
             };
             HTTPResponse result =
                 localClassUnderTest.fetchAccessToken(mockAuthProviderConfigurationProperties,
-                    redirectType, authCode, clientId, authClientSecret, scope);
+                    redirectType, authCode, clientId, authClientSecret);
             assertNotNull(result, NOTNULL);
         } catch (IOException ex) {
             fail(ex.getMessage());
@@ -84,8 +82,7 @@ class OAuthClientImplTest extends AbstractJUnit {
     @Test
     void testGetTokenRequest() {
         TokenRequest result = classUnderTest.getTokenRequest(Mockito.mock(URI.class),
-            Mockito.mock(ClientAuthentication.class), Mockito.mock(AuthorizationGrant.class),
-            Mockito.mock(Scope.class));
+            Mockito.mock(ClientAuthentication.class), Mockito.mock(AuthorizationGrant.class));
         assertNotNull(result, NOTNULL);
     }
 

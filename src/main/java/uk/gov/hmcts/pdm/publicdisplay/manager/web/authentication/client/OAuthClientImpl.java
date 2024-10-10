@@ -12,6 +12,7 @@ import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.id.ClientID;
 import com.nimbusds.openid.connect.sdk.OIDCScopeValue;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.AuthProviderConfigurationProperties;
 
@@ -21,21 +22,17 @@ import java.net.URISyntaxException;
 
 
 @Component
+@Slf4j
 @SuppressWarnings({"PMD.LooseCoupling", "PMD.UseObjectForClearerAPI"})
 public class OAuthClientImpl implements OAuthClient {
     @SneakyThrows({URISyntaxException.class, IOException.class})
     @Override
     public HTTPResponse fetchAccessToken(
         AuthProviderConfigurationProperties providerConfigurationProperties, String redirectType,
-        String authCode, String clientId, String authClientSecret, String scope) {
+        String authCode, String clientId, String authClientSecret) {
         AuthorizationCode code = new AuthorizationCode(authCode);
         URI callback = new URI(redirectType);
         AuthorizationGrant codeGrant = new AuthorizationCodeGrant(code, callback);
-        Scope authScope = new Scope();
-        authScope.add(scope);
-        authScope.add(OIDCScopeValue.PROFILE);
-        authScope.add(OIDCScopeValue.EMAIL);
-        authScope.add(OIDCScopeValue.OFFLINE_ACCESS);
 
         ClientID clientID = new ClientID(clientId);
         Secret clientSecret = new Secret(authClientSecret);
@@ -43,12 +40,19 @@ public class OAuthClientImpl implements OAuthClient {
 
         URI tokenEndpoint = new URI(providerConfigurationProperties.getTokenUri());
 
-        TokenRequest request = getTokenRequest(tokenEndpoint, clientAuth, codeGrant, authScope);
+        TokenRequest request = getTokenRequest(tokenEndpoint, clientAuth, codeGrant);
         return request.toHTTPRequest().send();
+    }
+    
+    public static Scope getAuthorisationScope() {
+        Scope authScope = new Scope();
+        authScope.add(OIDCScopeValue.PROFILE);
+        authScope.add(OIDCScopeValue.OPENID);
+        return authScope;
     }
 
     protected TokenRequest getTokenRequest(URI tokenEndpoint, ClientAuthentication clientAuth,
-        AuthorizationGrant codeGrant, Scope authScope) {
-        return new TokenRequest(tokenEndpoint, clientAuth, codeGrant, authScope);
+        AuthorizationGrant codeGrant) {
+        return new TokenRequest(tokenEndpoint, clientAuth, codeGrant, getAuthorisationScope());
     }
 }

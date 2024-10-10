@@ -2,6 +2,7 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication;
 
 import lombok.SneakyThrows;
 import org.apache.http.client.utils.URIBuilder;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.client.OAuthClientImpl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,7 +46,7 @@ public interface AuthenticationConfigurationPropertiesStrategy extends RequestMa
         return new URIBuilder(uri)
             .addParameter("client_id", getConfiguration().getClientId())
             .addParameter("redirect_uri", redirectUri)
-            .addParameter("scope", getConfiguration().getScope())
+            .addParameter("scope", OAuthClientImpl.getAuthorisationScope().toString())
             .addParameter("prompt", getConfiguration().getPrompt());
     }
 }
