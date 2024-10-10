@@ -35,7 +35,7 @@ public class AzureDaoImpl implements AzureDao {
         try {
             HTTPResponse response = azureActiveDirectoryClient.fetchAccessToken(providerConfig,
                 configuration.getRedirectUri(), code, configuration.getClientId(),
-                configuration.getClientSecret(), configuration.getScope());
+                configuration.getClientSecret());
             String parsedResponse = response.getContent();
 
             if (HttpStatus.SC_OK != response.getStatusCode()) {
