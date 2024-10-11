@@ -41,11 +41,10 @@ import java.util.Map;
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
-    private static final String[] AUTH_WHITELIST =
-        {"/health/**", "/loggers/**", "/", "/error**", "/auth/internal/callback", "/fonts/glyph*",
-            "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js",
-            "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
-            "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/login**"};
+    private static final String[] AUTH_WHITELIST = {"/health/**", "/loggers/**", "/", "/error**",
+        "/auth/internal/callback", "/fonts/glyph*", "/css/**", "/js/**", "favicon.ico",
+        "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
+        "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/login**"};
 
     private final InternalAuthConfigurationPropertiesStrategy uriProvider;
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;

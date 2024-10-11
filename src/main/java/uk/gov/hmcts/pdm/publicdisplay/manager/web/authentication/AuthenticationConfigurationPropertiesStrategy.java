@@ -21,7 +21,7 @@ public interface AuthenticationConfigurationPropertiesStrategy extends RequestMa
     }
 
     default URI getLandingPageUri() {
-        return URI.create("/");
+        return URI.create("home");
     }
 
     @SneakyThrows(URISyntaxException.class)

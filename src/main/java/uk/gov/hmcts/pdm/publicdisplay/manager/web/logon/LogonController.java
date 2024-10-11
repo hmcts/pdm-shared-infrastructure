@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
+import java.net.URI;
 import java.util.Map;
 
 /**
@@ -115,20 +116,24 @@ public class LogonController {
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-    
+
     private static final String AUTH_CALLBACK = "/auth/internal/callback";
 
     private final AuthenticationService authenticationService;
-    
+
     /**
      * Authorisation callback with the authentication code.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
-    public void callback(@RequestParam("code") String code) {
+    public String callback(@RequestParam("code") String code, final HttpServletResponse response) {
         LOGGER.info("callback()");
-        authenticationService.handleOauthCode(code);
+        String accessToken = authenticationService.handleOauthCode(code);
+        URI url = authenticationService.loginOrRefresh(accessToken, MAPPING_LOGIN);
+        LOGGER.info("callback() - redirect to {}", url.toString());
+        response.addHeader("Authorization", accessToken);
+        return url.toString();
     }
-    
+
     /**
      * Home.
      * 
