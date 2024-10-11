@@ -8,8 +8,6 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.model.SecurityT
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
 import java.net.URI;
-import java.text.ParseException;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -17,9 +15,6 @@ public abstract class AbstractUserController implements AuthenticationController
 
     private final AuthenticationService authenticationService;
     protected final InternalAuthConfigurationPropertiesStrategy uriProvider;
-
-    abstract Optional<String> parseEmailAddressFromAccessToken(String accessToken)
-        throws ParseException;
 
     @Override
     public ModelAndView loginOrRefresh(String authHeaderValue, String redirectUri) {

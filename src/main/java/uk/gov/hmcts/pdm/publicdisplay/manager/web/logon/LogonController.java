@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -30,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -39,7 +39,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.model.SecurityToken;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
 import java.io.IOException;
@@ -127,15 +129,17 @@ public class LogonController {
      * Authorisation callback with the authentication code.
      * 
      * @throws IOException IOException.
+     * @throws ServletException ServletException.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
-    public ResponseEntity<String> callback(@RequestParam("code") String code,
-        final HttpServletResponse response) throws IOException {
+    public ModelAndView callback(@RequestParam("code") String code) {
         LOGGER.info("callback()");
         String accessToken = authenticationService.handleOauthCode(code);
-        URI uri = authenticationService.loginOrRefresh(accessToken, MAPPING_LOGIN);
+        SecurityToken securityToken = SecurityToken.builder().accessToken(accessToken).build();
+        URI uri =
+            authenticationService.loginOrRefresh(securityToken.getAccessToken(), MAPPING_LOGIN);
         LOGGER.info("callback() - redirect to {}", uri);
-        return ResponseEntity.created(uri).header("Authorization", accessToken).build();
+        return new ModelAndView("redirect:" + uri.toString());
     }
 
     /**
