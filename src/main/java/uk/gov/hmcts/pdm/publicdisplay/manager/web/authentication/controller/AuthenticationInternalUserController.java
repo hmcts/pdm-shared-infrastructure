@@ -13,6 +13,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/internal-user")
+@SuppressWarnings("PMD.LawOfDemeter")
 public class AuthenticationInternalUserController extends AbstractUserController {
 
     public AuthenticationInternalUserController(AuthenticationService authenticationService,
