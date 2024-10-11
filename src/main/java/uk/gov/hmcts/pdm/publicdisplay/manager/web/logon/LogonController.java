@@ -129,7 +129,7 @@ public class LogonController {
      * @throws IOException IOException.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
-    public ResponseEntity<?> callback(@RequestParam("code") String code,
+    public ResponseEntity<String> callback(@RequestParam("code") String code,
         final HttpServletResponse response) throws IOException {
         LOGGER.info("callback()");
         String accessToken = authenticationService.handleOauthCode(code);
