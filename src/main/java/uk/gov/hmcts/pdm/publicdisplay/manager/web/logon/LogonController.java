@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
@@ -123,15 +125,17 @@ public class LogonController {
 
     /**
      * Authorisation callback with the authentication code.
+     * 
+     * @throws IOException IOException.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
-    public String callback(@RequestParam("code") String code, final HttpServletResponse response) {
+    public ResponseEntity<?> callback(@RequestParam("code") String code,
+        final HttpServletResponse response) throws IOException {
         LOGGER.info("callback()");
         String accessToken = authenticationService.handleOauthCode(code);
-        URI url = authenticationService.loginOrRefresh(accessToken, MAPPING_LOGIN);
-        LOGGER.info("callback() - redirect to {}", url.toString());
-        response.addHeader("Authorization", accessToken);
-        return url.toString();
+        URI uri = authenticationService.loginOrRefresh(accessToken, MAPPING_LOGIN);
+        LOGGER.info("callback() - redirect to {}", uri.toString());
+        return ResponseEntity.created(uri).header("Authorization", accessToken).build();
     }
 
     /**
