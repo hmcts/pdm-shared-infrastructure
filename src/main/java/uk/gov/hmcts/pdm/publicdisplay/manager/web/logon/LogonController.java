@@ -134,7 +134,7 @@ public class LogonController {
         LOGGER.info("callback()");
         String accessToken = authenticationService.handleOauthCode(code);
         URI uri = authenticationService.loginOrRefresh(accessToken, MAPPING_LOGIN);
-        LOGGER.info("callback() - redirect to {}", uri.toString());
+        LOGGER.info("callback() - redirect to {}", uri);
         return ResponseEntity.created(uri).header("Authorization", accessToken).build();
     }
 
