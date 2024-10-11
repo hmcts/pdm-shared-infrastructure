@@ -23,7 +23,6 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +43,6 @@ import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.model.SecurityToken;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
@@ -127,9 +125,6 @@ public class LogonController {
 
     /**
      * Authorisation callback with the authentication code.
-     * 
-     * @throws IOException IOException.
-     * @throws ServletException ServletException.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
     public ModelAndView callback(@RequestParam("code") String code) {
