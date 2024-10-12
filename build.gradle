@@ -218,7 +218,7 @@ dependencies {
     implementation 'com.mchange:c3p0:0.10.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0'
     implementation 'org.htmlunit:neko-htmlunit:4.4.0'
-    implementation 'ch.qos.logback:logback-core:1.5.9'
+    implementation 'ch.qos.logback:logback-core:1.5.10'
     implementation 'ch.qos.logback:logback-classic:1.5.10'
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.springframework.boot:spring-boot-starter-security:3.3.4'
