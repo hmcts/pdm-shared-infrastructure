@@ -38,9 +38,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.model.SecurityToken;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
 
+import java.net.URI;
 import java.util.Map;
 
 /**
@@ -115,20 +118,25 @@ public class LogonController {
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-    
+
     private static final String AUTH_CALLBACK = "/auth/internal/callback";
 
     private final AuthenticationService authenticationService;
-    
+
     /**
      * Authorisation callback with the authentication code.
      */
     @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.POST)
-    public void callback(@RequestParam("code") String code) {
+    public ModelAndView callback(@RequestParam("code") String code) {
         LOGGER.info("callback()");
-        authenticationService.handleOauthCode(code);
+        String accessToken = authenticationService.handleOauthCode(code);
+        SecurityToken securityToken = SecurityToken.builder().accessToken(accessToken).build();
+        URI uri =
+            authenticationService.loginOrRefresh(securityToken.getAccessToken(), MAPPING_LOGIN);
+        LOGGER.info("callback() - redirect to {}", uri);
+        return new ModelAndView("redirect:" + uri.toString());
     }
-    
+
     /**
      * Home.
      * 

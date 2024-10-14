@@ -116,6 +116,7 @@ public class DashboardController {
      */
     @RequestMapping(value = MAPPING_VIEW_DASHBOARD, method = RequestMethod.GET)
     public ModelAndView dashboard(final ModelAndView model) {
+        LOGGER.info("dashboard()");
         model.setViewName(VIEW_NAME_DASHBOARD);
         return getDashboardModelAndView(model);
     }
