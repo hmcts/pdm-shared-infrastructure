@@ -39,19 +39,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.service.AuthenticationService;
-
-import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * The Class LogonControllerTest.
@@ -95,13 +90,8 @@ class LogonControllerTest extends AbstractJUnit {
     @Mock
     private Environment mockEnvironment;
 
-    @Mock
-    private AuthenticationService mockAuthenticationService;
-
     /** The mock mvc. */
     private MockMvc mockMvc;
-
-    private LogonController classUnderTest;
 
     /**
      * Setup.
@@ -109,7 +99,7 @@ class LogonControllerTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         // Create a new version of the class under test
-        classUnderTest = new LogonController(mockAuthenticationService);
+        LogonController classUnderTest = new LogonController();
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -158,31 +148,6 @@ class LogonControllerTest extends AbstractJUnit {
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
-    }
-
-    /**
-     * Test logon callback.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLogonCallback() throws Exception {
-        String code = "code";
-        String accessToken = "accessToken";
-        URI mockUri = Mockito.mock(URI.class);
-        Mockito.when(mockAuthenticationService.handleOauthCode(code)).thenReturn(accessToken);
-        Mockito.when(mockAuthenticationService.loginOrRefresh(Mockito.isA(String.class),
-            Mockito.isA(String.class))).thenReturn(mockUri);
-        // Perform the test
-        ModelAndView result = classUnderTest.callback(code);
-        
-        // Assert that the objects are as expected
-        assertNotNull(result, NULL);
-        
-        // Perform the test
-        final MvcResult results = mockMvc.perform(post("/auth/internal/callback")).andReturn();
-        assertNotNull(results, NULL);
-        
     }
 
     /**
