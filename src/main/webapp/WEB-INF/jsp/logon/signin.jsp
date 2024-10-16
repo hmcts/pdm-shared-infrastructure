@@ -26,7 +26,7 @@
 					<div class="col-md-12">				
 			
 						<c:url var="loginUrl" value="/login" />
-						<form:form action="${loginUrl}" method="post" class="form-horizontal">
+						<form:form commandName="logonCommand" action="${loginUrl}" method="post" class="form-horizontal">
 	
 							<!--<input type="hidden" name="j_character_encoding" value="UTF-8"/>-->
 					

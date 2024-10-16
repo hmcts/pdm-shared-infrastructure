@@ -42,6 +42,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
+
+import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -89,6 +92,12 @@ class LogonControllerTest extends AbstractJUnit {
 
     @Mock
     private Environment mockEnvironment;
+    
+    @Mock
+    private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
+    
+    @Mock
+    private URI mockUri;
 
     /** The mock mvc. */
     private MockMvc mockMvc;
@@ -99,7 +108,7 @@ class LogonControllerTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         // Create a new version of the class under test
-        LogonController classUnderTest = new LogonController();
+        LogonController classUnderTest = new LogonController(mockInternalAuthConfigurationPropertiesStrategy);
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -138,11 +147,17 @@ class LogonControllerTest extends AbstractJUnit {
      */
     @Test
     void testLogonValid() throws Exception {
+        Mockito.mockStatic(InitializationService.class);
+        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
+        Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
+        Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("false");
+        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull())).thenReturn(mockUri);
         // Perform the test
         final MvcResult results = mockMvc.perform(get("/login")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
+        Mockito.clearAllCaches();
     }
 
     /**
