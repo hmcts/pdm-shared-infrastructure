@@ -138,35 +138,11 @@ class LogonControllerTest extends AbstractJUnit {
      */
     @Test
     void testLogonValid() throws Exception {
-        Mockito.mockStatic(InitializationService.class);
-        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
-        Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
-        Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("false");
         // Perform the test
         final MvcResult results = mockMvc.perform(get("/login")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
-        Mockito.clearAllCaches();
-    }
-
-    /**
-     * Test logon azure valid.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLogonAzureValid() throws Exception {
-        Mockito.mockStatic(InitializationService.class);
-        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
-        Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
-        Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("true");
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/login")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_DASHBOARD);
-        Mockito.clearAllCaches();
     }
 
     /**

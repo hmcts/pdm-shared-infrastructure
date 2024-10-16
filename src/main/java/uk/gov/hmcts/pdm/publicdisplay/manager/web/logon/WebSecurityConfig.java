@@ -45,7 +45,7 @@ public class WebSecurityConfig {
         {"/health/**", "/loggers/**", "/", "/error**", "/auth/internal/callback", "/fonts/glyph*",
             "/css/**", "/js/**", "favicon.ico", "/WEB-INF/jsp/error**", "/oauth2/authorization/**",
             "/oauth2/authorize/azure/**", "/dashboard**", "/status/health", "/swagger-resources/**",
-            "/swagger-ui/**", "/webjars/**", "/login**"};
+            "/swagger-ui/**", "/webjars/**", "/login**", "/WEB-INF/jsp/logon/signin**"};
 
     private final InternalAuthConfigurationPropertiesStrategy uriProvider;
     private final InternalAuthConfigurationProperties internalAuthConfigurationProperties;
