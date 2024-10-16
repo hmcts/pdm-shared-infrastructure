@@ -148,6 +148,7 @@ public class LogonController {
         command.setOauthLogin(env.getProperty(AZURE_ENABLED));
         LOGGER.info("Azure enabled={}", command.getOauthLogin());
         command.setRedirectUri(uriProvider.getLoginUri(null).toString());
+        LOGGER.info("redirectUri = {}", command.getRedirectUri());
         
         // Update the model
         model.addObject(COMMAND, command);
@@ -156,7 +157,20 @@ public class LogonController {
         // Return the model
         return model;
     }
-
+    
+    /**
+     * LoginToApp.
+     *
+     * @return the string
+     */
+    @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.POST)
+    public ModelAndView loginToApp() {
+        LOGGER.info("loginToApp()");
+        String redirectUri = uriProvider.getLoginUri(null).toString();
+        LOGGER.info("loginToApp() - redirectUri = {}", redirectUri);
+        return new ModelAndView("redirect:" + redirectUri);
+    }
+    
     /**
      * Logout.
      *

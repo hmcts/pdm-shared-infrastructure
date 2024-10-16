@@ -24,7 +24,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.AfterEach;
@@ -45,20 +44,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder.JwkSetUriJwtDecoderBuilder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthProviderConfigurationProperties;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -76,8 +69,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
-    private static final String HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME =
-        "mvcHandlerMappingIntrospector";
 
     @Mock
     private HttpSecurity mockHttpSecurity;
@@ -95,13 +86,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private AuthenticationManagerBuilder mockAuthenticationManagerBuilder;
 
     @Mock
-    private InternalAuthConfigurationProperties mockInternalAuthConfigurationProperties;
-
-    @Mock
     private ApplicationContext mockApplicationContext;
-
-    @Mock
-    private AuthorizationEventPublisher mockAuthorizationEventPublisher;
 
     @Mock
     private NimbusJwtDecoder mockNimbusJwtDecoder;
@@ -127,12 +112,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Mock
     private URI mockUri;
 
-    @Mock
-    private InternalAuthProviderConfigurationProperties mockInternalAuthProviderConfigurationProperties;
-
-    @Mock
-    private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
-
     @InjectMocks
     private WebSecurityConfig classUnderTest;
 
@@ -144,32 +123,10 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         Mockito.mockStatic(NimbusJwtDecoder.class);
-        mockInternalAuthConfigurationProperties =
-            Mockito.mock(InternalAuthConfigurationProperties.class);
-        mockInternalAuthProviderConfigurationProperties =
-            Mockito.mock(InternalAuthProviderConfigurationProperties.class);
 
-        classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy,
-            mockInternalAuthConfigurationProperties,
-            mockInternalAuthProviderConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTest, "internalAuthConfigurationProperties",
-            mockInternalAuthConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTest, "internalAuthProviderConfigurationProperties",
-            mockInternalAuthProviderConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTest, "uriProvider",
-            mockInternalAuthConfigurationPropertiesStrategy);
+        classUnderTest = new WebSecurityConfig();
 
-        classUnderTestNoHttp =
-            new LocalWebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy,
-                mockInternalAuthConfigurationProperties,
-                mockInternalAuthProviderConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTestNoHttp, "internalAuthConfigurationProperties",
-            mockInternalAuthConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTestNoHttp,
-            "internalAuthProviderConfigurationProperties",
-            mockInternalAuthProviderConfigurationProperties);
-        ReflectionTestUtils.setField(classUnderTestNoHttp, "uriProvider",
-            mockInternalAuthConfigurationPropertiesStrategy);
+        classUnderTestNoHttp = new LocalWebSecurityConfig();
     }
 
     /**
@@ -218,29 +175,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
         }
     }
 
-    @Test
-    void testAuthorisationTokenExistenceFilter() {
-        try {
-            Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(null))
-                .thenReturn(mockUri);
-            classUnderTestNoHttp.testFilter();
-            Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class)))
-                .thenReturn("Bearer");
-            classUnderTestNoHttp.testFilter();
-        } catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-    }
-
     private HttpSecurity getDummyHttpSecurity() {
         String[] emptyStringArray = {};
-        // mock HttpSecurity.authorizeHttpRequests()
         Mockito.when(mockApplicationContext.getBeanNamesForType(AuthorizationEventPublisher.class))
             .thenReturn(emptyStringArray);
         Mockito.when(mockApplicationContext.getBeanNamesForType(GrantedAuthorityDefaults.class))
             .thenReturn(emptyStringArray);
-        mockCreateAuthenticationEntry();
-        mockSecurityMatchers();
 
         HttpSecurity dummyHttpSecurity = new HttpSecurity(mockObjectPostProcessor,
             mockAuthenticationManagerBuilder, new ConcurrentHashMap<>());
@@ -250,52 +190,15 @@ class WebSecurityConfigTest extends AbstractJUnit {
         return dummyHttpSecurity;
     }
 
-    private void mockSecurityMatchers() {
-        Mockito.when(mockApplicationContext.getBean(ObjectPostProcessor.class))
-            .thenReturn(mockObjectPostProcessor);
-
-        // mock HandlerMappingIntrospector
-        Mockito.when(mockApplicationContext.containsBean(HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME))
-            .thenReturn(true);
-        Mockito.when(mockApplicationContext.getBean(HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME))
-            .thenReturn(mockHandlerMappingIntrospector);
-    }
-
-    private void mockCreateAuthenticationEntry() {
-        // mock jwtIssuerAuthenticationManagerResolver
-        Mockito.when(mockInternalAuthConfigurationProperties.getIssuerUri()).thenReturn("Auth");
-        Mockito.when(mockInternalAuthProviderConfigurationProperties.getJwkSetUri())
-            .thenReturn("Auth");
-        // mock mockNimbusJwtDecoder
-        Mockito.when(NimbusJwtDecoder.withJwkSetUri(Mockito.isA(String.class)))
-            .thenReturn(mockJwkSetUriJwtDecoderBuilder);
-        Mockito.when(mockJwkSetUriJwtDecoderBuilder.jwsAlgorithm(SignatureAlgorithm.RS256))
-            .thenReturn(mockJwkSetUriJwtDecoderBuilder);
-        Mockito.when(mockJwkSetUriJwtDecoderBuilder.build()).thenReturn(mockNimbusJwtDecoder);
-    }
-
     class LocalWebSecurityConfig extends WebSecurityConfig {
 
-        public LocalWebSecurityConfig(InternalAuthConfigurationPropertiesStrategy uriProvider,
-            InternalAuthConfigurationProperties internalAuthConfigurationProperties,
-            InternalAuthProviderConfigurationProperties internalAuthProviderConfigurationProperties) {
-            super(uriProvider, internalAuthConfigurationProperties,
-                internalAuthProviderConfigurationProperties);
+        public LocalWebSecurityConfig() {
+            super();
         }
 
         @Override
         protected HttpSecurity getAuthHttp(HttpSecurity http) {
             return mockHttpSecurity;
-        }
-
-        public void testFilter() {
-            AuthorisationTokenExistenceFilter filter = new AuthorisationTokenExistenceFilter();
-            try {
-                filter.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse,
-                    mockFilterChain);
-            } catch (ServletException | IOException ex) {
-                fail(ex.getMessage());
-            }
         }
     }
 }
