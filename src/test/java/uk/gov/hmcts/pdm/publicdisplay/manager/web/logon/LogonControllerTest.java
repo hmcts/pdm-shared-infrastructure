@@ -50,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * The Class LogonControllerTest.
@@ -158,6 +159,36 @@ class LogonControllerTest extends AbstractJUnit {
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
+    }
+    
+    /**
+     * Test LoginToApp.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    void testLoginToApp() throws Exception {
+        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull())).thenReturn(mockUri);
+        Mockito.when(mockUri.toString()).thenReturn(VIEW_NAME_DASHBOARD);
+        // Perform the test
+        final MvcResult results = mockMvc.perform(post("/login")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, "redirect:" + VIEW_NAME_DASHBOARD);
+    }
+    
+    /**
+     * Test Callback.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    void testCallback() throws Exception {
+        // Perform the test
+        final MvcResult results = mockMvc.perform(get("/auth/internal/callback")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, VIEW_NAME_DASHBOARD);
     }
 
     /**
