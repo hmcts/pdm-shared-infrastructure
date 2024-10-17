@@ -24,11 +24,12 @@ spring:
           internal-azure-ad:
             client-id: ${PDDA_AZURE_CLIENT_ID:00000000-0000-0000-0000-000000000000}
             client-secret: ${PDDA_AZURE_CLIENT_SECRET:}
-            scope: openid,profile
+            scope: profile,openid
             redirect-uri: ${pdda.portal.url}/auth/internal/callback
             logout-redirect-uri: ${pdda.portal.url}/auth/internal/logout-callback
             authorization-grant-type: authorization_code
             issuer-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/v2.0
+            claims: preferred_username
             provider: internal-azure-ad-provider
         provider:
           internal-azure-ad-provider:

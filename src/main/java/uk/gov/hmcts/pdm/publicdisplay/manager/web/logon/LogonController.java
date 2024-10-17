@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -111,12 +112,13 @@ public class LogonController {
 
     private static final String TRUE = "true";
     private static final String COMMAND = "command";
+    private static final String AUTH_CALLBACK = "/auth/internal/callback";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     private final InternalAuthConfigurationPropertiesStrategy uriProvider;
-    
+
     /**
      * Home.
      * 
@@ -139,25 +141,26 @@ public class LogonController {
      * @return the string
      */
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
-    public ModelAndView login(HttpSession session, HttpServletRequest req, final ModelAndView model) {
+    public ModelAndView login(HttpSession session, HttpServletRequest req,
+        final ModelAndView model) {
         LOGGER.info("login()");
         Environment env = InitializationService.getInstance().getEnvironment();
-        
+
         // Create the command
         LogonCommand command = new LogonCommand();
         command.setOauthLogin(env.getProperty(AZURE_ENABLED));
         LOGGER.info("Azure enabled={}", command.getOauthLogin());
         command.setRedirectUri(uriProvider.getLoginUri(null).toString());
         LOGGER.info("redirectUri = {}", command.getRedirectUri());
-        
+
         // Update the model
         model.addObject(COMMAND, command);
         model.setViewName(VIEW_LOGIN);
-        
+
         // Return the model
         return model;
     }
-    
+
     /**
      * LoginToApp.
      *
@@ -170,7 +173,25 @@ public class LogonController {
         LOGGER.info("loginToApp() - redirectUri = {}", redirectUri);
         return new ModelAndView("redirect:" + redirectUri);
     }
-    
+
+    /**
+     * Callback.
+     *
+     * @return the string
+     */
+    @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.GET)
+    public ModelAndView callback() {
+        LOGGER.info("callback()");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+        if (oauthToken != null) {
+            LOGGER.info("Logged in user = {}", oauthToken.getName());
+        }
+        String redirectUri = "dashboard/dashboard";
+        LOGGER.info("callback() - redirectUri = {}", redirectUri);
+        return new ModelAndView(redirectUri);
+    }
+
     /**
      * Logout.
      *
