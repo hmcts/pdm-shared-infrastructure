@@ -174,7 +174,7 @@ class LogonControllerTest extends AbstractJUnit {
         final MvcResult results = mockMvc.perform(post("/login")).andReturn();
 
         // Assert that the objects are as expected
-        assertViewName(results, "redirect:"+VIEW_NAME_DASHBOARD);
+        assertViewName(results, "redirect:" + VIEW_NAME_DASHBOARD);
     }
     
     /**
