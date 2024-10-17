@@ -69,7 +69,7 @@ public class WebSecurityConfig {
 
         OAuth2AuthorizedClientProvider authorizedClientProvider =
             OAuth2AuthorizedClientProviderBuilder.builder().authorizationCode().refreshToken()
-                .clientCredentials().password().build();
+                .clientCredentials().build();
 
         DefaultOAuth2AuthorizedClientManager authorizedClientManager =
             new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository,

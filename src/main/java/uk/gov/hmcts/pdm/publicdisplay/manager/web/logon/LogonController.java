@@ -36,6 +36,8 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -166,7 +168,7 @@ public class LogonController {
      *
      * @return the string
      */
-    @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.POST)
+    @PostMapping(MAPPING_LOGIN)
     public ModelAndView loginToApp() {
         LOGGER.info("loginToApp()");
         String redirectUri = uriProvider.getLoginUri(null).toString();
@@ -179,7 +181,7 @@ public class LogonController {
      *
      * @return the string
      */
-    @RequestMapping(value = AUTH_CALLBACK, method = RequestMethod.GET)
+    @GetMapping(AUTH_CALLBACK)
     public ModelAndView callback() {
         LOGGER.info("callback()");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

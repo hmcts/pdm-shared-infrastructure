@@ -44,6 +44,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder.JwkSetUriJwtDecoderBuilder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
@@ -112,6 +115,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Mock
     private URI mockUri;
 
+    @Mock
+    private ClientRegistrationRepository mockClientRegistrationRepository;
+
+    @Mock
+    private OAuth2AuthorizedClientRepository mockOAuth2AuthorizedClientRepository;
+
     @InjectMocks
     private WebSecurityConfig classUnderTest;
 
@@ -169,6 +178,18 @@ class WebSecurityConfigTest extends AbstractJUnit {
             Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
             // Run
             WebSecurityCustomizer result = classUnderTestNoHttp.webSecurityCustomizer();
+            assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    void testAuthorizedClientManager() {
+        try {
+            // Run
+            OAuth2AuthorizedClientManager result = classUnderTestNoHttp.authorizedClientManager(
+                mockClientRegistrationRepository, mockOAuth2AuthorizedClientRepository);
             assertNotNull(result, NOTNULL);
         } catch (Exception exception) {
             fail(exception.getMessage());
