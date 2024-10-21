@@ -16,8 +16,11 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +35,8 @@ public class WebSecurityConfig {
         "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
         "/dashboard**", "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**",
         "/login**", "/WEB-INF/jsp/logon/signin**", "/api/user"};
+
+    private final InternalAuthConfigurationPropertiesStrategy uriProvider;
 
     /**
      * Security filterchain.
@@ -48,7 +53,8 @@ public class WebSecurityConfig {
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
         return http
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
-            .oauth2Client(Customizer.withDefaults()).oauth2Login(Customizer.withDefaults());
+            .oauth2Client(Customizer.withDefaults()).oauth2Login(Customizer.withDefaults())
+            .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
     }
 
     /**
@@ -77,5 +83,13 @@ public class WebSecurityConfig {
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
         return authorizedClientManager;
+    }
+
+    /**
+     * Resource server.
+     */
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return JwtDecoders.fromIssuerLocation(uriProvider.getConfiguration().getIssuerUri());
     }
 }
