@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.EasyMockExtension;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,6 +108,8 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
 
     /** The mock local proxy repo. */
     protected XhbDispMgrLocalProxyRepository mockLocalProxyRepo;
+    
+    protected EntityManager mockEntityManager;
 
     /** The mock scheduler. */
     protected Scheduler mockScheduler;
@@ -148,6 +151,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
         mockLocalProxyRestClient = createMock(LocalProxyRestClient.class);
         mockScheduler = createMock(Scheduler.class);
         mockTrigger = createMock(Trigger.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository", mockCduRepo);

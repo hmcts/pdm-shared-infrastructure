@@ -86,7 +86,7 @@ public class UrlService implements IUrlService {
         return new UrlDto();
     }
 
-    private EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         if (entityManager == null || !entityManager.isOpen()) {
             entityManager = EntityManagerUtil.getEntityManager();
         }

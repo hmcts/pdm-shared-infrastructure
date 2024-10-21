@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -86,6 +87,7 @@ abstract class CduServiceTestBase extends CduCourtSiteUtility {
         mockDispMgrCourtSiteRepo = createMock(XhbDispMgrCourtSiteRepository.class);
         mockDispMgrMappingRepo = createMock(XhbDispMgrMappingRepository.class);
         mockLocalProxyRestClient = createMock(LocalProxyRestClient.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository", mockCduRepo);

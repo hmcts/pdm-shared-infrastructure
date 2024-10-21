@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,11 +53,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(EasyMockExtension.class)
 class UrlServiceTest extends AbstractJUnit {
+    
+    private static final String NOTNULL = "Result is null";
+    
     /** The class under test. */
     private IUrlService classUnderTest;
 
     /** The mock disp mgr url repo. */
     private XhbDispMgrUrlRepository mockUrlRepo;
+    
+    private EntityManager mockEntityManager;
 
     /** The urls. */
     private final List<IUrlModel> urls = getTestUrls();
@@ -71,6 +77,7 @@ class UrlServiceTest extends AbstractJUnit {
 
         // Setup the mock version of the UrlDao
         mockUrlRepo = createMock(XhbDispMgrUrlRepository.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         // Map the mock (mockUrlDao) to the class under tests called class (urlDao)
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrUrlRepository", mockUrlRepo);
@@ -100,6 +107,24 @@ class UrlServiceTest extends AbstractJUnit {
         verify(mockUrlRepo);
     }
 
+    @Test
+    void testEntityManager() {
+        UrlService localClassUnderTest = new UrlService() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        mockEntityManager.close();
+        replay(mockEntityManager);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NOTNULL);
+        }
+    }
+    
     /**
      * Gets the test url.
      *
