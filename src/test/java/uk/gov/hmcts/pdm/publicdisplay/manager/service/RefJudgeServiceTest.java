@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.Capture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,10 +31,11 @@ import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.TooManyMethods"})
 class RefJudgeServiceTest extends RefJudgeServiceUtility {
 
     /**
@@ -49,6 +51,7 @@ class RefJudgeServiceTest extends RefJudgeServiceUtility {
         mockCourtSiteRepo = createMock(XhbCourtSiteRepository.class);
         mockRefSystemCodeRepository = createMock(XhbRefSystemCodeRepository.class);
         mockRefJudgeRepo = createMock(XhbRefJudgeRepository.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         ReflectionTestUtils.setField(classUnderTest, "xhbRefSystemCodeRepository", mockRefSystemCodeRepository);
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockCourtSiteRepo);
@@ -258,6 +261,24 @@ class RefJudgeServiceTest extends RefJudgeServiceUtility {
         // Verify the expected mocks were called
         verify(mockRefJudgeRepo);
 
+    }
+    
+    @Test
+    void testEntityManager() {
+        RefJudgeServiceFinder localClassUnderTest = new RefJudgeServiceFinder() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        mockEntityManager.close();
+        replay(mockEntityManager);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NOT_EMPTY);
+        }
     }
 
 }

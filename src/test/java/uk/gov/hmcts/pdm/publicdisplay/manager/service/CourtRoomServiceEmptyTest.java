@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,9 +43,10 @@ abstract class CourtRoomServiceEmptyTest extends AbstractJUnit {
     protected XhbCourtRepository mockCourtRepo;
     protected XhbCourtSiteRepository mockCourtSiteRepo;
     protected XhbCourtRoomRepository mockCourtRoomRepo;
-
+    protected EntityManager mockEntityManager;
 
     protected static final String NOT_EQUAL = "Not equal";
+    protected static final String NOT_NULL = "Is null";
     protected static final String FALSE = "False";
     protected static final String DESCRIPTION = "description";
 
@@ -61,6 +63,7 @@ abstract class CourtRoomServiceEmptyTest extends AbstractJUnit {
         mockCourtRepo = createMock(XhbCourtRepository.class);
         mockCourtSiteRepo = createMock(XhbCourtSiteRepository.class);
         mockCourtRoomRepo = createMock(XhbCourtRoomRepository.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtRepository", mockCourtRepo);
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockCourtSiteRepo);

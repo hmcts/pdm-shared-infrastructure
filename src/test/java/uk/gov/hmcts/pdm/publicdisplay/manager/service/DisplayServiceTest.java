@@ -1,8 +1,10 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdisplay.XhbDisplayDao;
 import uk.gov.hmcts.pdm.business.entities.xhbdisplaytype.XhbDisplayTypeDao;
@@ -20,8 +22,10 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @ExtendWith(MockitoExtension.class)
 class DisplayServiceTest extends DisplayCrudTest {
@@ -236,6 +240,24 @@ class DisplayServiceTest extends DisplayCrudTest {
         // Verify the expected mocks were called
         verify(mockCourtSiteRepo);
 
+    }
+    
+    @Test
+    void testEntityManager() {
+        DisplayServiceFinder localClassUnderTest = new DisplayServiceFinder() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        mockEntityManager.close();
+        replay(mockEntityManager);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NOTNULL);
+        }
     }
 
     private XhbDisplayDao createDisplayDao() {

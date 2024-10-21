@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.Capture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.CouplingBetweenObjects"})
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.CouplingBetweenObjects", "PMD.ExcessiveImports"})
 abstract class DisplayCrudTest extends AbstractJUnit {
 
     /** The class under test. */
@@ -55,9 +56,12 @@ abstract class DisplayCrudTest extends AbstractJUnit {
     protected XhbDisplayTypeRepository mockDisplayTypeRepository;
 
     protected XhbCourtSiteRepository mockCourtSiteRepo;
+    
+    protected EntityManager mockEntityManager;
 
     protected static final String NOT_EQUAL = "Not equal";
     protected static final String FALSE = "False";
+    protected static final String NOTNULL = "Null";
 
 
     /**
@@ -74,6 +78,7 @@ abstract class DisplayCrudTest extends AbstractJUnit {
         mockRotationSetsRepo = createMock(XhbRotationSetsRepository.class);
         mockDisplayTypeRepository = createMock(XhbDisplayTypeRepository.class);
         mockCourtSiteRepo = createMock(XhbCourtSiteRepository.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDisplayLocationRepository",

@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.Capture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,9 @@ import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @ExtendWith(MockitoExtension.class)
 class CourtServiceTest extends AbstractJUnit {
@@ -36,6 +39,7 @@ class CourtServiceTest extends AbstractJUnit {
     private ICourtService classUnderTest;
     private XhbCourtSiteRepository mockCourtSiteRepo;
     private XhbCourtRepository mockCourtRepo;
+    private EntityManager mockEntityManager;
 
     private static final String NOT_EQUAL = "Not equal";
     private static final String NOT_EMPTY = "Not empty";
@@ -51,6 +55,7 @@ class CourtServiceTest extends AbstractJUnit {
         // Setup the mock version of the called classes
         mockCourtSiteRepo = createMock(XhbCourtSiteRepository.class);
         mockCourtRepo = createMock(XhbCourtRepository.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockCourtSiteRepo);
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtRepository", mockCourtRepo);
@@ -231,5 +236,23 @@ class CourtServiceTest extends AbstractJUnit {
 
         // Verify the expected mocks were called
         verify(mockCourtSiteRepo);
+    }
+    
+    @Test
+    void testEntityManager() {
+        CourtServiceFinder localClassUnderTest = new CourtServiceFinder() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        mockEntityManager.close();
+        replay(mockEntityManager);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NOT_EMPTY);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
@@ -23,6 +24,7 @@ abstract class RefJudgeServiceUtility extends AbstractJUnit {
     protected XhbRefJudgeRepository mockRefJudgeRepo;
     protected XhbCourtSiteRepository mockCourtSiteRepo;
     protected XhbRefSystemCodeRepository mockRefSystemCodeRepository;
+    protected EntityManager mockEntityManager;
 
     protected static final String NOT_EQUAL = "Not equal";
     protected static final String NOT_EMPTY = "Not empty";
