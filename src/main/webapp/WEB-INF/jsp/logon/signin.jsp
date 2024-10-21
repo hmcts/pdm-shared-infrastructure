@@ -40,14 +40,14 @@
 								</div>
 							</c:if>
 	
-							<div class="form-group">
+							<div id="username" class="form-group">
 								<label for="inputUserName" class="control-label col-md-2">Username</label>						
 								<div class="col-md-6">
 									<input class="form-control" type="text" placeholder="User Name" name="username"/>
 								</div>
 							</div>
 						
-							<div class="form-group">
+							<div id="password" class="form-group">
 								<label for="inputPassword" class="control-label col-md-2">Password</label>						
 								<div class="col-md-6">
 									<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="new-password"/>
@@ -69,6 +69,9 @@
 		<%@ include file="../common/footer.jsp"%>
 		
 		<%@ include file="../common/scripts.jsp"%>
+		
+		<%-- Login Specific javascript files --%>
+		<script type="text/javascript" src="${context}/js/signin.js"></script>
 		
 	</body>
 </html>
