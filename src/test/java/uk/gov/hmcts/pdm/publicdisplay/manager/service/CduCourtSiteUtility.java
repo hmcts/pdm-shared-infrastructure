@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
@@ -86,6 +87,8 @@ abstract class CduCourtSiteUtility extends AbstractJUnit {
 
     /** The mock local proxy rest client. */
     protected LocalProxyRestClient mockLocalProxyRestClient;
+    
+    protected EntityManager mockEntityManager;
 
     /** The xhibit court sites. */
     protected final List<IXhibitCourtSite> xhibitCourtSites = getTestXhibitCourtSites();

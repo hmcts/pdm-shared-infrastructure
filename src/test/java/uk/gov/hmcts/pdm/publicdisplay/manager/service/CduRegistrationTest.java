@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.Capture;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The Class CduRegistrationTest.
@@ -199,6 +201,24 @@ abstract class CduRegistrationTest extends CduServiceTestBase {
         } finally {
             // Verify the expected mocks were called
             verify(mockCduRepo);
+        }
+    }
+    
+    @Test
+    void testEntityManager() {
+        CduServHelperRepos localClassUnderTest = new CduServHelperRepos() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        mockEntityManager.close();
+        replay(mockEntityManager);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NULL);
         }
     }
 

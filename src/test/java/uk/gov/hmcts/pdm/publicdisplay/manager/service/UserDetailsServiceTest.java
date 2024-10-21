@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgruserdetails.XhbDispMgrUserDetailsRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.ServiceException;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
@@ -48,8 +50,10 @@ import uk.gov.hmcts.pdm.publicdisplay.manager.web.users.UserRemoveCommand;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
+
 
 /**
  * Unit test for UserDetailsService which uses Mockito in addition to EasyMock to be able to mock a
@@ -96,6 +100,9 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
     /** The mock authentication. */
     @Mock
     protected Authentication mockAuthentication;
+    
+    @Mock
+    private EntityManager mockEntityManager;
 
     /**
      * Setup.
@@ -200,6 +207,22 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         assertEquals(USER_NAME, capturedUserName.getValue(), NOT_EQUAL);
     }
 
+    @Test
+    void testEntityManager() {
+        UserDetailsServiceRepository localClassUnderTest = new UserDetailsServiceRepository() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        Mockito.when(mockEntityManager.isOpen()).thenReturn(true);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NULL);
+        }
+    }
+    
     /**
      * Test is user with user name null.
      */
