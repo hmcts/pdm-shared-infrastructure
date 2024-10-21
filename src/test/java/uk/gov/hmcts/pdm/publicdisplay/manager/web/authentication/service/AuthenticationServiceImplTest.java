@@ -117,21 +117,30 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     @Test
     void testhHandleOauthCode() {
-        boolean result = testhHandleOauthCode(ACCESSCODE, "idToken", true);
+        boolean result = testhHandleOauthCode(ACCESSCODE, "idToken", true, false);
         assertTrue(result, TRUE);
     }
 
 
-    private boolean testhHandleOauthCode(String code, String idToken, boolean isValid) {
+    private boolean testhHandleOauthCode(String code, String idToken, boolean isValid,
+        boolean errorOnFetch) {
         try {
             // Expects
             Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getProviderConfiguration())
                 .thenReturn(mockAuthProviderConfigurationProperties);
             Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getConfiguration())
                 .thenReturn(mockAuthConfigurationProperties);
-            Mockito.when(mockAzureDao.fetchAccessToken(code,
-                mockAuthProviderConfigurationProperties, mockAuthConfigurationProperties))
-                .thenReturn(mockOAuthProviderRawResponse);
+            if (errorOnFetch) {
+                Mockito
+                    .when(mockAzureDao.fetchAccessToken(code,
+                        mockAuthProviderConfigurationProperties, mockAuthConfigurationProperties))
+                    .thenThrow(AzureDaoException.class);
+            } else {
+                Mockito
+                    .when(mockAzureDao.fetchAccessToken(code,
+                        mockAuthProviderConfigurationProperties, mockAuthConfigurationProperties))
+                    .thenReturn(mockOAuthProviderRawResponse);
+            }
             String accessToken = "accessToken";
             if (idToken == null) {
                 Mockito.when(mockOAuthProviderRawResponse.getIdToken()).thenReturn(null);
@@ -156,14 +165,19 @@ class AuthenticationServiceImplTest extends AbstractJUnit {
 
     @Test
     void testhHandleOauthCodeNull() {
-        boolean result = testhHandleOauthCode(ACCESSCODE, null, true);
+        boolean result = testhHandleOauthCode(ACCESSCODE, null, true, false);
         assertTrue(result, TRUE);
     }
 
     @Test
     void testhHandleOauthCodeInvalid() {
         assertThrows(PddaApiException.class,
-            () -> testhHandleOauthCode(ACCESSCODE, "idToken", false));
+            () -> testhHandleOauthCode(ACCESSCODE, "idToken", false, false));
+    }
+
+    @Test
+    void testhHandleOauthCodeInvalidFetch() {
+        assertThrows(PddaApiException.class, () -> testhHandleOauthCode(null, null, false, true));
     }
 
     @Test

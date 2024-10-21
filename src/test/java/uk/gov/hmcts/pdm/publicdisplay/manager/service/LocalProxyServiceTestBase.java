@@ -23,8 +23,11 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
+import org.easymock.EasyMock;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
@@ -56,6 +59,8 @@ import java.util.List;
 import java.util.Set;
 
 import static org.easymock.EasyMock.createMock;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 /**
  * The Class LocalProxyServiceTest.
@@ -63,6 +68,7 @@ import static org.easymock.EasyMock.createMock;
  * @author harrism
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.ExcessiveImports")
 abstract class LocalProxyServiceTestBase extends AbstractJUnit {
     /** The Constant IPADDRESS. */
     protected static final String IPADDRESS = "IPADDRESS";
@@ -104,6 +110,8 @@ abstract class LocalProxyServiceTestBase extends AbstractJUnit {
 
     /** The mock local proxy rest client. */
     protected ILocalProxyRestClient mockLocalProxyRestClient;
+    
+    protected EntityManager mockEntityManager;
 
     /** The xhibit court sites with local proxies. */
     protected final List<IXhibitCourtSite> courtSitesWithLocalProxies =
@@ -131,6 +139,7 @@ abstract class LocalProxyServiceTestBase extends AbstractJUnit {
         mockLocalProxyRepo = createMock(XhbDispMgrLocalProxyRepository.class);
         mockScheduleRepo = createMock(XhbDispMgrScheduleRepository.class);
         mockLocalProxyRestClient = createMock(LocalProxyRestClient.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository", mockCduRepo);
@@ -277,4 +286,21 @@ abstract class LocalProxyServiceTestBase extends AbstractJUnit {
         return schedules;
     }
 
+    @Test
+    void testEntityManager() {
+        LocalProxyServiceFinder localClassUnderTest = new LocalProxyServiceFinder() {
+            
+            @Override
+            public EntityManager getEntityManager() {
+                return super.getEntityManager();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", mockEntityManager);
+        EasyMock.expect(mockEntityManager.isOpen()).andReturn(true);
+        mockEntityManager.close();
+        EasyMock.replay(mockEntityManager);
+        try (EntityManager result = localClassUnderTest.getEntityManager()) {
+            assertNotNull(result, NULL);
+        }
+    }
 }

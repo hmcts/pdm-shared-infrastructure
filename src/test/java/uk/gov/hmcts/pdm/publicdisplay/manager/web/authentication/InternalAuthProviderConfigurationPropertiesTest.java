@@ -1,5 +1,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication;
 
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,6 +11,8 @@ import org.mockito.quality.Strictness;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 /**
  * The Class InternalAuthProviderConfigurationProperties.
@@ -20,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class InternalAuthProviderConfigurationPropertiesTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
+    private static final String NOTNULL = "Result is Null";
 
     @InjectMocks
     private final AuthProviderConfigurationProperties classUnderTest =
@@ -52,5 +57,14 @@ class InternalAuthProviderConfigurationPropertiesTest extends AbstractJUnit {
         String result = "LogoutUri";
         classUnderTest.setLogoutUri(result);
         assertEquals(result, classUnderTest.getLogoutUri(), EQUALS);
+    }
+    
+    @Test
+    void testJwkSource() {
+        // Setup
+        classUnderTest.setJwkSetUri("http:\\localhost:8080");
+        // Run
+        JWKSource<SecurityContext> result = classUnderTest.getJwkSource();
+        assertNotNull(result, NOTNULL);
     }
 }
