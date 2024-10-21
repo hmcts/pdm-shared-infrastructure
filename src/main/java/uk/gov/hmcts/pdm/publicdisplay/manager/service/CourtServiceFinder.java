@@ -24,7 +24,7 @@ public class CourtServiceFinder extends CourtServiceCreator {
     protected static final Logger LOGGER = LoggerFactory.getLogger(CourtServiceFinder.class);
 
     protected EntityManager getEntityManager() {
-        if (entityManager == null) {
+        if (entityManager == null || !entityManager.isOpen()) {
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;

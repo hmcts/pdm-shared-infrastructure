@@ -67,7 +67,7 @@ public class CduServHelperRepos {
     }
 
     protected EntityManager getEntityManager() {
-        if (entityManager == null) {
+        if (entityManager == null || !entityManager.isOpen()) {
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;

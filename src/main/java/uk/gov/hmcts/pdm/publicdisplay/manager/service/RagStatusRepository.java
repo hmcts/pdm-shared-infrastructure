@@ -17,7 +17,7 @@ public class RagStatusRepository {
     private XhbDispMgrLocalProxyRepository xhbDispMgrLocalProxyRepository;
 
     private EntityManager getEntityManager() {
-        if (entityManager == null) {
+        if (entityManager == null || !entityManager.isOpen()) {
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;
