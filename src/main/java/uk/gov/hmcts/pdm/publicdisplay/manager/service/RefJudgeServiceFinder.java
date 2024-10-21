@@ -27,7 +27,7 @@ public class RefJudgeServiceFinder extends RefJudgeServiceCreator {
     protected static final Logger LOGGER = LoggerFactory.getLogger(RefJudgeServiceFinder.class);
 
     protected EntityManager getEntityManager() {
-        if (entityManager == null) {
+        if (entityManager == null || !entityManager.isOpen()) {
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;

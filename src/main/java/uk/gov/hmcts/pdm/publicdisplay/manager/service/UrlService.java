@@ -87,7 +87,7 @@ public class UrlService implements IUrlService {
     }
 
     private EntityManager getEntityManager() {
-        if (entityManager == null) {
+        if (entityManager == null || !entityManager.isOpen()) {
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;
