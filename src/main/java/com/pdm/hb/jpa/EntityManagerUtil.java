@@ -29,4 +29,9 @@ public class EntityManagerUtil {
         return entityManager;
 
     }
+    
+    public static boolean isEntityManagerActive(EntityManager entityManager) {
+        return entityManager != null && entityManager.isOpen();
+
+    }
 }

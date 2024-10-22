@@ -26,9 +26,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsGreenUpperLimit() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(80L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(80L);
-        replay(mockCduRepo);
+        expectWeightingTotal(80L, 80L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -50,9 +48,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsGreenLowerLimit() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(80L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(64L);
-        replay(mockCduRepo);
+        expectWeightingTotal(80L, 64L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -74,9 +70,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsAmberUpperLimit() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(800L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(632L);
-        replay(mockCduRepo);
+        expectWeightingTotal(800L, 632L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -98,9 +92,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsAmberLowerLimit() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(80L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(48L);
-        replay(mockCduRepo);
+        expectWeightingTotal(80L, 48L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -122,9 +114,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsRedUpperLimit() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(800L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(472L);
-        replay(mockCduRepo);
+        expectWeightingTotal(800L, 472L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -147,9 +137,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsRedLowerLimit() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(800L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(0L);
-        replay(mockCduRepo);
+        expectWeightingTotal(800L, 0L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -171,9 +159,7 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
     @Test
     void testRagStatusOverallTotalsZero() {
         // Add the mock calls to child classes
-        expect(mockCduRepo.getCduWeightingTotal()).andReturn(0L);
-        expect(mockCduRepo.getCduWeightingOperational()).andReturn(0L);
-        replay(mockCduRepo);
+        expectWeightingTotal(0L, 0L);
 
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_AMBER, 80);
         ReflectionTestUtils.setField(classUnderTest, RAG_STATUS_RED, 60);
@@ -205,6 +191,21 @@ abstract class RagStatusOverallTest extends RagStatusServiceTestBase {
         try (EntityManager result = localClassUnderTest.getEntityManager()) {
             assertNotNull(result, NULL);
         }
+    }
+    
+    protected void expectRepositoryUtilCheck() {
+        expect(mockDispMgrCourtSiteRepo.getEntityManager()).andReturn(mockEntityManager).anyTimes();
+        expect(mockCduRepo.getEntityManager()).andReturn(mockEntityManager).anyTimes();
+        expect(mockLocalProxyRepo.getEntityManager()).andReturn(mockEntityManager).anyTimes();
+        expect(mockEntityManager.isOpen()).andReturn(true).anyTimes();
+    }    
+
+    private void expectWeightingTotal(Long total, Long operational) {
+        expectRepositoryUtilCheck();
+        expect(mockCduRepo.getCduWeightingTotal()).andReturn(total);
+        expect(mockCduRepo.getCduWeightingOperational()).andReturn(operational);
+        replay(mockCduRepo);
+        replay(mockEntityManager);
     }
 
 }
