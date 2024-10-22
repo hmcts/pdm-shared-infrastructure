@@ -176,6 +176,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
                 public void clearRepositories() {
                     super.clearRepositories();
                 }
+                
                 @Override
                 public XhbDispMgrCourtSiteRepository getXhbDispMgrCourtSiteRepository() {
                     return super.getXhbDispMgrCourtSiteRepository();

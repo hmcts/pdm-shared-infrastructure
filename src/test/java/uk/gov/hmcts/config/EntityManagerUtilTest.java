@@ -26,80 +26,78 @@ package uk.gov.hmcts.config;
 import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.core.env.Environment;
-import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
-import static org.assertj.core.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit test for WebApplInitializer.
+ * Unit test for EntityManagerUtil.
  *
  * @author harrism
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class WebAppInitializerTest extends AbstractJUnit {
+@TestMethodOrder(OrderAnnotation.class)
+class EntityManagerUtilTest extends AbstractJUnit {
 
-    private static final String EQUALS = "Result is not Equal";
+    private static final String NOTNULL = "Result is Null";
+    private static final String FALSE = "Result is True";
+    private static final String TRUE = "Result is False";
 
-    @Mock
-    private Environment mockEnvironment;
-
-    @Mock
-    private EntityManagerFactory mockEntityManagerFactory;
-
-    @Mock
-    private EntityManager mockEntityManager;
-
-    @Mock
-    private ServletContext mockServletContext;
-
-    @InjectMocks
-    private WebAppInitializer classUnderTest;
-
-    /**
-     * Setup.
-     */
-    @BeforeEach
-    public void setup() {
-        // Set the class variables
-        ReflectionTestUtils.setField(classUnderTest, "entityManagerFactory",
-            mockEntityManagerFactory);
-    }
-
-    /**
-     * Test onStartup.
-     */
     @Test
-    void testOnStartup() {
-        try {
-            // Expects
-            Mockito.when(mockEntityManagerFactory.createEntityManager())
-                .thenReturn(mockEntityManager);
-            Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class)))
-                .thenReturn("testDbUser");
-            // Run
-            classUnderTest.onStartup(mockServletContext);
-            // Checks
-            assertEquals(InitializationService.getInstance().getEntityManagerFactory(),
-                mockEntityManagerFactory, EQUALS);
-            assertEquals(EntityManagerUtil.getEntityManager(), mockEntityManager, EQUALS);
-        } catch (ServletException exception) {
-            fail(exception.getMessage());
+    @Order(1)  
+    void testEntityManager() {
+        // Setup
+        EntityManagerFactory mockEntityManagerFactory = Mockito.mock(EntityManagerFactory.class);
+        InitializationService mockInitializationService = Mockito.mock(InitializationService.class);
+        Mockito.mockStatic(InitializationService.class);
+        // Expects
+        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
+        Mockito.when(mockInitializationService.getEntityManagerFactory())
+            .thenReturn(mockEntityManagerFactory);
+        Mockito.when(mockEntityManagerFactory.createEntityManager()).thenReturn(Mockito.mock(EntityManager.class));
+        // Run
+        try (EntityManager result = EntityManagerUtil.getEntityManager()) {
+            assertNotNull(result, NOTNULL);
         }
+        Mockito.clearAllCaches();
     }
+
+    @Test
+    @Order(2)  
+    void testEntityManagerActiveNull() {
+        boolean result = EntityManagerUtil.isEntityManagerActive(null);
+        assertFalse(result, FALSE);
+    }
+
+    @Test
+    @Order(3)
+    void testEntityManagerActiveClosed() {
+        EntityManager mockEntityManager = Mockito.mock(EntityManager.class);
+        Mockito.when(mockEntityManager.isOpen()).thenReturn(false);
+        boolean result = EntityManagerUtil.isEntityManagerActive(mockEntityManager);
+        assertFalse(result, FALSE);
+    }
+
+    @Test
+    @Order(4)
+    void testEntityManagerActiveOpen() {
+        EntityManager mockEntityManager = Mockito.mock(EntityManager.class);
+        Mockito.when(mockEntityManager.isOpen()).thenReturn(true);
+        boolean result = EntityManagerUtil.isEntityManagerActive(mockEntityManager);
+        assertTrue(result, TRUE);
+    }
+
 }
