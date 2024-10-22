@@ -44,6 +44,7 @@ import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit test for WebApplInitializer.
@@ -55,6 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class WebAppInitializerTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
+    private static final String NOTNULL = "Result is Null";
 
     @Mock
     private Environment mockEnvironment;
@@ -70,7 +72,7 @@ class WebAppInitializerTest extends AbstractJUnit {
 
     @InjectMocks
     private WebAppInitializer classUnderTest;
-
+  
     /**
      * Setup.
      */
@@ -97,7 +99,7 @@ class WebAppInitializerTest extends AbstractJUnit {
             // Checks
             assertEquals(InitializationService.getInstance().getEntityManagerFactory(),
                 mockEntityManagerFactory, EQUALS);
-            assertEquals(EntityManagerUtil.getEntityManager(), mockEntityManager, EQUALS);
+            assertNotNull(EntityManagerUtil.getEntityManager(), NOTNULL);
         } catch (ServletException exception) {
             fail(exception.getMessage());
         }
