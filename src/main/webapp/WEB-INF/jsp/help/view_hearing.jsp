@@ -32,11 +32,11 @@
 				
 				<h3>Manage Hearing Type</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Amend Hearing Type&quot; option allows update of the data stored against the selected sites Hearing Type.</p>
 				
 					<p>The &quot;Create Hearing Type&quot; option allows creation of a new Hearing Type stored against the selected site.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

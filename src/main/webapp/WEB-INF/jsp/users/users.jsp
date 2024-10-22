@@ -116,12 +116,12 @@
 											
 											<input type="hidden" id="userName" name="userName" />								
 											
-											<security:authorize access="hasRole('ROLE_ADMIN')">
+											<!-- <security:authorize access="hasRole('ROLE_ADMIN')"> -->
 												<div>
 													<button type="button" id="btnRemove" class="btn btn-primary" name="btnRemove" value="btnRemove" data-toggle="modal" data-target="#removeModal">
 														<span class="glyphicon glyphicon-minus"></span> Remove User</button>
 												</div>		
-											</security:authorize>
+											<!-- </security:authorize> -->
 										</div>
 									</div>
 									<!-- Modal dialog for remove user. -->
@@ -157,7 +157,7 @@
 									<%-- CSRF token --%>
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 									
-									<security:authorize access="hasRole('ROLE_ADMIN')">
+									<!-- <security:authorize access="hasRole('ROLE_ADMIN')"> -->
 										<div class="panel panel-primary">
 											<div class="panel-heading"><h3 class="panel-title">New User</h3></div>
 											<div class="panel-body">
@@ -206,7 +206,7 @@
 												</div>							
 											</div>
 										</div>
-									</security:authorize>
+									<!-- </security:authorize> -->
 								</form:form>
 							</div>							
 						</div>												

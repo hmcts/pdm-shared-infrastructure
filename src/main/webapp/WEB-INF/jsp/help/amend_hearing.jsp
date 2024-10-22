@@ -32,11 +32,11 @@
 				
 				<h3>Amend Hearing Type</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Update Hearing Type&quot; updates the data stored against the selected hearing type.</p>
 				
 					<p>The &quot;Return to Manage Hearing&quot; returns back to the Manage Hearing screen.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

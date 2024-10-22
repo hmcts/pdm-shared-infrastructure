@@ -32,13 +32,13 @@
 				
 				<h3>Manage Judge</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Amend Judge&quot; option allows update of the data stored against the selected sites judge.</p>
 				
 					<p>The &quot;Create Judge&quot; option allows creation of a new judge stored against the selected site.</p>
 				
 					<p>The &quot;Delete Judge&quot; option allows deletion of a judge stored against the selected site.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

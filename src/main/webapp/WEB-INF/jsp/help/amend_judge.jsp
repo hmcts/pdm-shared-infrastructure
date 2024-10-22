@@ -32,11 +32,11 @@
 				
 				<h3>Amend Judge</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Update Judge&quot; updates the data stored against the selected judge.</p>
 				
 					<p>The &quot;Return to Manage Judge&quot; returns back to the Manage Judge screen.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

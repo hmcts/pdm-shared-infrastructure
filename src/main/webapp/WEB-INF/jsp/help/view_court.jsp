@@ -32,11 +32,11 @@
 				
 				<h3>Manage Court</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Amend Court&quot; option allows update of the court data stored against the selected site.</p>
 				
 					<p>The &quot;Create Court&quot; option allows creation of a new court against the selected site.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

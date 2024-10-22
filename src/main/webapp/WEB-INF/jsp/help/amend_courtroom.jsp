@@ -32,11 +32,11 @@
 				
 				<h3>Amend Court Room</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Update Court Room&quot; updates the data stored against the selected court room.</p>
 				
 					<p>The &quot;Return to Manage Court Room&quot; returns back to the Manage Court Room screen.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

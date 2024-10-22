@@ -32,11 +32,11 @@
 				
 				<h3>Create Court</h3>
 
-				 <security:authorize access="hasRole('ROLE_ADMIN')"> 
+				 <!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Create Court&quot; button creates the court against the selected court.</p>
 				
 					<p>The &quot;Return to Manage Court&quot; button returns back to the Manage Court screen.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>

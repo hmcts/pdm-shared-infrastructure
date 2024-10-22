@@ -32,11 +32,11 @@
 				
 				<h3>Manage Judge Type</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
+				<!-- <security:authorize access="hasRole('ROLE_ADMIN')">  -->
 					<p>The &quot;Amend Judge Type&quot; option allows update of the data stored against the selected sites judge type.</p>
 				
 					<p>The &quot;Create Judge Type&quot; option allows creation of a new judge type stored against the selected site.</p>
-				</security:authorize>
+				<!-- </security:authorize> -->
 			</div>
 			<!-- /col-md-12 -->
 		</div>
