@@ -24,8 +24,10 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import jakarta.persistence.EntityManager;
+import org.easymock.EasyMock;
 import org.easymock.EasyMockExtension;
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.quartz.Scheduler;
@@ -55,6 +57,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.easymock.EasyMock.createMock;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The Class RagStatusServiceTest.
@@ -108,7 +111,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
 
     /** The mock local proxy repo. */
     protected XhbDispMgrLocalProxyRepository mockLocalProxyRepo;
-    
+
     protected EntityManager mockEntityManager;
 
     /** The mock scheduler. */
@@ -155,11 +158,46 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository", mockCduRepo);
-        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCourtSiteRepository", mockDispMgrCourtSiteRepo);
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCourtSiteRepository",
+            mockDispMgrCourtSiteRepo);
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrLocalProxyRepository",
             mockLocalProxyRepo);
         ReflectionTestUtils.setField(classUnderTest, "localProxyRestClient",
             mockLocalProxyRestClient);
+    }
+
+    @AfterAll
+    public static void teardown() {
+        // Setup
+        EntityManager localMockEntityManager = createMock(EntityManager.class);
+        RagStatusService localClassUnderTest = new RagStatusService() {
+            @Override
+            public XhbDispMgrCourtSiteRepository getXhbDispMgrCourtSiteRepository() {
+                return super.getXhbDispMgrCourtSiteRepository();
+            }
+
+            @Override
+            public XhbDispMgrCduRepository getXhbDispMgrCduRepository() {
+                return super.getXhbDispMgrCduRepository();
+            }
+
+            @Override
+            public XhbDispMgrLocalProxyRepository getXhbDispMgrLocalProxyRepository() {
+                return super.getXhbDispMgrLocalProxyRepository();
+            }
+        };
+        ReflectionTestUtils.setField(localClassUnderTest, "entityManager", localMockEntityManager);
+        // Expects
+        EasyMock.expect(localMockEntityManager.isOpen()).andReturn(true).anyTimes();
+        EasyMock.replay(localMockEntityManager);
+        // Run
+        String errorMessage = "Null %s";
+        assertNotNull(localClassUnderTest.getXhbDispMgrCourtSiteRepository(),
+            String.format(errorMessage, "XhbDispMgrCourtSiteRepository"));
+        assertNotNull(localClassUnderTest.getXhbDispMgrCduRepository(),
+            String.format(errorMessage, "XhbDispMgrCduRepository"));
+        assertNotNull(localClassUnderTest.getXhbDispMgrLocalProxyRepository(),
+            String.format(errorMessage, "XhbDispMgrLocalProxyRepository"));
     }
 
     /**
