@@ -173,6 +173,10 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
         try (EntityManager localMockEntityManager = createMock(EntityManager.class)) {
             RagStatusService localClassUnderTest = new RagStatusService() {
                 @Override
+                public void clearRepositories() {
+                    super.clearRepositories();
+                }
+                @Override
                 public XhbDispMgrCourtSiteRepository getXhbDispMgrCourtSiteRepository() {
                     return super.getXhbDispMgrCourtSiteRepository();
                 }
@@ -195,6 +199,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
             EasyMock.replay(localMockEntityManager);
             // Run
             String errorMessage = "Null %s";
+            localClassUnderTest.clearRepositories();
             assertNotNull(localClassUnderTest.getXhbDispMgrCourtSiteRepository(),
                 String.format(errorMessage, "XhbDispMgrCourtSiteRepository"));
             assertNotNull(localClassUnderTest.getXhbDispMgrCduRepository(),
