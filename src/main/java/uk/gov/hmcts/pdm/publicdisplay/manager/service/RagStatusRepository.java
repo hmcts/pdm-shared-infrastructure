@@ -7,6 +7,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcdu.XhbDispMgrCduRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrcourtsite.XhbDispMgrCourtSiteRepository;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy.XhbDispMgrLocalProxyRepository;
 
+@SuppressWarnings("PMD.NullAssignment")
 public class RagStatusRepository {
 
     private EntityManager entityManager;
