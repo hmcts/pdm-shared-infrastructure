@@ -191,6 +191,7 @@ abstract class RagStatusServiceTestBase extends AbstractJUnit {
                 localMockEntityManager);
             // Expects
             EasyMock.expect(localMockEntityManager.isOpen()).andReturn(true).anyTimes();
+            localMockEntityManager.close();
             EasyMock.replay(localMockEntityManager);
             // Run
             String errorMessage = "Null %s";
