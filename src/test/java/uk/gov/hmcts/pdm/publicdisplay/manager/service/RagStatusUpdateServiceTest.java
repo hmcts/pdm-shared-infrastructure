@@ -53,6 +53,8 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         final Capture<LocalProxy> capturedLocalProxy = newCapture();
 
         // Add the mock calls to child classes
+        expectRepositoryUtilCheck();
+        replay(mockEntityManager);
         for (ICduModel cdu : cdus) {
             expect(mockCduRepo.findByMacAddress(cdu.getMacAddress())).andReturn(cdu);
             mockCduRepo.updateDaoFromBasicValue(cdu);
@@ -106,6 +108,8 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         final Capture<LocalProxy> capturedLocalProxy = newCapture();
 
         // Add the mock calls to child classes
+        expectRepositoryUtilCheck();
+        replay(mockEntityManager);
         for (ICduModel cdu : cdus) {
             expect(mockCduRepo.findByMacAddress(cdu.getMacAddress())).andReturn(cdu);
             mockCduRepo.updateDaoFromBasicValue(cdu);
@@ -159,6 +163,8 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         final Capture<LocalProxy> capturedLocalProxy = newCapture();
 
         // Add the mock calls to child classes
+        expectRepositoryUtilCheck();
+        replay(mockEntityManager);
         for (ICduModel cdu : cdus) {
             expect(mockCduRepo.findByMacAddress(cdu.getMacAddress())).andReturn(cdu);
             mockCduRepo.updateDaoFromBasicValue(cdu);
@@ -209,6 +215,8 @@ class RagStatusUpdateServiceTest extends RagStatusOverallTest {
         final Capture<CduModel> capturedCdus = newCapture(CaptureType.ALL);
 
         // Add the mock calls to child classes
+        expectRepositoryUtilCheck();
+        replay(mockEntityManager);
         for (ICduModel cdu : cdus) {
             mockCduRepo.updateDaoFromBasicValue(cdu);
             expectLastCall();
