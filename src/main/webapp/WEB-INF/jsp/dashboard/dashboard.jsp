@@ -65,7 +65,7 @@
 							<div class="row">
 								<div class="col-md-9">
 									<div class="pull-left">
-										<h2 class="m-top-0"><span data-toggle="tooltip" title="${overAllStatusTooltipText}"><span class="glyphicon ${overAllStatusIcon}"></span> Overall Summary DOESTHISAPPEAR? : ${overAllStatusDesc}</span></h2>
+										<h2 class="m-top-0"><span data-toggle="tooltip" title="${overAllStatusTooltipText}"><span class="glyphicon ${overAllStatusIcon}"></span> Overall Summary : ${overAllStatusDesc}</span></h2>
 									</div>
 								</div>
 								<div class="col-md-3">
