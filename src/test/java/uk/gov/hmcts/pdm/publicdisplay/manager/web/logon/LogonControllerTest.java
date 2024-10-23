@@ -39,6 +39,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -93,10 +95,10 @@ class LogonControllerTest extends AbstractJUnit {
 
     @Mock
     private Environment mockEnvironment;
-    
+
     @Mock
     private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
-    
+
     @Mock
     private URI mockUri;
 
@@ -152,7 +154,8 @@ class LogonControllerTest extends AbstractJUnit {
         Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
         Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
         Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("false");
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull())).thenReturn(mockUri);
+        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
+            .thenReturn(mockUri);
         // Perform the test
         final MvcResult results = mockMvc.perform(get("/login")).andReturn();
 
@@ -160,7 +163,7 @@ class LogonControllerTest extends AbstractJUnit {
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
     }
-    
+
     /**
      * Test LoginToApp.
      *
@@ -168,7 +171,8 @@ class LogonControllerTest extends AbstractJUnit {
      */
     @Test
     void testLoginToApp() throws Exception {
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull())).thenReturn(mockUri);
+        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
+            .thenReturn(mockUri);
         Mockito.when(mockUri.toString()).thenReturn(VIEW_NAME_DASHBOARD);
         // Perform the test
         final MvcResult results = mockMvc.perform(post("/login")).andReturn();
@@ -176,7 +180,7 @@ class LogonControllerTest extends AbstractJUnit {
         // Assert that the objects are as expected
         assertViewName(results, "redirect:" + VIEW_NAME_DASHBOARD);
     }
-    
+
     /**
      * Test Callback.
      *
@@ -185,7 +189,10 @@ class LogonControllerTest extends AbstractJUnit {
     @Test
     void testCallback() throws Exception {
         // Perform the test
-        final MvcResult results = mockMvc.perform(get("/auth/internal/callback")).andReturn();
+        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+        requestParams.add("code", "authenticationCode");
+        final MvcResult results =
+            mockMvc.perform(get("/auth/internal/callback").params(requestParams)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_DASHBOARD);
