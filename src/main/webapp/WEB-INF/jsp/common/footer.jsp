@@ -6,7 +6,7 @@
 				<strong><span class="glyphicon glyphicon-phone-alt"></span> Support Contact Number</strong>
 			</div>					
 			<div class="col-xs-6 col-md-9">
-				<span>0800 021 7233 DOESTHISAPPEAR?</span>
+				<span>0800 021 7233</span>
 			</div>					
 		</div>					
 				
