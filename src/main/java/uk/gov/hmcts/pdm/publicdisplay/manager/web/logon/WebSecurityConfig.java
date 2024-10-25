@@ -79,14 +79,8 @@ public class WebSecurityConfig {
      */
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
         LOG.info("getAuthHttp()");
-        // OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-        // new OAuth2AuthorizationServerConfigurer();
-        // authorizationServerConfigurer
-        // .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-        // .authorizationResponseHandler(getSuccessHandler()));
-        // http.apply(authorizationServerConfigurer);
-        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler()));
-        http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler()))
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
     }
 
