@@ -23,6 +23,8 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,11 +46,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -57,6 +58,7 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
+import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.fail;
@@ -108,16 +110,13 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private FilterChain mockFilterChain;
 
     @Mock
-    private ClientRegistrationRepository mockClientRegistrationRepository;
-
-    @Mock
-    private OAuth2AuthorizedClientRepository mockOAuth2AuthorizedClientRepository;
-
-    @Mock
     private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
 
     @Mock
     private InternalAuthConfigurationProperties mockInternalAuthConfigurationProperties;
+
+    @Mock
+    private URI mockUri;
 
     @InjectMocks
     private WebSecurityConfig classUnderTest;
@@ -130,6 +129,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         Mockito.mockStatic(JwtDecoders.class);
+        Mockito.mockStatic(OAuth2AuthorizationServerConfiguration.class);
 
         classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy);
 
@@ -150,7 +150,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
             // Expects
             Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
             // Run
-            SecurityFilterChain result = classUnderTestNoHttp.filterChain(mockHttpSecurity);
+            SecurityFilterChain result =
+                classUnderTestNoHttp.authorizationServerSecurityFilterChain(mockHttpSecurity);
             assertNotNull(result, NOTNULL);
         } catch (Exception exception) {
             fail(exception.getMessage());
@@ -183,11 +184,13 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     @Test
-    void testAuthorizedClientManager() {
+    void testRegisteredClientRepository() {
         try {
+            Mockito
+                .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
+                .thenReturn(mockUri);
             // Run
-            OAuth2AuthorizedClientManager result = classUnderTestNoHttp.authorizedClientManager(
-                mockClientRegistrationRepository, mockOAuth2AuthorizedClientRepository);
+            RegisteredClientRepository result = classUnderTestNoHttp.registeredClientRepository();
             assertNotNull(result, NOTNULL);
         } catch (Exception exception) {
             fail(exception.getMessage());
@@ -197,14 +200,20 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testJwtDecoder() {
         // Expects
+        @SuppressWarnings("unchecked")
+        JWKSource<SecurityContext> mockJwkSource = Mockito.mock(JWKSource.class);
         JwtDecoder mockJwtDecoder = Mockito.mock(JwtDecoder.class);
-        Mockito.when(JwtDecoders.fromIssuerLocation(Mockito.isA(String.class)))
+        Mockito.when(OAuth2AuthorizationServerConfiguration.jwtDecoder(mockJwkSource))
             .thenReturn(mockJwtDecoder);
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getConfiguration())
-            .thenReturn(mockInternalAuthConfigurationProperties);
-        Mockito.when(mockInternalAuthConfigurationProperties.getIssuerUri()).thenReturn("issueUri");
         // Run
-        JwtDecoder result = classUnderTest.jwtDecoder();
+        JwtDecoder result = classUnderTest.jwtDecoder(mockJwkSource);
+        assertNotNull(result, NOTNULL);
+    }
+
+    @Test
+    void testJwtSource() {
+        // Run
+        JWKSource<SecurityContext> result = classUnderTest.jwkSource();
         assertNotNull(result, NOTNULL);
     }
 
