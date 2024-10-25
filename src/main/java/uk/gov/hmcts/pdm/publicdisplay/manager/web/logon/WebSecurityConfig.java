@@ -29,7 +29,6 @@ import org.springframework.security.oauth2.server.authorization.client.InMemoryR
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -80,13 +79,13 @@ public class WebSecurityConfig {
      */
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
         LOG.info("getAuthHttp()");
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-            new OAuth2AuthorizationServerConfigurer();
-        authorizationServerConfigurer
-            .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-                .authorizationResponseHandler(getSuccessHandler()));
+        // OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+        // new OAuth2AuthorizationServerConfigurer();
+        // authorizationServerConfigurer
+        // .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+        // .authorizationResponseHandler(getSuccessHandler()));
+        // http.apply(authorizationServerConfigurer);
         http.oauth2Login(auth -> auth.successHandler(getSuccessHandler()));
-        http.apply(authorizationServerConfigurer);
         http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
     }
@@ -98,8 +97,7 @@ public class WebSecurityConfig {
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri(uriProvider.getLoginUri(null).toString())
-            .scope(OidcScopes.PROFILE)
+            .redirectUri(uriProvider.getLoginUri(null).toString()).scope(OidcScopes.PROFILE)
             .scope(OidcScopes.OPENID)
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build();
