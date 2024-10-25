@@ -1,37 +1,63 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
+
+import java.io.IOException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.UUID;
+
+/**
+ * Example taken from https://docs.spring.io/spring-authorization-server/reference/overview.html.
+ */
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Profile("!intTest")
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "removal"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.ExcessiveImports",
+    "PMD.CouplingBetweenObjects", "PMD.TooManyMethods", "removal"})
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String[] AUTH_WHITELIST = {"/health/**", "/loggers/**", "/", "/error**",
-        "/auth/internal/callback", "/fonts/glyph*", "/css/**", "/js/**", "favicon.ico",
+        "/login/oauth2/code/internal-azure-ad", "/fonts/glyph*", "/css/**", "/js/**", "favicon.ico",
         "/WEB-INF/jsp/error**", "/oauth2/authorization/**", "/oauth2/authorize/azure/**",
         "/dashboard**", "/status/health", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**",
         "/login**", "/WEB-INF/jsp/logon/signin**", "/api/user"};
@@ -39,22 +65,44 @@ public class WebSecurityConfig {
     private final InternalAuthConfigurationPropertiesStrategy uriProvider;
 
     /**
-     * Security filterchain.
+     * Authorisation filterchain.
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+        throws Exception {
         LOG.info("filterChain()");
         return getAuthHttp(http).build();
     }
 
     /**
-     * Get the HTTP.
+     * Get the Authorisation HTTP.
      */
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
-        return http
-            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
-            .oauth2Client(Customizer.withDefaults()).oauth2Login(Customizer.withDefaults())
-            .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+        LOG.info("getAuthHttp()");
+        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler())
+            .failureHandler(getFailureHandler()).redirectionEndpoint(
+                redirection -> redirection.baseUri(uriProvider.getLoginUri(null).toString())))
+            .formLogin(login -> login.successHandler(getSuccessHandler())
+                .failureHandler(getFailureHandler()))
+            .oauth2Client(Customizer.withDefaults())
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+        return http;
+    }
+
+    @Bean
+    public RegisteredClientRepository registeredClientRepository() {
+        RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId("oidc-client").clientSecret("{noop}secret")
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+            .redirectUri(uriProvider.getLoginUri(null).toString()).scope(OidcScopes.PROFILE)
+            .scope(OidcScopes.OPENID)
+            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
+            .build();
+
+        return new InMemoryRegisteredClientRepository(oidcClient);
     }
 
     /**
@@ -65,31 +113,53 @@ public class WebSecurityConfig {
         return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
 
-    /**
-     * Client manager.
-     */
     @Bean
-    public OAuth2AuthorizedClientManager authorizedClientManager(
-        ClientRegistrationRepository clientRegistrationRepository,
-        OAuth2AuthorizedClientRepository authorizedClientRepository) {
-
-        OAuth2AuthorizedClientProvider authorizedClientProvider =
-            OAuth2AuthorizedClientProviderBuilder.builder().authorizationCode().refreshToken()
-                .clientCredentials().build();
-
-        DefaultOAuth2AuthorizedClientManager authorizedClientManager =
-            new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository,
-                authorizedClientRepository);
-        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-
-        return authorizedClientManager;
+    public JWKSource<SecurityContext> jwkSource() {
+        KeyPair keyPair = generateRsaKey();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        RSAKey rsaKey = new RSAKey.Builder(publicKey).privateKey(privateKey)
+            .keyID(UUID.randomUUID().toString()).build();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return new ImmutableJWKSet<>(jwkSet);
     }
 
-    /**
-     * Resource server.
-     */
+    private static KeyPair generateRsaKey() {
+        KeyPair keyPair;
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            keyPair = keyPairGenerator.generateKeyPair();
+        } catch (Exception ex) {
+            throw new IllegalStateException(ex);
+        }
+        return keyPair;
+    }
+
     @Bean
-    public JwtDecoder jwtDecoder() {
-        return JwtDecoders.fromIssuerLocation(uriProvider.getConfiguration().getIssuerUri());
+    public SimpleUrlAuthenticationSuccessHandler getSuccessHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request,
+                HttpServletResponse response, Authentication authentication)
+                throws IOException, ServletException {
+                LOG.info("success()");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // response.sendRedirect(HOME_URL);
+            }
+        };
+    }
+
+    @Bean
+    public SimpleUrlAuthenticationFailureHandler getFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request,
+                HttpServletResponse response, AuthenticationException exception)
+                throws IOException, ServletException {
+                LOG.info("failure()");
+                SecurityContextHolder.getContext().setAuthentication(null);
+            }
+        };
     }
 }

@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
@@ -113,7 +114,7 @@ public class LogonController {
     private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
 
     private static final String COMMAND = "command";
-    private static final String AUTH_CALLBACK = "/auth/internal/callback";
+    private static final String AUTH_CALLBACK = "/login/oauth2/code/internal-azure-ad";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
@@ -181,7 +182,7 @@ public class LogonController {
      * @return the string
      */
     @GetMapping(AUTH_CALLBACK)
-    public ModelAndView callback() {
+    public ModelAndView callback(@RequestParam("code") String code) {
         LOGGER.info("callback()");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
