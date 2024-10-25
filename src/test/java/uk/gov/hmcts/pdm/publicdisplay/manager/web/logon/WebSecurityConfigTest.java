@@ -26,6 +26,8 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +46,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
@@ -166,6 +169,20 @@ class WebSecurityConfigTest extends AbstractJUnit {
         } catch (Exception exception) {
             fail(exception.getMessage());
         }
+    }
+
+    @Test
+    void testRegisteredClientRepository() {
+        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
+            .thenReturn(mockUri);
+        RegisteredClientRepository result = classUnderTest.registeredClientRepository();
+        assertNotNull(result, NOTNULL);
+    }
+    
+    @Test
+    void testJwkSource() {
+        JWKSource<SecurityContext> result = classUnderTest.jwkSource();
+        assertNotNull(result, NOTNULL);
     }
 
     private HttpSecurity getDummyHttpSecurity() {

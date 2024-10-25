@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -80,10 +81,11 @@ public class WebSecurityConfig {
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
         LOG.info("getAuthHttp()");
         http.oauth2Login(auth -> auth.successHandler(getSuccessHandler())
-                .failureHandler(getFailureHandler()).redirectionEndpoint(
-                    redirection -> redirection.baseUri(uriProvider.getLoginUri(null).toString())))
+            .failureHandler(getFailureHandler()).redirectionEndpoint(
+                redirection -> redirection.baseUri(uriProvider.getLoginUri(null).toString())))
             .formLogin(login -> login.successHandler(getSuccessHandler())
                 .failureHandler(getFailureHandler()))
+            .oauth2Client(Customizer.withDefaults())
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
     }
