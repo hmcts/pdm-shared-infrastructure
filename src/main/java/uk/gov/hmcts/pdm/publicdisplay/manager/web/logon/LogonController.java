@@ -114,7 +114,7 @@ public class LogonController {
     private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
 
     private static final String COMMAND = "command";
-    private static final String AUTH_CALLBACK = "/auth/internal/callback";
+    private static final String AUTH_CALLBACK = "/login/oauth2/code/internal-azure-ad";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();

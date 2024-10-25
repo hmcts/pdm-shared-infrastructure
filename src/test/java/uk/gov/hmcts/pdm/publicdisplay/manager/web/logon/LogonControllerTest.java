@@ -192,7 +192,7 @@ class LogonControllerTest extends AbstractJUnit {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         requestParams.add("code", "authenticationCode");
         final MvcResult results =
-            mockMvc.perform(get("/auth/internal/callback").params(requestParams)).andReturn();
+            mockMvc.perform(get("/login/oauth2/code/internal-azure-ad").params(requestParams)).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_DASHBOARD);

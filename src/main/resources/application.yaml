@@ -25,7 +25,7 @@ spring:
             client-id: ${PDDA_AZURE_CLIENT_ID:00000000-0000-0000-0000-000000000000}
             client-secret: ${PDDA_AZURE_CLIENT_SECRET:}
             scope: profile,openid
-            redirect-uri: ${pdda.portal.url}/auth/internal/callback
+            redirect-uri: ${pdda.portal.url}/login/oauth2/code/internal-azure-ad
             logout-redirect-uri: ${pdda.portal.url}/auth/internal/logout-callback
             authorization-grant-type: authorization_code
             response-type: code
