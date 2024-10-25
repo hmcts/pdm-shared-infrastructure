@@ -20,17 +20,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
@@ -79,7 +79,11 @@ public class WebSecurityConfig {
      */
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
         LOG.info("getAuthHttp()");
-        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler()))
+        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler())
+                .failureHandler(getFailureHandler()).redirectionEndpoint(
+                    redirection -> redirection.baseUri(uriProvider.getLoginUri(null).toString())))
+            .formLogin(login -> login.successHandler(getSuccessHandler())
+                .failureHandler(getFailureHandler()))
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
     }
@@ -93,7 +97,7 @@ public class WebSecurityConfig {
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .redirectUri(uriProvider.getLoginUri(null).toString()).scope(OidcScopes.PROFILE)
             .scope(OidcScopes.OPENID)
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
             .build();
 
         return new InMemoryRegisteredClientRepository(oidcClient);
@@ -131,11 +135,6 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-    }
-
-    @Bean
     public SimpleUrlAuthenticationSuccessHandler getSuccessHandler() {
         return new SimpleUrlAuthenticationSuccessHandler() {
             @Override
@@ -145,6 +144,19 @@ public class WebSecurityConfig {
                 LOG.info("success()");
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // response.sendRedirect(HOME_URL);
+            }
+        };
+    }
+
+    @Bean
+    public SimpleUrlAuthenticationFailureHandler getFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request,
+                HttpServletResponse response, AuthenticationException exception)
+                throws IOException, ServletException {
+                LOG.info("failure()");
+                SecurityContextHolder.getContext().setAuthentication(null);
             }
         };
     }

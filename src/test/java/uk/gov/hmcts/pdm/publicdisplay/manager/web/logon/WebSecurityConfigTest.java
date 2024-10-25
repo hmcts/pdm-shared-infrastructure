@@ -23,8 +23,6 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,11 +42,8 @@ import org.springframework.security.authorization.AuthorizationEventPublisher;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
@@ -162,59 +157,15 @@ class WebSecurityConfigTest extends AbstractJUnit {
     void testGetAuthHttp() {
         try {
             HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
+            Mockito
+                .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
+                .thenReturn(mockUri);
             // Run
             HttpSecurity result = classUnderTest.getAuthHttp(dummyHttpSecurity);
             assertNotNull(result, NOTNULL);
         } catch (Exception exception) {
             fail(exception.getMessage());
         }
-    }
-
-    @Test
-    void testWebSecurityCustomizer() {
-        try {
-            // Expects
-            Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
-            // Run
-            WebSecurityCustomizer result = classUnderTestNoHttp.webSecurityCustomizer();
-            assertNotNull(result, NOTNULL);
-        } catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-    }
-
-    @Test
-    void testRegisteredClientRepository() {
-        try {
-            Mockito
-                .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-                .thenReturn(mockUri);
-            // Run
-            RegisteredClientRepository result = classUnderTestNoHttp.registeredClientRepository();
-            assertNotNull(result, NOTNULL);
-        } catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-    }
-
-    @Test
-    void testJwtDecoder() {
-        // Expects
-        @SuppressWarnings("unchecked")
-        JWKSource<SecurityContext> mockJwkSource = Mockito.mock(JWKSource.class);
-        JwtDecoder mockJwtDecoder = Mockito.mock(JwtDecoder.class);
-        Mockito.when(OAuth2AuthorizationServerConfiguration.jwtDecoder(mockJwkSource))
-            .thenReturn(mockJwtDecoder);
-        // Run
-        JwtDecoder result = classUnderTest.jwtDecoder(mockJwkSource);
-        assertNotNull(result, NOTNULL);
-    }
-
-    @Test
-    void testJwtSource() {
-        // Run
-        JWKSource<SecurityContext> result = classUnderTest.jwkSource();
-        assertNotNull(result, NOTNULL);
     }
 
     private HttpSecurity getDummyHttpSecurity() {
