@@ -23,10 +23,9 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.domain;
 
-
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import com.pdm.hb.jpa.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.publicdisplay.common.domain.api.IDomainObject;

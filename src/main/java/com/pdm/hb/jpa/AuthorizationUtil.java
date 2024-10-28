@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 @SuppressWarnings("PMD.LawOfDemeter")
 public class AuthorizationUtil {
 
-    private final static String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "";
 
     protected AuthorizationUtil() {
         // Protected constructor

@@ -23,10 +23,10 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import com.pdm.hb.jpa.AuthorizationUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import com.pdm.hb.jpa.AuthorizationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

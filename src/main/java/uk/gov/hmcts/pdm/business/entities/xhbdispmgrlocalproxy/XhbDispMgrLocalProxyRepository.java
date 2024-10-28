@@ -1,9 +1,8 @@
 package uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy;
 
-
+import com.pdm.hb.jpa.AuthorizationUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import com.pdm.hb.jpa.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.pdm.business.entities.AbstractRepository;
