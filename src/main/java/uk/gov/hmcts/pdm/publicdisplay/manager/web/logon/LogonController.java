@@ -109,7 +109,7 @@ public class LogonController {
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
 
-    private static final String ANONYMOUS_USER = "anonymousUser";
+    private static final String EMPTY_STRING = "";
 
     private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
 
@@ -129,7 +129,7 @@ public class LogonController {
     @RequestMapping(value = {MAPPING_HOME, MAPPING_DEFAULT}, method = RequestMethod.GET)
     public String home() {
         LOGGER.info("home()");
-        if ("".equals(AuthorizationUtil.getUsername())) {
+        if (EMPTY_STRING.equals(AuthorizationUtil.getUsername())) {
             return "redirect:login";
         }
         return "redirect:dashboard/dashboard";
