@@ -23,8 +23,6 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,7 +44,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
@@ -129,7 +126,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
         Mockito.mockStatic(JwtDecoders.class);
         Mockito.mockStatic(OAuth2AuthorizationServerConfiguration.class);
 
-        classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy);
+        classUnderTest = new WebSecurityConfig();
 
         classUnderTestNoHttp = new LocalWebSecurityConfig();
     }
@@ -171,20 +168,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
         }
     }
 
-    @Test
-    void testRegisteredClientRepository() {
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-            .thenReturn(mockUri);
-        RegisteredClientRepository result = classUnderTest.registeredClientRepository();
-        assertNotNull(result, NOTNULL);
-    }
-    
-    @Test
-    void testJwkSource() {
-        JWKSource<SecurityContext> result = classUnderTest.jwkSource();
-        assertNotNull(result, NOTNULL);
-    }
-
     private HttpSecurity getDummyHttpSecurity() {
         String[] emptyStringArray = {};
         Mockito.when(mockApplicationContext.getBeanNamesForType(AuthorizationEventPublisher.class))
@@ -203,7 +186,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     class LocalWebSecurityConfig extends WebSecurityConfig {
 
         public LocalWebSecurityConfig() {
-            super(mockInternalAuthConfigurationPropertiesStrategy);
+            super();
         }
 
         @Override

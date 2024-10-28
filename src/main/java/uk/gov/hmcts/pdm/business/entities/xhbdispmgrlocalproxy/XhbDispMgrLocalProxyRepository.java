@@ -3,6 +3,7 @@ package uk.gov.hmcts.pdm.business.entities.xhbdispmgrlocalproxy;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -109,9 +110,7 @@ public class XhbDispMgrLocalProxyRepository extends AbstractRepository<XhbDispMg
         localProxyDao.setCourtSiteId(dispMgrCourtSite.getId());
         localProxyDao.setLastUpdateDate(LocalDateTime.now());
         localProxyDao.setCreationDate(LocalDateTime.now());
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        final String username = authentication != null ? authentication.getName() : null;
+        final String username = AuthorizationUtil.getUsername();
         localProxyDao.setCreatedBy(username);
         localProxyDao.setLastUpdatedBy(username);
 

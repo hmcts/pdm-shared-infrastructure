@@ -26,13 +26,13 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import com.pdm.hb.jpa.AuthorizationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -129,9 +129,7 @@ public class LogonController {
     @RequestMapping(value = {MAPPING_HOME, MAPPING_DEFAULT}, method = RequestMethod.GET)
     public String home() {
         LOGGER.info("home()");
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || ANONYMOUS_USER.equals(authentication.getName())) {
+        if ("".equals(AuthorizationUtil.getUsername())) {
             return "redirect:login";
         }
         return "redirect:dashboard/dashboard";
@@ -184,11 +182,6 @@ public class LogonController {
     @GetMapping(AUTH_CALLBACK)
     public ModelAndView callback(@RequestParam("code") String code) {
         LOGGER.info("callback()");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-        if (oauthToken != null) {
-            LOGGER.info("Logged in user = {}", oauthToken.getName());
-        }
         String redirectUri = "dashboard/dashboard";
         LOGGER.info("callback() - redirectUri = {}", redirectUri);
         return new ModelAndView(redirectUri);
