@@ -43,10 +43,14 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
@@ -103,6 +107,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private FilterChain mockFilterChain;
+
+    @Mock
+    private Authentication mockAuthentication;
+
+    @Mock
+    private AuthenticationException mockAuthenticationException;
 
     @Mock
     private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
@@ -163,6 +173,32 @@ class WebSecurityConfigTest extends AbstractJUnit {
             // Run
             HttpSecurity result = classUnderTest.getAuthHttp(dummyHttpSecurity);
             assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    void testGetSuccessHandler() {
+        try {
+            // Run
+            AuthenticationSuccessHandler result = classUnderTest.getSuccessHandler();
+            assertNotNull(result, NOTNULL);
+            result.onAuthenticationSuccess(mockHttpServletRequest, mockHttpServletResponse,
+                mockAuthentication);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    void testGetFailureHandler() {
+        try {
+            // Run
+            AuthenticationFailureHandler result = classUnderTest.getFailureHandler();
+            assertNotNull(result, NOTNULL);
+            result.onAuthenticationFailure(mockHttpServletRequest, mockHttpServletResponse,
+                mockAuthenticationException);
         } catch (Exception exception) {
             fail(exception.getMessage());
         }
