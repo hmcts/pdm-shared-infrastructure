@@ -122,7 +122,7 @@ public class LogonController {
     @RequestMapping(value = {MAPPING_HOME, MAPPING_DEFAULT}, method = RequestMethod.GET)
     public String home() {
         LOGGER.info("home()");
-        if (EMPTY_STRING.equals(AuthorizationUtil.getUsername())) {
+        if (!AuthorizationUtil.isAuthorised()) {
             return "redirect:login";
         }
         return "redirect:dashboard/dashboard";

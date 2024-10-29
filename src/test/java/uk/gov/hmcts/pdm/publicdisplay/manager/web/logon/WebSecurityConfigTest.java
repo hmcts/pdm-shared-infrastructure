@@ -42,6 +42,7 @@ import org.springframework.security.authorization.AuthorizationEventPublisher;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -77,7 +78,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private static final String NOTNULL = "Result is Null";
 
     @Mock
-    private HttpSecurity mockHttpSecurity;
+    private HttpSecurity mockHttpSecurity; 
 
     @Mock
     private DefaultSecurityFilterChain mockSecurityFilterChain;
@@ -178,6 +179,20 @@ class WebSecurityConfigTest extends AbstractJUnit {
             fail(exception.getMessage());
         }
     }
+    
+    @Test
+    void testWebSecurityCustomizer() {
+        try {
+            // Expects
+            Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
+            // Run
+            WebSecurityCustomizer result = classUnderTestNoHttp.webSecurityCustomizer();
+            assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
 
     @Test
     void testGetSuccessHandler() {

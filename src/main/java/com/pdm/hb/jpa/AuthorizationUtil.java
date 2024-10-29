@@ -33,5 +33,17 @@ public class AuthorizationUtil {
         return EMPTY_STRING;
     }
 
+    public static boolean isAuthorised() {
+        return isAuthorised(SecurityContextHolder.getContext().getAuthentication());
+    }
 
+    public static boolean isAuthorised(Authentication authentication) {
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+            if (oauthToken != null && oauthToken.getPrincipal() != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
