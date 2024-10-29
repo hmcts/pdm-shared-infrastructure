@@ -31,25 +31,25 @@ class CduServiceReposTest extends AbstractJUnit {
 
 
     private static final String NOTNULL = "Result is Null";
-    
+
     @Mock
     private EntityManager mockEntityManager;
 
     @Mock
     private XhbDispMgrCduRepository mockXhbDispMgrCduRepository;
-    
+
     @Mock
     private XhbCourtSiteRepository mockXhbCourtSiteRepository;
-    
+
     @Mock
     private XhbDispMgrUrlRepository mockXhbDispMgrUrlRepository;
-    
+
     @Mock
     private XhbDispMgrCourtSiteRepository mockXhbDispMgrCourtSiteRepository;
-    
+
     @Mock
     private XhbDispMgrMappingRepository mockXhbDispMgrMappingRepository;
-    
+
     //
     private CduServHelperRepos classUnderTest;
 
@@ -67,58 +67,63 @@ class CduServiceReposTest extends AbstractJUnit {
         expectEntityManager();
         XhbDispMgrCduRepository result = classUnderTest.getXhbDispMgrCduRepository();
         assertNotNull(result, NOTNULL);
-        
-        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository", mockXhbDispMgrCduRepository);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCduRepository",
+            mockXhbDispMgrCduRepository);
         result = classUnderTest.getXhbDispMgrCduRepository();
         assertNotNull(result, NOTNULL);
     }
-   
+
     @Test
     void testGetXhbCourtSiteRepository() {
         expectEntityManager();
         XhbCourtSiteRepository result = classUnderTest.getXhbCourtSiteRepository();
         assertNotNull(result, NOTNULL);
-        
-        ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository", mockXhbCourtSiteRepository);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbCourtSiteRepository",
+            mockXhbCourtSiteRepository);
         result = classUnderTest.getXhbCourtSiteRepository();
         assertNotNull(result, NOTNULL);
     }
-    
+
     @Test
     void testGetXhbDispMgrUrlRepository() {
         expectEntityManager();
         XhbDispMgrUrlRepository result = classUnderTest.getXhbDispMgrUrlRepository();
         assertNotNull(result, NOTNULL);
-        
-        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrUrlRepository", mockXhbDispMgrUrlRepository);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrUrlRepository",
+            mockXhbDispMgrUrlRepository);
         result = classUnderTest.getXhbDispMgrUrlRepository();
         assertNotNull(result, NOTNULL);
     }
-    
-   
+
+
     @Test
     void testGetXhbDispMgrCourtSiteRepository() {
         expectEntityManager();
         XhbDispMgrCourtSiteRepository result = classUnderTest.getXhbDispMgrCourtSiteRepository();
         assertNotNull(result, NOTNULL);
-        
-        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCourtSiteRepository", mockXhbDispMgrCourtSiteRepository);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrCourtSiteRepository",
+            mockXhbDispMgrCourtSiteRepository);
         result = classUnderTest.getXhbDispMgrCourtSiteRepository();
         assertNotNull(result, NOTNULL);
     }
-    
+
     @Test
     void testGetXhbDispMgrMappingRepository() {
         expectEntityManager();
         XhbDispMgrMappingRepository result = classUnderTest.getXhbDispMgrMappingRepository();
         assertNotNull(result, NOTNULL);
-        
-        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrMappingRepository", mockXhbDispMgrMappingRepository);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrMappingRepository",
+            mockXhbDispMgrMappingRepository);
         result = classUnderTest.getXhbDispMgrMappingRepository();
         assertNotNull(result, NOTNULL);
     }
-    
-    
+
+
     private void expectEntityManager() {
         ReflectionTestUtils.setField(classUnderTest, "entityManager", mockEntityManager);
         Mockito.when(mockEntityManager.isOpen()).thenReturn(true);
