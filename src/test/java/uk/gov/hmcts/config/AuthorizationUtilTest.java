@@ -52,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 @TestMethodOrder(OrderAnnotation.class)
-class AuthoriizationUtilTest extends AbstractJUnit {
+class AuthorizationUtilTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
 
@@ -86,6 +86,7 @@ class AuthoriizationUtilTest extends AbstractJUnit {
     @AfterEach
     public void teardown() {
         Mockito.clearAllCaches();
+        new LocalAuthorizationUtil();
     }
 
     @Test
@@ -118,5 +119,11 @@ class AuthoriizationUtilTest extends AbstractJUnit {
 
         String result = AuthorizationUtil.getUsername();
         assertEquals(EMPTY_STRING, result, EQUALS);
+    }
+
+    protected class LocalAuthorizationUtil extends AuthorizationUtil {
+        LocalAuthorizationUtil() {
+            super();
+        }
     }
 }
