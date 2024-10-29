@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 @SuppressWarnings("PMD.LawOfDemeter")
-public class DisplayServiceFinderTest extends AbstractJUnit {
+class DisplayServiceFinderTest extends AbstractJUnit {
 
 
     private static final String NOTNULL = "Result is Null";
