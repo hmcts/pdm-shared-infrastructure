@@ -52,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 @TestMethodOrder(OrderAnnotation.class)
-class AuthoriizationUtilTest extends AbstractJUnit {
+class AuthorizationUtilTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
 
