@@ -86,6 +86,7 @@ class AuthoriizationUtilTest extends AbstractJUnit {
     @AfterEach
     public void teardown() {
         Mockito.clearAllCaches();
+        new LocalAuthorizationUtil();
     }
 
     @Test
@@ -118,5 +119,11 @@ class AuthoriizationUtilTest extends AbstractJUnit {
 
         String result = AuthorizationUtil.getUsername();
         assertEquals(EMPTY_STRING, result, EQUALS);
+    }
+
+    protected class LocalAuthorizationUtil extends AuthorizationUtil {
+        LocalAuthorizationUtil() {
+            super();
+        }
     }
 }
