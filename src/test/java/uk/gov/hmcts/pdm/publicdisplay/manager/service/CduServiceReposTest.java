@@ -58,7 +58,6 @@ public class CduServiceReposTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
-        // Create a new version of the class under test (CduService)
         classUnderTest = new CduServHelperRepos();
     }
 
