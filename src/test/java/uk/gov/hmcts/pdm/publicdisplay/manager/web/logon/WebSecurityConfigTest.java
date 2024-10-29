@@ -70,7 +70,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.CouplingBetweenObjects"})
+@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.LawOfDemeter",
+    "PMD.CouplingBetweenObjects"})
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
