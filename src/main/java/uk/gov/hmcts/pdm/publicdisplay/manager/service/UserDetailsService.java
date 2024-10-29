@@ -23,12 +23,11 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -215,10 +214,8 @@ public class UserDetailsService extends UserDetailsServiceRepository
     private String getSessionUserName() {
         // Get the Spring security authentication
         // object which has the user name of the current logged on user
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            return authentication.getName();
+        if (!"".equals(AuthorizationUtil.getUsername())) {
+            return AuthorizationUtil.getUsername();
         }
 
         return null;

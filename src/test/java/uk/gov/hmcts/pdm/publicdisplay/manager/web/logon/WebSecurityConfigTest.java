@@ -23,8 +23,6 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,11 +43,14 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
@@ -69,7 +70,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.CouplingBetweenObjects"})
+@SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.LawOfDemeter",
+    "PMD.CouplingBetweenObjects"})
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
@@ -108,6 +110,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private FilterChain mockFilterChain;
 
     @Mock
+    private Authentication mockAuthentication;
+
+    @Mock
+    private AuthenticationException mockAuthenticationException;
+
+    @Mock
     private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
 
     @Mock
@@ -129,7 +137,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
         Mockito.mockStatic(JwtDecoders.class);
         Mockito.mockStatic(OAuth2AuthorizationServerConfiguration.class);
 
-        classUnderTest = new WebSecurityConfig(mockInternalAuthConfigurationPropertiesStrategy);
+        classUnderTest = new WebSecurityConfig();
 
         classUnderTestNoHttp = new LocalWebSecurityConfig();
     }
@@ -172,17 +180,29 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     @Test
-    void testRegisteredClientRepository() {
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-            .thenReturn(mockUri);
-        RegisteredClientRepository result = classUnderTest.registeredClientRepository();
-        assertNotNull(result, NOTNULL);
+    void testGetSuccessHandler() {
+        try {
+            // Run
+            AuthenticationSuccessHandler result = classUnderTest.getSuccessHandler();
+            assertNotNull(result, NOTNULL);
+            result.onAuthenticationSuccess(mockHttpServletRequest, mockHttpServletResponse,
+                mockAuthentication);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
     }
-    
+
     @Test
-    void testJwkSource() {
-        JWKSource<SecurityContext> result = classUnderTest.jwkSource();
-        assertNotNull(result, NOTNULL);
+    void testGetFailureHandler() {
+        try {
+            // Run
+            AuthenticationFailureHandler result = classUnderTest.getFailureHandler();
+            assertNotNull(result, NOTNULL);
+            result.onAuthenticationFailure(mockHttpServletRequest, mockHttpServletResponse,
+                mockAuthenticationException);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
     }
 
     private HttpSecurity getDummyHttpSecurity() {
@@ -203,7 +223,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     class LocalWebSecurityConfig extends WebSecurityConfig {
 
         public LocalWebSecurityConfig() {
-            super(mockInternalAuthConfigurationPropertiesStrategy);
+            super();
         }
 
         @Override

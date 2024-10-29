@@ -23,13 +23,11 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.domain;
 
-
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.publicdisplay.common.domain.api.IDomainObject;
 
 import java.io.Serializable;
@@ -113,11 +111,9 @@ public class DomainInterceptor extends EmptyInterceptor {
      */
     private String getUsername() {
         // Get the Spring security authentication
-        // object which has the username of the current logged on user
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            return authentication.getName();
+        // object which has the username of the current logged on user        
+        if (!"".equals(AuthorizationUtil.getUsername())) {
+            return AuthorizationUtil.getUsername();
         }
         // Default username is XHIBIT
         return "XHIBIT";

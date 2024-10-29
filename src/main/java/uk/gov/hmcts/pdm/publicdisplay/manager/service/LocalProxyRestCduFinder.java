@@ -1,9 +1,8 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.pdm.publicdisplay.common.json.CduJson;
 import uk.gov.hmcts.pdm.publicdisplay.common.json.CourtSiteJson;
@@ -129,10 +128,8 @@ public class LocalProxyRestCduFinder extends LocalProxyRestClientRequest {
     protected String getUsername() {
         // Get the Spring security authentication
         // object which has the username of the current logged on user
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            return authentication.getName();
+        if (!"".equals(AuthorizationUtil.getUsername())) {
+            return AuthorizationUtil.getUsername();
         }
         // Default username is XHIBIT
         return "XHIBIT";

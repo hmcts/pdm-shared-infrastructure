@@ -35,9 +35,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgruserdetails.XhbDispMgrUserDetailsRepository;
 import uk.gov.hmcts.pdm.publicdisplay.common.exception.ServiceException;
@@ -99,7 +100,10 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
 
     /** The mock authentication. */
     @Mock
-    protected Authentication mockAuthentication;
+    protected OAuth2AuthenticationToken mockAuthentication;
+    
+    @Mock
+    protected OAuth2User mockOAuth2User;
     
     @Mock
     private EntityManager mockEntityManager;
@@ -277,7 +281,8 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         // Define a mock version of the called methods
         Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
         Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getName()).thenReturn(user);
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockOAuth2User);
+        Mockito.when(mockOAuth2User.getAttribute("name")).thenReturn(user);
     }
 
 }
