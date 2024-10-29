@@ -14,6 +14,7 @@ import java.util.Random;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -58,6 +59,19 @@ abstract class CduScreenshotTest extends CduNumberTest {
         verify(mockLocalProxyRestClient);
     }
 
+    @Test
+    void testGerUsername() {
+        LocalProxyRestCduFinder localClassUnderTest = new LocalProxyRestCduFinder() {
+            @Override
+            public String getUsername() {
+                return super.getUsername();
+            }
+        };
+        
+        String result = localClassUnderTest.getUsername();
+        assertNotNull(result, NULL);
+    }
+    
     /**
      * Gets the test byte array.
      *

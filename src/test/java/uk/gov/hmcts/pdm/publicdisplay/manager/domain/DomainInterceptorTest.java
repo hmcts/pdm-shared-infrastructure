@@ -23,8 +23,8 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.domain;
 
-import org.hibernate.type.Type;
 import com.pdm.hb.jpa.AuthorizationUtil;
+import org.hibernate.type.Type;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,7 +32,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.publicdisplay.common.domain.api.IDomainObject;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
