@@ -24,7 +24,8 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+@RequiredArgsConstructor 
+@SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
