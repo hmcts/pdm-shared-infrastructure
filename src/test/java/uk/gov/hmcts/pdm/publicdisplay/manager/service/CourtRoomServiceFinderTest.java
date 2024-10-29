@@ -81,7 +81,7 @@ public class CourtRoomServiceFinderTest extends AbstractJUnit {
         XhbCourtRepository result = classUnderTest.getXhbCourtRepository();
         assertNotNull(result, NOTNULL);
         
-        ReflectionTestUtils.setField(classUnderTest, "XhbCourtRepository", mockXhbCourtRepository);
+        ReflectionTestUtils.setField(classUnderTest, "xhbCourtRepository", mockXhbCourtRepository);
         result = classUnderTest.getXhbCourtRepository();
         assertNotNull(result, NOTNULL);
     }
