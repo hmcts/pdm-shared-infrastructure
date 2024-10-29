@@ -43,6 +43,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for AuthoriizationUtil.
@@ -55,6 +57,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AuthorizationUtilTest extends AbstractJUnit {
 
     private static final String EQUALS = "Result is not Equal";
+    private static final String FALSE = "Result is True";
+    private static final String TRUE = "Result is False";
 
     private static final String OAUTH2NAME = "username";
     private static final String ANONNAME = "anonusername";
@@ -99,6 +103,7 @@ class AuthorizationUtilTest extends AbstractJUnit {
 
         String result = AuthorizationUtil.getUsername();
         assertEquals(OAUTH2NAME, result, EQUALS);
+        assertTrue(AuthorizationUtil.isAuthorised(), TRUE);
     }
 
     @Test
@@ -110,6 +115,7 @@ class AuthorizationUtilTest extends AbstractJUnit {
 
         String result = AuthorizationUtil.getUsername();
         assertEquals(ANONNAME, result, EQUALS);
+        assertFalse(AuthorizationUtil.isAuthorised(), FALSE);
     }
 
     @Test
@@ -119,6 +125,7 @@ class AuthorizationUtilTest extends AbstractJUnit {
 
         String result = AuthorizationUtil.getUsername();
         assertEquals(EMPTY_STRING, result, EQUALS);
+        assertFalse(AuthorizationUtil.isAuthorised(), FALSE);
     }
 
     protected class LocalAuthorizationUtil extends AuthorizationUtil {

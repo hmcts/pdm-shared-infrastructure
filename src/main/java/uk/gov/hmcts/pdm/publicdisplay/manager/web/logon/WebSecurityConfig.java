@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,12 +25,15 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 @SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String HOME_URL = "/home";
+    private static final String[] AUTH_WHITELIST =
+        {"/health/**", "/error**", "/fonts/glyph*", "/css/xhibit.css", "/css/bootstrap.min.css",
+            "/js/bootstrap.min.js", "/WEB-INF/jsp/error**", "/css/**", "/js/**", "favicon.ico"};
 
     /**
      * Authorisation filterchain.
@@ -48,6 +52,11 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
 
     @Bean
