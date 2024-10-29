@@ -36,14 +36,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
 /**
  * The Class LogonController.
@@ -114,12 +110,9 @@ public class LogonController {
     private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
 
     private static final String COMMAND = "command";
-    private static final String AUTH_CALLBACK = "/login/oauth2/code/internal-azure-ad";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-
-    private final InternalAuthConfigurationPropertiesStrategy uriProvider;
 
     /**
      * Home.
@@ -150,7 +143,7 @@ public class LogonController {
         LogonCommand command = new LogonCommand();
         command.setOauthLogin(env.getProperty(AZURE_ENABLED));
         LOGGER.info("Azure enabled={}", command.getOauthLogin());
-        command.setRedirectUri(uriProvider.getLoginUri(null).toString());
+        //command.setRedirectUri(uriProvider.getLoginUri(null).toString());
         LOGGER.info("redirectUri = {}", command.getRedirectUri());
 
         // Update the model
@@ -159,32 +152,6 @@ public class LogonController {
 
         // Return the model
         return model;
-    }
-
-    /**
-     * LoginToApp.
-     *
-     * @return the string
-     */
-    @PostMapping(MAPPING_LOGIN)
-    public ModelAndView loginToApp() {
-        LOGGER.info("loginToApp()");
-        String redirectUri = uriProvider.getLoginUri(null).toString();
-        LOGGER.info("loginToApp() - redirectUri = {}", redirectUri);
-        return new ModelAndView("redirect:" + redirectUri);
-    }
-
-    /**
-     * Callback.
-     *
-     * @return the string
-     */
-    @GetMapping(AUTH_CALLBACK)
-    public ModelAndView callback(@RequestParam("code") String code) {
-        LOGGER.info("callback()");
-        String redirectUri = "dashboard/dashboard";
-        LOGGER.info("callback() - redirectUri = {}", redirectUri);
-        return new ModelAndView(redirectUri);
     }
 
     /**

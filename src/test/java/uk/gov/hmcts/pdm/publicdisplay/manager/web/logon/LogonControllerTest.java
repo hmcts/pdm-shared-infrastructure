@@ -33,14 +33,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -52,7 +51,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * The Class LogonControllerTest.
@@ -88,7 +86,10 @@ class LogonControllerTest extends AbstractJUnit {
 
     /** The mock authentication. */
     @Mock
-    private Authentication mockAuthentication;
+    private OAuth2AuthenticationToken mockAuthentication;
+    
+    @Mock
+    private OAuth2User mockUser;
 
     @Mock
     private InitializationService mockInitializationService;
@@ -111,7 +112,7 @@ class LogonControllerTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         // Create a new version of the class under test
-        LogonController classUnderTest = new LogonController(mockInternalAuthConfigurationPropertiesStrategy);
+        LogonController classUnderTest = new LogonController();
 
         // Stop circular view path error
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -133,7 +134,8 @@ class LogonControllerTest extends AbstractJUnit {
         Mockito.mockStatic(SecurityContextHolder.class);
         Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
         Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getName()).thenReturn("user");
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockUser);
+        Mockito.when(mockUser.getAttribute(Mockito.isA(String.class))).thenReturn("user");
 
         // Perform the test
         final MvcResult results = mockMvc.perform(get("/home")).andReturn();
@@ -162,40 +164,6 @@ class LogonControllerTest extends AbstractJUnit {
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
-    }
-
-    /**
-     * Test LoginToApp.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLoginToApp() throws Exception {
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-            .thenReturn(mockUri);
-        Mockito.when(mockUri.toString()).thenReturn(VIEW_NAME_DASHBOARD);
-        // Perform the test
-        final MvcResult results = mockMvc.perform(post("/login")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, "redirect:" + VIEW_NAME_DASHBOARD);
-    }
-
-    /**
-     * Test Callback.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testCallback() throws Exception {
-        // Perform the test
-        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
-        requestParams.add("code", "authenticationCode");
-        final MvcResult results =
-            mockMvc.perform(get("/login/oauth2/code/internal-azure-ad").params(requestParams)).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_DASHBOARD);
     }
 
     /**
