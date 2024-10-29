@@ -30,7 +30,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -38,8 +37,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 /**
  * The Class LogonController.
@@ -96,20 +93,11 @@ public class LogonController {
     /** The Constant for the JSP Folder. */
     private static final String FOLDER_LOGON = "logon";
 
-    /** The Constant VIEW_LOGIN. */
-    private static final String VIEW_LOGIN = FOLDER_LOGON + "/signin";
-
     /** The Constant VIEW_LOGOUT. */
     private static final String VIEW_LOGOUT = FOLDER_LOGON + MAPPING_LOGOUT;
 
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
-
-    private static final String EMPTY_STRING = "";
-
-    private static final String AZURE_ENABLED = "spring.cloud.azure.active-directory.enabled";
-
-    private static final String COMMAND = "command";
 
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
@@ -123,8 +111,9 @@ public class LogonController {
     public String home() {
         LOGGER.info("home()");
         if (!AuthorizationUtil.isAuthorised()) {
-            return "redirect:login";
+            return login();
         }
+        LOGGER.info("redirect to dashboard()");
         return "redirect:dashboard/dashboard";
     }
 
@@ -134,24 +123,9 @@ public class LogonController {
      * @return the string
      */
     @RequestMapping(value = MAPPING_LOGIN, method = RequestMethod.GET)
-    public ModelAndView login(HttpSession session, HttpServletRequest req,
-        final ModelAndView model) {
+    public String login() {
         LOGGER.info("login()");
-        Environment env = InitializationService.getInstance().getEnvironment();
-
-        // Create the command
-        LogonCommand command = new LogonCommand();
-        command.setOauthLogin(env.getProperty(AZURE_ENABLED));
-        LOGGER.info("Azure enabled={}", command.getOauthLogin());
-        //command.setRedirectUri(uriProvider.getLoginUri(null).toString());
-        LOGGER.info("redirectUri = {}", command.getRedirectUri());
-
-        // Update the model
-        model.addObject(COMMAND, command);
-        model.setViewName(VIEW_LOGIN);
-
-        // Return the model
-        return model;
+        return "redirect:oauth2/authorization/internal-azure-ad";
     }
 
     /**
@@ -177,7 +151,7 @@ public class LogonController {
     public String loginError(final Model model) {
         LOGGER.debug("loginError()");
         model.addAttribute(MODEL_ERROR, "true");
-        return VIEW_LOGIN;
+        return login();
     }
 
     /**
