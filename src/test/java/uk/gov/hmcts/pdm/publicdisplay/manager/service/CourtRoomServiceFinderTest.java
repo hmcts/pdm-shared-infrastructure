@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+@SuppressWarnings("PMD.LawOfDemeter")
 public class CourtRoomServiceFinderTest extends AbstractJUnit {
 
 
