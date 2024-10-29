@@ -34,28 +34,19 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
      * Authorisation filterchain.
      */
     @Bean
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) {
-        try {
-            return getAuthHttp(http).build();
-        } catch (Exception exception) {
-            LOG.error("authorizationServerSecurityFilterChain: {}", exception.getMessage());
-            return null;
-        }
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+        throws Exception {
+        return getAuthHttp(http).build();
     }
 
     /**
      * Get the Authorisation HTTP.
      */
-    protected HttpSecurity getAuthHttp(HttpSecurity http) {
-        try {
-            http.oauth2Login(auth -> auth.successHandler(getSuccessHandler())
-                .failureHandler(getFailureHandler()))
-                .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-            return http;
-        } catch (Exception exception) {
-            LOG.error("getAuthHttp: {}", exception.getMessage());
-            return null;
-        }
+    protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
+        http.oauth2Login(
+            auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+        return http;
     }
 
     @Bean
