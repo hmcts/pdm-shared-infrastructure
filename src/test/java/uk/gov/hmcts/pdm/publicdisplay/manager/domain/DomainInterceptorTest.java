@@ -24,17 +24,21 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.domain;
 
 import org.hibernate.type.Type;
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.pdm.publicdisplay.common.domain.api.IDomainObject;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import java.io.Serializable;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -46,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class DomainInterceptorTest extends AbstractJUnit {
 
+    private static final String FALSE = "Result is True";
     private static final String TRUE = "Result is not True";
     private static final String UPDATED_BY = "updatedBy";
     private static final String CREATED_BY = "createdBy";
@@ -67,6 +72,24 @@ class DomainInterceptorTest extends AbstractJUnit {
 
         // Verify
         assertTrue(result, TRUE);
+    }
+
+    @Test
+    void testOnFlushDirty() {
+        IDomainObject entity = getDummyDomainObject();
+        Serializable id = entity.getId();
+        
+        Mockito.mockStatic(AuthorizationUtil.class);
+        Mockito.when(AuthorizationUtil.getUsername()).thenReturn("user");
+
+        // Perform the test
+        boolean result = classUnderTest.onFlushDirty(entity, id,
+            new String[] {CREATED_BY, UPDATED_BY}, new String[] {CREATED_BY, UPDATED_BY},
+            new String[] {CREATED_BY, UPDATED_BY}, new Type[] {});
+
+        // Verify
+        assertFalse(result, FALSE);
+        Mockito.clearAllCaches();
     }
 
     private IDomainObject getDummyDomainObject() {
