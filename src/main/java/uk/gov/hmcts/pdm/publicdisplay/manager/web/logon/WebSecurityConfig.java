@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@SuppressWarnings("PMD.SignatureDeclareThrowsException")
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter"})
 public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
@@ -92,7 +92,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 // Get the error
                 Map<String, Object> data = new ConcurrentHashMap<>();
-                data.put("timestamp", Calendar.getInstance().getTime());
+                data.put("timestamp", LocalDateTime.now().toString());
                 data.put("exception", exception.getMessage());
 
                 ObjectMapper objectMapper = new ObjectMapper();
