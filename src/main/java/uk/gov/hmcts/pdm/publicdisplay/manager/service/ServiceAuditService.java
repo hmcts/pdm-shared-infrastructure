@@ -94,7 +94,7 @@ public class ServiceAuditService implements IServiceAuditService {
         return entityManager;
     }
 
-    private XhbDispMgrServiceAuditRepository getXhbDispMgrServiceAuditRepository() {
+    protected XhbDispMgrServiceAuditRepository getXhbDispMgrServiceAuditRepository() {
         if (xhbDispMgrServiceAuditRepository == null) {
             xhbDispMgrServiceAuditRepository =
                 new XhbDispMgrServiceAuditRepository(getEntityManager());
