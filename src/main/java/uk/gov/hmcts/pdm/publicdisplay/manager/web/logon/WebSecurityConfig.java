@@ -1,6 +1,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadWebApplicationHttpSecurityConfigurer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdm.hb.jpa.AuthorizationUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -21,6 +23,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Configuration
@@ -31,6 +36,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String HOME_URL = "/home";
+    private static final String LOGIN_ERROR = "/loginError";
     private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
         "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
         "/css/**", "/js/**", "favicon.ico", "/login**"};
@@ -68,6 +74,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
                 throws IOException, ServletException {
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
+                response.setStatus(HttpStatus.OK.value());
                 response.sendRedirect(HOME_URL);
             }
         };
@@ -82,6 +89,15 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
                 HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
                 LOG.info("Login Failure {}", exception.getMessage());
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                // Get the error
+                Map<String, Object> data = new ConcurrentHashMap<>();
+                data.put("timestamp", Calendar.getInstance().getTime());
+                data.put("exception", exception.getMessage());
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                response.getOutputStream().println(objectMapper.writeValueAsString(data));
+                response.sendRedirect(LOGIN_ERROR);
             }
         };
     }
