@@ -35,8 +35,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * The Class LogonController.
@@ -99,6 +102,8 @@ public class LogonController {
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
 
+    private static final String AUTH_CALLBACK = "/login/oauth2/code/internal-azure-ad";
+
     /** The SecurityContextLogoutHandler. */
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
@@ -127,6 +132,20 @@ public class LogonController {
         LOGGER.info("login()");
         return "redirect:oauth2/authorization/internal-azure-ad";
     }
+
+    /**
+     * Callback.
+     *
+     * @return the string
+     */
+    @GetMapping(AUTH_CALLBACK)
+    public ModelAndView callback(@RequestParam("code") String code) {
+        LOGGER.info("callback()");
+        String redirectUri = "dashboard/dashboard";
+        LOGGER.info("callback() - redirectUri = {}", redirectUri);
+        return new ModelAndView(redirectUri);
+    }
+
 
     /**
      * Logout.
