@@ -36,7 +36,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String HOME_URL = "/home";
-    private static final String LOGIN_ERROR = "/loginError";
+    private static final String ERROR_URL = "/error";
     private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
         "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
         "/css/**", "/js/**", "favicon.ico", "/login**"};
@@ -97,7 +97,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 response.getOutputStream().println(objectMapper.writeValueAsString(data));
-                response.sendRedirect(LOGIN_ERROR);
+                response.sendRedirect(ERROR_URL);
             }
         };
     }
