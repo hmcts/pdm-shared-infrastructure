@@ -24,6 +24,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.AfterEach;
@@ -78,7 +79,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private static final String NOTNULL = "Result is Null";
 
     @Mock
-    private HttpSecurity mockHttpSecurity; 
+    private HttpSecurity mockHttpSecurity;
 
     @Mock
     private DefaultSecurityFilterChain mockSecurityFilterChain;
@@ -179,7 +180,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
             fail(exception.getMessage());
         }
     }
-    
+
     @Test
     void testWebSecurityCustomizer() {
         try {
@@ -210,6 +211,9 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testGetFailureHandler() {
         try {
+            Mockito.when(mockHttpServletResponse.getOutputStream())
+                .thenReturn(Mockito.mock(ServletOutputStream.class));
+            Mockito.when(mockAuthenticationException.getMessage()).thenReturn("error");
             // Run
             AuthenticationFailureHandler result = classUnderTest.getFailureHandler();
             assertNotNull(result, NOTNULL);
