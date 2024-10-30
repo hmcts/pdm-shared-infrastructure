@@ -23,6 +23,7 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import jakarta.persistence.EntityManager;
 import org.easymock.Capture;
 import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,6 @@ import uk.gov.hmcts.pdm.publicdisplay.common.rest.JsonWebTokenType;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.ServiceAudit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IServiceAudit;
-import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IServiceAuditService;
 
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.createMock;
@@ -45,6 +45,7 @@ import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The Class ServiceAuditServiceTest.
@@ -74,15 +75,20 @@ class ServiceAuditServiceTest extends AbstractJUnit {
     private static final String TEST_MESSAGE_RESPONSE = "RESPONSE";
 
     private static final String NOT_EQUAL = "Not equal";
+    private static final String NOT_NULL = "Result is Null";
 
     /** The class under test. */
-    private IServiceAuditService classUnderTest;
+    private ServiceAuditService classUnderTest;
 
     /** The mock disp mgr service audit repo. */
     private XhbDispMgrServiceAuditRepository mockServiceAuditRepo;
 
     /** The mock json request. */
     private JsonRequest mockJsonRequest;
+    
+    private EntityManager mockEntityManager;
+    
+    private XhbDispMgrServiceAuditRepository mockXhbDispMgrServiceAuditRepository;
 
     /**
      * Setup.
@@ -95,6 +101,7 @@ class ServiceAuditServiceTest extends AbstractJUnit {
         // Setup the mock version of the called classes
         mockServiceAuditRepo = createMock(XhbDispMgrServiceAuditRepository.class);
         mockJsonRequest = createMock(JsonRequest.class);
+        mockEntityManager = createMock(EntityManager.class);
 
         // Map the mock to the class under tests called class
         ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrServiceAuditRepository",
@@ -134,6 +141,20 @@ class ServiceAuditServiceTest extends AbstractJUnit {
         // Verify the expected mocks were called
         verify(mockServiceAuditRepo);
         verify(mockJsonRequest);
+    }
+    
+    @Test
+    void testGetXhbDispMgrServiceAuditRepository() {
+        ReflectionTestUtils.setField(classUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        replay(mockEntityManager);
+        XhbDispMgrServiceAuditRepository result = classUnderTest.getXhbDispMgrServiceAuditRepository();
+        assertNotNull(result, NOT_NULL);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrServiceAuditRepository",
+            mockXhbDispMgrServiceAuditRepository);
+        result = classUnderTest.getXhbDispMgrServiceAuditRepository();
+        assertNotNull(result, NOT_NULL);
     }
 
     /**

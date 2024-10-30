@@ -34,7 +34,6 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.UrlModel;
 import uk.gov.hmcts.pdm.publicdisplay.manager.domain.api.IUrlModel;
 import uk.gov.hmcts.pdm.publicdisplay.manager.dto.UrlDto;
-import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.IUrlService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,16 +51,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author pattersone
  */
 @ExtendWith(EasyMockExtension.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class UrlServiceTest extends AbstractJUnit {
-    
+
     private static final String NOTNULL = "Result is null";
-    
+
     /** The class under test. */
-    private IUrlService classUnderTest;
+    private UrlService classUnderTest;
 
     /** The mock disp mgr url repo. */
     private XhbDispMgrUrlRepository mockUrlRepo;
-    
+
     private EntityManager mockEntityManager;
 
     /** The urls. */
@@ -110,7 +110,7 @@ class UrlServiceTest extends AbstractJUnit {
     @Test
     void testEntityManager() {
         UrlService localClassUnderTest = new UrlService() {
-            
+
             @Override
             public EntityManager getEntityManager() {
                 return super.getEntityManager();
@@ -124,7 +124,21 @@ class UrlServiceTest extends AbstractJUnit {
             assertNotNull(result, NOTNULL);
         }
     }
-    
+
+    @Test
+    void testGetXhbDispMgrUrlRepository() {
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrUrlRepository", null);
+        ReflectionTestUtils.setField(classUnderTest, "entityManager", mockEntityManager);
+        expect(mockEntityManager.isOpen()).andReturn(true);
+        replay(mockEntityManager);
+        XhbDispMgrUrlRepository result = classUnderTest.getXhbDispMgrUrlRepository();
+        assertNotNull(result, NOTNULL);
+
+        ReflectionTestUtils.setField(classUnderTest, "xhbDispMgrUrlRepository", mockUrlRepo);
+        result = classUnderTest.getXhbDispMgrUrlRepository();
+        assertNotNull(result, NOTNULL);
+    }
+
     /**
      * Gets the test url.
      *

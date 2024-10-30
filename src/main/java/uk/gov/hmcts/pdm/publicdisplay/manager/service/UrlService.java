@@ -93,7 +93,7 @@ public class UrlService implements IUrlService {
         return entityManager;
     }
 
-    private XhbDispMgrUrlRepository getXhbDispMgrUrlRepository() {
+    protected XhbDispMgrUrlRepository getXhbDispMgrUrlRepository() {
         if (xhbDispMgrUrlRepository == null) {
             xhbDispMgrUrlRepository = new XhbDispMgrUrlRepository(getEntityManager());
         }
