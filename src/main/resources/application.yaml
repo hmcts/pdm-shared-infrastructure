@@ -8,6 +8,10 @@ server:
       cookie:
         name: JSESSIONID
 
+ingressSessionAffinity:
+  enabled: false
+  sessionCookieName: sticky
+
 pdda:
   portal:
     url: ${PDDA_PORTAL_URL:https://pdda-public-display-manager.staging.platform.hmcts.net}
