@@ -9,7 +9,7 @@ server:
         name: JSESSIONID
 
 ingressSessionAffinity:
-  enabled: false
+  enabled: true
   sessionCookieName: sticky
 
 pdda:
