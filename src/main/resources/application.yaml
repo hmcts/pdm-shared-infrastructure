@@ -1,6 +1,9 @@
 server:
   port: 8081
   forward-headers-strategy: framework
+  servlet:
+    session:
+      timeout: 5m
 
 pdda:
   portal:
