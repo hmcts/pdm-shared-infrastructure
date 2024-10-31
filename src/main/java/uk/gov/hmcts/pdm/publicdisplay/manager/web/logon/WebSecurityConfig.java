@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
@@ -55,6 +56,8 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
         http.oauth2Login(
             auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
+            .sessionManagement(
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
     }
