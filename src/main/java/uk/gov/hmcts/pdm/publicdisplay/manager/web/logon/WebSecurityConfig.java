@@ -1,5 +1,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadResourceServerHttpSecurityConfigurer;
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadWebApplicationHttpSecurityConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdm.hb.jpa.AuthorizationUtil;
@@ -34,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter", "removal"})
 public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
@@ -60,6 +61,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
             .sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+            .apply(AadResourceServerHttpSecurityConfigurer.aadResourceServer()).and()
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
     }
