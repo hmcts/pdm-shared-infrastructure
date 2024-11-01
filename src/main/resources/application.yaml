@@ -8,6 +8,9 @@ server:
       cookie:
         name: JSESSIONID
 
+useInterpodAntiAffinity: true
+ingressClass: traefik
+disableTraefikTls: true
 ingressSessionAffinity:
   enabled: true
   sessionCookieName: sticky
