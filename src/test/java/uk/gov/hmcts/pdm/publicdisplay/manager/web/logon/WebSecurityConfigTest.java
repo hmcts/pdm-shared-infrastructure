@@ -213,6 +213,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
         try {
             Mockito.when(mockHttpServletResponse.getOutputStream())
                 .thenReturn(Mockito.mock(ServletOutputStream.class));
+            Mockito.when(mockAuthenticationException.getStackTrace())
+                .thenReturn(new StackTraceElement[] {});
             Mockito.when(mockAuthenticationException.getMessage()).thenReturn("error");
             // Run
             AuthenticationFailureHandler result = classUnderTest.getFailureHandler();
