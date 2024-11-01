@@ -48,7 +48,6 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -137,7 +136,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         Mockito.mockStatic(JwtDecoders.class);
-        Mockito.mockStatic(OAuth2AuthorizationServerConfiguration.class);
 
         classUnderTest = new WebSecurityConfig();
 
