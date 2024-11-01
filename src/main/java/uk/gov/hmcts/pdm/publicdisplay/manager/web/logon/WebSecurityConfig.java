@@ -25,6 +25,8 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -90,7 +92,10 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             public void onAuthenticationFailure(HttpServletRequest request,
                 HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
-                LOG.info("Login Failure {}", (exception.getStackTrace()[0]).toString());
+                List<StackTraceElement> stacktrace = Arrays.asList(exception.getStackTrace());
+                String errorMsg =
+                    stacktrace.isEmpty() ? exception.getMessage() : stacktrace.get(0).toString();
+                LOG.info("Login Failure {}", errorMsg);
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 // Get the error
                 Map<String, Object> data = new ConcurrentHashMap<>();
@@ -102,7 +107,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             }
         };
     }
-    
-    
+
+
 
 }
