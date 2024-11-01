@@ -90,7 +90,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             public void onAuthenticationFailure(HttpServletRequest request,
                 HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
-                LOG.info("Login Failure {}", exception.getMessage());
+                LOG.info("Login Failure {}", (exception.getStackTrace()[0]).toString());
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 // Get the error
                 Map<String, Object> data = new ConcurrentHashMap<>();
@@ -102,5 +102,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             }
         };
     }
+    
+    
 
 }
