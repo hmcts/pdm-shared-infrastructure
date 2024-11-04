@@ -16,13 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             .sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .apply(AadResourceServerHttpSecurityConfigurer.aadResourceServer()).and()
-            .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+            .csrf(AbstractHttpConfigurer::disable);
         return http;
     }
     
