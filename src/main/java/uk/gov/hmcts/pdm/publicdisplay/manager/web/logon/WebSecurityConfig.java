@@ -36,7 +36,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter", "removal"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter", "removal",
+    "squid:S4502"})
 public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
@@ -66,7 +67,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             .csrf(AbstractHttpConfigurer::disable);
         return http;
     }
-    
+
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
