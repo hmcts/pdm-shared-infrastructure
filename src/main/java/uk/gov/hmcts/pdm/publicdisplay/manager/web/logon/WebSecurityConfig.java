@@ -23,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -60,10 +61,15 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
         http.oauth2Login(
             auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
             .sessionManagement(
-                session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .apply(AadResourceServerHttpSecurityConfigurer.aadResourceServer()).and()
             .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         return http;
+    }
+    
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean

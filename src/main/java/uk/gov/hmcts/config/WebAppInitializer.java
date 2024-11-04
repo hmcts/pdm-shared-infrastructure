@@ -10,6 +10,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.core.env.Environment;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 public class WebAppInitializer implements ServletContextInitializer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebAppInitializer.class);
@@ -29,6 +30,10 @@ public class WebAppInitializer implements ServletContextInitializer {
         LOG.info("Database username: {}", dbUsername);
         InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
         InitializationService.getInstance().setEnvironment(env);
+        // httpOnly: if true then browser script won’t be able to access the cookie
+        servletContext.getSessionCookieConfig().setHttpOnly(true); 
+        // secure: if true then the cookie will be sent only over HTTPS connection
+        servletContext.getSessionCookieConfig().setSecure(true); 
     }
 
 }

@@ -28,6 +28,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.SessionCookieConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,9 +71,12 @@ class WebAppInitializerTest extends AbstractJUnit {
     @Mock
     private ServletContext mockServletContext;
 
+    @Mock
+    private SessionCookieConfig mockSessionCookieConfig;
+
     @InjectMocks
     private WebAppInitializer classUnderTest;
-  
+
     /**
      * Setup.
      */
@@ -94,6 +98,8 @@ class WebAppInitializerTest extends AbstractJUnit {
                 .thenReturn(mockEntityManager);
             Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class)))
                 .thenReturn("testDbUser");
+            Mockito.when(mockServletContext.getSessionCookieConfig())
+                .thenReturn(mockSessionCookieConfig);
             // Run
             classUnderTest.onStartup(mockServletContext);
             // Checks
