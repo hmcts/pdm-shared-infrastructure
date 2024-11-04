@@ -43,15 +43,15 @@ spring:
             logout-redirect-uri: ${pdda.portal.url}/auth/internal/logout-callback
             authorization-grant-type: authorization_code
             response-type: code
-            issuer-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/v2.0
+            issuer-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}
             claims: preferred_username 
             provider: internal-azure-ad-provider
         provider:
           internal-azure-ad-provider:
-            authorization-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/authorize
-            token-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/token
-            jwk-set-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/discovery/v2.0/keys
-            logout-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/logout
+            authorization-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/authorize
+            token-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/token
+            jwk-set-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/discovery/keys
+            logout-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/logout
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pdda}${DB_OPTIONS:}
