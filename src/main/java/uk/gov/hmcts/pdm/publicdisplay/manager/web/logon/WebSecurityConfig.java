@@ -62,7 +62,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
         http.oauth2Login(
             auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
             .sessionManagement(
-                session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .apply(AadResourceServerHttpSecurityConfigurer.aadResourceServer()).and()
             .csrf(AbstractHttpConfigurer::disable);
         return http;
