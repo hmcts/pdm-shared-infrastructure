@@ -23,7 +23,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -69,11 +68,6 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     }
 
     @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
-
-    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
@@ -85,6 +79,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
             public void onAuthenticationSuccess(HttpServletRequest request,
                 HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
+                LOG.info("Login Success");
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
                 response.setStatus(HttpStatus.OK.value());

@@ -1,19 +1,5 @@
 server:
   port: 8081
-  forward-headers-strategy: framework
-  servlet:
-    session:
-      timeout: 245m
-      store-type: redis
-      cookie:
-        name: JSESSIONID
-
-useInterpodAntiAffinity: true
-ingressClass: traefik
-disableTraefikTls: true
-ingressSessionAffinity:
-  enabled: true
-  sessionCookieName: sticky
 
 pdda:
   portal:
