@@ -21,14 +21,12 @@ public class AuthorizationUtil {
     public static String getUsername(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            if (oauthToken != null && oauthToken.getPrincipal() != null) {
+            if (oauthToken.getPrincipal() != null) {
                 return oauthToken.getPrincipal().getAttribute("name");
             }
         } else if (authentication instanceof AnonymousAuthenticationToken) {
             AnonymousAuthenticationToken oauthToken = (AnonymousAuthenticationToken) authentication;
-            if (oauthToken != null) {
-                return oauthToken.getName();
-            }
+            return oauthToken.getName();
         }
         return EMPTY_STRING;
     }
@@ -40,7 +38,7 @@ public class AuthorizationUtil {
     public static boolean isAuthorised(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            if (oauthToken != null && oauthToken.getPrincipal() != null) {
+            if (oauthToken.getPrincipal() != null) {
                 return true;
             }
         }

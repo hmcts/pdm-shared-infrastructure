@@ -127,6 +127,18 @@ class AuthorizationUtilTest extends AbstractJUnit {
         assertEquals(EMPTY_STRING, result, EQUALS);
         assertFalse(AuthorizationUtil.isAuthorised(), FALSE);
     }
+    
+    @Test
+    void testGetUsernameNoPrincipal() {
+        Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication())
+            .thenReturn(mockOAuth2AuthenticationToken);
+        Mockito.when(mockOAuth2AuthenticationToken.getPrincipal()).thenReturn(null);
+
+        String result = AuthorizationUtil.getUsername();
+        assertEquals(EMPTY_STRING, result, EQUALS);
+        assertFalse(AuthorizationUtil.isAuthorised(), FALSE);
+    }
 
     protected class LocalAuthorizationUtil extends AuthorizationUtil {
         LocalAuthorizationUtil() {

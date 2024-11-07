@@ -142,10 +142,17 @@ class LogonControllerTest extends AbstractJUnit {
         Mockito.when(mockUser.getAttribute(Mockito.isA(String.class))).thenReturn("user");
 
         // Perform the test
-        final MvcResult results = mockMvc.perform(get("/home")).andReturn();
+        MvcResult results = mockMvc.perform(get("/home")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_DASHBOARD);
+        
+        // Perform the test again without being authorised
+        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(null);
+        results = mockMvc.perform(get("/home")).andReturn();
+
+        // Assert that the objects are as expected
+        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
     }
 
