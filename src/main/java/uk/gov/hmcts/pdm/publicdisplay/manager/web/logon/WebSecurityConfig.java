@@ -75,6 +75,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
 
     @Bean
     public RestTemplate restTemplate() {
+        LOG.info("restTemplate()");
         return new RestTemplate();
     }
     
