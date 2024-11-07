@@ -43,7 +43,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     private static final String HOME_URL = "/home";
     private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
         "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
-        "/css/**", "/js/**", "favicon.ico", "/login**"};
+        "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**"};
 
     /**
      * Authorisation filterchain.
