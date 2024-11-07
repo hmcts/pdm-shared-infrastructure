@@ -48,8 +48,12 @@ class AuthenticationInternalUserControllerTest extends AbstractJUnit {
         // Expects
         Mockito.when(mockAuthenticationService.loginOrRefresh(Mockito.isA(String.class),
             Mockito.isA(String.class))).thenReturn(mockUri);
+        Mockito.when(mockAuthenticationService.loginOrRefresh(Mockito.isNull(),
+            Mockito.isA(String.class))).thenReturn(mockUri);
         // Run
         ModelAndView result = classUnderTest.loginOrRefresh(authHeaderValue, redirectUri);
+        assertNotNull(result, NOTNULL);
+        result = classUnderTest.loginOrRefresh(null, redirectUri);
         assertNotNull(result, NOTNULL);
     }
     

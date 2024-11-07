@@ -60,6 +60,13 @@ class CduServiceReposTest extends AbstractJUnit {
     @BeforeEach
     public void setup() {
         classUnderTest = new CduServHelperRepos();
+        
+        classUnderTest.cduIpNetwork = "cduIpNetwork";
+        classUnderTest.cduIpHostMin = 1;
+        classUnderTest.cduIpHostMax = 999;
+        classUnderTest.localProxyCommunicationEnabled = false;
+        classUnderTest.fakeCdusEnabled = false;
+        classUnderTest.fakeCdusRegisterEnabled = false;
     }
 
     @Test
