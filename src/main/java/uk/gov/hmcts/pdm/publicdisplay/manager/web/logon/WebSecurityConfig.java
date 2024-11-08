@@ -20,10 +20,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -72,12 +72,6 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        LOG.info("restTemplate()");
-        return new RestTemplate();
-    }
     
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
@@ -87,6 +81,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
                 HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
                 LOG.info("Login Success");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
                 response.setStatus(HttpStatus.OK.value());
@@ -107,6 +102,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
                 String errorMsg =
                     stacktrace.isEmpty() ? exception.getMessage() : stacktrace.get(0).toString();
                 LOG.info("Login Failure {}", errorMsg);
+                LOG.info("Response Status {}", response.getStatus());
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 // Get the error
                 Map<String, Object> data = new ConcurrentHashMap<>();
