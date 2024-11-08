@@ -23,6 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -72,6 +73,12 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
         return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
 
+    @Bean
+    public RestTemplate restTemplate() {
+        LOG.info("restTemplate()");
+        return new RestTemplate();
+    }
+    
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
         return new AuthenticationSuccessHandler() {
