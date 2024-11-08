@@ -53,7 +53,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
@@ -192,13 +191,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
             fail(exception.getMessage());
         }
     }
-    
-    @Test
-    void testRestTemplate() {
-        RestTemplate result = classUnderTest.restTemplate();
-        assertNotNull(result, NOTNULL);
-    }
-
 
     @Test
     void testGetSuccessHandler() {

@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -80,6 +81,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
                 HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
                 LOG.info("Login Success");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
                 response.setStatus(HttpStatus.OK.value());
