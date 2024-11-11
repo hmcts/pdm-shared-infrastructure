@@ -1,6 +1,5 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadWebApplicationHttpSecurityConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdm.hb.jpa.AuthorizationUtil;
 import jakarta.servlet.ServletException;
@@ -39,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter", "removal",
     "squid:S4502"})
-public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
+public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
     private static final String HOME_URL = "/home";
