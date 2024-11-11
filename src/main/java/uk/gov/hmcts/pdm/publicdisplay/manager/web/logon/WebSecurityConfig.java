@@ -1,6 +1,5 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadResourceServerHttpSecurityConfigurer;
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadWebApplicationHttpSecurityConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdm.hb.jpa.AuthorizationUtil;
@@ -12,11 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -47,24 +48,41 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
         "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**"};
 
     /**
-     * Authorisation filterchain.
+     * Authorisation Server filterchain.
      */
+    @Order(Ordered.LOWEST_PRECEDENCE)
     @Bean
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
         throws Exception {
-        return getAuthHttp(http).build();
+        return getAuthServerHttp(http).build();
     }
 
     /**
-     * Get the Authorisation HTTP.
+     * Get the Authorisation Server HTTP.
      */
-    protected HttpSecurity getAuthHttp(HttpSecurity http) throws Exception {
+    protected HttpSecurity getAuthServerHttp(HttpSecurity http) throws Exception {
+        http.sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+        return http;
+    }
+
+    /**
+     * Authorisation client filterchain.
+     */
+    @Order(Ordered.LOWEST_PRECEDENCE - 1)
+    @Bean
+    public SecurityFilterChain authorizationClientSecurityFilterChain(HttpSecurity http)
+        throws Exception {
+        return getAuthClientHttp(http).build();
+    }
+
+    /**
+     * Get the Authorisation Client HTTP.
+     */
+    protected HttpSecurity getAuthClientHttp(HttpSecurity http) throws Exception {
         http.oauth2Login(
-            auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()))
-            .sessionManagement(
-                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .apply(AadResourceServerHttpSecurityConfigurer.aadResourceServer()).and()
-            .csrf(AbstractHttpConfigurer::disable);
+            auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()));
         return http;
     }
 
@@ -72,7 +90,7 @@ public class WebSecurityConfig extends AadWebApplicationHttpSecurityConfigurer {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(AUTH_WHITELIST);
     }
-    
+
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
         return new AuthenticationSuccessHandler() {

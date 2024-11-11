@@ -151,7 +151,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     @Test
-    void testFilterChain() {
+    void testAuthServerFilterChain() {
         try {
             // Expects
             Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
@@ -165,14 +165,43 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     @Test
-    void testGetAuthHttp() {
+    void testGetAuthServerHttp() {
         try {
             HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
             Mockito
                 .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
                 .thenReturn(mockUri);
             // Run
-            HttpSecurity result = classUnderTest.getAuthHttp(dummyHttpSecurity);
+            HttpSecurity result = classUnderTest.getAuthServerHttp(dummyHttpSecurity);
+            assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void testAuthClientFilterChain() {
+        try {
+            // Expects
+            Mockito.when(mockHttpSecurity.build()).thenReturn(mockSecurityFilterChain);
+            // Run
+            SecurityFilterChain result =
+                classUnderTestNoHttp.authorizationClientSecurityFilterChain(mockHttpSecurity);
+            assertNotNull(result, NOTNULL);
+        } catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    void testGetAuthClientHttp() {
+        try {
+            HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
+            Mockito
+                .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
+                .thenReturn(mockUri);
+            // Run
+            HttpSecurity result = classUnderTest.getAuthClientHttp(dummyHttpSecurity);
             assertNotNull(result, NOTNULL);
         } catch (Exception exception) {
             fail(exception.getMessage());
@@ -245,7 +274,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
         }
 
         @Override
-        protected HttpSecurity getAuthHttp(HttpSecurity http) {
+        protected HttpSecurity getAuthServerHttp(HttpSecurity http) {
+            return mockHttpSecurity;
+        }
+        
+        @Override
+        protected HttpSecurity getAuthClientHttp(HttpSecurity http) {
             return mockHttpSecurity;
         }
     }
