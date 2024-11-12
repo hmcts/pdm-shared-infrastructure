@@ -33,7 +33,7 @@ public class WebAppInitializer implements ServletContextInitializer {
         // httpOnly: if true then browser script won’t be able to access the cookie
         servletContext.getSessionCookieConfig().setHttpOnly(false); 
         // secure: if true then the cookie will be sent only over HTTPS connection
-        servletContext.getSessionCookieConfig().setSecure(true); 
+        servletContext.getSessionCookieConfig().setSecure(false); 
     }
 
 }
