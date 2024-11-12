@@ -31,7 +31,7 @@ public class WebAppInitializer implements ServletContextInitializer {
         InitializationService.getInstance().setEntityManagerFactory(entityManagerFactory);
         InitializationService.getInstance().setEnvironment(env);
         // httpOnly: if true then browser script won’t be able to access the cookie
-        servletContext.getSessionCookieConfig().setHttpOnly(true); 
+        servletContext.getSessionCookieConfig().setHttpOnly(false); 
         // secure: if true then the cookie will be sent only over HTTPS connection
         servletContext.getSessionCookieConfig().setSecure(true); 
     }
