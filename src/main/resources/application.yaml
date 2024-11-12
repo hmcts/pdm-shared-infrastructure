@@ -17,15 +17,6 @@ spring:
     name: pdda-public-display-manager
   config:
     import: "optional:configtree:/mnt/secrets/pdda/"
-  cloud:
-    azure:
-      active-directory:
-        enabled: true
-        profile:
-          tenant-id: ${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}
-        credential:  
-          client-id: ${PDDA_AZURE_CLIENT_ID:00000000-0000-0000-0000-000000000000}
-          client-secret: ${PDDA_AZURE_CLIENT_SECRET:}
   security:
     oauth2:
       client:
@@ -33,6 +24,7 @@ spring:
           internal-azure-ad:
             client-id: ${PDDA_AZURE_CLIENT_ID:00000000-0000-0000-0000-000000000000}
             client-secret: ${PDDA_AZURE_CLIENT_SECRET:}
+            clientAuthenticationMethod: client_secret_basic
             scope: profile,openid,email
             redirect-uri: ${pdda.portal.url}/login/oauth2/code/internal-azure-ad
             logout-redirect-uri: ${pdda.portal.url}/auth/internal/logout-callback
