@@ -17,6 +17,15 @@ spring:
     name: pdda-public-display-manager
   config:
     import: "optional:configtree:/mnt/secrets/pdda/"
+  cloud:
+    azure:
+      active-directory:
+        enabled: true
+        profile:
+          tenant-id: ${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}
+        credential:  
+          client-id: ${PDDA_AZURE_CLIENT_ID:00000000-0000-0000-0000-000000000000}
+          client-secret: ${PDDA_AZURE_CLIENT_SECRET:}
   security:
     oauth2:
       client:
