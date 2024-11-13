@@ -35,8 +35,8 @@ spring:
             provider: internal-azure-ad-provider
         provider:
           internal-azure-ad-provider:
-            authorization-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/authorize
-            token-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/token
+            authorization-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/authorize
+            token-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/token
             jwk-set-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/discovery/keys
             logout-uri: ${pdda.azure.active-directory-justice-auth-uri}/${PDDA_AZURE_TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/logout
   datasource:
