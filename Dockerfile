@@ -6,4 +6,4 @@ COPY lib/applicationinsights.json /opt/app/
 COPY build/libs/pdmanager-1.0.war /opt/app/
 
 EXPOSE 4550
-CMD [ "pdmanager-1.0.war" ]
+ENTRYPOINT ["java","-Duser.timezone=UTC","-war","pdmanager-1.0.war"]
