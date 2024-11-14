@@ -1,5 +1,7 @@
 server:
-  port: 8081
+  port: 4550
+  max-http-request-header-size: 10MB
+  shutdown: graceful
 
 pdda:
   portal:
