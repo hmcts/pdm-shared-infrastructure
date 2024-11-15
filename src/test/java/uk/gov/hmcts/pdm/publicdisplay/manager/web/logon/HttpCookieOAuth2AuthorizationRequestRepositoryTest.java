@@ -14,9 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.logon.WebSecurityConfigTest.LocalWebSecurityConfig;
+
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.fail;
@@ -32,9 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
 
-    private static final String NAME = "NAME";
-    private static final String INVALID = "INVALID";
-    private static final String VALUE = "Value";
     private static final String NOTNULL = "Result is Null";
     private static final String TRUE = "Result is False";
 
@@ -51,7 +47,7 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
     private OAuth2AuthorizationRequest mockOAuth2AuthorizationRequest;
 
     @InjectMocks
-    private HttpCookieOAuth2AuthorizationRequestRepository classUnderTest =
+    private final HttpCookieOAuth2AuthorizationRequestRepository classUnderTest =
         new HttpCookieOAuth2AuthorizationRequestRepository();
 
     /**
@@ -87,12 +83,6 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
         boolean result = testSaveAuthorizationRequest("Test");
         assertTrue(result, TRUE);
     }
-    
-    @Test
-    void testSaveAuthorizationRequestNull() {
-        boolean result = testSaveAuthorizationRequest(null);
-        assertTrue(result, TRUE);
-    }
 
     private boolean testSaveAuthorizationRequest(String value) {
         Mockito
@@ -110,6 +100,12 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
             fail(ex.getMessage());
         }
         return result;
+    }
+    
+    @Test
+    void testSaveAuthorizationRequestNull() {
+        boolean result = testSaveAuthorizationRequest(null);
+        assertTrue(result, TRUE);
     }
 
     @Test
