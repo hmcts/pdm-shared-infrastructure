@@ -6,4 +6,4 @@ COPY lib/applicationinsights.json /opt/app/
 COPY build/libs/pdmanager-1.0.war /opt/app/
 
 EXPOSE 4550
-ENTRYPOINT [ "pdmanager-1.0.war" ]
+ENTRYPOINT ["pdmanager-1.0.war"]
