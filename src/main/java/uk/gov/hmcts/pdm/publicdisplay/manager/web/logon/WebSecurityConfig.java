@@ -21,6 +21,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -80,9 +82,17 @@ public class WebSecurityConfig {
      * Get the Authorisation Client HTTP.
      */
     protected HttpSecurity getAuthClientHttp(HttpSecurity http) throws Exception {
-        http.oauth2Login(
-            auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler()));
+        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler())
+            .failureHandler(getFailureHandler()).authorizationEndpoint(endPoint -> endPoint
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository())));
         return http;
+    }
+    
+    /**
+     * Store the authorization in the cookie.
+     */
+    private AuthorizationRequestRepository<OAuth2AuthorizationRequest> cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
     @Bean
