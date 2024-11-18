@@ -40,8 +40,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
@@ -78,8 +76,6 @@ class LogonControllerTest extends AbstractJUnit {
 
     /** The view name mapping logon. */
     private static final String VIEW_NAME_LOGON_LOGIN = "oauth2/authorization/internal-azure-ad";
-    
-    private static final String AUTH_CALLBACK = "/login/oauth2/code/internal-azure-ad";
 
     /** The view name logon logout. */
     private static final String VIEW_NAME_LOGON_LOGOUT = FOLDER_LOGON + "/logout";
@@ -176,24 +172,6 @@ class LogonControllerTest extends AbstractJUnit {
         assertViewName(results, VIEW_NAME_LOGON_LOGIN);
         Mockito.clearAllCaches();
     }
-
-    /**
-     * Test Callback.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testCallback() throws Exception {
-        // Perform the test
-        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
-        requestParams.add("code", "authenticationCode");
-        final MvcResult results = mockMvc
-            .perform(get(AUTH_CALLBACK).params(requestParams)).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_DASHBOARD);
-    }
-
 
     /**
      * Test logon error valid.

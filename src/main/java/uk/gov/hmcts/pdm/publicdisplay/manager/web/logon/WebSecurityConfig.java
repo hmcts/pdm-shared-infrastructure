@@ -2,6 +2,7 @@ package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdm.hb.jpa.AuthorizationUtil;
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +27,8 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -39,11 +42,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter", "removal",
-    "squid:S4502"})
+    "PMD.ExcessiveImports", "squid:S4502"})
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
-    private static final String HOME_URL = "/home";
+    private static final String HOME_URL = "/dashboard/dashboard";
+    private static final String LOGIN_URL = "/oauth2/authorization/internal-azure-ad";
+    private static final String ROOT_URL = "/";
     private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
         "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
         "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**"};
@@ -82,12 +87,15 @@ public class WebSecurityConfig {
      * Get the Authorisation Client HTTP.
      */
     protected HttpSecurity getAuthClientHttp(HttpSecurity http) throws Exception {
-        http.oauth2Login(auth -> auth.successHandler(getSuccessHandler())
-            .failureHandler(getFailureHandler()).authorizationEndpoint(endPoint -> endPoint
-                .authorizationRequestRepository(cookieAuthorizationRequestRepository())));
+        http.oauth2Login(
+            auth -> auth.successHandler(getSuccessHandler()).failureHandler(getFailureHandler())
+                .authorizationEndpoint(endPoint -> endPoint
+                    .authorizationRequestRepository(cookieAuthorizationRequestRepository())))
+            .addFilterAfter(new AuthorisationTokenExistenceFilter(),
+                SecurityContextHolderFilter.class);
         return http;
     }
-    
+
     /**
      * Store the authorization in the cookie.
      */
@@ -142,6 +150,34 @@ public class WebSecurityConfig {
         };
     }
 
+    public final class AuthorisationTokenExistenceFilter extends OncePerRequestFilter {
 
+        @Override
+        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
+            if (isSecureUri(request.getRequestURI()) && !AuthorizationUtil.isAuthorised()) {
+                LOG.info("Secure request and unauthorised {}", request.getRequestURI());
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.sendRedirect(LOGIN_URL);
+                return;
+            }
+            filterChain.doFilter(request, response);
+        }
+    }
+
+    public static boolean isSecureUri(String uri) {
+        if (ROOT_URL.equals(uri)) {
+            return false;
+        } else {
+            for (String entry : AUTH_WHITELIST) {
+                String whitelisted = entry.replace("**", "");
+                if (uri.startsWith(whitelisted)) {
+                    LOG.info("Unsecure request for {} matched on whitelist entry {}", uri, entry);
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 
 }
