@@ -36,7 +36,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -89,7 +90,10 @@ class LogonControllerTest extends AbstractJUnit {
     private OAuth2AuthenticationToken mockAuthentication;
 
     @Mock
-    private OAuth2User mockUser;
+    private DefaultOidcUser mockUser;
+    
+    @Mock
+    private OidcIdToken mockIdToken;
 
     @Mock
     private InitializationService mockInitializationService;
@@ -136,6 +140,7 @@ class LogonControllerTest extends AbstractJUnit {
         Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
         Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockUser);
         Mockito.when(mockUser.getAttribute(Mockito.isA(String.class))).thenReturn("user");
+        Mockito.when(mockUser.getIdToken()).thenReturn(mockIdToken);
 
         // Perform the test
         MvcResult results = mockMvc.perform(get("/home")).andReturn();

@@ -22,11 +22,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -122,11 +120,14 @@ public class WebSecurityConfig {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
-                
+
                 OidcIdToken token = AuthorizationUtil.getToken(authentication);
-                String tokenValue = token.getTokenValue();
-                LOG.info("Token value: {}", tokenValue);
-                
+                if (token != null) {
+                    String tokenValue = token.getTokenValue();
+                    LOG.info("Token value: {}", tokenValue);
+                    response.addHeader("Authorization", "Bearer " + tokenValue);
+                }
+
                 response.setStatus(HttpStatus.OK.value());
                 response.sendRedirect(HOME_URL);
             }

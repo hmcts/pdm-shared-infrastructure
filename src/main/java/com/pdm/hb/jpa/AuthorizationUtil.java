@@ -44,7 +44,7 @@ public class AuthorizationUtil {
     public static OidcIdToken getToken(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            if (oauthToken.getPrincipal() != null) {
+            if (oauthToken.getPrincipal() instanceof DefaultOidcUser) {
                 DefaultOidcUser principal = (DefaultOidcUser) oauthToken.getPrincipal();
                 return principal.getIdToken();
             }

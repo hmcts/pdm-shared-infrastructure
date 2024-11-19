@@ -39,7 +39,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,7 +75,10 @@ class AuthorizationUtilTest extends AbstractJUnit {
     protected AnonymousAuthenticationToken mockAnonymousAuthenticationToken;
 
     @Mock
-    protected OAuth2User mockOAuth2User;
+    protected DefaultOidcUser mockOAuth2User;
+    
+    @Mock
+    private OidcIdToken mockIdToken;
 
     /**
      * Setup.
@@ -100,6 +104,7 @@ class AuthorizationUtilTest extends AbstractJUnit {
             .thenReturn(mockOAuth2AuthenticationToken);
         Mockito.when(mockOAuth2AuthenticationToken.getPrincipal()).thenReturn(mockOAuth2User);
         Mockito.when(mockOAuth2User.getAttribute("name")).thenReturn(OAUTH2NAME);
+        Mockito.when(mockOAuth2User.getIdToken()).thenReturn(mockIdToken);
 
         String result = AuthorizationUtil.getUsername();
         assertEquals(OAUTH2NAME, result, EQUALS);
