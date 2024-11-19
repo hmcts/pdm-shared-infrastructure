@@ -45,7 +45,7 @@ public class AuthorizationUtil {
 
     public static boolean isAuthorised(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-        return (authHeader != null && authHeader.startsWith(TOKEN_BEARER_PREFIX));
+        return authHeader != null && authHeader.startsWith(TOKEN_BEARER_PREFIX);
     }
 
     public static OidcIdToken getToken(Authentication authentication) {
