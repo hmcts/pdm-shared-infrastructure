@@ -46,6 +46,7 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Unit test for AuthoriizationUtil.
@@ -66,16 +67,19 @@ class AuthorizationUtilTest extends AbstractJUnit {
     private static final String EMPTY_STRING = "";
 
     @Mock
-    protected SecurityContext mockSecurityContext;
+    private SecurityContext mockSecurityContext;
+    
+    @Mock
+    private HttpServletRequest mockHttpServletRequest;
 
     @Mock
-    protected OAuth2AuthenticationToken mockOAuth2AuthenticationToken;
+    private OAuth2AuthenticationToken mockOAuth2AuthenticationToken;
 
     @Mock
-    protected AnonymousAuthenticationToken mockAnonymousAuthenticationToken;
+    private AnonymousAuthenticationToken mockAnonymousAuthenticationToken;
 
     @Mock
-    protected DefaultOidcUser mockOAuth2User;
+    private DefaultOidcUser mockOAuth2User;
     
     @Mock
     private OidcIdToken mockIdToken;
@@ -143,6 +147,23 @@ class AuthorizationUtilTest extends AbstractJUnit {
         String result = AuthorizationUtil.getUsername();
         assertEquals(EMPTY_STRING, result, EQUALS);
         assertFalse(AuthorizationUtil.isAuthorised(), FALSE);
+    }
+    
+    @Test
+    void testIsAuthorised() {
+        boolean result = testIsAuthorised("Bearer");
+        assertTrue(result, TRUE);
+    }
+          
+    private boolean testIsAuthorised(String authHeader) {
+        Mockito.when(mockHttpServletRequest.getHeader(Mockito.isA(String.class))).thenReturn(authHeader);
+        return  AuthorizationUtil.isAuthorised(mockHttpServletRequest);        
+    }
+    
+    @Test
+    void testIsNotAuthorised() {
+        boolean result = testIsAuthorised(EMPTY_STRING);
+        assertFalse(result, FALSE);
     }
 
     protected class LocalAuthorizationUtil extends AuthorizationUtil {

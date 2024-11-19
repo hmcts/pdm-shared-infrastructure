@@ -1,5 +1,6 @@
 package com.pdm.hb.jpa;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 @SuppressWarnings("PMD.LawOfDemeter")
 public class AuthorizationUtil {
 
+    private static final String TOKEN_BEARER_PREFIX = "Bearer";
     private static final String EMPTY_STRING = "";
 
     protected AuthorizationUtil() {
@@ -40,7 +42,12 @@ public class AuthorizationUtil {
     public static boolean isAuthorised(Authentication authentication) {
         return getToken(authentication) != null;
     }
-    
+
+    public static boolean isAuthorised(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        return (authHeader != null && authHeader.startsWith(TOKEN_BEARER_PREFIX));
+    }
+
     public static OidcIdToken getToken(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
