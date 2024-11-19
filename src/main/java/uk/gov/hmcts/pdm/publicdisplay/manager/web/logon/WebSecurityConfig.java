@@ -164,11 +164,14 @@ public class WebSecurityConfig {
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-            if (isSecureUri(request.getRequestURI()) && !AuthorizationUtil.isAuthorised()) {
-                LOG.info("Secure request and unauthorised {}", request.getRequestURI());
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.sendRedirect(LOGIN_URL);
-                return;
+            if (isSecureUri(request.getRequestURI())) {
+                LOG.info("Secure request {}", request.getRequestURI());
+                if (!AuthorizationUtil.isAuthorised(request)) {
+                    LOG.info("Unauthorised. Return to login");
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    response.sendRedirect(LOGIN_URL);
+                    return;
+                }
             }
             filterChain.doFilter(request, response);
         }
