@@ -24,6 +24,7 @@
 package uk.gov.hmcts.config;
 
 import com.pdm.hb.jpa.AuthorizationUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -46,7 +47,7 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import jakarta.servlet.http.HttpServletRequest;
+
 
 /**
  * Unit test for AuthoriizationUtil.
