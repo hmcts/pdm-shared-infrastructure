@@ -46,8 +46,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
@@ -115,7 +117,13 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private FilterChain mockFilterChain;
 
     @Mock
-    private Authentication mockAuthentication;
+    private OAuth2AuthenticationToken mockAuthentication;
+    
+    @Mock
+    private DefaultOidcUser mockPrincipal;
+    
+    @Mock
+    private OidcIdToken mockToken; 
 
     @Mock
     private AuthenticationException mockAuthenticationException;
@@ -228,6 +236,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testGetSuccessHandler() {
         try {
+            Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockPrincipal);
+            Mockito.when(mockPrincipal.getIdToken()).thenReturn(mockToken);
             // Run
             AuthenticationSuccessHandler result = classUnderTest.getSuccessHandler();
             assertNotNull(result, NOTNULL);

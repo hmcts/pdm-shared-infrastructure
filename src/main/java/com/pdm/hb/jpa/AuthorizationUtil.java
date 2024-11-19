@@ -4,6 +4,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
 @SuppressWarnings("PMD.LawOfDemeter")
 public class AuthorizationUtil {
@@ -36,12 +38,17 @@ public class AuthorizationUtil {
     }
 
     public static boolean isAuthorised(Authentication authentication) {
+        return getToken(authentication) != null;
+    }
+    
+    public static OidcIdToken getToken(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            if (oauthToken.getPrincipal() != null) {
-                return true;
+            if (oauthToken.getPrincipal() instanceof DefaultOidcUser) {
+                DefaultOidcUser principal = (DefaultOidcUser) oauthToken.getPrincipal();
+                return principal.getIdToken();
             }
         }
-        return false;
+        return null;
     }
 }
