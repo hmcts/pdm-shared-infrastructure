@@ -24,6 +24,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,11 +68,13 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The Class WebSecurityConfig.
@@ -85,6 +88,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
+    private static final String TRUE = "Result is False";
 
     @Mock
     private HttpSecurity mockHttpSecurity;
@@ -289,6 +293,32 @@ class WebSecurityConfigTest extends AbstractJUnit {
         }
     }
 
+    @Test
+    void testAuthorisationTokenExistenceFilter() {
+        boolean result = testAuthorisationTokenExistenceFilter("/login");
+        assertTrue(result, "Unsecure " + TRUE);
+        result = testAuthorisationTokenExistenceFilter("/dashboard/dashboard");
+        assertTrue(result, "Secure " + TRUE);
+        result = testAuthorisationTokenExistenceFilter("/");
+        assertTrue(result, "Root " + TRUE);
+    }
+
+    private boolean testAuthorisationTokenExistenceFilter(String uri) {
+        Mockito.when(mockHttpServletRequest.getRequestURI()).thenReturn(uri);
+        boolean result = false;
+        try {
+            WebSecurityConfig.AuthorisationTokenExistenceFilter filter =
+                classUnderTestNoHttp.getAuthorisationTokenExistenceFilter();
+            filter.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse,
+                mockFilterChain);
+            result = true;
+        } catch (ServletException | IOException ex) {
+            fail(ex.getMessage());
+        }
+        return result;
+    }
+
+    
     private HttpSecurity getDummyHttpSecurity() {
         String[] emptyStringArray = {};
         Mockito.when(mockApplicationContext.getBeanNamesForType(AuthorizationEventPublisher.class))
@@ -303,7 +333,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
         dummyHttpSecurity.securityMatcher(mockRequestMatcher);
         return dummyHttpSecurity;
     }
-
+    
     class LocalWebSecurityConfig extends WebSecurityConfig {
 
         public LocalWebSecurityConfig() {
@@ -319,5 +349,10 @@ class WebSecurityConfigTest extends AbstractJUnit {
         protected HttpSecurity getAuthClientHttp(HttpSecurity http) {
             return mockHttpSecurity;
         }
+
+        protected AuthorisationTokenExistenceFilter getAuthorisationTokenExistenceFilter() {
+            return new AuthorisationTokenExistenceFilter();
+        }
+
     }
 }
