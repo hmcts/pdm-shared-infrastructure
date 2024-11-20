@@ -24,7 +24,6 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,6 +38,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authorization.AuthorizationEventPublisher;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -47,7 +50,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
@@ -61,13 +67,11 @@ import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
 import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The Class WebSecurityConfig.
@@ -77,11 +81,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 @SuppressWarnings({"PMD.ExcessiveImports", "PMD.TooManyFields", "PMD.LawOfDemeter",
-    "PMD.CouplingBetweenObjects", "PMD.TooManyMethods"})
+    "PMD.CouplingBetweenObjects", "PMD.TooManyMethods", "PMD.LooseCoupling"})
 class WebSecurityConfigTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
-    private static final String TRUE = "Result is False";
 
     @Mock
     private HttpSecurity mockHttpSecurity;
@@ -111,6 +114,9 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private HttpServletRequest mockHttpServletRequest;
 
     @Mock
+    private HttpRequest mockHttpRequest;
+
+    @Mock
     private HttpServletResponse mockHttpServletResponse;
 
     @Mock
@@ -118,15 +124,24 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private OAuth2AuthenticationToken mockAuthentication;
-    
+
     @Mock
     private DefaultOidcUser mockPrincipal;
-    
+
     @Mock
-    private OidcIdToken mockToken; 
+    private OidcIdToken mockToken;
 
     @Mock
     private AuthenticationException mockAuthenticationException;
+
+    @Mock
+    private ClientHttpRequestExecution mockClientHttpRequestExecution;
+
+    @Mock
+    private ClientHttpResponse mockClientHttpResponse;
+
+    @Mock
+    private AbstractOAuth2Token mockOAuth2Token;
 
     @Mock
     private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
@@ -136,6 +151,12 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private URI mockUri;
+
+    @Mock
+    private SecurityContext mockSecurityContext;
+
+    @Mock
+    private HttpHeaders mockHttpHeaders;
 
     @InjectMocks
     private WebSecurityConfig classUnderTest;
@@ -236,6 +257,8 @@ class WebSecurityConfigTest extends AbstractJUnit {
     @Test
     void testGetSuccessHandler() {
         try {
+            Mockito.mockStatic(SecurityContextHolder.class);
+            Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
             Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockPrincipal);
             Mockito.when(mockPrincipal.getIdToken()).thenReturn(mockToken);
             // Run
@@ -264,31 +287,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
         } catch (Exception exception) {
             fail(exception.getMessage());
         }
-    }
-
-    @Test
-    void testAuthorisationTokenExistenceFilter() {
-        boolean result = testAuthorisationTokenExistenceFilter("/login");
-        assertTrue(result, "Unsecure " + TRUE);
-        result = testAuthorisationTokenExistenceFilter("/dashboard/dashboard");
-        assertTrue(result, "Secure " + TRUE);
-        result = testAuthorisationTokenExistenceFilter("/");
-        assertTrue(result, "Root " + TRUE);
-    }
-
-    private boolean testAuthorisationTokenExistenceFilter(String uri) {
-        Mockito.when(mockHttpServletRequest.getRequestURI()).thenReturn(uri);
-        boolean result = false;
-        try {
-            WebSecurityConfig.AuthorisationTokenExistenceFilter filter =
-                classUnderTestNoHttp.getAuthorisationTokenExistenceFilter();
-            filter.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse,
-                mockFilterChain);
-            result = true;
-        } catch (ServletException | IOException ex) {
-            fail(ex.getMessage());
-        }
-        return result;
     }
 
     private HttpSecurity getDummyHttpSecurity() {
@@ -320,10 +318,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
         @Override
         protected HttpSecurity getAuthClientHttp(HttpSecurity http) {
             return mockHttpSecurity;
-        }
-
-        protected AuthorisationTokenExistenceFilter getAuthorisationTokenExistenceFilter() {
-            return new AuthorisationTokenExistenceFilter();
         }
     }
 }

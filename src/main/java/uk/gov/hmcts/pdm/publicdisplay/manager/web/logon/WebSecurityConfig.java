@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,7 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.LawOfDemeter", "removal",
-    "PMD.ExcessiveImports", "squid:S4502"})
+    "PMD.ExcessiveImports", "PMD.CouplingBetweenObjects", "squid:S4502"})
 public class WebSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
@@ -121,13 +122,6 @@ public class WebSecurityConfig {
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
 
-                OidcIdToken token = AuthorizationUtil.getToken(authentication);
-                if (token != null) {
-                    String tokenValue = token.getTokenValue();
-                    LOG.info("Token value: {}", tokenValue);
-                    response.addHeader("Authorization", "Bearer " + tokenValue);
-                }
-
                 response.setStatus(HttpStatus.OK.value());
                 response.sendRedirect(HOME_URL);
             }
@@ -164,16 +158,31 @@ public class WebSecurityConfig {
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
+            MutableHttpServletRequest requestWrapper = new MutableHttpServletRequest(request);
             if (isSecureUri(request.getRequestURI())) {
                 LOG.info("Secure request {}", request.getRequestURI());
-                if (!AuthorizationUtil.isAuthorised(request)) {
+
+                // Check if the request needs the authorisation adding
+                Authentication authentication =
+                    SecurityContextHolder.getContext().getAuthentication();
+                OidcIdToken token = AuthorizationUtil.getToken(authentication);
+                if (token != null) {
+                    String tokenValue = token.getTokenValue();
+                    LOG.info("Token value: {}", tokenValue);
+                    requestWrapper.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tokenValue);
+                }
+
+                // Check if we are authorised, if not return to the login page
+                final String header = requestWrapper.getHeader(HttpHeaders.AUTHORIZATION);
+                if (header == null || header.isEmpty() || !header.startsWith("Bearer ")) {
+                    LOG.info("Header: {}", header);
                     LOG.info("Unauthorised. Return to login");
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     response.sendRedirect(LOGIN_URL);
                     return;
                 }
             }
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(requestWrapper, response);
         }
     }
 
