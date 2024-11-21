@@ -53,7 +53,7 @@ public class WebSecurityConfig {
     private static final String ROOT_URL = "/";
     private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
         "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
-        "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**"};
+        "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**", "/default-ui.css"};
 
     /**
      * Authorisation Server filterchain.
