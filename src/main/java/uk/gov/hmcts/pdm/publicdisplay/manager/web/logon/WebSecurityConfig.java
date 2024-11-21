@@ -165,6 +165,7 @@ public class WebSecurityConfig {
                 // Check if the request needs the authorisation adding
                 Authentication authentication =
                     SecurityContextHolder.getContext().getAuthentication();
+                LOG.info("Authentication: {}", authentication);
                 OidcIdToken token = AuthorizationUtil.getToken(authentication);
                 if (token != null) {
                     String tokenValue = token.getTokenValue();
