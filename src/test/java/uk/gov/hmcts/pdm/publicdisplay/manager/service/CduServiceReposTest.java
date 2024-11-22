@@ -1,6 +1,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,6 +68,11 @@ class CduServiceReposTest extends AbstractJUnit {
         classUnderTest.localProxyCommunicationEnabled = false;
         classUnderTest.fakeCdusEnabled = false;
         classUnderTest.fakeCdusRegisterEnabled = false;
+    }
+    
+    @AfterEach
+    public void teardown() {
+        classUnderTest.clearRepositories();
     }
 
     @Test
