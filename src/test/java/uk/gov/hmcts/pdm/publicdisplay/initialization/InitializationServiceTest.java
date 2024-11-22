@@ -31,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,6 +53,9 @@ class InitializationServiceTest extends AbstractJUnit {
     @Mock
     private EntityManagerFactory mockEntityManagerFactory;
 
+    @Mock
+    private Authentication mockAuthentication;
+    
     /**
      * Test setter and getter for EntityManagerFactory.
      */
@@ -79,4 +83,15 @@ class InitializationServiceTest extends AbstractJUnit {
         assertEquals(result, mockEnvironment, EQUALS);
     }
 
+    /**
+     * Test setter and getter for Environment.
+     */
+    @Test
+    void testAuthentication() {
+        // Run
+        InitializationService.getInstance().setAuthentication(mockAuthentication);
+        Authentication result = InitializationService.getInstance().getAuthentication();
+        // Checks
+        assertEquals(result, mockAuthentication, EQUALS);
+    }
 }

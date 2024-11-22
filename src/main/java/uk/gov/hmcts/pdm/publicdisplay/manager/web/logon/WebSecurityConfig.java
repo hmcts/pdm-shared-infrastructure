@@ -22,7 +22,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -31,6 +30,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
+import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -118,7 +118,7 @@ public class WebSecurityConfig {
                 HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
                 LOG.info("Login Success");
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                InitializationService.getInstance().setAuthentication(authentication);
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
 
@@ -164,7 +164,7 @@ public class WebSecurityConfig {
 
                 // Check if the request needs the authorisation adding
                 Authentication authentication =
-                    SecurityContextHolder.getContext().getAuthentication();
+                    InitializationService.getInstance().getAuthentication();
                 LOG.info("Authentication: {}", authentication);
                 OidcIdToken token = AuthorizationUtil.getToken(authentication);
                 if (token != null) {
