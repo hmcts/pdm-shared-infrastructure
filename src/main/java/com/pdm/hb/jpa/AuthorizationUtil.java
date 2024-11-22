@@ -1,6 +1,7 @@
 package com.pdm.hb.jpa;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +45,7 @@ public class AuthorizationUtil {
     }
 
     public static boolean isAuthorised(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         return authHeader != null && authHeader.startsWith(TOKEN_BEARER_PREFIX);
     }
 

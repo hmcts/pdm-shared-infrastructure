@@ -159,24 +159,22 @@ public class WebSecurityConfig {
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
             MutableHttpServletRequest requestWrapper = new MutableHttpServletRequest(request);
+            
+            // Check if the request needs the authorisation adding
+            Authentication authentication =
+                InitializationService.getInstance().getAuthentication();
+            LOG.info("Authentication: {}", authentication);
+            OidcIdToken token = AuthorizationUtil.getToken(authentication);
+            if (token != null) {
+                String tokenValue = token.getTokenValue();
+                LOG.info("Token value: {}", tokenValue);
+                requestWrapper.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tokenValue);
+            }
+            
+            // Check if we are secure and authorised, if not return to the login page
             if (isSecureUri(request.getRequestURI())) {
                 LOG.info("Secure request {}", request.getRequestURI());
-
-                // Check if the request needs the authorisation adding
-                Authentication authentication =
-                    InitializationService.getInstance().getAuthentication();
-                LOG.info("Authentication: {}", authentication);
-                OidcIdToken token = AuthorizationUtil.getToken(authentication);
-                if (token != null) {
-                    String tokenValue = token.getTokenValue();
-                    LOG.info("Token value: {}", tokenValue);
-                    requestWrapper.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tokenValue);
-                }
-
-                // Check if we are authorised, if not return to the login page
-                final String header = requestWrapper.getHeader(HttpHeaders.AUTHORIZATION);
-                if (header == null || header.isEmpty() || !header.startsWith("Bearer ")) {
-                    LOG.info("Header: {}", header);
+                if (!AuthorizationUtil.isAuthorised(requestWrapper)) {
                     LOG.info("Unauthorised. Return to login");
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     response.sendRedirect(LOGIN_URL);
