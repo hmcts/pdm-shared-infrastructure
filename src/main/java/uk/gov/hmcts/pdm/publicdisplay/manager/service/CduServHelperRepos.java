@@ -11,6 +11,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbdispmgrmapping.XhbDispMgrMappingRep
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrurl.XhbDispMgrUrlRepository;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ILocalProxyRestClient;
 
+@SuppressWarnings("PMD.NullAssignment")
 public class CduServHelperRepos {
 
     /**
@@ -52,6 +53,14 @@ public class CduServHelperRepos {
 
     private XhbDispMgrMappingRepository xhbDispMgrMappingRepository;
 
+    protected void clearRepositories() {
+        xhbCourtSiteRepository = null;
+        xhbDispMgrCduRepository = null;
+        xhbDispMgrUrlRepository = null;
+        xhbDispMgrCourtSiteRepository = null;
+        xhbDispMgrMappingRepository = null;
+    }
+    
     protected XhbDispMgrCduRepository getXhbDispMgrCduRepository() {
         if (xhbDispMgrCduRepository == null) {
             xhbDispMgrCduRepository = new XhbDispMgrCduRepository(getEntityManager());
@@ -65,9 +74,10 @@ public class CduServHelperRepos {
         }
         return xhbCourtSiteRepository;
     }
-
+    
     protected EntityManager getEntityManager() {
-        if (entityManager == null || !entityManager.isOpen()) {
+        if (!EntityManagerUtil.isEntityManagerActive(entityManager)) {
+            clearRepositories();
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;
