@@ -11,6 +11,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbdispmgrmapping.XhbDispMgrMappingRep
 import uk.gov.hmcts.pdm.business.entities.xhbdispmgrurl.XhbDispMgrUrlRepository;
 import uk.gov.hmcts.pdm.publicdisplay.manager.service.api.ILocalProxyRestClient;
 
+@SuppressWarnings("PMD.NullAssignment")
 public class CduServHelperRepos {
 
     /**

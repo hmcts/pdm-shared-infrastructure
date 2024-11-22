@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment"})
+@SuppressWarnings("PMD.LawOfDemeter")
 class CduServiceReposTest extends AbstractJUnit {
 
 
