@@ -11,7 +11,15 @@
 				</div>
 				<div class="col-md-6">
 					<div class="pull-right">
-						<p class="pull-right m-top-20">You are logged in as <security:authentication property="preferred_username"/></p>
+						<security:authorize var="loggedIn" access="isAuthenticated()" />
+						<c:choose>
+    						<c:when test="${loggedIn}">
+								<p class="pull-right m-top-20">You are logged in as <security:authentication property="name"/></p> 
+							</c:when>
+							<c:otherwise>
+								<p class="pull-right m-top-20">You are not logged in</p> 
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
