@@ -11,7 +11,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="pull-right">
-						<p class="pull-right m-top-20">You are logged in as <security:authentication property="name"/></p>
+						<p class="pull-right m-top-20">You are logged in as <security:authentication property="preferred_username"/></p>
 					</div>
 				</div>
 			</div>

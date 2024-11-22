@@ -23,7 +23,6 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
-import com.pdm.hb.jpa.AuthorizationUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -109,11 +108,7 @@ public class LogonController {
      */
     @RequestMapping(value = {MAPPING_HOME, MAPPING_DEFAULT}, method = RequestMethod.GET)
     public String home() {
-        LOGGER.info("home()");
-        if (!AuthorizationUtil.isAuthorised()) {
-            return login();
-        }
-        LOGGER.info("redirect to dashboard()");
+        LOGGER.info("home() - redirect to dashboard");
         return "redirect:dashboard/dashboard";
     }
 
