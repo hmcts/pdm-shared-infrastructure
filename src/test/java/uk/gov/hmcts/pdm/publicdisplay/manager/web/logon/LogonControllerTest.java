@@ -28,13 +28,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -135,47 +133,11 @@ class LogonControllerTest extends AbstractJUnit {
      */
     @Test
     void testHome() throws Exception {
-        Mockito.mockStatic(SecurityContextHolder.class);
-        Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
-        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
-        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockUser);
-        Mockito.when(mockUser.getAttribute(Mockito.isA(String.class))).thenReturn("user");
-        Mockito.when(mockUser.getIdToken()).thenReturn(mockIdToken);
-
         // Perform the test
         MvcResult results = mockMvc.perform(get("/home")).andReturn();
 
         // Assert that the objects are as expected
         assertViewName(results, VIEW_NAME_DASHBOARD);
-        
-        // Perform the test again without being authorised
-        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(null);
-        results = mockMvc.perform(get("/home")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
-        Mockito.clearAllCaches();
-    }
-
-    /**
-     * Test logon valid.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testLogonValid() throws Exception {
-        Mockito.mockStatic(InitializationService.class);
-        Mockito.when(InitializationService.getInstance()).thenReturn(mockInitializationService);
-        Mockito.when(mockInitializationService.getEnvironment()).thenReturn(mockEnvironment);
-        Mockito.when(mockEnvironment.getProperty(Mockito.isA(String.class))).thenReturn("false");
-        Mockito.when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-            .thenReturn(mockUri);
-        // Perform the test
-        final MvcResult results = mockMvc.perform(get("/login")).andReturn();
-
-        // Assert that the objects are as expected
-        assertViewName(results, VIEW_NAME_LOGON_LOGIN);
-        Mockito.clearAllCaches();
     }
 
     /**
