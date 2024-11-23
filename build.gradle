@@ -184,7 +184,7 @@ dependencies {
     // Comment out org.hibernate:hibernate-entitymanager to work in Eclipse
     implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
     implementation 'org.postgresql:postgresql:42.7.4'
-    implementation 'org.springframework.security:spring-security-core:6.4.0'
+    implementation 'org.springframework.security:spring-security-core:6.4.1'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.2.RELEASE'
     implementation ('org.apache.httpcomponents:httpclient:4.5.14') {
     exclude group: 'commons-logging', module: 'commons-logging'
@@ -223,7 +223,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security:3.3.5'
     implementation 'org.owasp.antisamy:antisamy:1.7.7'
     implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.18.0'
-    implementation 'org.springframework.security:spring-security-oauth2-jose:6.4.0'
+    implementation 'org.springframework.security:spring-security-oauth2-jose:6.4.1'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
     implementation group: 'org.springframework.security', name: 'spring-security-oauth2-authorization-server', version: '1.4.0'
