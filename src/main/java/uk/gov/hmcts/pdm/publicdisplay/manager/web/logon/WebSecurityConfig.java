@@ -159,9 +159,9 @@ public class WebSecurityConfig {
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
             MutableHttpServletRequest requestWrapper = new MutableHttpServletRequest(request);
-            
+
             // Check if the request needs the authorisation adding
-            Authentication authentication =
+            Authentication authentication = 
                 InitializationService.getInstance().getAuthentication();
             LOG.info("Authentication: {}", authentication);
             OidcIdToken token = AuthorizationUtil.getToken(authentication);
@@ -169,8 +169,9 @@ public class WebSecurityConfig {
                 String tokenValue = token.getTokenValue();
                 LOG.info("Token value: {}", tokenValue);
                 requestWrapper.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tokenValue);
+                requestWrapper.setAttribute("Username", AuthorizationUtil.getUsername(authentication));
             }
-            
+
             // Check if we are secure and authorised, if not return to the login page
             if (isSecureUri(request.getRequestURI())) {
                 LOG.info("Secure request {}", request.getRequestURI());
