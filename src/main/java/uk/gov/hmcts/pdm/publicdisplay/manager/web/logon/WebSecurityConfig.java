@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -30,7 +31,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -118,7 +118,7 @@ public class WebSecurityConfig {
                 HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
                 LOG.info("Login Success");
-                InitializationService.getInstance().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
 
@@ -161,15 +161,15 @@ public class WebSecurityConfig {
             MutableHttpServletRequest requestWrapper = new MutableHttpServletRequest(request);
 
             // Check if the request needs the authorisation adding
-            Authentication authentication = 
-                InitializationService.getInstance().getAuthentication();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             LOG.info("Authentication: {}", authentication);
             OidcIdToken token = AuthorizationUtil.getToken(authentication);
             if (token != null) {
                 String tokenValue = token.getTokenValue();
                 LOG.info("Token value: {}", tokenValue);
                 requestWrapper.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tokenValue);
-                requestWrapper.setAttribute("Username", AuthorizationUtil.getUsername(authentication));
+                requestWrapper.setAttribute("Username",
+                    AuthorizationUtil.getUsername(authentication));
             }
 
             // Check if we are secure and authorised, if not return to the login page

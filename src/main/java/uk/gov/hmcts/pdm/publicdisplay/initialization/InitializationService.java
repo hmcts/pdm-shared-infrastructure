@@ -2,16 +2,12 @@ package uk.gov.hmcts.pdm.publicdisplay.initialization;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 public final class InitializationService {
 
     private EntityManagerFactory entityManagerFactory;
     
     private Environment env;
-    
-    private Authentication authentication;
     
     /**
      * Singleton instance.
@@ -51,12 +47,4 @@ public final class InitializationService {
         this.env = env;
     }
 
-    public Authentication getAuthentication() {
-        return authentication;
-    }
-
-    public void setAuthentication(Authentication authentication) {
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        this.authentication = authentication;
-    }
 }
