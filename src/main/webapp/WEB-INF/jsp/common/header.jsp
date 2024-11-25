@@ -1,4 +1,3 @@
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!-- Start of Standard Header for XHIBIT Public display manager -->
 <header>
 	<div class="row">
@@ -11,15 +10,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="pull-right">
-						<security:authorize var="loggedIn" access="isAuthenticated()" />
-						<c:choose>
-    						<c:when test="${loggedIn}">
-								<p class="pull-right m-top-20">You are logged in as <%=  request.getAttribute("Username") %></p> 
-							</c:when>
-							<c:otherwise>
-								<p class="pull-right m-top-20">You are not logged in</p> 
-							</c:otherwise>
-						</c:choose>
+						<p class="pull-right m-top-20">You are logged in as <%=  request.getAttribute("Username") %></p> 
 					</div>
 				</div>
 			</div>
