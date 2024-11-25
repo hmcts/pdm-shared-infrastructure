@@ -14,7 +14,7 @@
 						<security:authorize var="loggedIn" access="isAuthenticated()" />
 						<c:choose>
     						<c:when test="${loggedIn}">
-								<p class="pull-right m-top-20">You are logged in as <security:authentication property="name"/></p> 
+								<p class="pull-right m-top-20">You are logged in as <%=  request.getAttribute("Username") %></p> 
 							</c:when>
 							<c:otherwise>
 								<p class="pull-right m-top-20">You are not logged in</p> 
