@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.stereotype.Component;
 
 
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class HttpCookieOAuth2AuthorizationRequestRepository
     implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
     public static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request";
+    public static final String OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME = "oauth2_auth_token";
+    public static final String USERNAME_COOKIE_NAME = "username";
     public static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect_uri";
     private static final int COOKIEEXPIRESECONDS = 180;
 
@@ -50,5 +53,45 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
         HttpServletResponse response) {
         CookieUtils.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
         CookieUtils.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
+    }
+
+    public OidcIdToken loadAuthorizationToken(HttpServletRequest request) {
+        return CookieUtils.getCookie(request, OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME)
+            .map(cookie -> CookieUtils.deserialize(cookie, OidcIdToken.class)).orElse(null);
+    }
+
+    public void saveAuthorizationToken(OidcIdToken authorizationToken, HttpServletRequest request,
+        HttpServletResponse response) {
+        if (authorizationToken == null) {
+            CookieUtils.deleteCookie(request, response, OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME);
+            return;
+        }
+        CookieUtils.addCookie(response, OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME,
+            CookieUtils.serialize(authorizationToken), COOKIEEXPIRESECONDS);
+    }
+
+    public OidcIdToken removeAuthorizationToken(HttpServletRequest request,
+        HttpServletResponse response) {
+        return this.loadAuthorizationToken(request);
+    }
+
+    public String loadUsername(HttpServletRequest request) {
+        return CookieUtils.getCookie(request, USERNAME_COOKIE_NAME)
+            .map(cookie -> CookieUtils.deserialize(cookie, String.class)).orElse(null);
+    }
+
+    public void saveUsername(String username, HttpServletRequest request,
+        HttpServletResponse response) {
+        if (username == null) {
+            CookieUtils.deleteCookie(request, response, USERNAME_COOKIE_NAME);
+            return;
+        }
+        CookieUtils.addCookie(response, USERNAME_COOKIE_NAME, CookieUtils.serialize(username),
+            COOKIEEXPIRESECONDS);
+    }
+    
+    public String removeUsername(HttpServletRequest request,
+        HttpServletResponse response) {
+        return this.loadUsername(request);
     }
 }

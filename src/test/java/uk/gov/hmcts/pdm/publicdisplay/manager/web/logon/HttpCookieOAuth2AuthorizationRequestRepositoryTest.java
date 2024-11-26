@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 
 import java.util.Optional;
@@ -29,10 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+@SuppressWarnings("PMD.TooManyMethods")
 class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
 
     private static final String NOTNULL = "Result is Null";
     private static final String TRUE = "Result is False";
+    private static final String USERNAME = "Username";
 
     @Mock
     private HttpServletRequest mockHttpServletRequest;
@@ -45,6 +48,9 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
 
     @Mock
     private OAuth2AuthorizationRequest mockOAuth2AuthorizationRequest;
+    
+    @Mock
+    private OidcIdToken mockOidcIdToken;
 
     @InjectMocks
     private final HttpCookieOAuth2AuthorizationRequestRepository classUnderTest =
@@ -119,5 +125,90 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
             fail(ex.getMessage());
         }
         assertTrue(result, TRUE);
+    }
+    
+    @Test
+    void testLoadAuthorizationToken() {
+        Mockito.when(CookieUtils.getCookie(mockHttpServletRequest,
+            HttpCookieOAuth2AuthorizationRequestRepository.OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME))
+            .thenReturn(Optional.of(mockCookie));
+        Mockito.when(CookieUtils.deserialize(mockCookie, OidcIdToken.class))
+            .thenReturn(mockOidcIdToken);
+        OidcIdToken result = classUnderTest
+            .removeAuthorizationToken(mockHttpServletRequest, mockHttpServletResponse);
+        assertNotNull(result, NOTNULL);
+    }
+    
+    @Test
+    void testSaveAuthorizationToken() {
+        boolean result = testSaveAuthorizationToken("Test");
+        assertTrue(result, TRUE);
+    }
+    
+    private boolean testSaveAuthorizationToken(String value) {
+        Mockito
+            .when(mockHttpServletRequest.getParameter(
+                HttpCookieOAuth2AuthorizationRequestRepository.OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME))
+            .thenReturn(value);
+        boolean result = false;
+        try {
+            classUnderTest.saveAuthorizationToken(null, mockHttpServletRequest,
+                mockHttpServletResponse);
+            classUnderTest.saveAuthorizationToken(mockOidcIdToken,
+                mockHttpServletRequest, mockHttpServletResponse);
+            result = true;
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+        return result;
+    }
+    
+    @Test
+    void testRemoveAuthorizationTokenCookies() {
+        boolean result = false;
+        try {
+            classUnderTest.removeAuthorizationToken(mockHttpServletRequest,
+                mockHttpServletResponse);
+            result = true;
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+        assertTrue(result, TRUE);
+    }
+    
+    @Test
+    void testLoadUsername() {        
+        Mockito.when(CookieUtils.getCookie(mockHttpServletRequest,
+            HttpCookieOAuth2AuthorizationRequestRepository.USERNAME_COOKIE_NAME))
+            .thenReturn(Optional.of(mockCookie));
+        Mockito.when(CookieUtils.deserialize(mockCookie, String.class))
+            .thenReturn(USERNAME);
+        String result = classUnderTest
+            .removeUsername(mockHttpServletRequest, mockHttpServletResponse);
+        assertNotNull(result, NOTNULL);
+    }
+    
+    @Test
+    void testSaveUsername() {
+        boolean result = testSaveUsername("Test");
+        assertTrue(result, TRUE);
+    }
+    
+    private boolean testSaveUsername(String value) {
+        Mockito
+            .when(mockHttpServletRequest.getParameter(
+                HttpCookieOAuth2AuthorizationRequestRepository.OAUTH2_AUTHORIZATION_TOKEN_COOKIE_NAME))
+            .thenReturn(value);
+        boolean result = false;
+        try {
+            classUnderTest.saveUsername(null, mockHttpServletRequest,
+                mockHttpServletResponse);
+            classUnderTest.saveUsername(USERNAME,
+                mockHttpServletRequest, mockHttpServletResponse);
+            result = true;
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+        return result;
     }
 }
