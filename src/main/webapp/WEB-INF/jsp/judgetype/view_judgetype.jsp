@@ -84,12 +84,10 @@
 								<%-- button group --%>
 								<div class="form-group">
 									<div class="col-md-12">
-										<security:authorize access="hasRole('ROLE_ADMIN')"> 
-											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
-												<span class="glyphicon glyphicon-edit"></span> Amend Judge Type</button>
-											<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
-												<span class="glyphicon glyphicon-plus"></span> Create Judge Type</button>
-										</security:authorize>
+										<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
+											<span class="glyphicon glyphicon-edit"></span> Amend Judge Type</button>
+										<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
+											<span class="glyphicon glyphicon-plus"></span> Create Judge Type</button>
 									</div>
 								</div>
 							</form:form>

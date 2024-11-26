@@ -116,12 +116,10 @@
 											
 											<input type="hidden" id="userName" name="userName" />								
 											
-											<security:authorize access="hasRole('ROLE_ADMIN')">
-												<div>
-													<button type="button" id="btnRemove" class="btn btn-primary" name="btnRemove" value="btnRemove" data-toggle="modal" data-target="#removeModal">
-														<span class="glyphicon glyphicon-minus"></span> Remove User</button>
-												</div>		
-											</security:authorize>
+											<div>
+												<button type="button" id="btnRemove" class="btn btn-primary" name="btnRemove" value="btnRemove" data-toggle="modal" data-target="#removeModal">
+													<span class="glyphicon glyphicon-minus"></span> Remove User</button>
+											</div>		
 										</div>
 									</div>
 									<!-- Modal dialog for remove user. -->
@@ -157,56 +155,54 @@
 									<%-- CSRF token --%>
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 									
-									<security:authorize access="hasRole('ROLE_ADMIN')">
-										<div class="panel panel-primary">
-											<div class="panel-heading"><h3 class="panel-title">New User</h3></div>
-											<div class="panel-body">
-												<div class="col-md-12">	
-													<div class="form-group">
-														<spring:bind path="userName">
-															<div class="${requestScope['org.springframework.validation.BindingResult.userAddCommand'].hasFieldErrors('userName') ? 'has-error' : ''}">
-																<label for="userName">User Name *</label>	
-																<form:input placeholder="User Name"
-																			path="userName" 
-																			id="userName"
-																			maxlength="30"
-																			cssClass="form-control"/>
-																<spring:hasBindErrors name="userAddCommand">
-																	<div class="help-block" element="span">
-																		${errors.hasFieldErrors('userName') ? errors.getFieldError('userName').defaultMessage : ''}
-																	</div>
-																</spring:hasBindErrors>
-															</div>
-														</spring:bind>
-													</div>
-												
-													<div class="form-group">
-														<spring:bind path="userRole">
-															<div class="${requestScope['org.springframework.validation.BindingResult.userAddCommand'].hasFieldErrors('userRole') ? 'has-error' : ''}">
-																<label for="userRole">User Role *</label>	
-																<form:select path="userRole" cssClass="form-control" id="selectRole">
-																	<form:option value="" label="--- Please select a Role ---" />
-																	<c:forEach var="role" items="${roleList}">
-																		<form:option value="${role}" label="${role.description}" />
-																	</c:forEach>
-																</form:select>
-																<spring:hasBindErrors name="userAddCommand">
-																	<div class="help-block" element="span">
-																		${errors.hasFieldErrors('userRole') ? errors.getFieldError('userRole').defaultMessage : ''}
-																	</div>
-																</spring:hasBindErrors>
-															</div>
-														</spring:bind>
-													</div>										
+									<div class="panel panel-primary">
+										<div class="panel-heading"><h3 class="panel-title">New User</h3></div>
+										<div class="panel-body">
+											<div class="col-md-12">	
+												<div class="form-group">
+													<spring:bind path="userName">
+														<div class="${requestScope['org.springframework.validation.BindingResult.userAddCommand'].hasFieldErrors('userName') ? 'has-error' : ''}">
+															<label for="userName">User Name *</label>	
+															<form:input placeholder="User Name"
+																		path="userName" 
+																		id="userName"
+																		maxlength="30"
+																		cssClass="form-control"/>
+															<spring:hasBindErrors name="userAddCommand">
+																<div class="help-block" element="span">
+																	${errors.hasFieldErrors('userName') ? errors.getFieldError('userName').defaultMessage : ''}
+																</div>
+															</spring:hasBindErrors>
+														</div>
+													</spring:bind>
+												</div>
 											
-													<div class="form-group">
-														<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="btnAdd">
-															<span class="glyphicon glyphicon-plus"></span> Add User</button>
-													</div>
-												</div>							
-											</div>
+												<div class="form-group">
+													<spring:bind path="userRole">
+														<div class="${requestScope['org.springframework.validation.BindingResult.userAddCommand'].hasFieldErrors('userRole') ? 'has-error' : ''}">
+															<label for="userRole">User Role *</label>	
+															<form:select path="userRole" cssClass="form-control" id="selectRole">
+																<form:option value="" label="--- Please select a Role ---" />
+																<c:forEach var="role" items="${roleList}">
+																	<form:option value="${role}" label="${role.description}" />
+																</c:forEach>
+															</form:select>
+															<spring:hasBindErrors name="userAddCommand">
+																<div class="help-block" element="span">
+																	${errors.hasFieldErrors('userRole') ? errors.getFieldError('userRole').defaultMessage : ''}
+																</div>
+															</spring:hasBindErrors>
+														</div>
+													</spring:bind>
+												</div>										
+										
+												<div class="form-group">
+													<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="btnAdd">
+														<span class="glyphicon glyphicon-plus"></span> Add User</button>
+												</div>
+											</div>							
 										</div>
-									</security:authorize>
+									</div>
 								</form:form>
 							</div>							
 						</div>												

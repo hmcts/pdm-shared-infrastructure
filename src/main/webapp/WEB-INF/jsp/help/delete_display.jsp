@@ -32,11 +32,9 @@
 				
 				<h3>Delete Display</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
-					<p>The &quot;Delete Display&quot; delete the data stored against the selected display.</p>
-				
-					<p>The &quot;Return to Manage Display&quot; returns back to the Manage Display screen.</p>
-				</security:authorize>
+				<p>The &quot;Delete Display&quot; delete the data stored against the selected display.</p>
+			
+				<p>The &quot;Return to Manage Display&quot; returns back to the Manage Display screen.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

@@ -32,13 +32,11 @@
 				
 				<h3>Manage Court Room</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
-					<p>The &quot;Amend Court Room&quot; option allows update of the data stored against the selected court.</p>
-				
-					<p>The &quot;Create Court Room&quot; option allows creation of a new court room against the selected court.</p>
-				
-					<p>The &quot;Delete Court Room&quot; option allows deletion of a court room against the selected court.</p>
-				</security:authorize>
+				<p>The &quot;Amend Court Room&quot; option allows update of the data stored against the selected court.</p>
+			
+				<p>The &quot;Create Court Room&quot; option allows creation of a new court room against the selected court.</p>
+			
+				<p>The &quot;Delete Court Room&quot; option allows deletion of a court room against the selected court.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

@@ -83,13 +83,11 @@
 
 								<%-- button group --%>
 								<div class="form-group">
-									<div class="col-md-12">
-										<security:authorize access="hasRole('ROLE_ADMIN')"> 
-											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
-												<span class="glyphicon glyphicon-edit"></span> Amend Hearing Type</button>
-											<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
-												<span class="glyphicon glyphicon-plus"></span> Create Hearing Type</button>
-										</security:authorize>
+									<div class="col-md-12"> 
+										<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
+											<span class="glyphicon glyphicon-edit"></span> Amend Hearing Type</button>
+										<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
+											<span class="glyphicon glyphicon-plus"></span> Create Hearing Type</button>
 									</div>
 								</div>
 							</form:form>

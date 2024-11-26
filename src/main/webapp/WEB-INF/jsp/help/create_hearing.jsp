@@ -32,11 +32,9 @@
 
 				<h3>Create Hearing Type</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
-					<p>The &quot;Create Hearing Type&quot; creates a new Hearing Type entry.</p>
+				<p>The &quot;Create Hearing Type&quot; creates a new Hearing Type entry.</p>
 
-					<p>The &quot;Return to Manage Hearing Type&quot; returns back to the Manage Hearing Type screen.</p>
-				</security:authorize>
+				<p>The &quot;Return to Manage Hearing Type&quot; returns back to the Manage Hearing Type screen.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

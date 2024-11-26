@@ -83,14 +83,12 @@
 								<%-- button group --%>
 								<div class="form-group">
 									<div class="col-md-12">
-										<security:authorize access="hasRole('ROLE_ADMIN')">
-											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
-												<span class="glyphicon glyphicon-edit"></span> Amend Court Room</button>
-											<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
-												<span class="glyphicon glyphicon-plus"></span> Create Court Room</button>
-											<button id="btnDelete" class="btn btn-primary" name="btnDelete" value="delete">
-												<span class="glyphicon glyphicon-minus"></span> Delete Court Room</button>
-										</security:authorize>
+										<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
+											<span class="glyphicon glyphicon-edit"></span> Amend Court Room</button>
+										<button id="btnAdd" class="btn btn-primary" name="btnAdd" value="add">
+											<span class="glyphicon glyphicon-plus"></span> Create Court Room</button>
+										<button id="btnDelete" class="btn btn-primary" name="btnDelete" value="delete">
+											<span class="glyphicon glyphicon-minus"></span> Delete Court Room</button>
 									</div>
 								</div>
 							</form:form>
