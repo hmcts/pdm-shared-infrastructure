@@ -23,12 +23,12 @@
 
 package uk.gov.hmcts.pdm.publicdisplay.manager.web.logon;
 
+import com.pdm.hb.jpa.AuthorizationUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.pdm.hb.jpa.AuthorizationUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
