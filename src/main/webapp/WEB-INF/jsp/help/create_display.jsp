@@ -32,11 +32,9 @@
 				
 				<h3>Create Display</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
-					<p>The &quot;Create Display&quot; updates the data stored against the selected display.</p>
+				<p>The &quot;Create Display&quot; updates the data stored against the selected display.</p>
 				
-					<p>The &quot;Return to Manage Display&quot; returns back to the Manage Display screen.</p>
-				</security:authorize>
+				<p>The &quot;Return to Manage Display&quot; returns back to the Manage Display screen.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

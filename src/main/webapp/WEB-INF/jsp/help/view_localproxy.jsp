@@ -34,11 +34,9 @@
 
 				<p>The &quot;View Local Proxy&quot; function allows the display of the local proxy information for the selected court site.</p>
 				
-				<security:authorize access="hasRole('ROLE_ADMIN')">
-					<p>The &quot;Amend Local Proxy&quot; option allows update of the data stored against the selected sites local proxy.</p>
-				
-					<p>The &quot;Unregister Local Proxy&quot; option is available upon selection of a site allowing the unregistering of the local proxy for the selected court site.</p>
-				</security:authorize>
+				<p>The &quot;Amend Local Proxy&quot; option allows update of the data stored against the selected sites local proxy.</p>
+			
+				<p>The &quot;Unregister Local Proxy&quot; option is available upon selection of a site allowing the unregistering of the local proxy for the selected court site.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

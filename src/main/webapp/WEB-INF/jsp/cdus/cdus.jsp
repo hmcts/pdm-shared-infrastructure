@@ -169,14 +169,12 @@
 															</spring:hasBindErrors>
 													</div>
 												</spring:bind>
-												<security:authorize access="hasRole('ROLE_ADMIN')">
-													<div class="col-md-6">
-														<button type="button" id="btnRestartAllCdu" name="btnRestartAllCdu" class="btn btn-primary" data-toggle="modal" data-target="#restartAllModal">
-															<span class="glyphicon glyphicon-off"> </span>
-															Restart All CDUs
-														</button>
-													</div>
-												</security:authorize>
+												<div class="col-md-6">
+													<button type="button" id="btnRestartAllCdu" name="btnRestartAllCdu" class="btn btn-primary" data-toggle="modal" data-target="#restartAllModal">
+														<span class="glyphicon glyphicon-off"> </span>
+														Restart All CDUs
+													</button>
+												</div>
 											</div>
 
 											<div class="form-group">
@@ -188,17 +186,15 @@
 														Show CDU Information
 													</button>
 
-													<security:authorize access="hasRole('ROLE_ADMIN')">
-														<button id="btnShowRegisterCdu" name="btnShowRegisterCdu" class="btn btn-primary" >
-															<span class="glyphicon glyphicon-plus-sign"> </span>
-															Register CDU
-														</button>
+													<button id="btnShowRegisterCdu" name="btnShowRegisterCdu" class="btn btn-primary" >
+														<span class="glyphicon glyphicon-plus-sign"> </span>
+														Register CDU
+													</button>
 
-														<button type="button" id="btnUnRegisterCdu" name="btnUnRegisterCdu" class="btn btn-primary" data-toggle="modal" data-target="#unregisterModal">
-															<span class="glyphicon glyphicon-minus-sign"> </span>
-															Unregister CDU
-														</button>
-													</security:authorize>
+													<button type="button" id="btnUnRegisterCdu" name="btnUnRegisterCdu" class="btn btn-primary" data-toggle="modal" data-target="#unregisterModal">
+														<span class="glyphicon glyphicon-minus-sign"> </span>
+														Unregister CDU
+													</button>
 
 													<button type="button" id="btnRestartCdu" name="btnRestartCdu" class="btn btn-primary" data-toggle="modal" data-target="#restartModal">
 														<span class="glyphicon glyphicon-off"> </span>
@@ -250,26 +246,24 @@
 												<!-- /form-group -->
 											</c:if>
 
-											<security:authorize access="hasRole('ROLE_ADMIN')">
-												<div class="form-group">
-													<div class="col-md-12">
-														<button name="btnShowAmendCdu" id="btnShowAmendCdu" class="btn btn-primary" value="amend">
-															<span class="glyphicon glyphicon-edit"> </span>
-															Amend CDU
-														</button>
-														<%-- Note: Same controller method used for both #btnAmendUrl & #btnRemoveUrl  --%>
-														<button name="btnManageUrl" id="btnAddUrl" class="btn btn-primary" value="add">
-															<span class="glyphicon glyphicon-plus-sign"> </span>
-															Add URL Mapping
-														</button>
-														<button name="btnManageUrl" id="btnRemoveUrl" class="btn btn-primary" value="remove">
-															<span class="glyphicon glyphicon-minus-sign"> </span>
-															Remove URL Mapping
-														</button>
-													</div>
+											<div class="form-group">
+												<div class="col-md-12">
+													<button name="btnShowAmendCdu" id="btnShowAmendCdu" class="btn btn-primary" value="amend">
+														<span class="glyphicon glyphicon-edit"> </span>
+														Amend CDU
+													</button>
+													<%-- Note: Same controller method used for both #btnAmendUrl & #btnRemoveUrl  --%>
+													<button name="btnManageUrl" id="btnAddUrl" class="btn btn-primary" value="add">
+														<span class="glyphicon glyphicon-plus-sign"> </span>
+														Add URL Mapping
+													</button>
+													<button name="btnManageUrl" id="btnRemoveUrl" class="btn btn-primary" value="remove">
+														<span class="glyphicon glyphicon-minus-sign"> </span>
+														Remove URL Mapping
+													</button>
 												</div>
+											</div>
 												<!-- /form-group -->
-											</security:authorize>
 										</c:when>
 
 										<c:otherwise>

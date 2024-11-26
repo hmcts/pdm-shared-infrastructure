@@ -86,12 +86,10 @@
 									<div class="col-md-12">
 										<button id="btnView" class="btn btn-primary" name="viewlocalproxy" value="view">
 											<span class="glyphicon glyphicon-search"></span> View Local Proxy</button>
-										<security:authorize access="hasRole('ROLE_ADMIN')"> 
-											<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
-												<span class="glyphicon glyphicon-edit"></span> Amend Local Proxy</button>
-											<button type="button" id="btnUnregister" class="btn btn-primary" name="unregister" data-toggle="modal" data-target="#unregisterModal">
-												<span class="glyphicon glyphicon-minus"></span> Unregister Local Proxy</button>
-										</security:authorize>	
+										<button id="btnAmend" class="btn btn-primary" name="btnAmend" value="amend">
+											<span class="glyphicon glyphicon-edit"></span> Amend Local Proxy</button>
+										<button type="button" id="btnUnregister" class="btn btn-primary" name="unregister" data-toggle="modal" data-target="#unregisterModal">
+											<span class="glyphicon glyphicon-minus"></span> Unregister Local Proxy</button>
 									</div>
 								</div>
 

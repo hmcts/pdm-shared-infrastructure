@@ -32,11 +32,9 @@
 				
 				<h3>Create Judge</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
-					<p>The &quot;Create Judge&quot; updates the data stored against the selected judge.</p>
+				<p>The &quot;Create Judge&quot; updates the data stored against the selected judge.</p>
 				
-					<p>The &quot;Return to Manage Judge&quot; returns back to the Manage Judge screen.</p>
-				</security:authorize>
+				<p>The &quot;Return to Manage Judge&quot; returns back to the Manage Judge screen.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>

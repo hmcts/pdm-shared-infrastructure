@@ -32,13 +32,11 @@
 				
 				<h3>Manage Display</h3>
 
-				<security:authorize access="hasRole('ROLE_ADMIN')"> 
-					<p>The &quot;Amend Display&quot; option allows update of the data stored against the selected sites display.</p>
-				
-					<p>The &quot;Create Display&quot; option allows creation of a new display stored against the selected site.</p>
-				
-					<p>The &quot;Delete Display&quot; option allows deletion of a display stored against the selected site.</p>
-				</security:authorize>
+				<p>The &quot;Amend Display&quot; option allows update of the data stored against the selected sites display.</p>
+			
+				<p>The &quot;Create Display&quot; option allows creation of a new display stored against the selected site.</p>
+			
+				<p>The &quot;Delete Display&quot; option allows deletion of a display stored against the selected site.</p>
 			</div>
 			<!-- /col-md-12 -->
 		</div>
