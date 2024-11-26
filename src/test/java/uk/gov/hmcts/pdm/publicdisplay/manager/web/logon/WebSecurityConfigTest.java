@@ -66,8 +66,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationProperties;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
 import java.io.IOException;
 import java.net.URI;
@@ -149,12 +147,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
     private AbstractOAuth2Token mockOAuth2Token;
 
     @Mock
-    private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
-
-    @Mock
-    private InternalAuthConfigurationProperties mockInternalAuthConfigurationProperties;
-    
-    @Mock
     private HttpCookieOAuth2AuthorizationRequestRepository mockHttpCookieOAuth2AuthorizationRequestRepository;
 
     @Mock
@@ -207,9 +199,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
     void testGetAuthServerHttp() {
         try {
             HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
-            Mockito
-                .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-                .thenReturn(mockUri);
             // Run
             HttpSecurity result = classUnderTest.getAuthServerHttp(dummyHttpSecurity);
             assertNotNull(result, NOTNULL);
@@ -236,9 +225,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
     void testGetAuthClientHttp() {
         try {
             HttpSecurity dummyHttpSecurity = getDummyHttpSecurity();
-            Mockito
-                .when(mockInternalAuthConfigurationPropertiesStrategy.getLoginUri(Mockito.isNull()))
-                .thenReturn(mockUri);
             // Run
             HttpSecurity result = classUnderTest.getAuthClientHttp(dummyHttpSecurity);
             assertNotNull(result, NOTNULL);
