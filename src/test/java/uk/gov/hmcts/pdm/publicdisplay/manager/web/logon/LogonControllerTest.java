@@ -42,7 +42,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.gov.hmcts.pdm.publicdisplay.common.test.AbstractJUnit;
 import uk.gov.hmcts.pdm.publicdisplay.initialization.InitializationService;
-import uk.gov.hmcts.pdm.publicdisplay.manager.web.authentication.InternalAuthConfigurationPropertiesStrategy;
 
 import java.net.URI;
 
@@ -98,9 +97,6 @@ class LogonControllerTest extends AbstractJUnit {
 
     @Mock
     private Environment mockEnvironment;
-
-    @Mock
-    private InternalAuthConfigurationPropertiesStrategy mockInternalAuthConfigurationPropertiesStrategy;
 
     @Mock
     private URI mockUri;
