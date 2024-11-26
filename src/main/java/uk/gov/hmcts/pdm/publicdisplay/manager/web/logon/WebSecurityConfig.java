@@ -23,8 +23,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -54,6 +52,7 @@ public class WebSecurityConfig {
     private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
         "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
         "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**", "/default-ui.css"};
+    private HttpCookieOAuth2AuthorizationRequestRepository cookie;
 
     /**
      * Authorisation Server filterchain.
@@ -101,8 +100,11 @@ public class WebSecurityConfig {
     /**
      * Store the authorization in the cookie.
      */
-    private AuthorizationRequestRepository<OAuth2AuthorizationRequest> cookieAuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    private HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+        if (cookie == null) {
+            cookie = new HttpCookieOAuth2AuthorizationRequestRepository();
+        }
+        return cookie;
     }
 
     @Bean
@@ -121,6 +123,12 @@ public class WebSecurityConfig {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOG.info("The user {} has logged in.",
                     AuthorizationUtil.getUsername(authentication));
+
+                OidcIdToken token = AuthorizationUtil.getToken(authentication);
+                cookieAuthorizationRequestRepository().saveAuthorizationToken(token, request,
+                    response);
+                cookieAuthorizationRequestRepository()
+                    .saveUsername(AuthorizationUtil.getUsername(authentication), request, response);
 
                 response.setStatus(HttpStatus.OK.value());
                 response.sendRedirect(HOME_URL);
@@ -161,15 +169,14 @@ public class WebSecurityConfig {
             MutableHttpServletRequest requestWrapper = new MutableHttpServletRequest(request);
 
             // Check if the request needs the authorisation adding
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            LOG.info("Authentication: {}", authentication);
-            OidcIdToken token = AuthorizationUtil.getToken(authentication);
+            OidcIdToken token =
+                cookieAuthorizationRequestRepository().loadAuthorizationToken(request);
             if (token != null) {
                 String tokenValue = token.getTokenValue();
                 LOG.info("Token value: {}", tokenValue);
                 requestWrapper.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tokenValue);
                 requestWrapper.setAttribute("Username",
-                    AuthorizationUtil.getUsername(authentication));
+                    cookieAuthorizationRequestRepository().loadUsername(requestWrapper));
             }
 
             // Check if we are secure and authorised, if not return to the login page
