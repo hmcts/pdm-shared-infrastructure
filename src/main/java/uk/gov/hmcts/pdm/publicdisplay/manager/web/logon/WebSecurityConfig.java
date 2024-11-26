@@ -100,7 +100,7 @@ public class WebSecurityConfig {
     /**
      * Store the authorization in the cookie.
      */
-    private HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+    protected HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         if (cookie == null) {
             cookie = new HttpCookieOAuth2AuthorizationRequestRepository();
         }

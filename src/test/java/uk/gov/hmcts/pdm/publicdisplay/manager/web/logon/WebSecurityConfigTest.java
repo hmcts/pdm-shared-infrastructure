@@ -28,6 +28,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import com.pdm.hb.jpa.AuthorizationUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,7 +59,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -152,6 +153,9 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Mock
     private InternalAuthConfigurationProperties mockInternalAuthConfigurationProperties;
+    
+    @Mock
+    private HttpCookieOAuth2AuthorizationRequestRepository mockHttpCookieOAuth2AuthorizationRequestRepository;
 
     @Mock
     private URI mockUri;
@@ -172,8 +176,6 @@ class WebSecurityConfigTest extends AbstractJUnit {
      */
     @BeforeEach
     public void setup() {
-        Mockito.mockStatic(JwtDecoders.class);
-
         classUnderTest = new WebSecurityConfig();
 
         classUnderTestNoHttp = new LocalWebSecurityConfig();
@@ -266,7 +268,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
             Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockPrincipal);
             Mockito.when(mockPrincipal.getIdToken()).thenReturn(mockToken);
             // Run
-            AuthenticationSuccessHandler result = classUnderTest.getSuccessHandler();
+            AuthenticationSuccessHandler result = classUnderTestNoHttp.getSuccessHandler();
             assertNotNull(result, NOTNULL);
             result.onAuthenticationSuccess(mockHttpServletRequest, mockHttpServletResponse,
                 mockAuthentication);
@@ -295,6 +297,10 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
     @Test
     void testAuthorisationTokenExistenceFilter() {
+        Mockito.mockStatic(AuthorizationUtil.class);
+        Mockito.mockStatic(SecurityContextHolder.class);
+        Mockito.when(SecurityContextHolder.getContext()).thenReturn(mockSecurityContext);
+        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
         boolean result = testAuthorisationTokenExistenceFilter("/login");
         assertTrue(result, "Unsecure " + TRUE);
         result = testAuthorisationTokenExistenceFilter("/dashboard/dashboard");
@@ -304,6 +310,7 @@ class WebSecurityConfigTest extends AbstractJUnit {
     }
 
     private boolean testAuthorisationTokenExistenceFilter(String uri) {
+        Mockito.when(AuthorizationUtil.getToken(Mockito.isA(Authentication.class))).thenReturn(mockToken);
         Mockito.when(mockHttpServletRequest.getRequestURI()).thenReturn(uri);
         boolean result = false;
         try {
@@ -352,6 +359,11 @@ class WebSecurityConfigTest extends AbstractJUnit {
 
         protected AuthorisationTokenExistenceFilter getAuthorisationTokenExistenceFilter() {
             return new AuthorisationTokenExistenceFilter();
+        }
+        
+        @Override
+        protected HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+            return mockHttpCookieOAuth2AuthorizationRequestRepository;
         }
 
     }
