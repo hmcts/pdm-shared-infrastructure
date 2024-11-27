@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,9 +97,6 @@ public class LogonController {
     /** The Constant MODEL_ERROR. */
     private static final String MODEL_ERROR = "error";
 
-    /** The SecurityContextLogoutHandler. */
-    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-
     /**
      * Home.
      * 
@@ -131,8 +127,9 @@ public class LogonController {
     @RequestMapping(value = MAPPING_LOGOUT, method = RequestMethod.GET)
     public String logout(Authentication authentication, HttpServletRequest request,
         HttpServletResponse response) {
-        LOGGER.debug("logout()");
-        this.logoutHandler.logout(request, response, authentication);
+        LOGGER.info("logout()");
+        SecurityContextHolder.getContext().setAuthentication(null);
+        HttpCookieOAuth2AuthorizationRequestRepository.removeAllCookies(request, response);
         return VIEW_LOGOUT;
     }
 

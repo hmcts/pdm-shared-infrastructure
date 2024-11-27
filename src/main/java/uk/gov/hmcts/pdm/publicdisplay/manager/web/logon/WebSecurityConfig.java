@@ -49,9 +49,10 @@ public class WebSecurityConfig {
     private static final String HOME_URL = "/dashboard/dashboard";
     private static final String LOGIN_URL = "/oauth2/authorization/internal-azure-ad";
     private static final String ROOT_URL = "/";
-    private static final String[] AUTH_WHITELIST = {"/health/**", "/error**", "/fonts/glyph*",
-        "/css/xhibit.css", "/css/bootstrap.min.css", "/js/bootstrap.min.js", "/WEB-INF/jsp/error**",
-        "/css/**", "/js/**", "favicon.ico", "/login**", "/oauth2**", "/default-ui.css", "/logout**"};
+    private static final String[] AUTH_WHITELIST =
+        {"/health/**", "/error**", "/fonts/glyph*", "/css/xhibit.css", "/css/bootstrap.min.css",
+            "/js/bootstrap.min.js", "/WEB-INF/jsp/error**", "/css/**", "/js/**", "favicon.ico",
+            "/login**", "/oauth2**", "/default-ui.css", "/logout**", "/WEB-INF/jsp/logon**"};
     private HttpCookieOAuth2AuthorizationRequestRepository cookie;
 
     /**

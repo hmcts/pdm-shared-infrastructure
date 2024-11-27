@@ -135,7 +135,7 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
         Mockito.when(CookieUtils.deserialize(mockCookie, OidcIdToken.class))
             .thenReturn(mockOidcIdToken);
         OidcIdToken result = classUnderTest
-            .removeAuthorizationToken(mockHttpServletRequest, mockHttpServletResponse);
+            .loadAuthorizationToken(mockHttpServletRequest);
         assertNotNull(result, NOTNULL);
     }
     
@@ -184,7 +184,7 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
         Mockito.when(CookieUtils.deserialize(mockCookie, String.class))
             .thenReturn(USERNAME);
         String result = classUnderTest
-            .removeUsername(mockHttpServletRequest, mockHttpServletResponse);
+            .loadUsername(mockHttpServletRequest);
         assertNotNull(result, NOTNULL);
     }
     
@@ -210,5 +210,17 @@ class HttpCookieOAuth2AuthorizationRequestRepositoryTest extends AbstractJUnit {
             fail(ex.getMessage());
         }
         return result;
+    }
+    
+    @Test
+    void testRemoveAllCookies() {
+        boolean result = false;
+        try {
+            classUnderTest.removeAllCookies(mockHttpServletRequest, mockHttpServletResponse);
+            result = true;
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+        assertTrue(result, TRUE);
     }
 }
