@@ -19,6 +19,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -94,7 +95,7 @@ public class WebSecurityConfig {
                 .authorizationEndpoint(endPoint -> endPoint
                     .authorizationRequestRepository(cookieAuthorizationRequestRepository())))
             .addFilterAfter(new AuthorisationTokenExistenceFilter(),
-                SecurityContextHolderFilter.class);
+                SecurityContextHolderFilter.class).csrf(AbstractHttpConfigurer::disable);
         return http;
     }
 
