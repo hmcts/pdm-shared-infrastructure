@@ -115,7 +115,6 @@ public class LocalProxyServiceFinder extends LocalProxyServiceCreator {
 
     protected XhbCourtSiteRepository getXhbCourtSiteRepository() {
         if (!RepositoryUtil.isRepositoryActive(xhbCourtSiteRepository)) {
-
             xhbCourtSiteRepository = new XhbCourtSiteRepository(getEntityManager());
         }
         return xhbCourtSiteRepository;
