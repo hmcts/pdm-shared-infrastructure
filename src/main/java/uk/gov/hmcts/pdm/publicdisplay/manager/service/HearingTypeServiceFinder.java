@@ -14,6 +14,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbrefhearingtype.XhbRefHearingTypeRep
 
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.NullAssignment")
 public class HearingTypeServiceFinder extends HearingTypeServiceCreator {
 
     private EntityManager entityManager;

@@ -14,6 +14,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbcourtsite.XhbCourtSiteRepository;
 
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.NullAssignment")
 public class CourtRoomServiceFinder extends CourtRoomServiceCreator {
 
     private EntityManager entityManager;

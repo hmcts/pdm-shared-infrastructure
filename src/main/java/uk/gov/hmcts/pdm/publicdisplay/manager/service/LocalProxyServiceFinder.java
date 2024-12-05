@@ -23,6 +23,7 @@ import java.util.List;
 
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.NullAssignment")
 public class LocalProxyServiceFinder extends LocalProxyServiceCreator {
 
     private EntityManager entityManager;

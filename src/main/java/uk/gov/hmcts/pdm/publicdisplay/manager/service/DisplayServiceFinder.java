@@ -18,6 +18,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbrotationsets.XhbRotationSetsReposit
 
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.NullAssignment")
 public class DisplayServiceFinder extends DisplayServiceCreator {
 
     private EntityManager entityManager;

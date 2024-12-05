@@ -13,6 +13,7 @@ import uk.gov.hmcts.pdm.business.entities.xhbrefsystemcode.XhbRefSystemCodeRepos
 
 @Component
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@SuppressWarnings("PMD.NullAssignment")
 public class RefJudgeTypeServiceFinder extends RefJudgeTypeServiceCreator {
 
     private EntityManager entityManager;
