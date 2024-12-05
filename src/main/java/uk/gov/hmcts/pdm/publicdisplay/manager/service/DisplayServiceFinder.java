@@ -1,6 +1,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
+import com.pdm.hb.jpa.RepositoryUtil;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,14 @@ public class DisplayServiceFinder extends DisplayServiceCreator {
      * Set up our logger.
      */
     protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayServiceFinder.class);
+    
+    protected void clearRepositories() {
+        xhbCourtSiteRepository = null;
+        xhbDisplayRepository = null;
+        xhbDisplayLocationRepository = null;
+        xhbDisplayTypeRepository = null;
+        xhbRotationSetsRepository = null;
+    }
 
     protected XhbDisplayLocationDao getXhbDisplayLocationDao(final Integer xhibitCourtSiteId,
         final String descriptionCode) {
@@ -50,42 +59,43 @@ public class DisplayServiceFinder extends DisplayServiceCreator {
     }
     
     protected EntityManager getEntityManager() {
-        if (entityManager == null || !entityManager.isOpen()) {
+        if (!EntityManagerUtil.isEntityManagerActive(entityManager)) {
+            clearRepositories();
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;
     }
 
     protected XhbCourtSiteRepository getXhbCourtSiteRepository() {
-        if (xhbCourtSiteRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbCourtSiteRepository)) {
             xhbCourtSiteRepository = new XhbCourtSiteRepository(getEntityManager());
         }
         return xhbCourtSiteRepository;
     }
 
     protected XhbDisplayRepository getXhbDisplayRepository() {
-        if (xhbDisplayRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbDisplayRepository)) {
             xhbDisplayRepository = new XhbDisplayRepository(getEntityManager());
         }
         return xhbDisplayRepository;
     }
     
     protected XhbDisplayLocationRepository getXhbDisplayLocationRepository() {
-        if (xhbDisplayLocationRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbDisplayLocationRepository)) {
             xhbDisplayLocationRepository = new XhbDisplayLocationRepository(getEntityManager());
         }
         return xhbDisplayLocationRepository;
     }
     
     protected XhbDisplayTypeRepository getXhbDisplayTypeRepository() {
-        if (xhbDisplayTypeRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbDisplayTypeRepository)) {
             xhbDisplayTypeRepository = new XhbDisplayTypeRepository(getEntityManager());
         }
         return xhbDisplayTypeRepository;
     }
     
     protected XhbRotationSetsRepository getXhbRotationSetsRepository() {
-        if (xhbRotationSetsRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbRotationSetsRepository)) {
             xhbRotationSetsRepository = new XhbRotationSetsRepository(getEntityManager());
         }
         return xhbRotationSetsRepository;

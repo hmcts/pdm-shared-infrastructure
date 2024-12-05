@@ -1,6 +1,7 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
 import com.pdm.hb.jpa.EntityManagerUtil;
+import com.pdm.hb.jpa.RepositoryUtil;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,30 +25,37 @@ public class CourtRoomServiceFinder extends CourtRoomServiceCreator {
      * Set up our logger.
      */
     protected static final Logger LOGGER = LoggerFactory.getLogger(CourtRoomServiceFinder.class);
+    
+    protected void clearRepositories() {
+        xhbCourtRepository = null;
+        xhbCourtSiteRepository = null;
+        xhbCourtRoomRepository = null;
+    }
 
     protected EntityManager getEntityManager() {
-        if (entityManager == null || !entityManager.isOpen()) {
+        if (!EntityManagerUtil.isEntityManagerActive(entityManager)) {
+            clearRepositories();
             entityManager = EntityManagerUtil.getEntityManager();
         }
         return entityManager;
     }
 
     protected XhbCourtSiteRepository getXhbCourtSiteRepository() {
-        if (xhbCourtSiteRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbCourtSiteRepository)) {
             xhbCourtSiteRepository = new XhbCourtSiteRepository(getEntityManager());
         }
         return xhbCourtSiteRepository;
     }
     
     protected XhbCourtRoomRepository getXhbCourtRoomRepository() {
-        if (xhbCourtRoomRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbCourtRoomRepository)) {
             xhbCourtRoomRepository = new XhbCourtRoomRepository(getEntityManager());
         }
         return xhbCourtRoomRepository;
     }
 
     protected XhbCourtRepository getXhbCourtRepository() {
-        if (xhbCourtRepository == null) {
+        if (!RepositoryUtil.isRepositoryActive(xhbCourtRepository)) {
             xhbCourtRepository = new XhbCourtRepository(getEntityManager());
         }
         return xhbCourtRepository;
