@@ -218,7 +218,7 @@ public class HearingTypeController extends HearingTypePageStateSetter {
     @RequestMapping(value = MAPPING_AMEND_HEARING + "/{refHearingTypeId}",
         method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public HearingTypeDto loadHearingType(@PathVariable @EncryptedFormat final Integer refHearingTypeId) {
+    public HearingTypeDto loadHearingType(@PathVariable("refHearingTypeId") @EncryptedFormat final Integer refHearingTypeId) {
         final String methodName = "loadHearingType";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
         HearingTypeDto result = null;

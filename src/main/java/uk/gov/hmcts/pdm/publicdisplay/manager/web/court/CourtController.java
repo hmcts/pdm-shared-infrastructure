@@ -287,7 +287,7 @@ public class CourtController extends CourtPageStateSetter {
     @RequestMapping(value = MAPPING_AMEND_COURT + "/{xhibitCourtSiteId}", method = RequestMethod.GET,
         produces = "application/json")
     @ResponseBody
-    public XhibitCourtSiteDto loadCourtSite(@PathVariable @EncryptedFormat final Long xhibitCourtSiteId) {
+    public XhibitCourtSiteDto loadCourtSite(@PathVariable("xhibitCourtSiteId") @EncryptedFormat final Long xhibitCourtSiteId) {
         final String methodName = "loadCourtSite";
         LOGGER.info(THREE_PARAMS, METHOD, methodName, ENDS);
         XhibitCourtSiteDto result = null;
