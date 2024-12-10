@@ -53,7 +53,6 @@ public abstract class DispMgrCourtSiteConverter extends AbstractRepository<XhbDi
             dao.setNotification(courtSite.getNotification());
             dao.setScheduleId(courtSite.getSchedule().getId().intValue());
             update(dao);
-            clearEntityManager();
         }
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }

@@ -89,7 +89,6 @@ public class XhbDispMgrMappingRepository extends AbstractRepository<XhbDispMgrMa
 
         getEntityManager().getTransaction().commit();
 
-        clearEntityManager();
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 
@@ -107,8 +106,6 @@ public class XhbDispMgrMappingRepository extends AbstractRepository<XhbDispMgrMa
 
         getEntityManager().getTransaction().commit();
 
-        clearEntityManager();
-
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 
@@ -122,8 +119,6 @@ public class XhbDispMgrMappingRepository extends AbstractRepository<XhbDispMgrMa
         setDaoFromBasicValue(cdu, url, dao);
 
         save(dao);
-
-        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }

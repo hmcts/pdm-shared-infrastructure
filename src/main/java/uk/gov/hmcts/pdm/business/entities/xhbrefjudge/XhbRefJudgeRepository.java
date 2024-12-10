@@ -56,8 +56,6 @@ public class XhbRefJudgeRepository extends AbstractRepository<XhbRefJudgeDao> {
 
         super.save(dao);
 
-        clearEntityManager();
-
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 
@@ -73,8 +71,6 @@ public class XhbRefJudgeRepository extends AbstractRepository<XhbRefJudgeDao> {
 
         Optional<XhbRefJudgeDao> result = super.update(dao);
 
-        clearEntityManager();
-
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;
     }
@@ -89,8 +85,6 @@ public class XhbRefJudgeRepository extends AbstractRepository<XhbRefJudgeDao> {
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         super.delete(dao);
-
-        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }

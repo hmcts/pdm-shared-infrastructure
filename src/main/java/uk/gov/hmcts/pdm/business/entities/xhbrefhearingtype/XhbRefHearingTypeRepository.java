@@ -69,7 +69,6 @@ public class XhbRefHearingTypeRepository extends AbstractRepository<XhbRefHearin
         final String methodName = "save";
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
         super.save(dao);
-        clearEntityManager();
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
     
@@ -83,7 +82,6 @@ public class XhbRefHearingTypeRepository extends AbstractRepository<XhbRefHearin
         final String methodName = "save";
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
         Optional<XhbRefHearingTypeDao> result = super.update(dao);
-        clearEntityManager();
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;
     }
