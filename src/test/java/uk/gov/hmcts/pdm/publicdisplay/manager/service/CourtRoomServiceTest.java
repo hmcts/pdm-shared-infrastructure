@@ -131,9 +131,12 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
         courtRoomDaoList.add(courtRoomDao);
 
         // Add the mock calls to child classes
+        expect(mockCourtRoomRepo.getEntityManager()).andReturn(mockEntityManager).anyTimes();
+        expect(mockEntityManager.isOpen()).andReturn(true).anyTimes();
         expect(mockCourtRoomRepo.findByCourtSiteId(1)).andReturn(courtRoomDaoList);
 
         replay(mockCourtRoomRepo);
+        replay(mockEntityManager);
 
         // Perform the test
         List<CourtRoomDto> courtSiteDtoList = classUnderTest.getCourtRooms(1L);
@@ -143,7 +146,7 @@ class CourtRoomServiceTest extends CourtRoomServiceEmptyTest {
 
         // Verify the expected mocks were called
         verify(mockCourtRoomRepo);
-
+        verify(mockEntityManager);
     }
 
     @Test
