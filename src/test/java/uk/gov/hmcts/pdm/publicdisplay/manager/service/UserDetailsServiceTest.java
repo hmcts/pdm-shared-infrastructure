@@ -177,6 +177,8 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
 
         // Define a mock version of the called methods
+        Mockito.when(mockUserDetailsRepo.getEntityManager()).thenReturn(mockEntityManager);
+        Mockito.when(mockEntityManager.isOpen()).thenReturn(true);
         Mockito.when(mockUserDetailsRepo.isUserDetailsWithUserName(capturedUserName.capture()))
             .thenReturn(true);
 
@@ -197,6 +199,8 @@ abstract class UserDetailsServiceTest extends AbstractJUnit {
         final ArgumentCaptor<String> capturedUserName = ArgumentCaptor.forClass(String.class);
 
         // Define a mock version of the called methods
+        Mockito.when(mockUserDetailsRepo.getEntityManager()).thenReturn(mockEntityManager);
+        Mockito.when(mockEntityManager.isOpen()).thenReturn(true);
         Mockito.when(mockUserDetailsRepo.isUserDetailsWithUserName(Mockito.isA(String.class)))
             .thenReturn(false);
 
