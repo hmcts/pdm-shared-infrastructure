@@ -1,6 +1,8 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,6 +63,11 @@ class DisplayServiceFinderTest extends AbstractJUnit {
         classUnderTest = new DisplayServiceFinder();
     }
 
+    @AfterEach
+    public void teardown() {
+        Mockito.clearAllCaches();
+    }
+
     @Test
     void testGetXhbCourtSiteRepository() {
         expectEntityManager();
@@ -113,6 +120,14 @@ class DisplayServiceFinderTest extends AbstractJUnit {
         
         ReflectionTestUtils.setField(classUnderTest, "xhbRotationSetsRepository", mockXhbRotationSetsRepository);
         result = classUnderTest.getXhbRotationSetsRepository();
+        assertNotNull(result, NOTNULL);
+    }
+    
+    @Test
+    void testNullEntityManager() {
+        Mockito.mockStatic(EntityManagerUtil.class);
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
+        XhbCourtSiteRepository result = classUnderTest.getXhbCourtSiteRepository();
         assertNotNull(result, NOTNULL);
     }
     

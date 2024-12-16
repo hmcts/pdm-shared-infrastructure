@@ -1,6 +1,8 @@
 package uk.gov.hmcts.pdm.publicdisplay.manager.service;
 
+import com.pdm.hb.jpa.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,6 +55,11 @@ class CourtRoomServiceFinderTest extends AbstractJUnit {
     public void setup() {
         classUnderTest = new CourtRoomServiceFinder();
     }
+    
+    @AfterEach
+    public void teardown() {
+        Mockito.clearAllCaches();
+    }
 
     @Test
     void testGetXhbCourtSiteRepository() {
@@ -84,6 +91,14 @@ class CourtRoomServiceFinderTest extends AbstractJUnit {
         
         ReflectionTestUtils.setField(classUnderTest, "xhbCourtRepository", mockXhbCourtRepository);
         result = classUnderTest.getXhbCourtRepository();
+        assertNotNull(result, NOTNULL);
+    }
+    
+    @Test
+    void testNullEntityManager() {
+        Mockito.mockStatic(EntityManagerUtil.class);
+        Mockito.when(EntityManagerUtil.getEntityManager()).thenReturn(mockEntityManager);
+        XhbCourtSiteRepository result = classUnderTest.getXhbCourtSiteRepository();
         assertNotNull(result, NOTNULL);
     }
     
