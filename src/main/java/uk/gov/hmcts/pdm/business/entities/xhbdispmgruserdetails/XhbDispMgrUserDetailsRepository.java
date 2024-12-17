@@ -129,7 +129,7 @@ public class XhbDispMgrUserDetailsRepository extends AbstractRepository<XhbDispM
         setDaoFromBasicValue(dao, userDetails);
 
         save(dao);
-        
+
         clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
@@ -158,7 +158,7 @@ public class XhbDispMgrUserDetailsRepository extends AbstractRepository<XhbDispM
         getEntityManager().remove(dao);
 
         getEntityManager().getTransaction().commit();
-        
+
         clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
