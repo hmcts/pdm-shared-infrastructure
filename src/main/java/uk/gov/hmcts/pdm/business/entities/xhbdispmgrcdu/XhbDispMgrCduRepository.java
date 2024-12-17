@@ -162,6 +162,8 @@ public class XhbDispMgrCduRepository extends CduFinder {
         populateDaoFromBasicValue(dao, cdu);
 
         save(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
@@ -176,6 +178,8 @@ public class XhbDispMgrCduRepository extends CduFinder {
         populateDaoFromBasicValue(dao, cdu);
 
         update(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
@@ -196,6 +200,8 @@ public class XhbDispMgrCduRepository extends CduFinder {
         getEntityManager().remove(dao);
 
         getEntityManager().getTransaction().commit();
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }

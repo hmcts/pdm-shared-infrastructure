@@ -134,4 +134,8 @@ public abstract class AbstractRepository<T extends AbstractDao> {
     public EntityManager getEntityManager() {
         return entityManager;
     }
+    
+    public void clearEntityManager() {
+        getEntityManager().clear();
+    }
 }

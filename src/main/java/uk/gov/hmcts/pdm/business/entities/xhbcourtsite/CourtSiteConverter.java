@@ -119,6 +119,7 @@ public abstract class CourtSiteConverter extends XhbDispMgrCourtSiteProcessor {
                 dispMgrCourtSite.setScheduleId(courtSite.getSchedule().getId().intValue());
             }
             update(dao);
+            clearEntityManager();
         }
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
@@ -166,7 +167,9 @@ public abstract class CourtSiteConverter extends XhbDispMgrCourtSiteProcessor {
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         super.save(dao);
-
+        
+        clearEntityManager();
+        
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 
@@ -182,6 +185,8 @@ public abstract class CourtSiteConverter extends XhbDispMgrCourtSiteProcessor {
 
         Optional<XhbCourtSiteDao> result = super.update(dao);
 
+        clearEntityManager();
+        
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;
     }

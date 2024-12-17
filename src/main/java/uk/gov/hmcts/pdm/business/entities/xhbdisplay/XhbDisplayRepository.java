@@ -56,6 +56,8 @@ public class XhbDisplayRepository extends AbstractRepository<XhbDisplayDao> {
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         super.save(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
@@ -71,6 +73,8 @@ public class XhbDisplayRepository extends AbstractRepository<XhbDisplayDao> {
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         Optional<XhbDisplayDao> result = super.update(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;
@@ -86,6 +90,8 @@ public class XhbDisplayRepository extends AbstractRepository<XhbDisplayDao> {
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         super.delete(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }

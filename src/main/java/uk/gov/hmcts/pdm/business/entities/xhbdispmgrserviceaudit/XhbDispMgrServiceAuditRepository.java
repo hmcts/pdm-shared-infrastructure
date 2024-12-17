@@ -41,6 +41,8 @@ public class XhbDispMgrServiceAuditRepository
 
         save(dao);
 
+        clearEntityManager();
+        
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 

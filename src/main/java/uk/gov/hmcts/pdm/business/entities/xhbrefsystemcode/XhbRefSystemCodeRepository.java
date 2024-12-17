@@ -56,6 +56,8 @@ public class XhbRefSystemCodeRepository extends AbstractRepository<XhbRefSystemC
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         super.save(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
@@ -71,6 +73,8 @@ public class XhbRefSystemCodeRepository extends AbstractRepository<XhbRefSystemC
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         Optional<XhbRefSystemCodeDao> result = super.update(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;

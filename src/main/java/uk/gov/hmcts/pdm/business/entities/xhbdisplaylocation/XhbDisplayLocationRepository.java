@@ -54,6 +54,8 @@ public class XhbDisplayLocationRepository extends AbstractRepository<XhbDisplayL
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         super.save(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
@@ -69,6 +71,8 @@ public class XhbDisplayLocationRepository extends AbstractRepository<XhbDisplayL
         LOG.debug(THREE_PARAMS, METHOD, methodName, STARTS);
 
         Optional<XhbDisplayLocationDao> result = super.update(dao);
+        
+        clearEntityManager();
 
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
         return result;

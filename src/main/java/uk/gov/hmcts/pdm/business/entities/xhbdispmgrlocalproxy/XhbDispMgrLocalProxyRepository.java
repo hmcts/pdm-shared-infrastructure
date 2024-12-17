@@ -141,6 +141,7 @@ public class XhbDispMgrLocalProxyRepository extends AbstractRepository<XhbDispMg
         XhbDispMgrLocalProxyDao dao = findByLocalProxyId(localProxy.getId().intValue());
         getEntityManager().remove(dao);
         getEntityManager().getTransaction().commit();
+        clearEntityManager();
         LOG.debug(THREE_PARAMS, METHOD, methodName, ENDS);
     }
 
